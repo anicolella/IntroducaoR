@@ -1,0 +1,345 @@
+# Como utilizar esta apostila
+
+Esta apostila foi desenvolvida para apoiar a aprendizagem de **R aplicado à Economia e às Finanças**.
+
+O material não deve ser utilizado apenas como uma coleção de comandos. Cada ferramenta será apresentada em relação a uma necessidade de obtenção, organização, análise ou interpretação de dados.
+
+O percurso de cada estudante poderá variar conforme sua experiência e as necessidades do problema desenvolvido pelo grupo.
+
+---
+
+## Organização do material
+
+A apostila contém quatro tipos principais de conteúdo.
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+
+### Formação básica
+
+Conteúdos necessários para trabalhar com R e dados:
+
+- problemas, ciência e evidência;
+- ambiente e fundamentos de R;
+- transformação e organização;
+- visualização e descrição;
+- programação e automação.
+
+Esses conteúdos formam o percurso comum da disciplina.
+
+:::
+
+::: {.g-col-12 .g-col-md-6}
+
+### Aprofundamento
+
+Ferramentas utilizadas quando o problema exigir análises adicionais:
+
+- relações entre variáveis;
+- modelos lineares;
+- resultados binários;
+- dados de contagem;
+- dados em painel;
+- outros modelos aplicados.
+
+Não será necessário que todos os grupos utilizem os mesmos aprofundamentos.
+
+:::
+
+::: {.g-col-12 .g-col-md-6}
+
+### Tutoriais aplicados
+
+Aplicações completas organizadas em:
+
+- Microeconomia;
+- Macroeconomia;
+- Finanças.
+
+Os tutoriais combinam diferentes ferramentas para responder a uma questão econômica concreta.
+
+:::
+
+::: {.g-col-12 .g-col-md-6}
+
+### Recursos complementares
+
+Materiais que poderão ser consultados conforme a necessidade:
+
+- Google Drive;
+- Git;
+- GitHub;
+- colaboração;
+- publicação;
+- outras ferramentas de apoio.
+
+:::
+
+:::
+
+---
+
+## Como estudar um capítulo
+
+Em cada capítulo, procure seguir este ciclo:
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Ciclo recomendado para estudar os capítulos da apostila"
+
+flowchart LR
+    A["Compreender o problema"] --> B["Ler a explicação"]
+    B --> C["Executar o código"]
+    C --> D["Inspecionar o resultado"]
+    D --> E["Modificar o exemplo"]
+    E --> F["Aplicar ao projeto"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+Executar um código não é suficiente. É importante compreender:
+
+- o objeto utilizado;
+- a operação realizada;
+- o resultado produzido;
+- a relação entre o resultado e o problema;
+- como o procedimento pode ser adaptado.
+
+---
+
+## Código e resultados
+
+Os códigos da apostila serão apresentados em blocos como este:
+
+```{r}
+valores <- c(10, 12, 15, 18)
+mean(valores)
+```
+
+Sempre que encontrar um bloco de código:
+
+1. leia a explicação anterior;
+2. identifique os objetos utilizados;
+3. execute os comandos na ordem;
+4. observe o resultado;
+5. modifique algum elemento;
+6. verifique como o resultado se altera.
+
+::: {.callout-important title="Compreenda antes de reutilizar"}
+
+Não copie um código para seu projeto sem compreender:
+
+- quais dados ele espera;
+- quais variáveis utiliza;
+- quais objetos cria;
+- quais resultados produz;
+- quais decisões estão incorporadas à rotina.
+
+:::
+
+### Códigos demonstrativos
+
+Alguns códigos serão apresentados apenas como demonstração e não serão executados automaticamente durante a renderização da apostila.
+
+Isso será utilizado principalmente em exemplos que:
+
+- instalam pacotes;
+- baixam arquivos;
+- gravam ou sobrescrevem dados;
+- dependem de recursos externos;
+- precisam ser adaptados antes da execução.
+
+---
+
+## Como reproduzir os exemplos
+
+Para reproduzir adequadamente os materiais:
+
+- trabalhe dentro de um projeto;
+- preserve a estrutura de pastas;
+- utilize caminhos relativos;
+- mantenha dados, scripts, figuras e resultados organizados;
+- execute os códigos na ordem apresentada;
+- leia mensagens e avisos;
+- registre decisões de tratamento;
+- não substitua os dados originais sem necessidade;
+- confirme se seus resultados são coerentes.
+
+::: {.callout-tip title="Experimente"}
+
+Depois de reproduzir um exemplo, altere uma variável, um filtro, um grupo ou uma representação gráfica.
+
+A modificação ajuda a verificar se você realmente compreendeu a operação.
+
+:::
+
+---
+
+## Elementos utilizados na apostila
+
+Ao longo do material, diferentes elementos visuais ajudarão a organizar a leitura.
+
+::: {.callout-note title="Conceito ou informação"}
+
+Utilizado para apresentar uma definição, explicação ou informação relevante.
+
+:::
+
+::: {.callout-tip title="Dica"}
+
+Apresenta sugestões de uso, boas práticas ou caminhos alternativos.
+
+:::
+
+::: {.callout-warning title="Atenção"}
+
+Indica erros frequentes, limitações ou situações que exigem cuidado.
+
+:::
+
+::: {.callout-important title="Importante"}
+
+Destaca uma decisão ou princípio central para a análise.
+
+:::
+
+Questões e exercícios poderão ser acompanhados de respostas recolhidas, permitindo que você tente resolver o problema antes de consultar a solução.
+
+---
+
+## Percursos de leitura
+
+### Percurso básico
+
+Recomendado para quem está começando:
+
+```text
+Problemas, ciência e evidência
+→ ambiente e fundamentos de R
+→ transformação e organização
+→ visualização e descrição
+→ produção dos tutoriais
+```
+
+### Percurso de aprofundamento
+
+Para problemas que exigirem ferramentas adicionais:
+
+```text
+Percurso básico
+→ programação e automação
+→ da descrição à explicação
+→ modelos aplicados
+```
+
+### Percurso orientado pelo projeto
+
+Durante o desenvolvimento dos tutoriais, não será necessário ler toda a apostila antes de começar.
+
+```text
+Problema do grupo
+→ identificar uma necessidade
+→ consultar o conteúdo correspondente
+→ aplicar ao projeto
+→ validar
+→ documentar no tutorial
+```
+
+O grupo poderá retornar aos capítulos sempre que uma nova necessidade surgir.
+
+---
+
+## Uso de inteligência artificial
+
+Ferramentas de inteligência artificial poderão ser utilizadas para:
+
+- pedir explicações sobre códigos;
+- investigar mensagens de erro;
+- explorar funções;
+- consultar estratégias alternativas;
+- revisar a legibilidade de uma rotina;
+- identificar etapas de um problema;
+- apoiar o estudo autônomo.
+
+::: {.callout-warning title="A IA também erra"}
+
+Uma resposta pode conter:
+
+- funções inexistentes;
+- pacotes inadequados;
+- código aparentemente correto, mas conceitualmente errado;
+- interpretações equivocadas;
+- procedimentos não reproduzíveis.
+
+Todo resultado deve ser compreendido, testado e validado.
+
+:::
+
+Ao utilizar IA, procure perguntar não apenas “qual é o código?”, mas também:
+
+- o que cada linha faz?
+- quais suposições estão sendo feitas?
+- como posso testar o resultado?
+- existe uma solução mais simples?
+- onde encontro a documentação oficial?
+- como adapto a rotina aos meus dados?
+
+---
+
+## Relação com os projetos
+
+Os capítulos de formação fornecem ferramentas comuns. Os tutoriais dos grupos deverão combinar essas ferramentas de acordo com o problema estudado.
+
+Por exemplo, um grupo poderá precisar:
+
+- importar dados de uma fonte externa;
+- combinar diferentes tabelas;
+- construir variáveis;
+- comparar grupos;
+- produzir gráficos;
+- automatizar uma rotina;
+- estimar um modelo;
+- interpretar e validar resultados.
+
+Não existe uma única sequência adequada para todos os projetos.
+
+---
+
+## Como contribuir com a apostila
+
+Os tutoriais validados poderão ser revisados e incorporados à página da disciplina.
+
+Antes da publicação, um tutorial deverá apresentar:
+
+- problema claramente definido;
+- fonte de dados identificada;
+- procedimento de obtenção documentado;
+- estrutura da base explicada;
+- variáveis construídas de forma transparente;
+- código legível;
+- análise adequada;
+- resultados interpretados;
+- limitações discutidas;
+- procedimento reproduzível.
+
+A incorporação ao site dependerá de revisão, validação e padronização.
+
+---
+
+## Em caso de dificuldade
+
+Quando um código não funcionar:
+
+1. leia a mensagem de erro;
+2. identifique em qual comando o problema ocorreu;
+3. verifique se os objetos necessários existem;
+4. confira os nomes e tipos das variáveis;
+5. examine os caminhos dos arquivos;
+6. consulte a documentação;
+7. teste uma versão mais simples;
+8. peça ajuda explicando o que tentou e qual resultado obteve.
+
+Um erro não é apenas um obstáculo. Ele também fornece informação sobre o funcionamento do código e pode se tornar uma oportunidade de aprendizagem.

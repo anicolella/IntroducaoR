@@ -1,0 +1,461 @@
+---
+title: "Modelos Avançados"
+subtitle: "Aplicação à Pesquisa em Direito"
+author:
+- Alexandre Nicolella e Felipe Bauer
+date: "03/12/2024"
+format: html
+---
+
+## Modelos com Variáveis Dependentes Qualitativas
+
+### Variáveis Dependentes Binárias
+
+**Exemplos de resultados binários:**
+
+1)  Um consumidor compra ou não compra um produto.
+2)  Um juiz acata ou não um determinado pedido.
+3)  Um indíviduo decide ou não se vai procurar emprego.
+4)  Um homicídio feminino é classificado como feminicídio ou não.
+
+**Variável dependente binária**:
+
+A variável de resultado será, $y = 1$, se o evento de interesse ocorre, caso o contrario $y=0$. Os modelos de Variáveis Dependentes Limitadas são bastante difundidos nas análises empíricas nas ciências sociais.
+
+### O Modelo de Probabilidade Linear
+
+O modelo será especificado como:
+
+$$y= \beta_0 + \beta_1 x_1 + ... +\beta_kx_k +u$$
+
+O modelo acima estima a **probabilidade do evento de interesse ocorrer** dado as variáveis explicativas. Em notação matemática pode ser representado da seguinte maneira:
+
+$$p=Pr(Y=1)=F(\mathbf{x}'\boldsymbol{\beta})$$
+
+No modelo de probabilidade linear:
+
+$$p=Pr(Y=1)=F(\mathbf{x}'\boldsymbol{\beta})= \beta_0 + \beta_1 x_1 + ... +\beta_kx_k $$
+
+Os coeficientes $\beta_j$ estimados indicam o impacto na probabilidade de $Y=1$. No modelo MPL a estimação dos coeficientes são feitas de maneira análoga ao modelo de RLM.
+
+**Vejamos um exemplo:**
+
+-   Estudamos a probabilidade de uma mulher estar no mercado de trabalho $P(inlf=1)$
+
+$$P(\text{inlf}=1)= \beta_0 + \beta_1 \text{nwifeinc} + \beta_2 \text{edu} +\beta_3 \text{exp}+$$ $$\beta_4 \text{exp}^2+\beta_5 \text{age}+\beta_6 \text{kidslt6}+\beta_7 \text{kidsge6} +\epsilon$$
+
+-   Dependendo da renda familiar adicional (nwifeinc), da educação (educ), da experiência (exper e exper\^2), da sua idade (age), do número de crianças menores de 6 anos (kidslt6) e do número de crianças maiores do que 6 anos (kidsge6).
+
+O Script abaixo estima um modelo de probabilidade linear usando o conjunto de dados `mroz.dta`, da mesma forma que fizemos anteriormente (usando o `lm`). Vejamos:
+
+```{r eval=FALSE}
+install.packages(c("wooldridge", "car", "lmtest"))
+```
+
+```{r message=FALSE}
+library(wooldridge)
+library(car)
+library(lmtest)
+
+data(mroz, package="wooldridge")
+
+# Estimate linear probability model
+linprob <- lm(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6 ,data=mroz)
+
+summary(linprob)
+
+
+```
+
+**Interpretação**
+
+O coeficiente estimado da educação (educ) pode ser interpretado como: um ano adicional de escolaridade aumenta a probabilidade de uma mulher estar na força de trabalho, tudo o mais constante, em 0,038, em média.
+
+**O Problema**
+
+Um problema com o MPL é que $P(y = 1|x)$ é especificado como uma função linear dos regressores. Por construção, existem combinações (mais ou menos realistas) de valores de regressores que produzem $\hat{y} < 0$ ou $\hat{y}>0$. Como são probabilidades, isso realmente não faz sentido.
+
+Veja que os valores previstos para duas mulheres:
+
+-   **MULHER 1**: renda familiar adicional de 50 mil ano, 7 anos de escolaridade, não tem experiência, com 25 anos e possui 2 filhos menores de 6 anos. A probabilidade de estar na força de trabalho estimada é -24%....não faz sentido.
+
+```{r message=FALSE}
+# Podemos calcular assim a probabilidade 
+
+0.5855192 - 0.0034052*50  + 0.0379953*7  + 0.0394924*0  -0.0005963*0  - 0.0160908*25  -0.2618105*2  + 0.0130122*0
+
+# Ou assim: 
+
+xpred <- list(nwifeinc=c(50),educ=c(7),exper=c(0), "I(exper^2)"=c(0),
+ age=c(25),kidslt6=c(2),kidsge6=c(0))
+
+predict(linprob,xpred)
+```
+
+-   **MULHER 2**: Não tem renda adicional, 17 anos de escolaridade, 30 anos de experiência, com 52 anos e não possui filhos. A probabilidade de estar na força de trabalho estimada é 104%....não faz sentido. Veja os cálculos abaixo:
+
+```{r}
+# Podemos calcular assim a probabilidade 
+
+0.5855192 - 0.0034052*0  + 0.0379953*17  + 0.0394924*30  -0.0005963*900  - 0.0160908*52  -0.2618105*0  + 0.0130122*0
+
+# Ou assim
+
+xpred1 <- list(nwifeinc=c(0),educ=c(17), exper=c(30), "I(exper^2)"=c(30),
+ age=c(52),kidslt6=c(0),kidsge6=c(0))
+
+predict(linprob,xpred1)
+```
+
+### Modelo de Regressão Logistica: Logit
+
+No modelo Logit a função linear é substituida pela função de distribuição acumulada logistica:
+
+$$ Pr(Y_i=1)=F(\mathbf{x}'\boldsymbol{\beta})=\text{Logit}^{-1}(\mathbf{x}'\boldsymbol{\beta})$$
+
+Ou
+
+$$\text{Logit}^{-1}(\mathbf{x}'\boldsymbol{\beta}) = \frac{\exp(\mathbf{x}'\boldsymbol{\beta})}{1 + \exp(\mathbf{x}'\boldsymbol{\beta})}
+\ $$
+
+Assumindo que:
+
+$$log \left( \frac{P_t}{1-P_t}\right)=\mathbf{X}`\beta$$
+
+Resolvendo para $P_t$, tem-se que:
+
+$$ Pr(Y_i=1)=F(\mathbf{x}'\boldsymbol{\beta}) = \frac{\exp(\mathbf{x}'\boldsymbol{\beta})}{1 + \exp(\mathbf{x}'\boldsymbol{\beta})}$$
+
+Portanto, o resultado do modelo logístico fornece o efeito da variação de uma unidade em $X$ no log da razão de chances entre as probabilidades $Y=1$ e $Y=0$. Infelizmente a interpretação direta não nos traz uma leitura significativa do que está acontecendo nessa população.
+
+Duas maneiras para analisarmos o resultados são:
+
+**Razão de Chance**
+
+A **razão de chances** ou **risco relativo**, $p/(1-p)$, mede a probabilidade de $y=1$ em relação à probabilidade de $y=0$.
+
+Uma razão de chances de 2 significa que o resultado $y=1$ (de ganhar uma aposta, por exemplo) é duas vezes mais provável que o resultado de $y=0$ (de perder uma aposta).
+
+A razão de chances é dada por:
+
+$$\frac{p}{1 - p} = \exp(\mathbf{x}' \boldsymbol{\beta})$$
+
+**Efeito Marginal:**
+
+Outra maneira é encontrar o efeito marginal do estimador, que irá fornecer a seguinte interpretação, um aumento em $X$ aumenta(diminui) em $\beta$ pontos percentuais a probabilidade de ser $Y=1$. Vejamos os exemplos abaixo para ficar um pouco mais claro.
+
+#### Exemplo e interpretação
+
+Primeiramente vamos estimar o modelo logit. Usamos a mesma base que indica se a mulher está na força de trabalho $(Y=1)$ ou se a mulher está fora da força de trabalho $(Y=0)$, variável *inlf*.
+
+```{r}
+data(mroz, package="wooldridge")
+
+#Modelo logit, familia da binomial = logit
+logit <- glm(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6 , family=binomial(link="logit"), data=mroz)
+summary(logit)
+
+
+
+```
+
+A coluna *Estimate* mostra os coeficientes na forma de log da razão de chance. Quando a educação da mulher aumenta em uma unidade, a mudança esperada no log da razão de chance é de 0,22. Pode-se interpretar se os efeitos são positivos ou negativos, mas sua análise não é significativa. Aqui sabe-se que a educação tem efeito positivo na participação da mulher no mercado de trabalho, mas não sabemos de quanto!
+
+**Razão de Chance**
+
+Vamos agora calcular a razão de chance. Utilizaremos o pacote `mfx`
+
+```{r eval=FALSE}
+install.packages("mfx")
+```
+
+```{r message=FALSE}
+# Usando o pacote mfx
+library(mfx)
+
+
+logitor(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6, data=mroz)
+
+# OU
+
+logit.or=exp(coef(logit))
+logit.or
+
+```
+
+**Interpretação**
+
+Quando a educação da mulher aumenta em uma unidade, as chances de y = 1 (dela participar do mercado de trabalho) aumentam em 24% ((1,247-1)\*100). Ou a probabilidade de participar do mercado de trabalho (y = 1) é 1,24 vezes maior quando a educação aumenta em uma unidade (mantendo todas as outras variáveis constante).
+
+**Efeito Marginal**
+
+Utilizando o mesmo pacote anterior `mfx`, tem-se:
+
+```{r message=FALSE}
+
+logitmfx(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6, data=mroz)
+
+```
+
+**Interpretação**
+
+Os efeitos marginais mostram a mudança na probabilidade quando $X$ aumenta em uma unidade. No nosso caso o aumento de 1 ano na educação da mulher aumenta em 0.053 pontos percentuais a probabilidade de a mulher participar do mercado de trabalho, $Pr(Y=1)$. A probabilidade aqui é um valor entre 0 e 1.
+
+**Calculando a Probabilidade**
+
+Vamos calcular a probabilidade de uma mulher participar do mercado de trabalho. Predizendo a probabilidade:
+
+```{r}
+logit <- glm(inlf~ nwifeinc + educ + exper + expersq + 
+                  age+ kidslt6 + kidsge6, family=binomial(link="logit"), data=mroz)
+
+# temos que fazer o inverso do modelo logit
+
+invlogit=function (x) {1/(1+exp(-x))}
+invlogit(coef(logit)[1]+
+           coef(logit)[2]*mean(mroz$nwifeinc)+
+           coef(logit)[3]*mean(mroz$educ)+
+           coef(logit)[4]*mean(mroz$exper)+
+           coef(logit)[5]*mean(mroz$expersq)+
+           coef(logit)[6]*mean(mroz$age)+
+           coef(logit)[7]*mean(mroz$kidslt6)+
+           coef(logit)[8]*mean(mroz$kidsge6))
+
+```
+
+Em média 58% das mulheres participam do mercado de trabalho. Vejamos agora para o caso das duas mulheres que haviamos feito anteriormente:
+
+-   **MULHER 1**: renda familiar adicional de 50 mil ano, 7 anos de escolaridade, não tem experiência, com 25 anos e possui 2 filhos menores de 6 anos.
+
+```{r}
+# Mulher 1
+invlogit=function (x) {1/(1+exp(-x))}
+invlogit(coef(logit)[1]+
+           coef(logit)[2]*50+
+           coef(logit)[3]*7+
+           coef(logit)[4]*0+
+           coef(logit)[5]*0+
+           coef(logit)[6]*25+
+           coef(logit)[7]*2+
+           coef(logit)[8]*0)
+
+```
+
+A chance da mulher descrita acima participar do mercado de trabalho é de 1,5%.
+
+-   **MULHER 2**: Não tem renda adicional, 17 anos de escolaridade, 30 anos de experiência, com 52 anos e não possui filhos.
+
+```{r}
+# Mulher 1
+invlogit=function (x) {1/(1+exp(-x))}
+invlogit(coef(logit)[1]+
+           coef(logit)[2]*0+
+           coef(logit)[3]*17+
+           coef(logit)[4]*30+
+           coef(logit)[5]*900+
+           coef(logit)[6]*52+
+           coef(logit)[7]*0+
+           coef(logit)[8]*0)
+
+```
+
+A chance da Mulher 2 participar do mercado de trabalho é de 95% .
+
+**Graficamente**
+
+Vejamos agora graficamente o efeito dos anos de estudo sobre a probabilidade de a mulher entrar no mercado de trabalho. Vamos manter as variáveis na média e vamos simular mulheres de 5 a 17 anos de estudo e estimar a probabilidde de ela participar da força de trabalho.
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+logit <- glm(inlf~ nwifeinc + educ + exper + expersq + 
+                  age+ kidslt6 + kidsge6, family=binomial(link="logit"), data=mroz)
+
+amp_educ<-range(mroz$edu) 
+
+edu_sequence <- seq(from = 5, to = 17, by = .02) # 177 points along x axis
+
+
+constanteX <- with(mroz, data.frame(nwifeinc= mean(nwifeinc),
+                                  exper= mean(exper),
+                                  expersq= mean(expersq),
+                                  age= mean(age),
+                                  kidslt6= mean( kidslt6),
+                                  kidsge6= mean(kidsge6),
+                                  educ = edu_sequence 
+                                  ))
+
+constanteX$predicao <- predict(object = logit, 
+                                newdata = constanteX, 
+                                type = "response")
+
+p<- ggplot(constanteX, aes(x = educ, y = predicao)) +
+  geom_smooth()
+#> `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+
+p + labs(title = "Probabilidade de Participação no Mercado de Trabalho", x = "Anos de Estudo", y = "Prob de Participação")
+```
+
+#### Probit
+
+Uma alternativa ao modelo logit seria o uso do modelo probit. Que ao invés da função logística utiliza-se a função distribuição normal padrão. Vejamos os resultados:
+
+```{r, warning=FALSE, message=FALSE}
+data(mroz, package="wooldridge")
+
+#Modelo logit, familia da binomial = logit
+logit <- glm(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6 , family=binomial(link="logit"), data=mroz)
+
+probit <- glm(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6 , family=binomial(link="probit"), data=mroz)
+
+
+library(stargazer)
+
+stargazer(logit,probit, type="text",keep.stat="n")
+
+```
+
+Observe que sinal e significância estão em acordo entre os dois modelos. Vejamos agora os efeitos marginais para podermos comparar.
+
+```{r message=FALSE, warning=FALSE}
+
+logitmfx(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6, data=mroz)
+
+probitmfx(inlf~ nwifeinc + educ + exper + I(exper^2) + 
+                  age+ kidslt6 + kidsge6, data=mroz)
+
+```
+
+**Interpretando**
+
+O aumento de 1 ano na educação da mulher aumenta em 0.053 pontos percentuais a probabilidade de a mulher participar do mercado de trabalho, $Pr(Y=1)$, no modelo logit e 0.051 no modelo probit. As diferenças são pequenas entre os dois modelos.
+
+## Dados de Contagem: Modelo de Regressão de Poisson
+
+Em vez de apenas dados binários codificados em $0/1$, os dados de contagem podem assumir qualquer número inteiro não negativo \$0,1,2,. . \$.
+
+Se considerarem números muito grandes (como o número de alunos numa escola, número de dias de duração de um processo), podem ser aproximados por variáveis contínuas em modelos lineares e estimados utilizando MQO. Se os números forem relativamente pequenos (como o número de filhos de uma mãe), esta aproximação pode não funcionar bem. Por exemplo, os valores previstos podem tornar-se negativos.
+
+O modelo de regressão de Poisson é o modelo mais básico e conveniente projetado explicitamente para dados de contagem. A probabilidade de y assumir qualquer valor $h \in \{0,1,2,..\}$ e o modelo pode ser escrito da seguinte maneira:
+
+$$P(y = h \mid x) = \frac{e^{-e^{\mathbf{x} \boldsymbol{\beta}}} (e^{\mathbf{x} \boldsymbol{\beta}})^h}{h!}$$
+
+Os parâmetros do modelo de Poisson são muito mais fáceis de interpretar do que os de um modelo probit ou logit. Neste modelo, a média condicional de y é
+
+$$E(y \mid x) = e^{\mathbf{x} \boldsymbol{\beta}}$$
+
+então cada parâmetro de inclinação $\beta_j$ tem a interpretação de uma semielasticidade:
+
+$$\frac{\partial E(y \mid x)}{\partial x_j} = \beta_j \cdot e^{\mathbf{x} \boldsymbol{\beta}} = \beta_j \cdot E(y \mid x)$$
+
+Logo,
+
+$$\beta_j = \frac{1}{E(y \mid x)} \cdot \frac{\partial E(y \mid x)}{\partial x_j}$$
+
+$$\beta_j \Delta{X}= \frac{\Delta E(y \mid x)}{E(y \mid x)}=E(y \mid x)\%$$ **Interpretação**
+
+Se $x_j$ aumentar em uma unidade (tudo mais constante), $E(y|x)$ aumentará aproximadamente em $100 \cdot \beta_j$ por cento (o valor exato é novamente $100 \cdot (e^{\beta_j} - 1)$).
+
+### Exemplo:
+
+Estimar modelos de regressão de Poisson em R é simples. Eles também pertencem à classe dos modelos lineares generalizados (GLM) e podem ser estimados usando `glm`. A opção para especificar um modelo de Poisson é `family=poisson`.
+
+Vejamos um exemplo que analisa o número de prisões masculinas em 1986. Estamos estudando o número de vezes que um homem foi preso no ano de 1986 - *narr86*. As variáveis independentes são:
+
+-   pcnv: proporção de condenações anteriores
+-   avgsen: comprimento médio da sentença.
+-   tottime: tempo de prisão desde os 18 (mês)
+-   ptime86: mos. na prisão em 1986
+-   qemp86: trimestres empregados, 1986
+-   inc86: renda legal, 1986, US\$ 100
+-   black: =1 se preto
+-   hispn: =1 se for hispânico
+-   born60: =1 se nasceu em 1960
+
+Para ajudar a compreender a diferença entre a interpretação do modelo de regressão de Poisson e o modelo linerar, vamos estimar os dois abaixo:
+
+```{r message=FALSE, warning=FALSE}
+
+data(crime1, package="wooldridge")
+
+#Estimando o modelo de Poisson
+Poisson.res <- glm(narr86~pcnv+avgsen+tottime+ptime86+qemp86+inc86+
+black+hispan+born60, data=crime1, family=poisson)
+
+#estimando o modelo OLS
+
+lm.res <- lm(narr86~pcnv+avgsen+tottime+ptime86+qemp86+inc86+
+black+hispan+born60, data=crime1)
+
+
+library(stargazer)
+
+stargazer(Poisson.res,lm.res, type="text",keep.stat="n")
+```
+
+**Interpretando**
+
+{No modelo de OLS}{.underline} um aumento de 0.10 na proporção de condenação reduz o número de prisões em 0.13 unidades.
+
+{No modelo de Poisson}{.underline} um aumento de 0.10 na proporção de condenação reduz em $0,402 \cdot 0,1 \cdot 100=4,02\%$. Considerando a cor da pele, aquelas que declaram ter pele preta possuem 66% mais chance de serem presas.
+
+## Modelo com Dados em Painel: Modelos de Efeitos Fixos
+
+Dados em painel são extremamente importantes na análise econométrica porque permitem o estudo de variáveis ao longo do tempo e entre diferentes indivíduos ou entidades, como empresas, países ou varas. Esse tipo de dados oferece mais informações, variabilidade e eficiência do que séries temporais ou dados cross-section isoladamente, permitindo uma melhor compreensão das dinâmicas subjacentes e das relações causais.
+
+O estimador de efeitos fixos é uma técnica crucial para lidar com o viés de heterogeneidade, que surge quando características não observáveis e invariantes no tempo influenciam as variáveis de interesse. Ao considerar apenas as variações dentro de cada indivíduo ao longo do tempo, o estimador de efeitos fixos controla essas características não observáveis, eliminando seu impacto sobre os estimadores dos coeficientes. Dessa forma, permite uma estimativa não enviesada dos efeitos das variáveis explicativas, proporcionando resultados mais robustos e confiáveis.
+
+Considere o modelo mais simples de T períodos.
+
+$$y_{it} = \beta_0 + \beta_1 x_{it1} + \beta_2 x_{it2} + \cdots + \beta_k x_{itk} + a_i + u_{it}$$
+
+Note que temos agora 3 subscritos, $i$,$t$ e $k$. O subscrito $i$ é a unidade de corte transversal (o município, a vara, o processo), $t$ representa o período dessa variável, e $k$ a variável que estamos obversando. O termo $a_i$ é denominado efeito fixo, pois é invariante no tempo. Ele capta uma série de fatores individuais não observados que impactam $Y$ mas que são invariantes no tempo.
+
+Se aplicarmos o método de MQO na equação acima, teremos estimadores viesados e inconsistentes. Logo, precisamos remover esse efeito fixo. Uma forma de resolver isso é subtrair a média de cada variável para cada individuo ao longo do tempo. É então aplicar o MQO. Como $a_i$ é invariante sua média também é $a_i$, e ao realizarmos a subtração removeremos o efeito fixo.
+
+$$\bar{y_i} = \beta_0 + \beta_1 \bar{x}_{i1} + \cdots + \beta_k \bar{x}_{ik} + a_i + \bar{u}_i$$
+
+O modelo transfromado é dado por:
+
+$$\ddot{y}_{it} = y_{it} - \bar{y}_i = \beta_1 \ddot{x}_{it1} + \cdots + \beta_k \ddot{x}_{itk} + \ddot{u}_{it}$$ \### Exemplo:
+
+Vamos utilizar para exemplificar um modelo simples de dois períodos. Estamos interessados em analisar o efeito do desemprego (*unem*) sobre a criminalidade (*crmrte*) em 46 cidades para os anos de 1982 e 1987. Usaremos o pacote `plm`
+
+```{r eval=FALSE}
+install.packages("plm")
+```
+
+```{r}
+library(plm)
+data(crime2, package="wooldridge")
+crime2.p <- pdata.frame(crime2, index=46 )
+
+##Estimando o modelo
+Painel<- plm(crmrte~unem +  d87, data=crime2.p, model="within")
+
+summary(Painel)
+```
+
+Observa-se nesse modelo que o aumento de 1 na taxa de desemprego aumenta em 2.2 pontos a taxa de criminalidade. Observa-se que as características dos munícipios que são fixas no tempo estão sendo controladas.
+
+```{r}
+
+
+##Estimando o modelo
+Painelln<- plm(lcrmrte~I(log(unem)) +  d87, data=crime2.p, model="within")
+
+summary(Painelln)
+```
+
+Usando a taxa de crime e desemprego em *ln*, um aumento de 1% no desemprego aumenta em 0,16% a taxa de crime nos municípios.

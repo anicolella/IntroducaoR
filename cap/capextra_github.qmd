@@ -1,0 +1,1014 @@
+# Usando o GitHub
+
+Este manual apresenta, passo a passo, como criar e manter um site de disciplina utilizando:
+
+- Quarto;
+- Git;
+- GitHub;
+- GitHub Pages;
+- Positron;
+- 
+  R.  
+
+A estrutura foi pensada para permitir trabalho colaborativo entre professores, pesquisadores e monitores, com controle de versão e publicação automática do material da disciplina.
+
+Neste exemplo, será criado o repositório:
+
+`AvaliacaoPoliticas_Pos`
+
+O endereço do repositório será:
+
+`https://github.com/anicolella/AvaliacaoPoliticas_Pos`
+
+e, depois da publicação com GitHub Pages, o site ficará disponível em:
+
+`https://anicolella.github.io/AvaliacaoPoliticas_Pos/`
+
+# 1. Criar o repositório no GitHub
+
+## 1.1 Acessar o GitHub
+
+Entre em sua conta do GitHub e clique em:
+
+**New repository**
+
+Também é possível acessar essa opção pelo botão `+`, no canto superior direito da página.
+
+## 1.2 Definir o nome do repositório
+
+Preencha os campos da seguinte maneira:
+
+**Owner**
+
+`anicolella`
+
+**Repository name**
+
+`AvaliacaoPoliticas_Pos`
+
+**Description**
+
+`Material da disciplina de pós-graduação em Avaliação de Políticas Públicas`
+
+## 1.3 Definir a visibilidade
+
+Selecione:
+
+**Public**
+
+Isso é necessário para que o material possa ser disponibilizado publicamente aos alunos por meio do GitHub Pages.
+
+## 1.4 Criar um README inicial
+
+Marque:
+
+**Add a README file**
+
+O arquivo `README.md` será utilizado para apresentar o objetivo do repositório diretamente no GitHub.
+
+Neste momento, deixe:
+
+**Add .gitignore**
+
+`None`
+
+e:
+
+**Choose a license**
+
+`None`
+
+Esses arquivos serão configurados posteriormente.
+
+## 1.5 Criar o repositório
+
+Clique em:
+
+**Create repository**
+
+Ao final dessa etapa, o GitHub deverá abrir uma página com o endereço:
+
+`https://github.com/anicolella/AvaliacaoPoliticas_Pos`
+
+O repositório remoto está agora criado.
+
+# 2. Clonando o repositório no computador
+
+Depois de criar o repositório no GitHub, é necessário criar uma cópia local para trabalhar com os arquivos no Positron.
+
+Esse processo é chamado de **clone**.
+
+A relação será:
+
+``` text
+GitHub
+AvaliacaoPoliticas_Pos
+        ↓
+      clone
+        ↓
+Computador local
+AvaliacaoPoliticas_Pos
+```
+
+## 2.1 Definir onde o projeto será armazenado
+
+Neste exemplo, utilizaremos como diretório:
+
+``` text
+homepage/
+```
+
+O Git criará automaticamente dentro dele a pasta:
+
+``` text
+AvaliacaoPoliticas_Pos
+```
+
+Portanto, ao final teremos:
+
+``` text
+homepage/
+└── AvaliacaoPoliticas_Pos/
+    ├── .git/
+    └── README.md
+```
+
+Não é necessário criar manualmente a pasta `AvaliacaoPoliticas_Pos`.
+
+## 2.2 Abrir o diretório no Positron
+
+Abra o Positron.
+
+Selecione:
+
+**File → Open Folder...**
+
+e abra:
+
+``` text
+homepage/
+```
+
+Em seguida, abra:
+
+**Terminal → New Terminal**
+
+## 2.3 Clonar o repositório
+
+No terminal, execute:
+
+``` powershell
+git clone https://github.com/anicolella/AvaliacaoPoliticas_Pos.git
+```
+
+O Git fará o download do repositório e criará automaticamente:
+
+``` text
+homepage/
+└── AvaliacaoPoliticas_Pos/
+```
+
+## 2.4 Entrar no diretório do projeto
+
+No terminal:
+
+``` powershell
+cd AvaliacaoPoliticas_Pos
+```
+
+Para verificar o diretório atual:
+
+``` powershell
+pwd
+```
+
+O resultado deverá corresponder a:
+
+``` text
+homepage/AvaliacaoPoliticas_Pos/
+```
+
+## 2.5 Verificar o Git
+
+Execute:
+
+``` powershell
+git status
+```
+
+Um resultado semelhante a este indica que o repositório está funcionando:
+
+``` text
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
+
+Neste momento existem duas cópias sincronizáveis do projeto:
+
+- o repositório remoto, armazenado no GitHub;
+- o repositório local, armazenado no computador.
+
+O comando `git pull` permitirá trazer alterações do GitHub para o computador, enquanto `git push` permitirá enviar commits locais para o GitHub.
+
+# 3. Estruturando a apostila em Quarto
+
+Com o repositório já criado e clonado no computador, o próximo passo é transformar essa pasta em um projeto Quarto do tipo **book**.
+
+Neste exemplo, o projeto será organizado dentro de:
+
+``` text
+homepage/AvaliacaoPoliticas_Pos/
+```
+
+A ideia é manter uma estrutura semelhante à utilizada na disciplina de Estatística.
+
+## 3.1 Abrir o repositório no Positron
+
+No Positron, selecione:
+
+**File → Open Folder...**
+
+e abra:
+
+``` text
+homepage/AvaliacaoPoliticas_Pos/
+```
+
+A partir deste momento, essa pasta será a raiz do projeto.
+
+Inicialmente, ela deverá conter pelo menos:
+
+``` text
+AvaliacaoPoliticas_Pos/
+└── README.md
+```
+
+O diretório oculto `.git/` também estará presente, indicando que essa pasta já está vinculada ao repositório Git.
+
+# 4. Criar a estrutura básica do projeto
+
+Na raiz de `AvaliacaoPoliticas_Pos`, crie as seguintes pastas:
+
+``` text
+cap
+dados
+figuras
+script
+Slides
+```
+
+A estrutura inicial ficará:
+
+``` text
+AvaliacaoPoliticas_Pos/
+│
+├── cap/
+├── dados/
+├── figuras/
+├── script/
+├── Slides/
+│
+└── README.md
+```
+
+A função de cada diretório será:
+
+| Diretório  | Finalidade                                 |
+|------------|--------------------------------------------|
+| `cap/`     | capítulos da apostila                      |
+| `dados/`   | bases utilizadas nos exemplos e exercícios |
+| `figuras/` | imagens, logos e figuras externas          |
+| `script/`  | scripts auxiliares em R                    |
+| `Slides/`  | apresentações utilizadas em aula           |
+
+A pasta `docs/` não precisa ser criada manualmente. Ela será gerada automaticamente pelo Quarto quando a apostila for renderizada.
+
+# 5. Criar o arquivo `_quarto.yml`
+
+Na raiz do projeto, crie o arquivo:
+
+``` text
+_quarto.yml
+```
+
+Esse arquivo controla a organização geral da apostila, a navegação e o formato do site.
+
+Para esta disciplina, utilizaremos inicialmente:
+
+``` yaml
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Avaliação de Políticas Públicas"
+  subtitle: "Notas de Aula"
+
+  navbar:
+    background: "#818f81"
+    logo: figuras/usp.png
+    search: true
+
+    left:
+      - text: "Home"
+        file: index.qmd
+
+    right:
+      - icon: github
+        href: https://github.com/anicolella/AvaliacaoPoliticas_Pos
+        aria-label: GitHub
+
+  sidebar:
+    background: "#F4F6F6"
+    search: true
+    style: "docked"
+
+  page-navigation: true
+
+  author:
+    - name: "Alexandre Nicolella"
+      affiliation: "Universidade de São Paulo (USP)"
+
+  chapters:
+    - index.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    fontsize: 16px
+    number-sections: true
+    smooth-scroll: true
+    link-external-newwindow: true
+
+editor: visual
+```
+
+Neste momento, o projeto possui apenas `index.qmd` como capítulo.
+
+Os demais capítulos serão adicionados gradualmente ao campo `chapters:`.
+
+## 5.1 Entendendo as principais configurações
+
+O trecho:
+
+``` yaml
+project:
+  type: book
+  output-dir: docs
+```
+
+define o projeto como uma apostila Quarto e determina que os arquivos HTML gerados serão armazenados na pasta `docs/`.
+
+Isso será importante posteriormente para a publicação com GitHub Pages.
+
+O trecho:
+
+``` yaml
+book:
+  title: "Avaliação de Políticas Públicas"
+  subtitle: "Notas de Aula"
+```
+
+define o título e o subtítulo apresentados na navegação do site.
+
+A opção:
+
+``` yaml
+page-navigation: true
+```
+
+ativa os links de navegação entre capítulos.
+
+Já:
+
+``` yaml
+number-sections: true
+```
+
+faz com que capítulos e seções sejam numerados automaticamente.
+
+# 6. Criar a página inicial
+
+Na raiz do projeto, crie:
+
+``` text
+index.qmd
+```
+
+O `index.qmd` funciona como a página inicial e, em um projeto do tipo book, também como o prefácio da apostila.
+
+Podemos manter a mesma lógica visual utilizada na disciplina de Estatística, com blocos em grid.
+
+Um ponto de partida para esta disciplina é:
+
+``` markdown
+# Prefácio
+
+## Bem-vindos ao curso
+
+Este curso apresenta os principais métodos utilizados na **avaliação de políticas públicas**, com ênfase na identificação e estimação de efeitos causais.
+
+Ao longo do semestre, discutiremos como utilizar dados experimentais e observacionais para responder a uma questão central:
+
+> Qual é o efeito causal de uma política, programa ou intervenção?
+
+A disciplina combina fundamentos de **inferência causal**, métodos econométricos e aplicações empíricas utilizando **R**.
+
+---
+
+## Motivação
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+
+### Por que avaliar políticas públicas? 📊
+
+Governos e organizações implementam programas com objetivos como:
+
+- melhorar resultados educacionais;
+- ampliar o acesso à saúde;
+- reduzir pobreza e desigualdade;
+- aumentar emprego e renda;
+- reduzir violência;
+- melhorar a eficiência de políticas públicas.
+
+A avaliação de impacto procura identificar se essas intervenções produziram os resultados observados.
+
+:::
+
+::: {.g-col-12 .g-col-md-6}
+
+### O desafio da inferência causal 🎯
+
+Observar uma diferença entre participantes e não participantes, ou comparar resultados antes e depois de uma política, geralmente não é suficiente para identificar seu efeito causal.
+
+O principal desafio é construir um **contrafactual** adequado:
+
+> O que teria acontecido com os indivíduos tratados na ausência da política?
+
+:::
+
+:::
+
+---
+
+## Objetivos do curso
+
+Ao final da disciplina, o estudante deverá ser capaz de:
+
+- compreender o problema fundamental da **inferência causal**;
+- distinguir correlação de causalidade;
+- compreender o papel do **contrafactual**;
+- identificar os principais parâmetros de efeito causal;
+- compreender os pressupostos necessários para diferentes estratégias de identificação;
+- implementar métodos de avaliação utilizando R;
+- interpretar criticamente resultados de avaliações empíricas.
+
+---
+
+## Métodos estudados
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+
+### Experimentos aleatorizados
+
+Randomização, grupos de tratamento e controle e identificação experimental.
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Métodos observacionais
+
+Matching, diferenças-em-diferenças e variáveis instrumentais.
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Desenhos quase-experimentais
+
+Regressão em descontinuidade e outras estratégias baseadas em regras institucionais.
+
+:::
+
+:::
+
+---
+
+## Abordagem do curso
+
+A disciplina combina:
+
+- fundamentos conceituais;
+- discussão dos pressupostos de identificação;
+- leitura de artigos;
+- aplicações empíricas;
+- implementação computacional em R;
+- interpretação de resultados.
+
+O objetivo é desenvolver autonomia para **escolher, implementar e avaliar criticamente estratégias de identificação causal**.
+```
+
+# 7. Adicionar o logotipo
+
+Como o `_quarto.yml` contém:
+
+``` yaml
+logo: figuras/usp.png
+```
+
+é necessário colocar a imagem correspondente em:
+
+``` text
+figuras/usp.png
+```
+
+Caso o arquivo ainda não esteja disponível, há duas alternativas.
+
+A primeira é copiar o mesmo `usp.png` utilizado no projeto de Estatística.
+
+A segunda é comentar temporariamente a linha:
+
+``` yaml
+# logo: figuras/usp.png
+```
+
+até que a imagem seja adicionada.
+
+# 8. Criar o primeiro capítulo
+
+Dentro de `cap/`, crie:
+
+``` text
+cap1_introducao.qmd
+```
+
+Um conteúdo mínimo pode ser:
+
+``` markdown
+# Introdução à Avaliação de Políticas Públicas
+
+## Avaliação de impacto
+
+A avaliação de impacto busca identificar o efeito causal de uma política, programa ou intervenção sobre determinado resultado de interesse.
+
+O problema central é que, para cada unidade analisada, observamos apenas um dos resultados potenciais.
+
+## Resultados potenciais
+
+Considere uma unidade \(i\) e dois resultados potenciais:
+
+\[
+Y_i(1)
+\]
+
+representando o resultado quando a unidade recebe o tratamento, e
+
+\[
+Y_i(0)
+\]
+
+representando o resultado quando a unidade não recebe o tratamento.
+
+O efeito causal individual seria:
+
+\[
+\tau_i = Y_i(1) - Y_i(0).
+\]
+
+Entretanto, não é possível observar simultaneamente \(Y_i(1)\) e \(Y_i(0)\) para a mesma unidade.
+
+Esse problema constitui o ponto de partida da inferência causal.
+```
+
+Agora esse capítulo precisa ser informado ao Quarto.
+
+No `_quarto.yml`, altere:
+
+``` yaml
+chapters:
+  - index.qmd
+```
+
+para:
+
+``` yaml
+chapters:
+  - index.qmd
+  - cap/cap1_introducao.qmd
+```
+
+A estrutura passa a ser:
+
+``` text
+AvaliacaoPoliticas_Pos/
+│
+├── cap/
+│   └── cap1_introducao.qmd
+│
+├── dados/
+├── figuras/
+├── script/
+├── Slides/
+│
+├── _quarto.yml
+├── index.qmd
+├── README.md
+└── references.bib
+```
+
+# 9. Criar o arquivo de referências
+
+Como `_quarto.yml` contém:
+
+``` yaml
+bibliography: references.bib
+```
+
+crie na raiz:
+
+``` text
+references.bib
+```
+
+# 3. Trabalho colaborativo no GitHub
+
+Depois de criar e clonar o repositório, podemos adicionar outros pesquisadores ao projeto.
+
+Nesta primeira etapa, todos trabalharão diretamente na branch `main`. Posteriormente, veremos como utilizar **branches** e **Pull Requests** para organizar projetos com maior número de colaboradores ou alterações simultâneas.
+
+## 3.1 Adicionar colaboradores
+
+No GitHub, abra o repositório:
+
+```text
+AvaliacaoPoliticas_Pos
+```
+
+Acesse:
+
+```text
+Settings
+```
+
+Em seguida:
+
+```text
+Collaborators
+```
+
+Clique em:
+
+```text
+Add people
+```
+
+Procure o colaborador pelo nome de usuário ou pelo endereço de e-mail associado à conta do GitHub.
+
+Envie o convite.
+
+O colaborador deverá aceitar o convite antes de começar a trabalhar no repositório.
+
+Repita o procedimento para os demais participantes.
+
+---
+
+## 3.2 Clonar o repositório
+
+Cada colaborador precisa ter uma cópia do repositório em seu próprio computador.
+
+No Positron, abra o terminal e navegue até o diretório onde deseja armazenar o projeto.
+
+Execute:
+
+```powershell
+git clone https://github.com/anicolella/AvaliacaoPoliticas_Pos.git
+```
+
+Entre na pasta:
+
+```powershell
+cd AvaliacaoPoliticas_Pos
+```
+
+Verifique:
+
+```powershell
+git status
+```
+
+O resultado deverá indicar algo semelhante a:
+
+```text
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
+
+Agora o pesquisador possui uma cópia local do mesmo projeto.
+
+---
+
+
+
+# 4. Fluxo básico de trabalho colaborativo
+
+Existem agora diferentes cópias do projeto:
+
+```text
+              GitHub
+                 │
+       AvaliacaoPoliticas_Pos
+                 │
+          branch main
+                 │
+       ┌─────────┼─────────┐
+       ↓         ↓         ↓
+ Pesquisador  Pesquisador  Pesquisador
+      1            2            3
+```
+
+O GitHub funciona como o ponto central de sincronização.
+
+A regra básica será:
+
+```text
+ANTES de trabalhar
+        ↓
+     git pull
+        ↓
+editar os arquivos
+        ↓
+     git add
+        ↓
+    git commit
+        ↓
+     git push
+        ↓
+GitHub atualizado
+```
+
+## 4.1 Antes de começar: `git pull`
+
+**Antes de editar qualquer arquivo**, atualize sua cópia local:
+
+```powershell
+git pull
+```
+
+Esse comando traz para o computador as alterações que outros colaboradores já enviaram ao GitHub.
+
+Por exemplo, se outro pesquisador modificou:
+
+```text
+cap/cap3_experimentos.qmd
+```
+
+e enviou essa alteração ao GitHub, `git pull` atualizará sua cópia local desse arquivo.
+
+### Regra importante
+
+> Sempre execute `git pull` antes de começar a trabalhar no projeto.
+
+Isso reduz significativamente a possibilidade de conflitos entre as alterações realizadas pelos colaboradores.
+
+---
+
+## 4.2 Trabalhar normalmente no Positron
+
+Depois do `git pull`, edite os arquivos normalmente.
+
+Por exemplo:
+
+```text
+cap/cap3_experimentos.qmd
+```
+
+ou:
+
+```text
+cap/cap5_did.qmd
+```
+
+Salve as alterações.
+
+---
+
+## 4.3 Verificar o que foi alterado
+
+Depois de terminar o trabalho:
+
+```powershell
+git status
+```
+
+O Git mostrará os arquivos modificados.
+
+Por exemplo:
+
+```text
+modified: cap/cap3_experimentos.qmd
+```
+
+---
+
+## 4.4 Adicionar as alterações
+
+Para adicionar todas as alterações:
+
+```powershell
+git add .
+```
+
+Também é possível adicionar apenas um arquivo:
+
+```powershell
+git add cap/cap3_experimentos.qmd
+```
+
+---
+
+## 4.5 Criar um commit
+
+O próximo passo é registrar as alterações:
+
+```powershell
+git commit -m "Adiciona exemplo sobre experimentos aleatorizados"
+```
+
+O **commit** funciona como um registro das alterações realizadas naquele momento.
+
+É importante utilizar mensagens informativas.
+
+### Bons exemplos
+
+```text
+Adiciona exemplo de RDD
+
+Revisa capítulo de diferenças-em-diferenças
+
+Corrige exercício de matching
+
+Atualiza referências bibliográficas
+```
+
+Evite mensagens genéricas como:
+
+```text
+alteração
+
+teste
+
+correção
+
+novo
+```
+
+---
+
+## 4.6 Enviar as alterações para o GitHub
+
+Depois do commit:
+
+```powershell
+git push
+```
+
+As alterações serão enviadas para o repositório remoto.
+
+O fluxo completo foi:
+
+```text
+Computador
+    │
+    │ git pull
+    ↓
+versão atualizada
+    │
+    ↓
+editar
+    │
+    ↓
+git add .
+    │
+    ↓
+git commit
+    │
+    │ git push
+    ↓
+GitHub
+```
+
+---
+
+# 5. Rotina diária
+
+Na prática, o pesquisador precisa lembrar de poucos comandos.
+
+## Antes de começar
+
+```powershell
+git pull
+```
+
+## Depois de terminar
+
+```powershell
+git status
+git add .
+git commit -m "Descrição do que foi realizado"
+git push
+```
+
+Portanto, a rotina básica é:
+
+```text
+PULL → EDITAR → ADD → COMMIT → PUSH
+```
+
+---
+
+# 6. Evitando conflitos
+
+Quando todos trabalham diretamente na `main`, é importante evitar que duas pessoas editem simultaneamente o **mesmo arquivo**.
+
+Por exemplo, não há problema se um pesquisador estiver trabalhando em:
+
+```text
+cap/cap3_experimentos.qmd
+```
+
+enquanto outro trabalha em:
+
+```text
+cap/cap5_did.qmd
+```
+
+O Git consegue combinar essas alterações facilmente.
+
+O risco de conflito aumenta quando duas pessoas modificam simultaneamente as mesmas linhas do mesmo arquivo.
+
+Por isso, nesta etapa inicial, adotaremos duas regras:
+
+1. executar `git pull` antes de começar;
+2. evitar que duas pessoas trabalhem simultaneamente no mesmo arquivo.
+
+Com uma equipe pequena, essas duas regras tornam o fluxo de trabalho bastante simples.
+
+---
+
+# 7. Resumo dos comandos
+
+| Comando | Função |
+|---|---|
+| `git pull` | Baixa as alterações mais recentes do GitHub |
+| `git status` | Mostra quais arquivos foram alterados |
+| `git add .` | Prepara as alterações para o commit |
+| `git commit -m "mensagem"` | Registra as alterações |
+| `git push` | Envia os commits para o GitHub |
+
+O ciclo fundamental é:
+
+```text
+git pull
+
+# trabalhar e salvar os arquivos
+
+git status
+git add .
+git commit -m "Descreva a alteração"
+git push
+```
+
+---
+
+# 8. Próxima etapa: branches
+
+O fluxo apresentado até aqui é adequado para equipes pequenas e projetos nos quais os colaboradores conseguem coordenar quem está trabalhando em cada arquivo.
+
+À medida que o projeto crescer, utilizaremos **branches** para permitir que diferentes alterações sejam desenvolvidas de forma independente.
+
+Nesse fluxo mais avançado teremos:
+
+```text
+main
+ │
+ ├── nova-aula
+ ├── revisao-capitulo
+ └── novos-exercicios
+```
+
+As alterações serão posteriormente incorporadas à `main` por meio de **Pull Requests**.
+
+Esse procedimento será apresentado em uma etapa posterior.

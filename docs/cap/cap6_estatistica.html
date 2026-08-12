@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="dcterms.date" content="2026-03-03">
+
+<title>8&nbsp; Uma Introdução à Estatística – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap7_descritiva_v2.html" rel="next">
+<link href="../cap/cap5_googledrive.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap6_estatistica.html">Motivando e Relembrando</a></li><li class="breadcrumb-item"><a href="../cap/cap6_estatistica.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#motivando" id="toc-motivando" class="nav-link active" data-scroll-target="#motivando"><span class="header-section-number">8.1</span> Motivando</a>
+  <ul class="collapse">
+  <li><a href="#um-experimento-importante" id="toc-um-experimento-importante" class="nav-link" data-scroll-target="#um-experimento-importante"><span class="header-section-number">8.1.1</span> Um Experimento Importante</a></li>
+  <li><a href="#o-experimento-de-james-lind-1747" id="toc-o-experimento-de-james-lind-1747" class="nav-link" data-scroll-target="#o-experimento-de-james-lind-1747"><span class="header-section-number">8.1.2</span> O Experimento de James Lind (1747)</a></li>
+  <li><a href="#a-descoberta-revolucionária" id="toc-a-descoberta-revolucionária" class="nav-link" data-scroll-target="#a-descoberta-revolucionária"><span class="header-section-number">8.1.3</span> A Descoberta Revolucionária</a></li>
+  </ul></li>
+  <li><a href="#a-ciência" id="toc-a-ciência" class="nav-link" data-scroll-target="#a-ciência"><span class="header-section-number">8.2</span> A Ciência</a>
+  <ul class="collapse">
+  <li><a href="#perguntado-por-que" id="toc-perguntado-por-que" class="nav-link" data-scroll-target="#perguntado-por-que"><span class="header-section-number">8.2.1</span> Perguntado “Por que”</a></li>
+  <li><a href="#perguntado-por-que-1" id="toc-perguntado-por-que-1" class="nav-link" data-scroll-target="#perguntado-por-que-1"><span class="header-section-number">8.2.2</span> Perguntado “Por que”</a></li>
+  <li><a href="#objetivo-da-ciência" id="toc-objetivo-da-ciência" class="nav-link" data-scroll-target="#objetivo-da-ciência"><span class="header-section-number">8.2.3</span> Objetivo da Ciência</a></li>
+  <li><a href="#o-uso-inadequado-da-ciência" id="toc-o-uso-inadequado-da-ciência" class="nav-link" data-scroll-target="#o-uso-inadequado-da-ciência"><span class="header-section-number">8.2.4</span> O Uso Inadequado da Ciência</a></li>
+  </ul></li>
+  <li><a href="#método-científico" id="toc-método-científico" class="nav-link" data-scroll-target="#método-científico"><span class="header-section-number">8.3</span> Método Científico</a>
+  <ul class="collapse">
+  <li><a href="#observar" id="toc-observar" class="nav-link" data-scroll-target="#observar"><span class="header-section-number">8.3.1</span> Observar</a></li>
+  <li><a href="#propor-explicação" id="toc-propor-explicação" class="nav-link" data-scroll-target="#propor-explicação"><span class="header-section-number">8.3.2</span> Propor Explicação</a></li>
+  <li><a href="#testar-explicação" id="toc-testar-explicação" class="nav-link" data-scroll-target="#testar-explicação"><span class="header-section-number">8.3.3</span> Testar Explicação</a></li>
+  </ul></li>
+  <li><a href="#a-causalidade" id="toc-a-causalidade" class="nav-link" data-scroll-target="#a-causalidade"><span class="header-section-number">8.4</span> A Causalidade</a></li>
+  <li><a href="#tipos-de-estudos-e-relações-causais-randomização-estudos-prospectivos-e-retrospectivos" id="toc-tipos-de-estudos-e-relações-causais-randomização-estudos-prospectivos-e-retrospectivos" class="nav-link" data-scroll-target="#tipos-de-estudos-e-relações-causais-randomização-estudos-prospectivos-e-retrospectivos"><span class="header-section-number">8.5</span> Tipos de Estudos e Relações Causais: Randomização, estudos prospectivos e retrospectivos</a>
+  <ul class="collapse">
+  <li><a href="#estudos-causais-randomizados." id="toc-estudos-causais-randomizados." class="nav-link" data-scroll-target="#estudos-causais-randomizados."><span class="header-section-number">8.5.1</span> Estudos Causais Randomizados.</a></li>
+  <li><a href="#estudos-prospectivos." id="toc-estudos-prospectivos." class="nav-link" data-scroll-target="#estudos-prospectivos."><span class="header-section-number">8.5.2</span> Estudos Prospectivos.</a></li>
+  <li><a href="#estudos-causais-retrospectivos." id="toc-estudos-causais-retrospectivos." class="nav-link" data-scroll-target="#estudos-causais-retrospectivos."><span class="header-section-number">8.5.3</span> Estudos Causais Retrospectivos.</a></li>
+  <li><a href="#o-método-científico-segundo-richard-feynman" id="toc-o-método-científico-segundo-richard-feynman" class="nav-link" data-scroll-target="#o-método-científico-segundo-richard-feynman"><span class="header-section-number">8.5.4</span> O Método Científico segundo Richard Feynman</a></li>
+  <li><a href="#ciclo-da-pesquisa" id="toc-ciclo-da-pesquisa" class="nav-link" data-scroll-target="#ciclo-da-pesquisa"><span class="header-section-number">8.5.5</span> Ciclo da Pesquisa</a></li>
+  </ul></li>
+  <li><a href="#porque-estudar-estatística" id="toc-porque-estudar-estatística" class="nav-link" data-scroll-target="#porque-estudar-estatística"><span class="header-section-number">8.6</span> Porque Estudar Estatística?</a>
+  <ul class="collapse">
+  <li><a href="#os-dois-sistemas-cognitivos" id="toc-os-dois-sistemas-cognitivos" class="nav-link" data-scroll-target="#os-dois-sistemas-cognitivos"><span class="header-section-number">8.6.1</span> Os dois sistemas cognitivos</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap6_estatistica.html">Motivando e Relembrando</a></li><li class="breadcrumb-item"><a href="../cap/cap6_estatistica.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></h1>
+<p class="subtitle lead">Conceitos Inciciais</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 3, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="motivando" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="motivando"><span class="header-section-number">8.1</span> Motivando</h2>
+<section id="um-experimento-importante" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="um-experimento-importante"><span class="header-section-number">8.1.1</span> Um Experimento Importante</h3>
+<p>O avanço do conhecimento científico se apoia, historicamente, na capacidade de formular boas perguntas e testá-las de forma sistemática. Um dos primeiros exemplos marcantes dessa prática ocorreu durante o século XVIII, no contexto das longas viagens oceânicas realizadas por marinhas europeias. Nessas expedições, marinheiros frequentemente adoeciam e morriam em grande número, sem que se soubesse a verdadeira causa. As hipóteses dominantes na época atribuíam as doenças ao “ar ruim” e às condições insalubres dos navios — ideias alinhadas à chamada <strong>teoria miasmática</strong> das enfermidades.</p>
+<p>A questão que se colocava era: <strong>qual a verdadeira causa das mortes e quais soluções poderiam evitá-las?</strong> Essa pergunta inaugurou um dos primeiros experimentos controlados da história da medicina.</p>
+</section>
+<section id="o-experimento-de-james-lind-1747" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="o-experimento-de-james-lind-1747"><span class="header-section-number">8.1.2</span> O Experimento de James Lind (1747)</h3>
+<p>Em 1747, o médico naval britânico <strong>James Lind</strong>, servindo a bordo do HMS <em>Salisbury</em>, realizou um estudo pioneiro que hoje reconhecemos como um <strong>ensaio clínico controlado</strong>. Lind selecionou um grupo de marinheiros acometidos por escorbuto e os dividiu em diferentes grupos de tratamento, garantindo condições semelhantes entre eles. Cada grupo recebeu uma intervenção distinta — vinagre, água do mar, cidra, entre outras substâncias —, mas apenas um grupo recebeu <strong>limões e laranjas</strong>.</p>
+<p>O resultado foi inequívoco: os marinheiros que consumiram frutas cítricas se recuperaram rapidamente, enquanto os demais continuaram doentes. Com isso, Lind demonstrou empiricamente que a causa do escorbuto não estava no “ar ruim”, mas sim na <strong>deficiência de um nutriente essencial</strong> presente nos cítricos e posteriormente identificado como a <strong>vitamina C</strong>.</p>
+</section>
+<section id="a-descoberta-revolucionária" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="a-descoberta-revolucionária"><span class="header-section-number">8.1.3</span> A Descoberta Revolucionária</h3>
+<p><strong>Cura do Escorbuto</strong></p>
+<div class="columns">
+<div class="column" style="width:75%;">
+<p>A descoberta de Lind representou um marco para o desenvolvimento do método científico na medicina. A partir da observação cuidadosa e da formulação de hipóteses testáveis, foi possível demonstrar a relação causal entre a ausência de determinado nutriente e a manifestação da doença. O estudo inaugurou o uso sistemático de grupos de comparação, controle de variáveis e análise empírica de resultados, práticas que se tornariam pilares da ciência moderna.</p>
+<p>Essa experiência mostrou que o conhecimento científico não avança por mera especulação, mas por <strong>testes controlados e evidências observáveis</strong>, capazes de distinguir entre correlação e causalidade.</p>
+</div><div class="column" style="width:25%;">
+<p><a href="../figuras/figuras0/citrus.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="../figuras/figuras0/citrus.jpg" class="img-fluid" style="width:60.0%"></a></p>
+</div>
+</div>
+<p>Essa experiência mostrou que o conhecimento científico não avança por mera especulação, mas por <strong>testes controlados e evidências observáveis</strong>, capazes de distinguir entre correlação e causalidade.</p>
+</section>
+</section>
+<section id="a-ciência" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="a-ciência"><span class="header-section-number">8.2</span> A Ciência</h2>
+<section id="perguntado-por-que" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="perguntado-por-que"><span class="header-section-number">8.2.1</span> Perguntado “Por que”</h3>
+<p>O ponto de partida da ciência é a curiosidade sobre o mundo: <strong>por que as coisas acontecem da forma como acontecem?</strong> Essa indagação, aparentemente simples, é o motor que impulsiona toda investigação científica. A ciência busca compreender não apenas o que ocorre, mas também <strong>as causas e mecanismos</strong> subjacentes aos fenômenos observados.</p>
+<p>Durante séculos, especialmente até a metade do século XIX, o conhecimento sobre diversos processos naturais era limitado. Na medicina, por exemplo, pouco se sabia sobre doenças infecciosas e seus modos de transmissão. Somente com os avanços de pesquisadores como <strong>Louis Pasteur</strong> (1822–1895) é que se consolidou a <strong>Teoria Microbiana da Doença</strong>, transformando profundamente a prática médica e a saúde pública.</p>
+</section>
+<section id="perguntado-por-que-1" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="perguntado-por-que-1"><span class="header-section-number">8.2.2</span> Perguntado “Por que”</h3>
+<div class="columns">
+<div class="column" style="width:65%;">
+<p>Antes desses avanços, outros cientistas já haviam dado contribuições fundamentais à sistematização do conhecimento. Em 1662, <strong>John Graunt</strong> publicou a primeira <strong>tábua de mortalidade</strong>, no livro <em>Natural and Political Observations Made upon the Bills of Mortality</em>. Esse trabalho foi um dos primeiros esforços para quantificar e descrever padrões populacionais e de saúde a partir de registros empíricos.</p>
+<p>Graunt aplicou raciocínios quantitativos a dados sobre nascimentos e mortes, inaugurando a tradição estatística na análise de fenômenos sociais e biológicos. Mais de dois séculos depois, Pasteur ampliou essa lógica de observação e mensuração, demonstrando experimentalmente que doenças contagiosas decorriam da ação de microrganismos, e desenvolvendo o processo de <strong>pasteurização</strong> como medida de prevenção. Somente em 1873 a academia de Medicina Francesa defende a tese que doenças contagiosas e processos infecciosos tem os microrganismos como responsáveis.</p>
+</div><div class="column" style="width:35%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/t_mort.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Uma das Primeiras Tábuas de Mortalidade"><img src="../figuras/figuras0/t_mort.jpg" class="img-fluid figure-img" alt="Uma das Primeiras Tábuas de Mortalidade"></a></p>
+<figcaption>Uma das Primeiras Tábuas de Mortalidade</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Esses marcos ilustram como o avanço da ciência depende da capacidade de observar, mensurar e explicar os fenômenos de maneira sistemática e replicável.</p>
+</section>
+<section id="objetivo-da-ciência" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="objetivo-da-ciência"><span class="header-section-number">8.2.3</span> Objetivo da Ciência</h3>
+<p>O propósito último da ciência é <strong>tornar o mundo um lugar melhor para vivermos</strong>, por meio da geração de conhecimento e de inovação tecnológica. Entretanto, o progresso técnico não ocorre isoladamente: ele depende do <strong>entendimento teórico</strong> dos fenômenos.</p>
+<p>A teoria é o que permite explicar o mundo de forma coerente, organizando as observações em um quadro interpretativo. É a partir dela que se formulam hipóteses, se testam explicações e se criam soluções práticas. Assim, <strong>as inovações técnicas são frutos do entendimento teórico</strong>, e não o contrário, sendo que a boa ciência combina observação empírica com reflexão conceitual.</p>
+</section>
+<section id="o-uso-inadequado-da-ciência" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="o-uso-inadequado-da-ciência"><span class="header-section-number">8.2.4</span> O Uso Inadequado da Ciência</h3>
+<p>Embora a ciência tenha transformado profundamente o modo como compreendemos o mundo, seu prestígio também pode ser utilizado de forma indevida. A invocação do termo “científico” muitas vezes é empregada para <strong>atribuir credibilidade a afirmações infundadas</strong>, criando uma aparência de legitimidade sem o devido rigor metodológico.</p>
+<div class="columns">
+<div class="column" style="width:75%;">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Credibilidade Fake
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nada confere mais autoridade a uma alegação do que a sugestão de que ela foi “comprovada cientificamente” ou “baseada em evidências científicas”.</p>
+</div>
+</div>
+</div><div class="column" style="width:25%;">
+<p><a href="../figuras/figuras0/fakenews.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="../figuras/figuras0/fakenews.jpg" class="img-fluid"></a></p>
+</div>
+</div>
+<p>No entanto, nem toda afirmação que se apresenta como científica é, de fato, resultado de um processo de investigação rigoroso. É comum encontrar exemplos de <strong>pseudociência</strong>, discursos que simulam o formato da ciência, mas carecem de fundamentos empíricos verificáveis.</p>
+<p>Afirmações de que <strong>extraterrestres visitaram a Terra</strong>, de que <strong>plantas sentem prazer e dor</strong>, ou de que <strong>celulares causam tumores cerebrais</strong>, são exemplos de como o rótulo “científico” pode ser usado de maneira enganosa.</p>
+<p>Da mesma forma, <strong>teorias conspiratórias</strong>, como a ideia de que governos ocultam informações sobre eventos históricos, frequentemente se valem de uma retórica pseudoacadêmica para convencer o público. Esses casos ilustram como a aparência de método pode ser usada para mascarar a ausência de evidência.</p>
+</section>
+</section>
+<section id="método-científico" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="método-científico"><span class="header-section-number">8.3</span> Método Científico</h2>
+<p><strong>Observar, Explicar e Testar</strong></p>
+<p>O método científico se organiza em três etapas principais: observar, propor explicações e testar. Cada uma delas é essencial para transformar dados em conhecimento confiável e orientar a investigação de forma estruturada.</p>
+<section id="observar" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="observar"><span class="header-section-number">8.3.1</span> Observar</h3>
+<div class="columns">
+<div class="column" style="width:85%;">
+<p>Observar significa ter uma <strong>noção clara dos fatos</strong> que envolvem o fenômeno que estamos estudando. <strong>Ciência é a arte de fazer boas observações</strong>, capazes de identificar e focar nos aspectos mais relevantes do que está acontecendo. <strong>A observação fornece pistas</strong> sobre por que um fenômeno ocorre e permite avaliar se diferentes explicações podem ser plausíveis ou devem ser descartadas.</p>
+</div><div class="column" style="width:15%;">
+<p><a href="../figuras/figuras0/observation.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="../figuras/figuras0/observation.png" class="img-fluid"></a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Nem sempre a observação é simples ou direta.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O processo de observar pode ser limitado por dados insuficientes ou difíceis de acessar. É importante reconhecer essas dificuldades e trabalhar para minimizar seus efeitos.</p>
+</div>
+</div>
+<section id="observções-devem-ser" class="level4" data-number="8.3.1.1">
+<h4 data-number="8.3.1.1" class="anchored" data-anchor-id="observções-devem-ser"><span class="header-section-number">8.3.1.1</span> Observções devem ser:</h4>
+<ul>
+<li>Ter clara noção de quais os fenômenos relevantes</li>
+<li>Encontramos uma maneira de garantir que não negligenciamos nada no processo de fazer nossas observações?</li>
+<li>Não viesada: Cegueira a mudança e Cegueira desatenta <a href="https://www.youtube.com/watch?v=FaAIW8WFBq8" class="uri">https://www.youtube.com/watch?v=FaAIW8WFBq8</a></li>
+<li>O que sabemos com certeza? O que é baseado em fatos e o que é baseado em conjecturas ou suposição?
+<ul>
+<li>Evite suposições inocentemente incorporadas</li>
+</ul></li>
+<li>Consideramos alguma informação comparativa necessária?</li>
+<li>As nossas observações foram contaminadas por expectativas ou crenças?</li>
+</ul>
+</section>
+<section id="como-conseguir-boas-observações-e-evitar-viéses" class="level4" data-number="8.3.1.2">
+<h4 data-number="8.3.1.2" class="anchored" data-anchor-id="como-conseguir-boas-observações-e-evitar-viéses"><span class="header-section-number">8.3.1.2</span> Como conseguir boas observações e evitar viéses?</h4>
+<div class="columns">
+<div class="column" style="width:65%;">
+<p>Para alcançar observações mais precisas, é importante recorrer a <strong>instrumentos</strong> que ampliem nossos sentidos e utilizar <strong>medições quantitativas</strong> que descrevam os fenômenos de forma mais fiel. Assim, reduzimos as distorções que decorrem da percepção humana e obtemos registros mais objetivos e verificáveis.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/computador.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="../figuras/figuras0/computador.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+</div><div class="column" style="width:35%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/instrumento1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="../figuras/figuras0/instrumento1.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="propor-explicação" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="propor-explicação"><span class="header-section-number">8.3.2</span> Propor Explicação</h3>
+<p>Explicar é apresentar um conjunto de fatores que <strong>mostram como</strong> ou <strong>por que um efeito ocorreu</strong>. É o momento de propor uma história explicativa, uma conjectura que, se verdadeira, daria sentido ao fenômeno observado.</p>
+<div class="columns">
+<div class="column" style="width:65%;">
+<p>Perguntas como <strong>“por que o sol nasce e se põe todos os dias?”</strong> ilustram esse tipo de esforço. Vejamos:</p>
+<p>O Primeiro a enteder o nascimento do sol foi <strong>Nicolau Copérnico (1473-1543)</strong>, que propôs o modelo heliocêntrico do sistema solar. Segundo esse modelo, a Terra gira em torno do Sol, o que explica o movimento aparente do sol no céu ao longo do dia.</p>
+<p>Entretanto, as primeiras provas vieram quase século depois com <strong>Galileu , 1610</strong>, com as observações de Venus e as fases da Lua. Interessantemente, em 1633 Galileu Galilei foi julgado e condenado pela Inquisição Católica pela sua defesa do heliocentrismo.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/galileu.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Galileo e o Santo Ofício, século XIX por Joseph-Nicolas Robert-Fleury"><img src="../figuras/figuras0/galileu.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%" alt="Galileo e o Santo Ofício, século XIX por Joseph-Nicolas Robert-Fleury"></a></p>
+</figure>
+</div>
+<figcaption>Galileo e o Santo Ofício, século XIX por Joseph-Nicolas Robert-Fleury</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:35%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/copernico.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="De revolutionibus orbium coelestium"><img src="../figuras/figuras0/copernico.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="De revolutionibus orbium coelestium"></a></p>
+</figure>
+</div>
+<figcaption>De revolutionibus orbium coelestium</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>História Explicativa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Portanto, a primeira etapa na tentativa de dar <strong>sentido a um conjunto de fatos</strong> intrigantes é propor o que poderíamos chamar de uma história explicativa, um conjunto de conjecturas que, se verdadeiras, explicariam o quebra-cabeça.</p>
+</div>
+</div>
+<section id="uma-boa-explicação" class="level4" data-number="8.3.2.1">
+<h4 data-number="8.3.2.1" class="anchored" data-anchor-id="uma-boa-explicação"><span class="header-section-number">8.3.2.1</span> Uma Boa Explicação</h4>
+<p>Uma <strong>hipótese</strong> é uma explicação provisória e ainda não comprovada sobre algo específico Oferece uma explicação para um gama mais limitada de fenômenos , um único evento ou um fato.</p>
+<p>Já uma <strong>teoria</strong> é um corpo de conhecimento mais amplo e consolidado, construído a partir de múltiplas verificações e evidências, como as teorias do Big Bang, Teoria da evolução ou dos germes das doenças.</p>
+</section>
+<section id="cuidado" class="level4" data-number="8.3.2.2">
+<h4 data-number="8.3.2.2" class="anchored" data-anchor-id="cuidado"><span class="header-section-number">8.3.2.2</span> CUIDADO</h4>
+<div class="columns">
+<div class="column" style="width:75%;">
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>É comum ouvirmos <strong>“isso é apenas uma teoria”</strong>, como se fosse uma opinião. No entanto, na ciência, uma teoria é uma explicação robusta, apoiada por evidências e testes repetidos.</p>
+</div>
+</div>
+</div><div class="column" style="width:25%;">
+<p><a href="../figuras/figuras0/teoria.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="../figuras/figuras0/teoria.png" class="img-fluid" style="width:40.0%"></a></p>
+</div>
+</div>
+</section>
+<section id="vamos-pensar-obsedidade-no-brasil" class="level4" data-number="8.3.2.3">
+<h4 data-number="8.3.2.3" class="anchored" data-anchor-id="vamos-pensar-obsedidade-no-brasil"><span class="header-section-number">8.3.2.3</span> Vamos Pensar: Obsedidade no Brasil</h4>
+<p>Os brasileiros enfrentam um sério problema de peso. Entre 2006 e 2019, o número de pessoas com sobrepeso ou obesidade aumentou em 72%, chegando a 20% da população. Esses dados nos convidam a construir hipóteses que expliquem o fenômeno, mesmo que provisoriamente. O objetivo não é acertar, mas exercitar o raciocínio explicativo.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Fatos e Observações
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Segundo a pesquisa Vigitel do Ministério da Saúde, para população acima de 18 anos o percentual de pessoas com obesidade subiu de 11,8% em 2006 para 20,3% em 2019.</p>
+</div>
+</div>
+<p><strong>Quais as suas hipóteses para explicar esse fenômeno?</strong> Não precisa estar correta, mas deve explicar o fenômeno, caso seja verdadeira.</p>
+</section>
+</section>
+<section id="testar-explicação" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="testar-explicação"><span class="header-section-number">8.3.3</span> Testar Explicação</h3>
+<div class="columns">
+<div class="column" style="width:75%;">
+<p>Testar uma explicação significa verificar se suas previsões se confirmam.</p>
+<p><strong>Primeiro</strong>, observam-se as consequências da explicação, o que deveria acontecer se a explicação estiver correta?</p>
+<p><strong>Segundo</strong>, desenha-se um experimento ou estudo para confrontar essa previsão com os dados. Se os resultados estiverem de acordo, seguimos na direção certa; se não, a hipótese precisa ser revisada.</p>
+</div><div class="column" style="width:25%;">
+<p><a href="../figuras/figuras0/test.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10"><img src="../figuras/figuras0/test.png" class="img-fluid"></a></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Fácil Falar Difícil Fazer
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apesar da simplicidade do método científico em teoria, sua aplicação prática exige cuidado e rigor.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="a-causalidade" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="a-causalidade"><span class="header-section-number">8.4</span> A Causalidade</h2>
+<p>Compreender a causalidade é uma das tarefas centrais da ciência. Depois de observar um fenômeno e propor uma explicação, é preciso determinar se existe de fato uma <strong>relação causal</strong> entre os fatores envolvidos. Nem toda associação observada implica causalidade: dois eventos podem ocorrer juntos sem que um cause o outro.</p>
+</section>
+<section id="tipos-de-estudos-e-relações-causais-randomização-estudos-prospectivos-e-retrospectivos" class="level2" data-background-color="#a1c2bb" data-number="8.5">
+<h2 data-background-color="#a1c2bb" data-number="8.5" class="anchored" data-anchor-id="tipos-de-estudos-e-relações-causais-randomização-estudos-prospectivos-e-retrospectivos"><span class="header-section-number">8.5</span> Tipos de Estudos e Relações Causais: Randomização, estudos prospectivos e retrospectivos</h2>
+<section id="estudos-causais-randomizados." class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="estudos-causais-randomizados."><span class="header-section-number">8.5.1</span> Estudos Causais Randomizados.</h3>
+<p>Os estudos causais baseados em randomização partem de um conjunto de sujeitos que, antes do início do estudo, apresentam características <strong>muito semelhantes</strong>. Nenhum desses sujeitos foi previamente exposto ao agente causal suspeito. A partir daí, eles são <strong>aleatoriamente</strong> designados para dois grupos: um <strong>grupo de tratamento</strong> e um <strong>grupo de controle</strong>. Somente os sujeitos do grupo de tratamento são expostos à causa sob investigação.</p>
+<p>Esse tipo de desenho permite isolar o efeito da variável causal e reduzir a influência de outros fatores.</p>
+<p>No entanto, trata-se da forma mais <strong>rara</strong> de estudo nas <strong>Ciências Sociais Aplicadas</strong>, em razão das dificuldades éticas e práticas de implementação.</p>
+<section id="exemplos-de-randomized-control-trial-rct-em-ciências-sociais" class="level4" data-number="8.5.1.1">
+<h4 data-number="8.5.1.1" class="anchored" data-anchor-id="exemplos-de-randomized-control-trial-rct-em-ciências-sociais"><span class="header-section-number">8.5.1.1</span> Exemplos de Randomized Control Trial (RCT) em Ciências Sociais</h4>
+<p><strong>Justiça Restaurativa em Casos de Crimes Violentos</strong></p>
+<div class="columns">
+<div class="column" style="width:75%;">
+<ul>
+<li><p><strong>Estudo</strong>: Sherman, Lawrence W., et al.&nbsp;<em>Effects of face-to-face restorative justice on victims of crime in four randomized, controlled trials.</em> <strong>Journal of experimental criminology</strong> 1.3 (2005): 367-395.</p></li>
+<li><p><strong>Objetivo</strong>: O estudo avaliou o impacto de programas de justiça restaurativa, onde as vítimas e ofensores se encontram em conferências mediadas, em casos de crimes violentos - quatro experimentos controlados.</p></li>
+<li><p><strong>Resultado</strong>: As meta-análises das oito estimativas sugerem o sucesso da justiça restaurativa, tanto como um ritual de interação quanto como uma política para reduzir os danos às vítimas.</p></li>
+</ul>
+</div><div class="column" style="width:25%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/restaurativa.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="../figuras/figuras0/restaurativa.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="estudos-prospectivos." class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="estudos-prospectivos."><span class="header-section-number">8.5.2</span> Estudos Prospectivos.</h3>
+<p>Os estudos prospectivos, por sua vez, iniciam com sujeitos que <strong>já foram expostos ao agente causal</strong> sob investigação e os <strong>acompanham ao longo do tempo</strong>. O ponto de partida é uma situação em que o resultado ainda é desconhecido, e o objetivo é identificar como determinadas variáveis influenciam o desfecho futuro.</p>
+<p>Esse tipo de estudo é valioso para observar a evolução dos efeitos causais, mas é importante reconhecer que <strong>outros fatores</strong> podem ser responsáveis por alguma parte do <strong>efeito nos grupos tratado e de controle</strong>. Assim, a relação identificada pode ser relacional, mas não necessariamente causal.</p>
+<section id="exemplos-de-estudos-prospectivos-em-ciências-sociais" class="level4" data-number="8.5.2.1">
+<h4 data-number="8.5.2.1" class="anchored" data-anchor-id="exemplos-de-estudos-prospectivos-em-ciências-sociais"><span class="header-section-number">8.5.2.1</span> Exemplos de Estudos Prospectivos em Ciências Sociais</h4>
+<p>Um exemplo clássico de estudo prospectivo é o <em>Million Women Study</em> (2003), que investigou a relação entre terapias de reposição hormonal (TRH) e câncer de mama.</p>
+<div class="columns">
+<div class="column" style="width:75%;">
+<ul>
+<li><strong>Estudo</strong>: Beral, Valerie, et al.&nbsp;<em>“Breast cancer and hormone-replacement therapy: the Million Women Study.”</em> <strong>The Lancet</strong> 362.9392 (2003): 1330-1331</li>
+<li><strong>Objetivo</strong>: O Million Women Study foi criado para investigar os efeitos de tipos específicos de TRH no câncer de mama incidente e fatal.Foram recrutadas 1.084.110 mulheres do Reino Unido com idades entre 50 e 64 anos para o Million Women Study entre 1996 e 2001.</li>
+<li><strong>Resultado</strong>: O uso atual de TRH está <strong>associado</strong> a um risco aumentado de câncer de mama incidente e fatal.</li>
+</ul>
+</div><div class="column" style="width:25%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/prospectivo.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12"><img src="../figuras/figuras0/prospectivo.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="estudos-causais-retrospectivos." class="level3" data-number="8.5.3">
+<h3 data-number="8.5.3" class="anchored" data-anchor-id="estudos-causais-retrospectivos."><span class="header-section-number">8.5.3</span> Estudos Causais Retrospectivos.</h3>
+<p>Nos estudos retrospectivos, o processo é inverso: <strong>parte-se do resultado final</strong> e busca-se identificar as <strong>causas que o originaram</strong>. Esses estudos têm como propósito principal identificar fatores que levaram a determinado desfecho.</p>
+<p>Geralmente, o pesquisador trabalha com dois grupos, controle e tratamento, compostos por indivíduos que apresentam, ou não, o efeito analisado. O desafio é identificar, de forma cuidadosa, os diferentes níveis do fator potencial de causa entre esses grupos.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Explicando com Exemplo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Efeitos do chumbo em crianças. Pesquisa com 4.000 crianças de 4 e 15 anos entre 1999 e 2002. Incluiu 135 crianças com transtorno de déficit de atenção e hiperatividade (TDAH). Exames de sangue foram feitos em todas as 4.000.</p>
+<ul>
+<li>As 135 crianças com TDAH apresentaram níveis de chumbo no sangue muito maior do que nas outras crianças.
+<ul>
+<li>Tinham quatro vezes mais probabilidade de ter níveis elevados de chumbo no sangue</li>
+</ul></li>
+</ul>
+<p>A <strong>Questão</strong> é, pode-se concluir que a exposição ao chumbo pode causar TDAH?</p>
+</div>
+</div>
+<p>Mesmo os melhores estudos retrospectivos oferecem apenas evidências limitadas de causalidade, pois é extremamente difícil controlar todos os fatores potenciais que podem interferir na relação observada. Por isso, é fundamental interpretar seus resultados com cautela.</p>
+<p>Observa-se que Correspondência reversa às vezes é possível em estudos retrospectivos. Ou seja TDAH -&gt; Chumbo….</p>
+<ul>
+<li>E é esse o caso nesse estudo: crianças com TDAH são mais propensas a comer tinta com chumbo ou inalar pó de tinta por causa de sua hiperatividade.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Cuidado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apesar de crianças com TDAH terem “quatro vezes mais chance” de ter níveis elevados de chumbo no sangue.</p>
+<p><strong>NÃO PODEMOS CONCLUIR QUE</strong>: Crianças com níveis elevados de chumbo têm “quatro vezes mais probabilidade” de ter TDAH.</p>
+</div>
+</div>
+<section id="exemplos-de-estudos-retrospectivos-em-ciências-sociais-e-direito" class="level4" data-number="8.5.3.1">
+<h4 data-number="8.5.3.1" class="anchored" data-anchor-id="exemplos-de-estudos-retrospectivos-em-ciências-sociais-e-direito"><span class="header-section-number">8.5.3.1</span> Exemplos de Estudos Retrospectivos em Ciências Sociais e Direito</h4>
+<p>Um exemplo aplicado às Ciências Sociais é o estudo de Severi, FC; Jesus Filho, J. 2022 (<em>“Há diferenças remuneratórias por gênero na magistratura brasileira?.”</em>), que investigou a hipótese de diferenças remuneratórias entre juízes e juízas em oito tribunais de justiça brasileiros.</p>
+<div class="columns">
+<div class="column" style="width:75%;">
+<ul>
+<li><p><strong>Estudo</strong> Severi, FC; Jesus Filho, J. <em>“Há diferenças remuneratórias por gênero na magistratura brasileira?.”</em> <strong>Revista de Administração Pública</strong> 56.2 (2022): 208-225.</p></li>
+<li><p><strong>Objetivo</strong>: testar a hipótese de que há clara diferença entre as remunerações médias percebidas por juízes e juízas de 8 tribunais de justiça brasileiros.</p></li>
+<li><p><strong>Resultado</strong>: As diferenças nas médias remuneratórias persistem mesmo após o pareamento, o que pode ser explicado pelos mediadores de gênero, que operam gerando melhores oportunidades para homens em desfavor das mulheres.</p></li>
+</ul>
+</div><div class="column" style="width:25%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/remuneracao.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="../figuras/figuras0/remuneracao.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="o-método-científico-segundo-richard-feynman" class="level3" data-number="8.5.4">
+<h3 data-number="8.5.4" class="anchored" data-anchor-id="o-método-científico-segundo-richard-feynman"><span class="header-section-number">8.5.4</span> O Método Científico segundo Richard Feynman</h3>
+<p>Richard Feynman enfatiza que o método científico baseia-se em propor hipóteses, derivar previsões e testá-las por meio da observação e do experimento. Se os resultados não confirmam a previsão, a hipótese deve ser rejeitada, independentemente de sua origem. Assim segundo o autor temos o seguinte percurso:</p>
+<ul>
+<li><strong>Faça uma Observação</strong>
+<ul>
+<li>Observe um fenômeno no mundo natural.</li>
+</ul></li>
+<li><strong>Formule uma Hipótese</strong>
+<ul>
+<li>Crie uma possível explicação para o fenômeno.</li>
+</ul></li>
+<li><strong>Faça Previsões</strong>
+<ul>
+<li>Preveja o que acontecerá se sua hipótese estiver correta.</li>
+</ul></li>
+<li><strong>Teste com Experimentos</strong>
+<ul>
+<li>Conduza experimentos para testar as previsões.</li>
+</ul></li>
+<li><strong>Reavalie a Hipótese</strong>
+<ul>
+<li>Se os resultados não batem com as previsões, a hipótese está errada.</li>
+</ul></li>
+</ul>
+<p>Essa visão mostra que a ciência é, acima de tudo, um compromisso ético com a verdade empírica e a disposição de submeter ideias à crítica. O método científico é mais do que um procedimento: é uma atitude de curiosidade, dúvida e verificação constante.</p>
+</section>
+<section id="ciclo-da-pesquisa" class="level3" data-number="8.5.5">
+<h3 data-number="8.5.5" class="anchored" data-anchor-id="ciclo-da-pesquisa"><span class="header-section-number">8.5.5</span> Ciclo da Pesquisa</h3>
+<p>O ciclo da pesquisa nem sempre segue um caminho linear ou fácil; frequentemente é tortuoso. Apesar disso, ele envolve etapas importantes que precisam ser bem fundamentadas e respeitadas, como as que segue:</p>
+<ul>
+<li>Desenho do projeto;</li>
+<li>Operacionalização em variáveis mensuráveis;</li>
+<li>Análise de viabilidade;</li>
+<li>Coleta;</li>
+<li>Limpeza e organização dos dados;</li>
+<li>Transformação dos dados;</li>
+<li>Análise exploratória;</li>
+<li>Análise inferencial e preditiva;</li>
+<li>Métricas de desempenho;</li>
+<li>Publicação dos resultados.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/ciclo_jur.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Ciclo da pesquisa em Ciências Sociais"><img src="../figuras/figuras0/ciclo_jur.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-widht="100%" alt="Ciclo da pesquisa em Ciências Sociais"></a></p>
+</figure>
+</div>
+<figcaption>Ciclo da pesquisa em Ciências Sociais</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="porque-estudar-estatística" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="porque-estudar-estatística"><span class="header-section-number">8.6</span> Porque Estudar Estatística?</h2>
+<p>Podemos dizer que a existência da estatística e de outras ciências está conectada a existência de problemas. Não somente a ciência mas o nosso trabalho está conectado a superação de problemas cotidianos. Tomar decisão é o dia a dia do gestor.</p>
+<p>Segundo Popper “we study not disciplines, but problems. Often, problems transcend the boundaries of a particular discipline”</p>
+<p>A questão central é: Como solucionamos os problemas? Utilizamos a melhor estratégia? A solução foi boa?</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A[PROBLEMA] --&gt; B[Estratégia de Decisão]
+  B --&gt; C{Solução é BOA?}
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="os-dois-sistemas-cognitivos" class="level3" data-number="8.6.1">
+<h3 data-number="8.6.1" class="anchored" data-anchor-id="os-dois-sistemas-cognitivos"><span class="header-section-number">8.6.1</span> Os dois sistemas cognitivos</h3>
+<p>Os livros abaixo são boas referências sobre a tomada de decisão.</p>
+<div class="quarto-layout-panel" data-layout="[30,-40,30]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://a.co/d/ilbbxRJ"><img src="../figuras/kahneman.jpg" class="img-fluid figure-img" style="width:50.0%"></a></p>
+<figcaption>Kahneman: Rápido e Devagar- Duas Formas de Pensar</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-figure-spacer quarto-layout-cell" style="flex-basis: 40.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://a.co/d/iy4MURf"><img src="../figuras/bazerman.jpg" class="img-fluid figure-img" style="width:50.0%"></a></p>
+<figcaption>Bazerman e Moore: Processo Decisório</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Existem dois sistemas que utilizamos para tomar decisão. O chamado <strong>Sistema 1</strong> e o chamado <strong>Sistema 2</strong>. Segue uma breve descrição de cada um:</p>
+<p><strong>Sistema 1</strong>:</p>
+<ul>
+<li>Intuitivo, rápido, automático, sem esforço, implícito e emocional
+<ul>
+<li>Pressa,</li>
+<li>Falta de tempo,</li>
+<li>Problemas menos importante</li>
+<li>Mais Falhas/Erros</li>
+</ul></li>
+</ul>
+<p><strong>Sistema 2</strong></p>
+<ul>
+<li>Raciocíonio lento, consciente, esforçado, explícito, lógico
+<ul>
+<li>Requer tempo,</li>
+<li>Mais recursos</li>
+<li>Problemas mais importante</li>
+<li>Menos Falhas</li>
+</ul></li>
+</ul>
+<p>Para o Sistema 1 usamos a nossa intuição que chamamos de Heurística. Vejamos um pouco mais sobre esse sistema.</p>
+<p><strong>HEURÍSTICA</strong></p>
+<p>São rotinas inconscientes ou atalhos que o nosso cérebro utiliza para lidar com a complexidade.</p>
+<ul>
+<li>Modelo/Regras Intuitivas.</li>
+<li>Próprio do Sistema 1.</li>
+<li>Apesar de processo sofisticado, são passíveis de falhas. Intuição falha</li>
+</ul>
+<p><u><strong>Um Exemplo</strong></u></p>
+<p>Veja a figura abaixo retirada do livro do Bazerman.Responda rápido.</p>
+<p><strong>Qual delas tem o tampo mais quadrado?</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras/mesa.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Bazerman: Exemplo das mesas</figcaption>
+</figure>
+</div>
+<p>Se você achou que é a segunda mesa, você está alinhado com a grande maioria. Nesse caso você usou o seu sistema 1</p>
+<p>Vamos repitir a pergunta:</p>
+<p><strong>Qual delas tem o tampo mais quadrado?</strong></p>
+<p>Agora use uma régua para medir as mesas. Usamos aqui o sistema 2. Mais tempo e recursos são utlizados. Qual mesa agora você considera mais quadrada? Mudou sua opinião?</p>
+<p>Com a régua vemos que as mesas são iguais. Isso mostra que a nossa intuição <strong>FALHA</strong>.</p>
+<p><strong>Tipos de Heurísticas</strong></p>
+<ul>
+<li><p><strong>Heurística da disponibilidade</strong>: Usamos o que está mais próximo na memória para calcular a probabilidade.</p></li>
+<li><p><strong>Heurística da representatividade</strong>: Buscamos aquilo que reforça o padrão.</p></li>
+<li><p><strong>Heurística da hipótese positiva</strong>: Assumimos que uma determinada hipótese é verdadeira e não olhamos o contrafactual.</p></li>
+<li><p><strong>Heurística do afeto</strong>: Decisão considera o emocional. Seu humor afetam as decisões.</p></li>
+</ul>
+<p>Para contornar os problemas da intuição e seus viéses na tomada de decisão o primeiro passo é compreender que eles existem e estarmos alerta. E para problemas maiores o uso do sistema 2 torna-se relevante.</p>
+<p>Uma das principais ferramentas do sistema 2 é a Estatística. Com os avanços computacionais essa ciência tem se destacado como um dos elementos centrais do <em>data science</em>. Abaixo a figura resume as diversas áreas de desenvolvimento da análise de dados, obviamente não exaustiva:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras/analisedados.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Fluxograma da Análise de Dados</figcaption>
+</figure>
+</div>
+<p>Nosso objetivo é explorar nessa seção a análise descritiva. Chamado hoje no <em>Business Intelligence</em>, que e uma das áreas do <em>Data Science</em>.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap5_googledrive.html" class="pagination-link" aria-label="Google Drive">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Google Drive</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap7_descritiva_v2.html" class="pagination-link" aria-label="Análise Descritiva">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

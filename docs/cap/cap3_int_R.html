@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="dcterms.date" content="2026-03-03">
+
+<title>5&nbsp; Maipulando os Dados – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap4_dplyr.html" rel="next">
+<link href="../cap/cap1_autores.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#o-r-project-e-as-boas-práticas" id="toc-o-r-project-e-as-boas-práticas" class="nav-link active" data-scroll-target="#o-r-project-e-as-boas-práticas"><span class="header-section-number">5.1</span> O R-project e as Boas Práticas</a>
+  <ul class="collapse">
+  <li><a href="#o-software-r" id="toc-o-software-r" class="nav-link" data-scroll-target="#o-software-r"><span class="header-section-number">5.1.1</span> O software R</a></li>
+  <li><a href="#utilizando-interface-gráfica---o-rstudio" id="toc-utilizando-interface-gráfica---o-rstudio" class="nav-link" data-scroll-target="#utilizando-interface-gráfica---o-rstudio"><span class="header-section-number">5.1.2</span> Utilizando Interface Gráfica - O Rstudio</a></li>
+  <li><a href="#ajuda" id="toc-ajuda" class="nav-link" data-scroll-target="#ajuda"><span class="header-section-number">5.1.3</span> Ajuda</a></li>
+  <li><a href="#boas-práticas" id="toc-boas-práticas" class="nav-link" data-scroll-target="#boas-práticas"><span class="header-section-number">5.1.4</span> Boas Práticas</a></li>
+  <li><a href="#criando-projeto-no-r" id="toc-criando-projeto-no-r" class="nav-link" data-scroll-target="#criando-projeto-no-r"><span class="header-section-number">5.1.5</span> Criando projeto no R</a></li>
+  <li><a href="#identação-é-importante" id="toc-identação-é-importante" class="nav-link" data-scroll-target="#identação-é-importante"><span class="header-section-number">5.1.6</span> Identação é Importante</a></li>
+  </ul></li>
+  <li><a href="#inserindo-dados-no-r" id="toc-inserindo-dados-no-r" class="nav-link" data-scroll-target="#inserindo-dados-no-r"><span class="header-section-number">5.2</span> Inserindo Dados no R</a>
+  <ul class="collapse">
+  <li><a href="#tipos-de-variáveis" id="toc-tipos-de-variáveis" class="nav-link" data-scroll-target="#tipos-de-variáveis"><span class="header-section-number">5.2.1</span> Tipos de Variáveis</a></li>
+  <li><a href="#importando-os-dados" id="toc-importando-os-dados" class="nav-link" data-scroll-target="#importando-os-dados"><span class="header-section-number">5.2.2</span> Importando os Dados</a></li>
+  <li><a href="#exportanto-os-dados" id="toc-exportanto-os-dados" class="nav-link" data-scroll-target="#exportanto-os-dados"><span class="header-section-number">5.2.3</span> Exportanto os Dados</a></li>
+  <li><a href="#lidando-com-dados-missing" id="toc-lidando-com-dados-missing" class="nav-link" data-scroll-target="#lidando-com-dados-missing"><span class="header-section-number">5.2.4</span> Lidando com Dados Missing</a></li>
+  </ul></li>
+  <li><a href="#operando-o-banco-de-dados" id="toc-operando-o-banco-de-dados" class="nav-link" data-scroll-target="#operando-o-banco-de-dados"><span class="header-section-number">5.3</span> Operando o Banco de Dados</a>
+  <ul class="collapse">
+  <li><a href="#criando-uma-nova-variável" id="toc-criando-uma-nova-variável" class="nav-link" data-scroll-target="#criando-uma-nova-variável"><span class="header-section-number">5.3.1</span> Criando uma Nova Variável</a></li>
+  <li><a href="#operadores-aritméticos-e-lógicos" id="toc-operadores-aritméticos-e-lógicos" class="nav-link" data-scroll-target="#operadores-aritméticos-e-lógicos"><span class="header-section-number">5.3.2</span> Operadores Aritméticos e Lógicos</a></li>
+  </ul></li>
+  <li><a href="#algumas-funções-importantes" id="toc-algumas-funções-importantes" class="nav-link" data-scroll-target="#algumas-funções-importantes"><span class="header-section-number">5.4</span> Algumas Funções Importantes</a>
+  <ul class="collapse">
+  <li><a href="#ordenando-os-dados" id="toc-ordenando-os-dados" class="nav-link" data-scroll-target="#ordenando-os-dados"><span class="header-section-number">5.4.1</span> Ordenando os Dados</a></li>
+  <li><a href="#fazendo-merge" id="toc-fazendo-merge" class="nav-link" data-scroll-target="#fazendo-merge"><span class="header-section-number">5.4.2</span> Fazendo Merge</a></li>
+  <li><a href="#agregando" id="toc-agregando" class="nav-link" data-scroll-target="#agregando"><span class="header-section-number">5.4.3</span> Agregando</a></li>
+  <li><a href="#criando-subconjunto" id="toc-criando-subconjunto" class="nav-link" data-scroll-target="#criando-subconjunto"><span class="header-section-number">5.4.4</span> Criando Subconjunto</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></h1>
+<p class="subtitle lead">Uma Breve Introdução ao R</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 3, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="o-r-project-e-as-boas-práticas" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="o-r-project-e-as-boas-práticas"><span class="header-section-number">5.1</span> O R-project e as Boas Práticas</h2>
+<section id="o-software-r" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="o-software-r"><span class="header-section-number">5.1.1</span> O software R</h3>
+<p>O R é uma linguagem e ambiente de desenvolvimento de Estatística e gráficos. É uma ferramenta poderosa, fornecendo ao seu usuário maior integração e qualidade gráfica e de análise. Alguns motivos para utilizar o R:</p>
+<ul>
+<li><p><strong>É Gratuito</strong>: é um projeto open-source. Pode ser utilizado em qualquer sistema operacional e tem aberto seus códigos e pactos para poder ser inspecionado.</p></li>
+<li><p><strong>R é uma Linguagem</strong>:Requer que seja escrito um script ao invés de clicar. A primeira vista uma característica negativa, entretanto, permite maior exploração, organização, memória da atividade, maior integração entre processos etc.</p></li>
+<li><p><strong>Gráficos e Visualizações</strong>: É sem sombra de dúvida o pacote estatístico com melhor e mais poderosa ferramenta de elaboração de gráficos e visualização.</p></li>
+<li><p><strong>Pacotes Estatísticos</strong>:Já possui muitas rotinas de análises já programadas nos diversos pacotes desenvolvidos, sendo muito bem documentados. Já possui muitas rotinas para regressão, regressão com séries temporais, regressão em painel, finanças, modelos de causalidade etc.</p></li>
+<li><p><strong>Fronteira do Conhecimento</strong>: Os principais desenvolvimentos teóricos em Econometria tem sua aplicação demonstrada e desenvolvida utilizando o R. Isso é valido para todas as subáreas do conhecimento em econometria, séries temporais, painel, finanças, etc.</p></li>
+<li><p><strong>Recursos de Ajuda</strong>: Há uma comunidade muito grande disponível para solucionar dúvidas e uma vasta documentação disponível para consulta na rede.</p></li>
+<li><p><strong>Conexão com Outros Pacotes</strong>: O R integra com outros pacotes que automatizam o nosso trabalho cotidiano. Pode se conectar com o Python, Java, SQL, Latex etc.</p></li>
+</ul>
+</section>
+<section id="utilizando-interface-gráfica---o-rstudio" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="utilizando-interface-gráfica---o-rstudio"><span class="header-section-number">5.1.2</span> Utilizando Interface Gráfica - O Rstudio</h3>
+<p>Pode-se realizar seu script diretamente no console do R. Ele irá realizar um comando por vez. O R é uma interface leve e com poucos recursos gráficos.</p>
+<p>Uma alternativa ao uso do R diretamente é o Rstudio, o qual é um editor de código ou um ambiente de desenvolvimento integrado. Ele possui quatro janelas, sendo a primeira a janela de script (superior esquerda) onde escrevemos os comandos em R.</p>
+<p>A segunda janela é o console (inferior esquerda) similar ao que temos no R e onde os resultados são apresentados. Pode-se digitar comando diretamente no console do RStudio.</p>
+<p>A terceira é a janela de ambiente e história (superior direita) ela armazena seus dados, valores e funções e a aba história possui a memoria dos comandos realizados.</p>
+<p>Por fim a quarta janela (inferior direita) apresenta os pacotes, os gráficos, os arquivos gerados e ajuda. Essa janela facilita a instalação de pacotes, carregamento de bibliotecas, visualização de gráficos e o caminho dos arquivos.</p>
+</section>
+<section id="ajuda" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="ajuda"><span class="header-section-number">5.1.3</span> Ajuda</h3>
+<p>Para abrir a ajuda geral o seguinte abaixo pode ser utilizado e abrirá uma janela no seu navegador.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help.start</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Suponha que queiramos saber de uma função específica, assim pode-se utilizar o seguinte comando:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>ou</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>?summary</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Inclusive pode pedir um exemplo de como utilizar a função que está buscando</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="boas-práticas" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="boas-práticas"><span class="header-section-number">5.1.4</span> Boas Práticas</h3>
+<p>É fundamental que o usuário seja organizado. Forma é muito importante! Assim o usuário deve adotar padrões que auxiliem na organização do seu script ou programa.</p>
+<p><strong>Case Sensitivy</strong>: O R diferencia letras minúsculas e maiúscula. Ou seja, m é diferente de M. Por exemplo, considere as três formas de escrever a palavra idade.</p>
+<p style="text-align: center;">
+</p><p><strong>idade</strong> ou <strong>Idade</strong> ou <strong>IDADE</strong></p>
+<p></p>
+<p>Cada uma delas representa variáveis diferentes.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>DICA
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sempre utilize as suas variáveis em minúsculo. Adote isso como regra geral.</p>
+</div>
+</div>
+<p><strong>Criando Bons Nomes</strong>: Vamos supor que queiramos criar uma variável que indique a idade que se formou na Universidade. Temos algumas opções:</p>
+<ul>
+<li><strong>id</strong>: Ruim, pois não tem significado claro e pode confundir com a variável de identificação</li>
+<li><strong>idade_formou_na_universidade</strong>: Ruim, pois o nome da variável é muito grande, difícil de escrever e de visualizar no banco de dados.</li>
+<li><strong>idade_form</strong>: Bom nome, significativo, minúsculo e pequeno separa os dois nomes por underline</li>
+<li><strong>idadeForm</strong> :Bom nome, significativo, minúsculo e pequeno separa os dois nomes por uma letra maiúscula.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>DICA
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Adote uma regra de criação para você e evite mudar. Crie nomes pequenos e significativos. Nunca inicie uma variável com número.</p>
+</div>
+</div>
+</section>
+<section id="criando-projeto-no-r" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="criando-projeto-no-r"><span class="header-section-number">5.1.5</span> Criando projeto no R</h3>
+<p>Para saber em qual diretório o R está utilizando para salvar seu espaço de trabalho utilize o seguinte comando:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>No RStudio, sempre prefira a criação de um projeto para a organização de seus dados, com isso, ao mudar de máquina (ou estrutura de diretórios) seu código continuará funcionando normalmente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  File <span class="ot">-&gt;</span> New Project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="identação-é-importante" class="level3" data-number="5.1.6">
+<h3 data-number="5.1.6" class="anchored" data-anchor-id="identação-é-importante"><span class="header-section-number">5.1.6</span> Identação é Importante</h3>
+<p>Identar é o recuo no texto em relação a margem. É importante que esse recuo exista para linhas do seu programa que são hierarquicamente conectadas. Vejamos dois exemplos com e sem identação:</p>
+<p><em>Sem Identação</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>) { </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>x[i]<span class="ot">=</span><span class="dv">2</span><span class="sc">*</span>x[i<span class="dv">-1</span>]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note que a quarta linha desse programa está hierarquicamente conectada a linha 3 do “for”, ou seja, é uma continuação do comando e portanto deve ser identado para demonstrar essa relação de dependência. Vejamos</p>
+<p><em>Com Identação</em></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">9</span>) { </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  x[i]<span class="ot">=</span><span class="dv">2</span><span class="sc">*</span>x[i<span class="dv">-1</span>]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="inserindo-dados-no-r" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="inserindo-dados-no-r"><span class="header-section-number">5.2</span> Inserindo Dados no R</h2>
+<section id="tipos-de-variáveis" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="tipos-de-variáveis"><span class="header-section-number">5.2.1</span> Tipos de Variáveis</h3>
+<p>O R possui diversos tipos de variáveis. Alguns desses tipos são:</p>
+<p><strong>Vetores</strong>: Vamos inserir os dados denúmero de homicídios de mulheres nos diversos Estados brasileiros para o ano de 2022.No primeiro elemento teremos um erro, ao invés de 22 colocaremos 2.E não colocamos o valor do Distrito Federal e nem Tocantins</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>homic <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,  <span class="dv">73</span>,  <span class="dv">22</span>,  <span class="dv">88</span>,  <span class="dv">406</span>,  <span class="dv">264</span>,    <span class="dv">95</span>,  <span class="dv">137</span>,  <span class="dv">127</span>,  <span class="dv">101</span>,  <span class="dv">75</span>,  <span class="dv">309</span>,  <span class="dv">200</span>,  <span class="dv">86</span>,  <span class="dv">256</span>,  <span class="dv">219</span>,  <span class="dv">70</span>,  <span class="dv">283</span>,  <span class="dv">60</span>,  <span class="dv">281</span>,  <span class="dv">88</span>,  <span class="dv">33</span>,  <span class="dv">101</span>,  <span class="dv">423</span>,  <span class="dv">37</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>homic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]   2  73  22  88 406 264  95 137 127 101  75 309 200  86 256 219  70 283  60
+[20] 281  88  33 101 423  37</code></pre>
+</div>
+</div>
+<p>Podemos inserir vetores de texto, por exemplo, iremos inserir os estados brasileiros na mesma ordem do homicídio acima.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Acre"                "Alagoas"             "Amapá"              
+ [4] "Amazonas"            "Bahia"               "Ceará"              
+ [7] "Distrito Federal "   "Espírito Santo"      "Goiás"              
+[10] "Maranhão"            "Mato Grosso"         "Mato Grosso do Sul" 
+[13] "Minas Gerais"        "Pará"                "Paraíba"            
+[16] "Paraná"              "Pernambuco"          "Piauí"              
+[19] "Rio de Janeiro"      "Rio Grande do Norte" "Rio Grande do Sul"  
+[22] "Rondônia"            "Roraima"             "Santa Catarina"     
+[25] "São Paulo"           "Sergipe"             "Tocantins"          </code></pre>
+</div>
+</div>
+<p>Algumas manipulações importantes que podemos fazer com os vetores. Renomeando e removendo o vetor antigo:</p>
+<p>Trocando o primeiro elemento do vetor e dando o print do novo resultado:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>homic_abs[<span class="dv">1</span>]<span class="ot">=</span><span class="dv">22</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>homic_abs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  22  73  22  88 406 264  95 137 127 101  75 309 200  86 256 219  70 283  60
+[20] 281  88  33 101 423  37</code></pre>
+</div>
+</div>
+<p>Algumas maneiras de pedir o print do vetor de homicídios femininos. Somente o estado 7, todos menos o estado 7, Estado de 1 até 7 etc:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>homic_abs[<span class="dv">7</span>] </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 95</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>homic_abs[<span class="sc">-</span><span class="dv">7</span>] </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  22  73  22  88 406 264 137 127 101  75 309 200  86 256 219  70 283  60 281
+[20]  88  33 101 423  37</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>homic_abs[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  22  73  22  88 406 264  95</code></pre>
+</div>
+</div>
+<p>Podemos incorporar novos dados no nosso vetor de homicídio feminino, Vamos incorporar o dado do Tocantins na posição 7 e o valor do Distrito Federal na útima posição - 27. Depois trocaremos os dois estados de posição:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#colcar exemplo de inserir no inicio</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#inserir no meio e no final </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>homic_abs <span class="ot">&lt;-</span> <span class="fu">c</span>(homic_abs[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>], <span class="dv">36</span>,homic_abs[<span class="dv">7</span><span class="sc">:</span><span class="dv">25</span>], <span class="dv">32</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>homic_abs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  22  73  22  88 406 264  36  95 137 127 101  75 309 200  86 256 219  70 283
+[20]  60 281  88  33 101 423  37  32</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#troca de posicoes</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> homic_abs[<span class="dv">27</span>]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>homic_abs[<span class="dv">27</span>] <span class="ot">&lt;-</span> homic_abs[<span class="dv">7</span>]</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>homic_abs[<span class="dv">7</span>] <span class="ot">&lt;-</span> temp</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>homic_abs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  22  73  22  88 406 264  32  95 137 127 101  75 309 200  86 256 219  70 283
+[20]  60 281  88  33 101 423  37  36</code></pre>
+</div>
+</div>
+<p><strong>String ou Texto</strong>:</p>
+<p>String são as variáveis tipo texto. Esse tipo de variável já apareceu na seção anterior quando apresentamos um vetor com a classificação dos Estados. Vejamos mais uma vez. Podemos criar uma variável que contêm “estado homicidio”. Uma segunda maneira é criar um vetor com dois elementos “estado” e “homicidio”. O comando <code>paste</code> cola a variável texto “estado” e a variável texto “homicidio”, separado por um espaço.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="st">"estado homicidio"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "estado homicidio"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"estado"</span>,<span class="st">"homicidio"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "estado"    "homicidio"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>b[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "estado"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span>(b[<span class="dv">1</span>],b[<span class="dv">2</span>],<span class="at">sep=</span><span class="st">' '</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "estado homicidio"</code></pre>
+</div>
+</div>
+<p><strong>Fator</strong>:</p>
+<p>Fator são variáveis de classe. Fator armazenam os valores inteiros na forma de um vetor com as quantidades das k classes e o vetor string dos valores originais. Vejamos o exemplo de um vetor. Podemos análisar os homicídios por região geográfica do país. Assim, classificaremos os estados por região:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>regiao <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"N"</span>,  <span class="st">"NE"</span>,  <span class="st">"N"</span>,  <span class="st">"N"</span>,  <span class="st">"NE"</span>,  <span class="st">"NE"</span>,  <span class="st">"CO"</span>,  <span class="st">"SD"</span>,  <span class="st">"CO"</span>,  <span class="st">"NE"</span>,  <span class="st">"CO"</span>,  <span class="st">"CO"</span>,  <span class="st">"SD"</span>,  <span class="st">"N"</span>,  <span class="st">"NE"</span>,  <span class="st">"S"</span>,  <span class="st">"NE"</span>,  <span class="st">"NE"</span>,  <span class="st">"SD"</span>,  <span class="st">"NE"</span>,  <span class="st">"S"</span>,  <span class="st">"N"</span>,  <span class="st">"N"</span>,  <span class="st">"S"</span>,  <span class="st">"SD"</span>,  <span class="st">"NE"</span>,  <span class="st">"N"</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regiao)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Agora vamos transformar o vetor anterior em um fator</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>regiao <span class="ot">&lt;-</span> <span class="fu">factor</span>(regiao)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(regiao)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>CO  N NE  S SD 
+ 4  7  9  3  4 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(regiao)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "CO" "N"  "NE" "S"  "SD"</code></pre>
+</div>
+</div>
+<p>O comando <code>levels</code> fornece as classes existentes, no caso acima temos 5, sendo elas 4, 7, 9, 3 e 4.</p>
+<p>Fatores podem ser as características de raça, gênero, status familiar, status de saúde, qualidade do atendimento etc.</p>
+<section id="data-frame-ou-banco-de-dados" class="level4" data-number="5.2.1.1">
+<h4 data-number="5.2.1.1" class="anchored" data-anchor-id="data-frame-ou-banco-de-dados"><span class="header-section-number">5.2.1.1</span> Data Frame ou Banco de Dados</h4>
+<p>Esse é um tipo mais geral de variável e consegue lidar na mesma estrutura com variaveis de tipos distintos como numérica, texto e fator. Um banco de dados similar aos outros programas estatísticos. Podemos criar essa variável de forma manual. Nosso banco de dados será composto por 4 variáveis, a primeira o estado, a segunda a região, a terceira o número de homicídios femininos e a quarta o número de feminicidios. As três primeiras já foram incluidas acima e vamos criar somente a quarta. O comando <code>typeof</code> mostra qual o tipo de variável.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>feminic_abs<span class="ot">=</span><span class="fu">c</span>(<span class="dv">11</span>,  <span class="dv">31</span>,  <span class="dv">8</span>,  <span class="dv">21</span>,  <span class="dv">107</span>,  <span class="dv">28</span>,  <span class="dv">19</span>,  <span class="dv">33</span>,  <span class="dv">56</span>,  <span class="dv">69</span>,  <span class="dv">47</span>,  <span class="dv">40</span>,  <span class="dv">171</span>,  <span class="dv">49</span>,  <span class="dv">26</span>,  <span class="dv">77</span>,  <span class="dv">72</span>,  <span class="dv">24</span>,  <span class="dv">111</span>,  <span class="dv">16</span>,  <span class="dv">110</span>,  <span class="dv">24</span>,  <span class="dv">3</span>,  <span class="dv">56</span>,  <span class="dv">195</span>,  <span class="dv">19</span>,  <span class="dv">14</span>) </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(feminic_abs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "double"</code></pre>
+</div>
+</div>
+<p>Para criar o banco de dados utilizamos o seguinte comando:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>data_feminic22<span class="ot">&lt;-</span><span class="fu">data.frame</span>(estados, regiao, homic_abs, feminic_abs)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Podemos modificar o nome das variáveis com o comando <code>names</code>. Entretanto, tem que renomear todas</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data_feminic22)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">"estado"</span>, <span class="st">"regiao"</span>, <span class="st">"homic_abs"</span>, <span class="st">"feminic_abs"</span>) </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>data_feminic22</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ou podemos renomear somente algumas com o comando <code>reshape</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>data_feminic22 <span class="ot">&lt;-</span> <span class="fu">rename</span>(data_feminic22, <span class="fu">c</span>(<span class="at">estado=</span><span class="st">"estados"</span>, <span class="at">regioa=</span><span class="st">"regiao"</span>))</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>data_feminic22</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               estados regiao homic_abs feminic_abs
+1                 Acre      N        22          11
+2              Alagoas     NE        73          31
+3                Amapá      N        22           8
+4             Amazonas      N        88          21
+5                Bahia     NE       406         107
+6                Ceará     NE       264          28
+7    Distrito Federal      CO        32          19
+8       Espírito Santo     SD        95          33
+9                Goiás     CO       137          56
+10            Maranhão     NE       127          69
+11         Mato Grosso     CO       101          47
+12  Mato Grosso do Sul     CO        75          40
+13        Minas Gerais     SD       309         171
+14                Pará      N       200          49
+15             Paraíba     NE        86          26
+16              Paraná      S       256          77
+17          Pernambuco     NE       219          72
+18               Piauí     NE        70          24
+19      Rio de Janeiro     SD       283         111
+20 Rio Grande do Norte     NE        60          16
+21   Rio Grande do Sul      S       281         110
+22            Rondônia      N        88          24
+23             Roraima      N        33           3
+24      Santa Catarina      S       101          56
+25           São Paulo     SD       423         195
+26             Sergipe     NE        37          19
+27           Tocantins      N        36          14</code></pre>
+</div>
+</div>
+<p>Podemos também listar variáveis do banco de dados, por exemplo, listar colunas de 1 a 2 ou listar por nome das variáveis, conforme apresentado abaixo:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>data_feminic22</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>data_feminic22[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>data_feminic22[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>data_feminic22[<span class="fu">c</span>(<span class="st">"regiao"</span>,<span class="st">"feminic_abs"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Entretanto, inserir dados na mão pode ser uma tarefa muito penosa e existem soluções bem mais simples e rápidas para inserção de dados. Nas seções seguintes veremos aprenderemos mais funções úteis para lidar com banco de dados.</p>
+</section>
+<section id="trabalhando-com-as-variáveis" class="level4" data-number="5.2.1.2">
+<h4 data-number="5.2.1.2" class="anchored" data-anchor-id="trabalhando-com-as-variáveis"><span class="header-section-number">5.2.1.2</span> Trabalhando com as variáveis:</h4>
+<p>Vamos retomar duas variáveis <em>homic_abs</em> e <em>estado</em> e vamos manipular essas duas variáveis. Primeiramente vejamos o número de elementos, estrutura, classe e nome:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(homic_abs) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(homic_abs)    </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:27] 22 73 22 88 406 264 32 95 137 127 ...</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(homic_abs)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "numeric"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(homic_abs) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+<p>Podemos combinar as duas variáveis de forma distintas, por exemplo combinar na forma de um vetor, combinar como coluna ou combinar como linha, vejamos a diferença:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Precisa mudar essa parte de posição está confuso pois falamos de dataframe e aqui de vetor</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>comb1 <span class="ot">&lt;-</span> <span class="fu">c</span>(homic_abs,estados)      </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>comb2<span class="ot">&lt;-</span> <span class="fu">cbind</span>(homic_abs,estados)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>comb3 <span class="ot">&lt;-</span><span class="fu">rbind</span>(homic_abs,estados)</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>comb4 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>              homic_abs,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>              estados</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>              ,<span class="at">stringsAsFactors =</span> F)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>comb1</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>comb2 </span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>comb3</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>comb4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Vejamos quais objetos temos e vamos pedir para visualizar os objetos que acabamos de criar. Por fim removeremos o vetor comb1.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span>()  </span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>comb1</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>comb2</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>comb3</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(comb1)              </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="importando-os-dados" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="importando-os-dados"><span class="header-section-number">5.2.2</span> Importando os Dados</h3>
+<p>Disponibilizamos dois banco de dados, um contendo os homicídios e feminicídios por estado e outro com as tentativas. Esses arquivos estão em formato csv (comma separated values).</p>
+<p>Para leitura desse arquivo em csv o seguinte comando é necessário <code>read.csv</code>, indicado que possui cabeçalho e que o separador é “;”. Observe que vc tem que indicar o caminho correto.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>df_feminic22 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../dados/dados_feminic.csv"</span>, <span class="at">head=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">";"</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>df_t_feminic22 <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../dados/dados_tent_feminic.csv"</span>, <span class="at">head=</span><span class="cn">TRUE</span>, <span class="at">sep=</span><span class="st">";"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Para leitura de arquivos em Stata terá que utilizar o pacote <code>foreign</code>, conforme exemplo abaixo:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign)</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>stata_feminic <span class="ot">&lt;-</span> <span class="fu">read.dta</span>(<span class="st">"../dados/feminic.dta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Além desses, o R é capaz de trabalhar com SQL, SAS, SPSS, Excel entre outros.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Cuidado com o Ponto
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O R usa o formato americano de separação numérica. Usa ponto ao invés da vírgula para separar a unidade dos decimais. No Brasil usamos a vírgula. Isso sempre gera conflito. No seu csv evite usar acentos nas palavras e use ponto como separados dos decimais e não use separador dos milhares. Exemplo: 12500.97</p>
+</div>
+</div>
+</section>
+<section id="exportanto-os-dados" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="exportanto-os-dados"><span class="header-section-number">5.2.3</span> Exportanto os Dados</h3>
+<p>Podemos exportar os dados em diferentes formatos. Alguns exemplos são csv, texto delimitado, excel, stata. Vejamos em csv:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(df_feminic22, <span class="st">"../dados/export_feminic.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Para exportar em Stata utilize os seguintes comandos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreign)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.dta</span>(df_feminic22, <span class="st">"../dados/export_feminic.dta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="lidando-com-dados-missing" class="level3" data-number="5.2.4">
+<h3 data-number="5.2.4" class="anchored" data-anchor-id="lidando-com-dados-missing"><span class="header-section-number">5.2.4</span> Lidando com Dados Missing</h3>
+<p>Não temos informação para as tentativas de feminicidio para os estados de São Paulo e Mato Grosso. Uma maneira de lidar com valores missing seria fazer um subconjunto que veremos mais a frente. Agora seguiremos alguns passos para analisar os valores missing do nosso banco de dados.</p>
+<p>Primeiramente, analisamos se há valores missing no banco de dados:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(df_t_feminic22)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Podemos desconsiderar os valores <em>missing</em> da análise de interesse, vamos fazer a média do dolar sem considerar os valores missing:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df_t_feminic22<span class="sc">$</span>t_feminic_abs) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df_t_feminic22<span class="sc">$</span>t_feminic_abs, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 102.52</code></pre>
+</div>
+</div>
+<p>Podemos criar um novo banco de dados sem os valores missing.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>df_t_feminic22_sem_missing <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(df_t_feminic22)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df_t_feminic22_sem_missing<span class="sc">$</span>t_feminic_abs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 102.52</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(df_t_feminic22_sem_missing)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Outra maneira de excluir os valores missing seria a utilização do comando <code>subset</code> removendo as observações que contenham valor missing. Isso será explicado em seção a frente.</p>
+<p>Pode-se também recodificar uma determinada variável para missing. Muito comum nas pesquisas do IBGE os valores missing serem identificados por um número, por exemplo 999999999999. Dessa forma podemos indicar que esse não é número e sim um valor missing da seguinte maneira:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>df_t_feminic22<span class="sc">$</span>t_feminic_abs[df_t_feminic22<span class="sc">$</span>t_feminic_abs<span class="sc">==</span><span class="dv">999999</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Todos os valores que forem 99 serão exluídos e a celula ficará com um <em>NA</em></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Dados Missing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Doois pontos importantes, dados missing não é 0 e nunca devem ser substituídos por 0. Pois 0 é um valor e missing é que não sabemos. Outro ponto é que devemos evitar excluir do banco os dados missing, melhor é fazer as contas retirando apensa do cálculo</p>
+</div>
+</div>
+</section>
+</section>
+<section id="operando-o-banco-de-dados" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="operando-o-banco-de-dados"><span class="header-section-number">5.3</span> Operando o Banco de Dados</h2>
+<section id="criando-uma-nova-variável" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="criando-uma-nova-variável"><span class="header-section-number">5.3.1</span> Criando uma Nova Variável</h3>
+<p>Vamos criar uma variável que seria a soma dos homicídios e feminicídios no estado. Para criar a variável precisamos dizer primeiro qual o banco de dados em que queremos criar e qual o nome da variável, conforme apresentado na expressão abaixo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>df_feminic22 <span class="ot">&lt;-</span> <span class="fu">rename</span>(df_feminic22, <span class="fu">c</span>(<span class="at">feminico_abs=</span><span class="st">"feminic_abs"</span>))</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>df_t_feminic22<span class="sc">$</span>t_total_abs<span class="ot">&lt;-</span> df_t_feminic22<span class="sc">$</span>t_feminic_abs <span class="sc">+</span> df_t_feminic22<span class="sc">$</span>t_homic_abs</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>df_feminic22<span class="sc">$</span>total_abs<span class="ot">&lt;-</span> df_feminic22<span class="sc">$</span>feminic_abs <span class="sc">+</span> df_feminic22<span class="sc">$</span>homic_abs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Agora vamos criar uma variável binária que representa como 1 os estados que possuem a taxa de feminicídio em relação ao total de homicídios maior que 50%. Novamente, precisamos indicar o banco de dados e o nome da variável no banco de dados.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>df_feminic22<span class="sc">$</span>mais_50[df_feminic22<span class="sc">$</span>part_feminic <span class="sc">&lt;</span> <span class="dv">50</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>df_feminic22<span class="sc">$</span>mais_50[df_feminic22<span class="sc">$</span>part_feminic <span class="sc">&gt;=</span> <span class="dv">50</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>df_feminic22<span class="sc">$</span>mais_50</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 0 0 0 0 0 1 0 0 1 0 1 1 0 0 0 0 0 0 0 0 0 0 1 0 1 0</code></pre>
+</div>
+</div>
+</section>
+<section id="operadores-aritméticos-e-lógicos" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="operadores-aritméticos-e-lógicos"><span class="header-section-number">5.3.2</span> Operadores Aritméticos e Lógicos</h3>
+<p>Utilizando os vetores criados anteriormente:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>feminic_abs<span class="sc">&gt;</span><span class="dv">50</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE
+[13]  TRUE FALSE FALSE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE FALSE  TRUE
+[25]  TRUE FALSE FALSE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>feminic_abs[feminic_abs<span class="sc">&gt;</span><span class="dv">50</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 107  56  69 171  77  72 111 110  56 195</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>feminic_abs[feminic_abs <span class="sc">&lt;</span> <span class="dv">50</span> <span class="sc">|</span> feminic_abs <span class="sc">&gt;</span> <span class="dv">100</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1]  11  31   8  21 107  28  19  33  47  40 171  49  26  24 111  16 110  24   3
+[20] 195  19  14</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>feminic_abs[feminic_abs <span class="sc">&gt;</span> <span class="dv">50</span> <span class="sc">&amp;</span> feminic_abs <span class="sc">&lt;</span> <span class="dv">100</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56 69 77 72 56</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(feminic_abs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 53.22222</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>feminic_M <span class="ot">&lt;-</span> (feminic_abs[feminic_abs<span class="sc">&lt;</span> <span class="dv">100</span> <span class="sc">&amp;</span> feminic_abs <span class="sc">&gt;</span> <span class="dv">50</span>])</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>feminic_M</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 56 69 77 72 56</code></pre>
+</div>
+</div>
+<p>A tabela abaixo contém alguns operadaroes lógicos frequentemente utilizados.</p>
+<table class="table-striped table-hover caption-top table">
+<caption>Operadores Lógicos no R</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Operador</th>
+<th style="text-align: center;">Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">&lt;</td>
+<td style="text-align: center;">Menor que</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">&lt;=</td>
+<td style="text-align: center;">Menor igual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">&gt;</td>
+<td style="text-align: center;">Maior que</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">&gt;=</td>
+<td style="text-align: center;">Maior igual</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">==</td>
+<td style="text-align: center;">Exatamente igual</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">!=</td>
+<td style="text-align: center;">Diferente</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">!x</td>
+<td style="text-align: center;">Não x</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">x | y</td>
+<td style="text-align: center;">x OU y</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">x &amp; y</td>
+<td style="text-align: center;">x E y</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="algumas-funções-importantes" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="algumas-funções-importantes"><span class="header-section-number">5.4</span> Algumas Funções Importantes</h2>
+<section id="ordenando-os-dados" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="ordenando-os-dados"><span class="header-section-number">5.4.1</span> Ordenando os Dados</h3>
+<p>Vamos ordenar os estados dos nossos 2 <em>data frames</em> pela participação do feminicídio no total de homicídios de mulheres.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>df_feminic22_ord<span class="ot">&lt;-</span>df_feminic22[<span class="fu">order</span>(df_feminic22<span class="sc">$</span>part_feminic, <span class="at">decreasing =</span> <span class="cn">TRUE</span>),] </span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>df_t_feminic22_ord<span class="ot">&lt;-</span>df_t_feminic22[<span class="fu">order</span>(df_t_feminic22<span class="sc">$</span>part_t_feminic, <span class="at">decreasing =</span> <span class="cn">TRUE</span>),] </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="fazendo-merge" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="fazendo-merge"><span class="header-section-number">5.4.2</span> Fazendo Merge</h3>
+<p>Temos dois <em>data frames</em> um contendo homicídios e feminicídios e outro contendo as tentativas. Vamos agora juntar os dois. Para isso os bancos devem conter uma chave única que identifica cada linha e essa deve estar presente nos dois bancos. Inclusive devem ter o mesmo nome.No caso em questão podemos usar o estado como nossa chave que irá conectar os dois bancos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>df_final_feminic_22 <span class="ot">&lt;-</span> <span class="fu">merge</span>(df_feminic22,df_t_feminic22,<span class="at">by=</span><span class="st">"sigla"</span>,<span class="at">keep.all=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Agora temos um banco único com homicídios e tentativas de homicídios.</p>
+</section>
+<section id="agregando" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="agregando"><span class="header-section-number">5.4.3</span> Agregando</h3>
+<p>Vamos criar um banco de dados que contenha os valores médios das variáveis. Para isso vamos agregar fazendo a média por região. Poderíamos utilizar outra função, como a soma, para fazer a agregação:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>regiao_media <span class="ot">&lt;-</span><span class="fu">aggregate</span>(df_final_feminic_22, <span class="at">by=</span><span class="fu">list</span>(df_final_feminic_22<span class="sc">$</span>regiao.x), <span class="at">FUN=</span>mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>regiao_media</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Group.1 sigla estado.x regiao.x homic_abs homic_tx feminic_abs feminic_tx
+1      CO    NA       NA       NA  86.25000 4.250000    40.50000   2.100000
+2       N    NA       NA       NA  69.85714 6.785714    18.57143   1.871429
+3      NE    NA       NA       NA 149.11111 4.355556    43.55556   1.422222
+4       S    NA       NA       NA 212.66667 4.000000    81.00000   1.600000
+5      SD    NA       NA       NA 277.50000 3.300000   127.50000   1.375000
+  part_feminic  rendapc total_abs   mais_50 estado.y regiao.y t_homic_abs
+1     50.02500 2011.250 126.75000 0.5000000       NA       NA    258.2500
+2     30.01429 1175.286  88.42857 0.1428571       NA       NA    161.7143
+3     34.36667 1053.222 192.66667 0.2222222       NA       NA    257.7778
+4     41.53333 1983.667 293.66667 0.3333333       NA       NA    450.6667
+5     43.82500 1842.750 405.00000 0.2500000       NA       NA    455.7500
+  t_homic_tx t_feminic_abs t_feminic_tx part_t_feminic t_total_abs
+1  13.375000     126.33333     6.500000       32.67667    387.6667
+2  24.657143      50.28571     5.285714       26.44286    212.0000
+3   9.311111      85.11111     3.044444       25.72444    342.8889
+4   8.966667     169.66667     3.500000       25.98667    620.3333
+5   8.875000     185.66667     3.000000       26.50000    660.3333</code></pre>
+</div>
+</div>
+</section>
+<section id="criando-subconjunto" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="criando-subconjunto"><span class="header-section-number">5.4.4</span> Criando Subconjunto</h3>
+<p><strong>Selecionando Variáveis</strong>:</p>
+<p>Podemos estar interessado em manter somente algumas variáveis no nosso banco de dados, por exemplo, queremos manter estado e a participação do feminicídio no total. Assim:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>var_sel <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"sigla"</span>, <span class="st">"part_feminic"</span>, <span class="st">"part_t_feminic"</span>)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>feminic_sel <span class="ot">&lt;-</span> df_final_feminic_22[var_sel]</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>feminic_sel1 <span class="ot">&lt;-</span> df_final_feminic_22[<span class="fu">c</span>(<span class="st">"sigla"</span>, <span class="st">"part_feminic"</span>, <span class="st">"part_t_feminic"</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ou podemos fazer indicar as colunas que queremos selecionar. Na segunda opção selecionamos até o final do nosso banco</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>feminic_sel2 <span class="ot">&lt;-</span> df_final_feminic_22[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">5</span><span class="sc">:</span><span class="dv">6</span>,<span class="dv">12</span><span class="sc">:</span><span class="dv">15</span>)]</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>feminic_sel3 <span class="ot">&lt;-</span> df_final_feminic_22[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>,<span class="dv">10</span><span class="sc">:</span><span class="fu">ncol</span>(df_final_feminic_22))]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>:</p>
+<p>Ao fazer o merge as variáveis que tinham o mesmo nome nos dois bancos, como estado, foram mantidas e agora possuem os nomes estado.x e estado.y, vamos manter apenas uma e trocar o seu nome. O comando <code>names</code>ajuda a saber a posição da variável no banco</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df_final_feminic_22)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "sigla"          "estado.x"       "regiao.x"       "homic_abs"     
+ [5] "homic_tx"       "feminic_abs"    "feminic_tx"     "part_feminic"  
+ [9] "rendapc"        "total_abs"      "mais_50"        "estado.y"      
+[13] "regiao.y"       "t_homic_abs"    "t_homic_tx"     "t_feminic_abs" 
+[17] "t_feminic_tx"   "part_t_feminic" "t_total_abs"   </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>final_fem_22 <span class="ot">&lt;-</span> df_final_feminic_22[<span class="fu">c</span>(<span class="sc">-</span><span class="dv">12</span>)]</span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape)</span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>final_fem_22 <span class="ot">&lt;-</span> <span class="fu">rename</span>(final_fem_22, <span class="fu">c</span>(<span class="at">estado.x=</span><span class="st">"estados"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Cuidado ao tirar colunas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se fizermos o comando de tirar colunas no mesmo <em>data frame</em>, ao rodar novamente ele continuará sempre tirando a coluna indicada. O ideal seria construir outro <em>data frame</em> como fizemos acima.</p>
+</div>
+</div>
+<p>Ou podemos especificar a o nome da coluna que será retirada. Vamos agora tirar a região que ficou duplicada</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>final_fem_22<span class="sc">$</span>regiao.y <span class="ot">&lt;-</span>  <span class="cn">NULL</span></span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape)</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>final_fem_22 <span class="ot">&lt;-</span> <span class="fu">rename</span>(final_fem_22, <span class="fu">c</span>(<span class="at">regiao.x=</span><span class="st">"regiao"</span>))</span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(final_fem_22, <span class="at">file =</span> <span class="st">"dados.RData"</span>)</span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(final_fem_22, <span class="st">"../dados/final_fem_22.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Selecionando Variáveis</strong>:</p>
+<p>Vamos selecionar as observações dos estados da região Norte e Nordeste:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>fem_n_nd <span class="ot">&lt;-</span> final_fem_22[ <span class="fu">which</span>(final_fem_22<span class="sc">$</span>regiao<span class="sc">==</span><span class="st">"NE"</span> <span class="sc">|</span> final_fem_22<span class="sc">$</span>regiao<span class="sc">==</span><span class="st">"N"</span>),]</span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a>fem_n_nd1 <span class="ot">&lt;-</span> final_fem_22[ <span class="fu">which</span>((final_fem_22<span class="sc">$</span>regiao<span class="sc">==</span><span class="st">"NE"</span> <span class="sc">|</span> final_fem_22<span class="sc">$</span>regiao<span class="sc">==</span><span class="st">"N"</span>) <span class="sc">&amp;</span> final_fem_22<span class="sc">$</span>part_feminic<span class="sc">&gt;=</span><span class="dv">50</span>),]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ou podemos selecionar as observações em que a participação do feminicídio está entre 30 e 50%:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>fem_n_nd2 <span class="ot">&lt;-</span> <span class="fu">subset</span>(final_fem_22, final_fem_22<span class="sc">$</span>part_feminic <span class="sc">&gt;=</span> <span class="dv">30</span> <span class="sc">&amp;</span> final_fem_22<span class="sc">$</span>part_feminic <span class="sc">&lt;=</span> <span class="dv">50</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap1_autores.html" class="pagination-link" aria-label="Sobre o Autor">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap4_dplyr.html" class="pagination-link" aria-label="O Dplyr">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O Dplyr</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

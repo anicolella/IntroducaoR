@@ -1,0 +1,24 @@
+# Arquivos locais do R
+.Rhistory
+.Ruserdata
+.Rproj.user/
+
+# Cache e arquivos temporários do Quarto
+.quarto/
+**/.quarto/
+**/*quarto-session-temp*
+**/*.quarto_ipynb
+
+# Arquivos intermediários gerados durante a renderização
+*_files/
+*.knit.md
+*.utf8.md
+
+# Site compilado dos slides (os arquivos-fonte serão criados futuramente)
+Slides/_site/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+/.quarto/

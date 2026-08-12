@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>3&nbsp; Como utilizar esta apostila – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap1_autores.html" rel="next">
+<link href="../cap/cap2_summary.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap2_1_como_utilizar.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#organização-do-material" id="toc-organização-do-material" class="nav-link active" data-scroll-target="#organização-do-material"><span class="header-section-number">3.1</span> Organização do material</a></li>
+  <li><a href="#como-estudar-um-capítulo" id="toc-como-estudar-um-capítulo" class="nav-link" data-scroll-target="#como-estudar-um-capítulo"><span class="header-section-number">3.2</span> Como estudar um capítulo</a></li>
+  <li><a href="#código-e-resultados" id="toc-código-e-resultados" class="nav-link" data-scroll-target="#código-e-resultados"><span class="header-section-number">3.3</span> Código e resultados</a>
+  <ul class="collapse">
+  <li><a href="#códigos-demonstrativos" id="toc-códigos-demonstrativos" class="nav-link" data-scroll-target="#códigos-demonstrativos"><span class="header-section-number">3.3.1</span> Códigos demonstrativos</a></li>
+  </ul></li>
+  <li><a href="#como-reproduzir-os-exemplos" id="toc-como-reproduzir-os-exemplos" class="nav-link" data-scroll-target="#como-reproduzir-os-exemplos"><span class="header-section-number">3.4</span> Como reproduzir os exemplos</a></li>
+  <li><a href="#elementos-utilizados-na-apostila" id="toc-elementos-utilizados-na-apostila" class="nav-link" data-scroll-target="#elementos-utilizados-na-apostila"><span class="header-section-number">3.5</span> Elementos utilizados na apostila</a></li>
+  <li><a href="#percursos-de-leitura" id="toc-percursos-de-leitura" class="nav-link" data-scroll-target="#percursos-de-leitura"><span class="header-section-number">3.6</span> Percursos de leitura</a>
+  <ul class="collapse">
+  <li><a href="#percurso-básico" id="toc-percurso-básico" class="nav-link" data-scroll-target="#percurso-básico"><span class="header-section-number">3.6.1</span> Percurso básico</a></li>
+  <li><a href="#percurso-de-aprofundamento" id="toc-percurso-de-aprofundamento" class="nav-link" data-scroll-target="#percurso-de-aprofundamento"><span class="header-section-number">3.6.2</span> Percurso de aprofundamento</a></li>
+  <li><a href="#percurso-orientado-pelo-projeto" id="toc-percurso-orientado-pelo-projeto" class="nav-link" data-scroll-target="#percurso-orientado-pelo-projeto"><span class="header-section-number">3.6.3</span> Percurso orientado pelo projeto</a></li>
+  </ul></li>
+  <li><a href="#uso-de-inteligência-artificial" id="toc-uso-de-inteligência-artificial" class="nav-link" data-scroll-target="#uso-de-inteligência-artificial"><span class="header-section-number">3.7</span> Uso de inteligência artificial</a></li>
+  <li><a href="#relação-com-os-projetos" id="toc-relação-com-os-projetos" class="nav-link" data-scroll-target="#relação-com-os-projetos"><span class="header-section-number">3.8</span> Relação com os projetos</a></li>
+  <li><a href="#como-contribuir-com-a-apostila" id="toc-como-contribuir-com-a-apostila" class="nav-link" data-scroll-target="#como-contribuir-com-a-apostila"><span class="header-section-number">3.9</span> Como contribuir com a apostila</a></li>
+  <li><a href="#em-caso-de-dificuldade" id="toc-em-caso-de-dificuldade" class="nav-link" data-scroll-target="#em-caso-de-dificuldade"><span class="header-section-number">3.10</span> Em caso de dificuldade</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Esta apostila foi desenvolvida para apoiar a aprendizagem de <strong>R aplicado à Economia e às Finanças</strong>.</p>
+<p>O material não deve ser utilizado apenas como uma coleção de comandos. Cada ferramenta será apresentada em relação a uma necessidade de obtenção, organização, análise ou interpretação de dados.</p>
+<p>O percurso de cada estudante poderá variar conforme sua experiência e as necessidades do problema desenvolvido pelo grupo.</p>
+<hr>
+<section id="organização-do-material" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="organização-do-material"><span class="header-section-number">3.1</span> Organização do material</h2>
+<p>A apostila contém quatro tipos principais de conteúdo.</p>
+<div class="grid">
+<section id="formação-básica" class="level3 g-col-12 g-col-md-6" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="formação-básica"><span class="header-section-number">3.1.1</span> Formação básica</h3>
+<p>Conteúdos necessários para trabalhar com R e dados:</p>
+<ul>
+<li>problemas, ciência e evidência;</li>
+<li>ambiente e fundamentos de R;</li>
+<li>transformação e organização;</li>
+<li>visualização e descrição;</li>
+<li>programação e automação.</li>
+</ul>
+<p>Esses conteúdos formam o percurso comum da disciplina.</p>
+</section>
+<section id="aprofundamento" class="level3 g-col-12 g-col-md-6" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="aprofundamento"><span class="header-section-number">3.1.2</span> Aprofundamento</h3>
+<p>Ferramentas utilizadas quando o problema exigir análises adicionais:</p>
+<ul>
+<li>relações entre variáveis;</li>
+<li>modelos lineares;</li>
+<li>resultados binários;</li>
+<li>dados de contagem;</li>
+<li>dados em painel;</li>
+<li>outros modelos aplicados.</li>
+</ul>
+<p>Não será necessário que todos os grupos utilizem os mesmos aprofundamentos.</p>
+</section>
+<section id="tutoriais-aplicados" class="level3 g-col-12 g-col-md-6" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="tutoriais-aplicados"><span class="header-section-number">3.1.3</span> Tutoriais aplicados</h3>
+<p>Aplicações completas organizadas em:</p>
+<ul>
+<li>Microeconomia;</li>
+<li>Macroeconomia;</li>
+<li>Finanças.</li>
+</ul>
+<p>Os tutoriais combinam diferentes ferramentas para responder a uma questão econômica concreta.</p>
+</section>
+<section id="recursos-complementares" class="level3 g-col-12 g-col-md-6" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="recursos-complementares"><span class="header-section-number">3.1.4</span> Recursos complementares</h3>
+<p>Materiais que poderão ser consultados conforme a necessidade:</p>
+<ul>
+<li>Google Drive;</li>
+<li>Git;</li>
+<li>GitHub;</li>
+<li>colaboração;</li>
+<li>publicação;</li>
+<li>outras ferramentas de apoio.</li>
+</ul>
+</section>
+</div>
+<hr>
+</section>
+<section id="como-estudar-um-capítulo" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="como-estudar-um-capítulo"><span class="header-section-number">3.2</span> Como estudar um capítulo</h2>
+<p>Em cada capítulo, procure seguir este ciclo:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Compreender o problema"] --&gt; B["Ler a explicação"]
+    B --&gt; C["Executar o código"]
+    C --&gt; D["Inspecionar o resultado"]
+    D --&gt; E["Modificar o exemplo"]
+    E --&gt; F["Aplicar ao projeto"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Executar um código não é suficiente. É importante compreender:</p>
+<ul>
+<li>o objeto utilizado;</li>
+<li>a operação realizada;</li>
+<li>o resultado produzido;</li>
+<li>a relação entre o resultado e o problema;</li>
+<li>como o procedimento pode ser adaptado.</li>
+</ul>
+<hr>
+</section>
+<section id="código-e-resultados" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="código-e-resultados"><span class="header-section-number">3.3</span> Código e resultados</h2>
+<p>Os códigos da apostila serão apresentados em blocos como este:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>valores <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>, <span class="dv">15</span>, <span class="dv">18</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(valores)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 13.75</code></pre>
+</div>
+</div>
+<p>Sempre que encontrar um bloco de código:</p>
+<ol type="1">
+<li>leia a explicação anterior;</li>
+<li>identifique os objetos utilizados;</li>
+<li>execute os comandos na ordem;</li>
+<li>observe o resultado;</li>
+<li>modifique algum elemento;</li>
+<li>verifique como o resultado se altera.</li>
+</ol>
+<div class="callout callout-style-default callout-important callout-titled" title="Compreenda antes de reutilizar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Compreenda antes de reutilizar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não copie um código para seu projeto sem compreender:</p>
+<ul>
+<li>quais dados ele espera;</li>
+<li>quais variáveis utiliza;</li>
+<li>quais objetos cria;</li>
+<li>quais resultados produz;</li>
+<li>quais decisões estão incorporadas à rotina.</li>
+</ul>
+</div>
+</div>
+<section id="códigos-demonstrativos" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="códigos-demonstrativos"><span class="header-section-number">3.3.1</span> Códigos demonstrativos</h3>
+<p>Alguns códigos serão apresentados apenas como demonstração e não serão executados automaticamente durante a renderização da apostila.</p>
+<p>Isso será utilizado principalmente em exemplos que:</p>
+<ul>
+<li>instalam pacotes;</li>
+<li>baixam arquivos;</li>
+<li>gravam ou sobrescrevem dados;</li>
+<li>dependem de recursos externos;</li>
+<li>precisam ser adaptados antes da execução.</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="como-reproduzir-os-exemplos" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="como-reproduzir-os-exemplos"><span class="header-section-number">3.4</span> Como reproduzir os exemplos</h2>
+<p>Para reproduzir adequadamente os materiais:</p>
+<ul>
+<li>trabalhe dentro de um projeto;</li>
+<li>preserve a estrutura de pastas;</li>
+<li>utilize caminhos relativos;</li>
+<li>mantenha dados, scripts, figuras e resultados organizados;</li>
+<li>execute os códigos na ordem apresentada;</li>
+<li>leia mensagens e avisos;</li>
+<li>registre decisões de tratamento;</li>
+<li>não substitua os dados originais sem necessidade;</li>
+<li>confirme se seus resultados são coerentes.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Experimente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Experimente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Depois de reproduzir um exemplo, altere uma variável, um filtro, um grupo ou uma representação gráfica.</p>
+<p>A modificação ajuda a verificar se você realmente compreendeu a operação.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="elementos-utilizados-na-apostila" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="elementos-utilizados-na-apostila"><span class="header-section-number">3.5</span> Elementos utilizados na apostila</h2>
+<p>Ao longo do material, diferentes elementos visuais ajudarão a organizar a leitura.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Conceito ou informação">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Conceito ou informação
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Utilizado para apresentar uma definição, explicação ou informação relevante.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Dica">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Dica
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Apresenta sugestões de uso, boas práticas ou caminhos alternativos.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Atenção">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Atenção
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Indica erros frequentes, limitações ou situações que exigem cuidado.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Importante">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Destaca uma decisão ou princípio central para a análise.</p>
+</div>
+</div>
+<p>Questões e exercícios poderão ser acompanhados de respostas recolhidas, permitindo que você tente resolver o problema antes de consultar a solução.</p>
+<hr>
+</section>
+<section id="percursos-de-leitura" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="percursos-de-leitura"><span class="header-section-number">3.6</span> Percursos de leitura</h2>
+<section id="percurso-básico" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="percurso-básico"><span class="header-section-number">3.6.1</span> Percurso básico</h3>
+<p>Recomendado para quem está começando:</p>
+<pre class="text"><code>Problemas, ciência e evidência
+→ ambiente e fundamentos de R
+→ transformação e organização
+→ visualização e descrição
+→ produção dos tutoriais</code></pre>
+</section>
+<section id="percurso-de-aprofundamento" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="percurso-de-aprofundamento"><span class="header-section-number">3.6.2</span> Percurso de aprofundamento</h3>
+<p>Para problemas que exigirem ferramentas adicionais:</p>
+<pre class="text"><code>Percurso básico
+→ programação e automação
+→ da descrição à explicação
+→ modelos aplicados</code></pre>
+</section>
+<section id="percurso-orientado-pelo-projeto" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="percurso-orientado-pelo-projeto"><span class="header-section-number">3.6.3</span> Percurso orientado pelo projeto</h3>
+<p>Durante o desenvolvimento dos tutoriais, não será necessário ler toda a apostila antes de começar.</p>
+<pre class="text"><code>Problema do grupo
+→ identificar uma necessidade
+→ consultar o conteúdo correspondente
+→ aplicar ao projeto
+→ validar
+→ documentar no tutorial</code></pre>
+<p>O grupo poderá retornar aos capítulos sempre que uma nova necessidade surgir.</p>
+<hr>
+</section>
+</section>
+<section id="uso-de-inteligência-artificial" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="uso-de-inteligência-artificial"><span class="header-section-number">3.7</span> Uso de inteligência artificial</h2>
+<p>Ferramentas de inteligência artificial poderão ser utilizadas para:</p>
+<ul>
+<li>pedir explicações sobre códigos;</li>
+<li>investigar mensagens de erro;</li>
+<li>explorar funções;</li>
+<li>consultar estratégias alternativas;</li>
+<li>revisar a legibilidade de uma rotina;</li>
+<li>identificar etapas de um problema;</li>
+<li>apoiar o estudo autônomo.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="A IA também erra">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>A IA também erra
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma resposta pode conter:</p>
+<ul>
+<li>funções inexistentes;</li>
+<li>pacotes inadequados;</li>
+<li>código aparentemente correto, mas conceitualmente errado;</li>
+<li>interpretações equivocadas;</li>
+<li>procedimentos não reproduzíveis.</li>
+</ul>
+<p>Todo resultado deve ser compreendido, testado e validado.</p>
+</div>
+</div>
+<p>Ao utilizar IA, procure perguntar não apenas “qual é o código?”, mas também:</p>
+<ul>
+<li>o que cada linha faz?</li>
+<li>quais suposições estão sendo feitas?</li>
+<li>como posso testar o resultado?</li>
+<li>existe uma solução mais simples?</li>
+<li>onde encontro a documentação oficial?</li>
+<li>como adapto a rotina aos meus dados?</li>
+</ul>
+<hr>
+</section>
+<section id="relação-com-os-projetos" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="relação-com-os-projetos"><span class="header-section-number">3.8</span> Relação com os projetos</h2>
+<p>Os capítulos de formação fornecem ferramentas comuns. Os tutoriais dos grupos deverão combinar essas ferramentas de acordo com o problema estudado.</p>
+<p>Por exemplo, um grupo poderá precisar:</p>
+<ul>
+<li>importar dados de uma fonte externa;</li>
+<li>combinar diferentes tabelas;</li>
+<li>construir variáveis;</li>
+<li>comparar grupos;</li>
+<li>produzir gráficos;</li>
+<li>automatizar uma rotina;</li>
+<li>estimar um modelo;</li>
+<li>interpretar e validar resultados.</li>
+</ul>
+<p>Não existe uma única sequência adequada para todos os projetos.</p>
+<hr>
+</section>
+<section id="como-contribuir-com-a-apostila" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="como-contribuir-com-a-apostila"><span class="header-section-number">3.9</span> Como contribuir com a apostila</h2>
+<p>Os tutoriais validados poderão ser revisados e incorporados à página da disciplina.</p>
+<p>Antes da publicação, um tutorial deverá apresentar:</p>
+<ul>
+<li>problema claramente definido;</li>
+<li>fonte de dados identificada;</li>
+<li>procedimento de obtenção documentado;</li>
+<li>estrutura da base explicada;</li>
+<li>variáveis construídas de forma transparente;</li>
+<li>código legível;</li>
+<li>análise adequada;</li>
+<li>resultados interpretados;</li>
+<li>limitações discutidas;</li>
+<li>procedimento reproduzível.</li>
+</ul>
+<p>A incorporação ao site dependerá de revisão, validação e padronização.</p>
+<hr>
+</section>
+<section id="em-caso-de-dificuldade" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="em-caso-de-dificuldade"><span class="header-section-number">3.10</span> Em caso de dificuldade</h2>
+<p>Quando um código não funcionar:</p>
+<ol type="1">
+<li>leia a mensagem de erro;</li>
+<li>identifique em qual comando o problema ocorreu;</li>
+<li>verifique se os objetos necessários existem;</li>
+<li>confira os nomes e tipos das variáveis;</li>
+<li>examine os caminhos dos arquivos;</li>
+<li>consulte a documentação;</li>
+<li>teste uma versão mais simples;</li>
+<li>peça ajuda explicando o que tentou e qual resultado obteve.</li>
+</ol>
+<p>Um erro não é apenas um obstáculo. Ele também fornece informação sobre o funcionamento do código e pode se tornar uma oportunidade de aprendizagem.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap2_summary.html" class="pagination-link" aria-label="Informações da Disciplina">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap1_autores.html" class="pagination-link" aria-label="Sobre o Autor">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

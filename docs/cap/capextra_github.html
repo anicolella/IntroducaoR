@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>12&nbsp; Usando o GitHub – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap9_outrosmodelos.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/capextra_github.html">Tópicos Extras</a></li><li class="breadcrumb-item"><a href="../cap/capextra_github.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#criar-o-repositório-no-github" id="toc-criar-o-repositório-no-github" class="nav-link active" data-scroll-target="#criar-o-repositório-no-github"><span class="header-section-number">13</span> 1. Criar o repositório no GitHub</a>
+  <ul class="collapse">
+  <li><a href="#acessar-o-github" id="toc-acessar-o-github" class="nav-link" data-scroll-target="#acessar-o-github"><span class="header-section-number">13.1</span> 1.1 Acessar o GitHub</a></li>
+  <li><a href="#definir-o-nome-do-repositório" id="toc-definir-o-nome-do-repositório" class="nav-link" data-scroll-target="#definir-o-nome-do-repositório"><span class="header-section-number">13.2</span> 1.2 Definir o nome do repositório</a></li>
+  <li><a href="#definir-a-visibilidade" id="toc-definir-a-visibilidade" class="nav-link" data-scroll-target="#definir-a-visibilidade"><span class="header-section-number">13.3</span> 1.3 Definir a visibilidade</a></li>
+  <li><a href="#criar-um-readme-inicial" id="toc-criar-um-readme-inicial" class="nav-link" data-scroll-target="#criar-um-readme-inicial"><span class="header-section-number">13.4</span> 1.4 Criar um README inicial</a></li>
+  <li><a href="#criar-o-repositório" id="toc-criar-o-repositório" class="nav-link" data-scroll-target="#criar-o-repositório"><span class="header-section-number">13.5</span> 1.5 Criar o repositório</a></li>
+  </ul></li>
+  <li><a href="#clonando-o-repositório-no-computador" id="toc-clonando-o-repositório-no-computador" class="nav-link" data-scroll-target="#clonando-o-repositório-no-computador"><span class="header-section-number">14</span> 2. Clonando o repositório no computador</a>
+  <ul class="collapse">
+  <li><a href="#definir-onde-o-projeto-será-armazenado" id="toc-definir-onde-o-projeto-será-armazenado" class="nav-link" data-scroll-target="#definir-onde-o-projeto-será-armazenado"><span class="header-section-number">14.1</span> 2.1 Definir onde o projeto será armazenado</a></li>
+  <li><a href="#abrir-o-diretório-no-positron" id="toc-abrir-o-diretório-no-positron" class="nav-link" data-scroll-target="#abrir-o-diretório-no-positron"><span class="header-section-number">14.2</span> 2.2 Abrir o diretório no Positron</a></li>
+  <li><a href="#clonar-o-repositório" id="toc-clonar-o-repositório" class="nav-link" data-scroll-target="#clonar-o-repositório"><span class="header-section-number">14.3</span> 2.3 Clonar o repositório</a></li>
+  <li><a href="#entrar-no-diretório-do-projeto" id="toc-entrar-no-diretório-do-projeto" class="nav-link" data-scroll-target="#entrar-no-diretório-do-projeto"><span class="header-section-number">14.4</span> 2.4 Entrar no diretório do projeto</a></li>
+  <li><a href="#verificar-o-git" id="toc-verificar-o-git" class="nav-link" data-scroll-target="#verificar-o-git"><span class="header-section-number">14.5</span> 2.5 Verificar o Git</a></li>
+  </ul></li>
+  <li><a href="#estruturando-a-apostila-em-quarto" id="toc-estruturando-a-apostila-em-quarto" class="nav-link" data-scroll-target="#estruturando-a-apostila-em-quarto"><span class="header-section-number">15</span> 3. Estruturando a apostila em Quarto</a>
+  <ul class="collapse">
+  <li><a href="#abrir-o-repositório-no-positron" id="toc-abrir-o-repositório-no-positron" class="nav-link" data-scroll-target="#abrir-o-repositório-no-positron"><span class="header-section-number">15.1</span> 3.1 Abrir o repositório no Positron</a></li>
+  </ul></li>
+  <li><a href="#criar-a-estrutura-básica-do-projeto" id="toc-criar-a-estrutura-básica-do-projeto" class="nav-link" data-scroll-target="#criar-a-estrutura-básica-do-projeto"><span class="header-section-number">16</span> 4. Criar a estrutura básica do projeto</a></li>
+  <li><a href="#criar-o-arquivo-_quarto.yml" id="toc-criar-o-arquivo-_quarto.yml" class="nav-link" data-scroll-target="#criar-o-arquivo-_quarto.yml"><span class="header-section-number">17</span> 5. Criar o arquivo <code>_quarto.yml</code></a>
+  <ul class="collapse">
+  <li><a href="#entendendo-as-principais-configurações" id="toc-entendendo-as-principais-configurações" class="nav-link" data-scroll-target="#entendendo-as-principais-configurações"><span class="header-section-number">17.1</span> 5.1 Entendendo as principais configurações</a></li>
+  </ul></li>
+  <li><a href="#criar-a-página-inicial" id="toc-criar-a-página-inicial" class="nav-link" data-scroll-target="#criar-a-página-inicial"><span class="header-section-number">18</span> 6. Criar a página inicial</a></li>
+  <li><a href="#adicionar-o-logotipo" id="toc-adicionar-o-logotipo" class="nav-link" data-scroll-target="#adicionar-o-logotipo"><span class="header-section-number">19</span> 7. Adicionar o logotipo</a></li>
+  <li><a href="#criar-o-primeiro-capítulo" id="toc-criar-o-primeiro-capítulo" class="nav-link" data-scroll-target="#criar-o-primeiro-capítulo"><span class="header-section-number">20</span> 8. Criar o primeiro capítulo</a></li>
+  <li><a href="#criar-o-arquivo-de-referências" id="toc-criar-o-arquivo-de-referências" class="nav-link" data-scroll-target="#criar-o-arquivo-de-referências"><span class="header-section-number">21</span> 9. Criar o arquivo de referências</a></li>
+  <li><a href="#trabalho-colaborativo-no-github" id="toc-trabalho-colaborativo-no-github" class="nav-link" data-scroll-target="#trabalho-colaborativo-no-github"><span class="header-section-number">22</span> 3. Trabalho colaborativo no GitHub</a>
+  <ul class="collapse">
+  <li><a href="#adicionar-colaboradores" id="toc-adicionar-colaboradores" class="nav-link" data-scroll-target="#adicionar-colaboradores"><span class="header-section-number">22.1</span> 3.1 Adicionar colaboradores</a></li>
+  <li><a href="#clonar-o-repositório-1" id="toc-clonar-o-repositório-1" class="nav-link" data-scroll-target="#clonar-o-repositório-1"><span class="header-section-number">22.2</span> 3.2 Clonar o repositório</a></li>
+  </ul></li>
+  <li><a href="#fluxo-básico-de-trabalho-colaborativo" id="toc-fluxo-básico-de-trabalho-colaborativo" class="nav-link" data-scroll-target="#fluxo-básico-de-trabalho-colaborativo"><span class="header-section-number">23</span> 4. Fluxo básico de trabalho colaborativo</a>
+  <ul class="collapse">
+  <li><a href="#antes-de-começar-git-pull" id="toc-antes-de-começar-git-pull" class="nav-link" data-scroll-target="#antes-de-começar-git-pull"><span class="header-section-number">23.1</span> 4.1 Antes de começar: <code>git pull</code></a>
+  <ul class="collapse">
+  <li><a href="#regra-importante" id="toc-regra-importante" class="nav-link" data-scroll-target="#regra-importante"><span class="header-section-number">23.1.1</span> Regra importante</a></li>
+  </ul></li>
+  <li><a href="#trabalhar-normalmente-no-positron" id="toc-trabalhar-normalmente-no-positron" class="nav-link" data-scroll-target="#trabalhar-normalmente-no-positron"><span class="header-section-number">23.2</span> 4.2 Trabalhar normalmente no Positron</a></li>
+  <li><a href="#verificar-o-que-foi-alterado" id="toc-verificar-o-que-foi-alterado" class="nav-link" data-scroll-target="#verificar-o-que-foi-alterado"><span class="header-section-number">23.3</span> 4.3 Verificar o que foi alterado</a></li>
+  <li><a href="#adicionar-as-alterações" id="toc-adicionar-as-alterações" class="nav-link" data-scroll-target="#adicionar-as-alterações"><span class="header-section-number">23.4</span> 4.4 Adicionar as alterações</a></li>
+  <li><a href="#criar-um-commit" id="toc-criar-um-commit" class="nav-link" data-scroll-target="#criar-um-commit"><span class="header-section-number">23.5</span> 4.5 Criar um commit</a>
+  <ul class="collapse">
+  <li><a href="#bons-exemplos" id="toc-bons-exemplos" class="nav-link" data-scroll-target="#bons-exemplos"><span class="header-section-number">23.5.1</span> Bons exemplos</a></li>
+  </ul></li>
+  <li><a href="#enviar-as-alterações-para-o-github" id="toc-enviar-as-alterações-para-o-github" class="nav-link" data-scroll-target="#enviar-as-alterações-para-o-github"><span class="header-section-number">23.6</span> 4.6 Enviar as alterações para o GitHub</a></li>
+  </ul></li>
+  <li><a href="#rotina-diária" id="toc-rotina-diária" class="nav-link" data-scroll-target="#rotina-diária"><span class="header-section-number">24</span> 5. Rotina diária</a>
+  <ul class="collapse">
+  <li><a href="#antes-de-começar" id="toc-antes-de-começar" class="nav-link" data-scroll-target="#antes-de-começar"><span class="header-section-number">24.1</span> Antes de começar</a></li>
+  <li><a href="#depois-de-terminar" id="toc-depois-de-terminar" class="nav-link" data-scroll-target="#depois-de-terminar"><span class="header-section-number">24.2</span> Depois de terminar</a></li>
+  </ul></li>
+  <li><a href="#evitando-conflitos" id="toc-evitando-conflitos" class="nav-link" data-scroll-target="#evitando-conflitos"><span class="header-section-number">25</span> 6. Evitando conflitos</a></li>
+  <li><a href="#resumo-dos-comandos" id="toc-resumo-dos-comandos" class="nav-link" data-scroll-target="#resumo-dos-comandos"><span class="header-section-number">26</span> 7. Resumo dos comandos</a></li>
+  <li><a href="#próxima-etapa-branches" id="toc-próxima-etapa-branches" class="nav-link" data-scroll-target="#próxima-etapa-branches"><span class="header-section-number">27</span> 8. Próxima etapa: branches</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/capextra_github.html">Tópicos Extras</a></li><li class="breadcrumb-item"><a href="../cap/capextra_github.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Este manual apresenta, passo a passo, como criar e manter um site de disciplina utilizando:</p>
+<ul>
+<li>Quarto;</li>
+<li>Git;</li>
+<li>GitHub;</li>
+<li>GitHub Pages;</li>
+<li>Positron;</li>
+<li><ol start="18" type="A">
+<li></li>
+</ol></li>
+</ul>
+<p>A estrutura foi pensada para permitir trabalho colaborativo entre professores, pesquisadores e monitores, com controle de versão e publicação automática do material da disciplina.</p>
+<p>Neste exemplo, será criado o repositório:</p>
+<p><code>AvaliacaoPoliticas_Pos</code></p>
+<p>O endereço do repositório será:</p>
+<p><code>https://github.com/anicolella/AvaliacaoPoliticas_Pos</code></p>
+<p>e, depois da publicação com GitHub Pages, o site ficará disponível em:</p>
+<p><code>https://anicolella.github.io/AvaliacaoPoliticas_Pos/</code></p>
+<section id="criar-o-repositório-no-github" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> 1. Criar o repositório no GitHub</h1>
+<section id="acessar-o-github" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="acessar-o-github"><span class="header-section-number">13.1</span> 1.1 Acessar o GitHub</h2>
+<p>Entre em sua conta do GitHub e clique em:</p>
+<p><strong>New repository</strong></p>
+<p>Também é possível acessar essa opção pelo botão <code>+</code>, no canto superior direito da página.</p>
+</section>
+<section id="definir-o-nome-do-repositório" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="definir-o-nome-do-repositório"><span class="header-section-number">13.2</span> 1.2 Definir o nome do repositório</h2>
+<p>Preencha os campos da seguinte maneira:</p>
+<p><strong>Owner</strong></p>
+<p><code>anicolella</code></p>
+<p><strong>Repository name</strong></p>
+<p><code>AvaliacaoPoliticas_Pos</code></p>
+<p><strong>Description</strong></p>
+<p><code>Material da disciplina de pós-graduação em Avaliação de Políticas Públicas</code></p>
+</section>
+<section id="definir-a-visibilidade" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="definir-a-visibilidade"><span class="header-section-number">13.3</span> 1.3 Definir a visibilidade</h2>
+<p>Selecione:</p>
+<p><strong>Public</strong></p>
+<p>Isso é necessário para que o material possa ser disponibilizado publicamente aos alunos por meio do GitHub Pages.</p>
+</section>
+<section id="criar-um-readme-inicial" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="criar-um-readme-inicial"><span class="header-section-number">13.4</span> 1.4 Criar um README inicial</h2>
+<p>Marque:</p>
+<p><strong>Add a README file</strong></p>
+<p>O arquivo <code>README.md</code> será utilizado para apresentar o objetivo do repositório diretamente no GitHub.</p>
+<p>Neste momento, deixe:</p>
+<p><strong>Add .gitignore</strong></p>
+<p><code>None</code></p>
+<p>e:</p>
+<p><strong>Choose a license</strong></p>
+<p><code>None</code></p>
+<p>Esses arquivos serão configurados posteriormente.</p>
+</section>
+<section id="criar-o-repositório" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="criar-o-repositório"><span class="header-section-number">13.5</span> 1.5 Criar o repositório</h2>
+<p>Clique em:</p>
+<p><strong>Create repository</strong></p>
+<p>Ao final dessa etapa, o GitHub deverá abrir uma página com o endereço:</p>
+<p><code>https://github.com/anicolella/AvaliacaoPoliticas_Pos</code></p>
+<p>O repositório remoto está agora criado.</p>
+</section>
+</section>
+<section id="clonando-o-repositório-no-computador" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> 2. Clonando o repositório no computador</h1>
+<p>Depois de criar o repositório no GitHub, é necessário criar uma cópia local para trabalhar com os arquivos no Positron.</p>
+<p>Esse processo é chamado de <strong>clone</strong>.</p>
+<p>A relação será:</p>
+<pre class="text"><code>GitHub
+AvaliacaoPoliticas_Pos
+        ↓
+      clone
+        ↓
+Computador local
+AvaliacaoPoliticas_Pos</code></pre>
+<section id="definir-onde-o-projeto-será-armazenado" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="definir-onde-o-projeto-será-armazenado"><span class="header-section-number">14.1</span> 2.1 Definir onde o projeto será armazenado</h2>
+<p>Neste exemplo, utilizaremos como diretório:</p>
+<pre class="text"><code>homepage/</code></pre>
+<p>O Git criará automaticamente dentro dele a pasta:</p>
+<pre class="text"><code>AvaliacaoPoliticas_Pos</code></pre>
+<p>Portanto, ao final teremos:</p>
+<pre class="text"><code>homepage/
+└── AvaliacaoPoliticas_Pos/
+    ├── .git/
+    └── README.md</code></pre>
+<p>Não é necessário criar manualmente a pasta <code>AvaliacaoPoliticas_Pos</code>.</p>
+</section>
+<section id="abrir-o-diretório-no-positron" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="abrir-o-diretório-no-positron"><span class="header-section-number">14.2</span> 2.2 Abrir o diretório no Positron</h2>
+<p>Abra o Positron.</p>
+<p>Selecione:</p>
+<p><strong>File → Open Folder…</strong></p>
+<p>e abra:</p>
+<pre class="text"><code>homepage/</code></pre>
+<p>Em seguida, abra:</p>
+<p><strong>Terminal → New Terminal</strong></p>
+</section>
+<section id="clonar-o-repositório" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="clonar-o-repositório"><span class="header-section-number">14.3</span> 2.3 Clonar o repositório</h2>
+<p>No terminal, execute:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>anicolella<span class="op">/</span>AvaliacaoPoliticas_Pos<span class="op">.</span><span class="fu">git</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O Git fará o download do repositório e criará automaticamente:</p>
+<pre class="text"><code>homepage/
+└── AvaliacaoPoliticas_Pos/</code></pre>
+</section>
+<section id="entrar-no-diretório-do-projeto" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="entrar-no-diretório-do-projeto"><span class="header-section-number">14.4</span> 2.4 Entrar no diretório do projeto</h2>
+<p>No terminal:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> AvaliacaoPoliticas_Pos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para verificar o diretório atual:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O resultado deverá corresponder a:</p>
+<pre class="text"><code>homepage/AvaliacaoPoliticas_Pos/</code></pre>
+</section>
+<section id="verificar-o-git" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="verificar-o-git"><span class="header-section-number">14.5</span> 2.5 Verificar o Git</h2>
+<p>Execute:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>git status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Um resultado semelhante a este indica que o repositório está funcionando:</p>
+<pre class="text"><code>On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean</code></pre>
+<p>Neste momento existem duas cópias sincronizáveis do projeto:</p>
+<ul>
+<li>o repositório remoto, armazenado no GitHub;</li>
+<li>o repositório local, armazenado no computador.</li>
+</ul>
+<p>O comando <code>git pull</code> permitirá trazer alterações do GitHub para o computador, enquanto <code>git push</code> permitirá enviar commits locais para o GitHub.</p>
+</section>
+</section>
+<section id="estruturando-a-apostila-em-quarto" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> 3. Estruturando a apostila em Quarto</h1>
+<p>Com o repositório já criado e clonado no computador, o próximo passo é transformar essa pasta em um projeto Quarto do tipo <strong>book</strong>.</p>
+<p>Neste exemplo, o projeto será organizado dentro de:</p>
+<pre class="text"><code>homepage/AvaliacaoPoliticas_Pos/</code></pre>
+<p>A ideia é manter uma estrutura semelhante à utilizada na disciplina de Estatística.</p>
+<section id="abrir-o-repositório-no-positron" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="abrir-o-repositório-no-positron"><span class="header-section-number">15.1</span> 3.1 Abrir o repositório no Positron</h2>
+<p>No Positron, selecione:</p>
+<p><strong>File → Open Folder…</strong></p>
+<p>e abra:</p>
+<pre class="text"><code>homepage/AvaliacaoPoliticas_Pos/</code></pre>
+<p>A partir deste momento, essa pasta será a raiz do projeto.</p>
+<p>Inicialmente, ela deverá conter pelo menos:</p>
+<pre class="text"><code>AvaliacaoPoliticas_Pos/
+└── README.md</code></pre>
+<p>O diretório oculto <code>.git/</code> também estará presente, indicando que essa pasta já está vinculada ao repositório Git.</p>
+</section>
+</section>
+<section id="criar-a-estrutura-básica-do-projeto" class="level1" data-number="16">
+<h1 data-number="16"><span class="header-section-number">16</span> 4. Criar a estrutura básica do projeto</h1>
+<p>Na raiz de <code>AvaliacaoPoliticas_Pos</code>, crie as seguintes pastas:</p>
+<pre class="text"><code>cap
+dados
+figuras
+script
+Slides</code></pre>
+<p>A estrutura inicial ficará:</p>
+<pre class="text"><code>AvaliacaoPoliticas_Pos/
+│
+├── cap/
+├── dados/
+├── figuras/
+├── script/
+├── Slides/
+│
+└── README.md</code></pre>
+<p>A função de cada diretório será:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Diretório</th>
+<th>Finalidade</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>cap/</code></td>
+<td>capítulos da apostila</td>
+</tr>
+<tr class="even">
+<td><code>dados/</code></td>
+<td>bases utilizadas nos exemplos e exercícios</td>
+</tr>
+<tr class="odd">
+<td><code>figuras/</code></td>
+<td>imagens, logos e figuras externas</td>
+</tr>
+<tr class="even">
+<td><code>script/</code></td>
+<td>scripts auxiliares em R</td>
+</tr>
+<tr class="odd">
+<td><code>Slides/</code></td>
+<td>apresentações utilizadas em aula</td>
+</tr>
+</tbody>
+</table>
+<p>A pasta <code>docs/</code> não precisa ser criada manualmente. Ela será gerada automaticamente pelo Quarto quando a apostila for renderizada.</p>
+</section>
+<section id="criar-o-arquivo-_quarto.yml" class="level1" data-number="17">
+<h1 data-number="17"><span class="header-section-number">17</span> 5. Criar o arquivo <code>_quarto.yml</code></h1>
+<p>Na raiz do projeto, crie o arquivo:</p>
+<pre class="text"><code>_quarto.yml</code></pre>
+<p>Esse arquivo controla a organização geral da apostila, a navegação e o formato do site.</p>
+<p>Para esta disciplina, utilizaremos inicialmente:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> book</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">output-dir</span><span class="kw">:</span><span class="at"> docs</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">book</span><span class="kw">:</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Avaliação de Políticas Públicas"</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">subtitle</span><span class="kw">:</span><span class="at"> </span><span class="st">"Notas de Aula"</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">background</span><span class="kw">:</span><span class="at"> </span><span class="st">"#818f81"</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">logo</span><span class="kw">:</span><span class="at"> figuras/usp.png</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">search</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">text</span><span class="kw">:</span><span class="at"> </span><span class="st">"Home"</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">file</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">right</span><span class="kw">:</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">icon</span><span class="kw">:</span><span class="at"> github</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">href</span><span class="kw">:</span><span class="at"> https://github.com/anicolella/AvaliacaoPoliticas_Pos</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">aria-label</span><span class="kw">:</span><span class="at"> GitHub</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">sidebar</span><span class="kw">:</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">background</span><span class="kw">:</span><span class="at"> </span><span class="st">"#F4F6F6"</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">search</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">style</span><span class="kw">:</span><span class="at"> </span><span class="st">"docked"</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">page-navigation</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">author</span><span class="kw">:</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alexandre Nicolella"</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">affiliation</span><span class="kw">:</span><span class="at"> </span><span class="st">"Universidade de São Paulo (USP)"</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">chapters</span><span class="kw">:</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> index.qmd</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="fu">bibliography</span><span class="kw">:</span><span class="at"> references.bib</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">toc-depth</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">fontsize</span><span class="kw">:</span><span class="at"> 16px</span></span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">number-sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">smooth-scroll</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">link-external-newwindow</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a><span class="fu">editor</span><span class="kw">:</span><span class="at"> visual</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Neste momento, o projeto possui apenas <code>index.qmd</code> como capítulo.</p>
+<p>Os demais capítulos serão adicionados gradualmente ao campo <code>chapters:</code>.</p>
+<section id="entendendo-as-principais-configurações" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="entendendo-as-principais-configurações"><span class="header-section-number">17.1</span> 5.1 Entendendo as principais configurações</h2>
+<p>O trecho:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> book</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">output-dir</span><span class="kw">:</span><span class="at"> docs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>define o projeto como uma apostila Quarto e determina que os arquivos HTML gerados serão armazenados na pasta <code>docs/</code>.</p>
+<p>Isso será importante posteriormente para a publicação com GitHub Pages.</p>
+<p>O trecho:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">book</span><span class="kw">:</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Avaliação de Políticas Públicas"</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">subtitle</span><span class="kw">:</span><span class="at"> </span><span class="st">"Notas de Aula"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>define o título e o subtítulo apresentados na navegação do site.</p>
+<p>A opção:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">page-navigation</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>ativa os links de navegação entre capítulos.</p>
+<p>Já:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">number-sections</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>faz com que capítulos e seções sejam numerados automaticamente.</p>
+</section>
+</section>
+<section id="criar-a-página-inicial" class="level1" data-number="18">
+<h1 data-number="18"><span class="header-section-number">18</span> 6. Criar a página inicial</h1>
+<p>Na raiz do projeto, crie:</p>
+<pre class="text"><code>index.qmd</code></pre>
+<p>O <code>index.qmd</code> funciona como a página inicial e, em um projeto do tipo book, também como o prefácio da apostila.</p>
+<p>Podemos manter a mesma lógica visual utilizada na disciplina de Estatística, com blocos em grid.</p>
+<p>Um ponto de partida para esta disciplina é:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Prefácio</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bem-vindos ao curso</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>Este curso apresenta os principais métodos utilizados na **avaliação de políticas públicas**, com ênfase na identificação e estimação de efeitos causais.</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>Ao longo do semestre, discutiremos como utilizar dados experimentais e observacionais para responder a uma questão central:</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Qual é o efeito causal de uma política, programa ou intervenção?</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>A disciplina combina fundamentos de **inferência causal**, métodos econométricos e aplicações empíricas utilizando **R**.</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Motivação</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>::: {.grid}</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>::: {.g-col-12 .g-col-md-6}</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Por que avaliar políticas públicas? 📊</span></span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>Governos e organizações implementam programas com objetivos como:</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>melhorar resultados educacionais;</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ampliar o acesso à saúde;</span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>reduzir pobreza e desigualdade;</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>aumentar emprego e renda;</span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>reduzir violência;</span>
+<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>melhorar a eficiência de políticas públicas.</span>
+<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>A avaliação de impacto procura identificar se essas intervenções produziram os resultados observados.</span>
+<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>::: {.g-col-12 .g-col-md-6}</span>
+<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### O desafio da inferência causal 🎯</span></span>
+<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a>Observar uma diferença entre participantes e não participantes, ou comparar resultados antes e depois de uma política, geralmente não é suficiente para identificar seu efeito causal.</span>
+<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a>O principal desafio é construir um **contrafactual** adequado:</span>
+<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; O que teria acontecido com os indivíduos tratados na ausência da política?</span></span>
+<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="fu">## Objetivos do curso</span></span>
+<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a>Ao final da disciplina, o estudante deverá ser capaz de:</span>
+<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compreender o problema fundamental da **inferência causal**;</span>
+<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>distinguir correlação de causalidade;</span>
+<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compreender o papel do **contrafactual**;</span>
+<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>identificar os principais parâmetros de efeito causal;</span>
+<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>compreender os pressupostos necessários para diferentes estratégias de identificação;</span>
+<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>implementar métodos de avaliação utilizando R;</span>
+<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>interpretar criticamente resultados de avaliações empíricas.</span>
+<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a><span class="fu">## Métodos estudados</span></span>
+<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a>::: {.grid}</span>
+<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-70"><a href="#cb25-70" aria-hidden="true" tabindex="-1"></a>::: {.g-col-12 .g-col-md-4}</span>
+<span id="cb25-71"><a href="#cb25-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### Experimentos aleatorizados</span></span>
+<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>Randomização, grupos de tratamento e controle e identificação experimental.</span>
+<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a>::: {.g-col-12 .g-col-md-4}</span>
+<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a><span class="fu">### Métodos observacionais</span></span>
+<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a>Matching, diferenças-em-diferenças e variáveis instrumentais.</span>
+<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a>::: {.g-col-12 .g-col-md-4}</span>
+<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a><span class="fu">### Desenhos quase-experimentais</span></span>
+<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a>Regressão em descontinuidade e outras estratégias baseadas em regras institucionais.</span>
+<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## Abordagem do curso</span></span>
+<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a>A disciplina combina:</span>
+<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>fundamentos conceituais;</span>
+<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>discussão dos pressupostos de identificação;</span>
+<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>leitura de artigos;</span>
+<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>aplicações empíricas;</span>
+<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>implementação computacional em R;</span>
+<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>interpretação de resultados.</span>
+<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a>O objetivo é desenvolver autonomia para **escolher, implementar e avaliar criticamente estratégias de identificação causal**.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="adicionar-o-logotipo" class="level1" data-number="19">
+<h1 data-number="19"><span class="header-section-number">19</span> 7. Adicionar o logotipo</h1>
+<p>Como o <code>_quarto.yml</code> contém:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">logo</span><span class="kw">:</span><span class="at"> figuras/usp.png</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>é necessário colocar a imagem correspondente em:</p>
+<pre class="text"><code>figuras/usp.png</code></pre>
+<p>Caso o arquivo ainda não esteja disponível, há duas alternativas.</p>
+<p>A primeira é copiar o mesmo <code>usp.png</code> utilizado no projeto de Estatística.</p>
+<p>A segunda é comentar temporariamente a linha:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># logo: figuras/usp.png</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>até que a imagem seja adicionada.</p>
+</section>
+<section id="criar-o-primeiro-capítulo" class="level1" data-number="20">
+<h1 data-number="20"><span class="header-section-number">20</span> 8. Criar o primeiro capítulo</h1>
+<p>Dentro de <code>cap/</code>, crie:</p>
+<pre class="text"><code>cap1_introducao.qmd</code></pre>
+<p>Um conteúdo mínimo pode ser:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Introdução à Avaliação de Políticas Públicas</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Avaliação de impacto</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>A avaliação de impacto busca identificar o efeito causal de uma política, programa ou intervenção sobre determinado resultado de interesse.</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>O problema central é que, para cada unidade analisada, observamos apenas um dos resultados potenciais.</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Resultados potenciais</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>Considere uma unidade <span class="sc">\(</span>i<span class="sc">\)</span> e dois resultados potenciais:</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="sc">\[</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>Y_i(1)</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="sc">\]</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>representando o resultado quando a unidade recebe o tratamento, e</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="sc">\[</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>Y_i(0)</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a><span class="sc">\]</span></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>representando o resultado quando a unidade não recebe o tratamento.</span>
+<span id="cb30-24"><a href="#cb30-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-25"><a href="#cb30-25" aria-hidden="true" tabindex="-1"></a>O efeito causal individual seria:</span>
+<span id="cb30-26"><a href="#cb30-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-27"><a href="#cb30-27" aria-hidden="true" tabindex="-1"></a><span class="sc">\[</span></span>
+<span id="cb30-28"><a href="#cb30-28" aria-hidden="true" tabindex="-1"></a>\tau_i = Y_i(1) - Y_i(0).</span>
+<span id="cb30-29"><a href="#cb30-29" aria-hidden="true" tabindex="-1"></a><span class="sc">\]</span></span>
+<span id="cb30-30"><a href="#cb30-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-31"><a href="#cb30-31" aria-hidden="true" tabindex="-1"></a>Entretanto, não é possível observar simultaneamente <span class="sc">\(</span>Y_i(1)<span class="sc">\)</span> e <span class="sc">\(</span>Y_i(0)<span class="sc">\)</span> para a mesma unidade.</span>
+<span id="cb30-32"><a href="#cb30-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-33"><a href="#cb30-33" aria-hidden="true" tabindex="-1"></a>Esse problema constitui o ponto de partida da inferência causal.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Agora esse capítulo precisa ser informado ao Quarto.</p>
+<p>No <code>_quarto.yml</code>, altere:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chapters</span><span class="kw">:</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> index.qmd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>para:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chapters</span><span class="kw">:</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> index.qmd</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> cap/cap1_introducao.qmd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A estrutura passa a ser:</p>
+<pre class="text"><code>AvaliacaoPoliticas_Pos/
+│
+├── cap/
+│   └── cap1_introducao.qmd
+│
+├── dados/
+├── figuras/
+├── script/
+├── Slides/
+│
+├── _quarto.yml
+├── index.qmd
+├── README.md
+└── references.bib</code></pre>
+</section>
+<section id="criar-o-arquivo-de-referências" class="level1" data-number="21">
+<h1 data-number="21"><span class="header-section-number">21</span> 9. Criar o arquivo de referências</h1>
+<p>Como <code>_quarto.yml</code> contém:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bibliography</span><span class="kw">:</span><span class="at"> references.bib</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>crie na raiz:</p>
+<pre class="text"><code>references.bib</code></pre>
+</section>
+<section id="trabalho-colaborativo-no-github" class="level1" data-number="22">
+<h1 data-number="22"><span class="header-section-number">22</span> 3. Trabalho colaborativo no GitHub</h1>
+<p>Depois de criar e clonar o repositório, podemos adicionar outros pesquisadores ao projeto.</p>
+<p>Nesta primeira etapa, todos trabalharão diretamente na branch <code>main</code>. Posteriormente, veremos como utilizar <strong>branches</strong> e <strong>Pull Requests</strong> para organizar projetos com maior número de colaboradores ou alterações simultâneas.</p>
+<section id="adicionar-colaboradores" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="adicionar-colaboradores"><span class="header-section-number">22.1</span> 3.1 Adicionar colaboradores</h2>
+<p>No GitHub, abra o repositório:</p>
+<pre class="text"><code>AvaliacaoPoliticas_Pos</code></pre>
+<p>Acesse:</p>
+<pre class="text"><code>Settings</code></pre>
+<p>Em seguida:</p>
+<pre class="text"><code>Collaborators</code></pre>
+<p>Clique em:</p>
+<pre class="text"><code>Add people</code></pre>
+<p>Procure o colaborador pelo nome de usuário ou pelo endereço de e-mail associado à conta do GitHub.</p>
+<p>Envie o convite.</p>
+<p>O colaborador deverá aceitar o convite antes de começar a trabalhar no repositório.</p>
+<p>Repita o procedimento para os demais participantes.</p>
+<hr>
+</section>
+<section id="clonar-o-repositório-1" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="clonar-o-repositório-1"><span class="header-section-number">22.2</span> 3.2 Clonar o repositório</h2>
+<p>Cada colaborador precisa ter uma cópia do repositório em seu próprio computador.</p>
+<p>No Positron, abra o terminal e navegue até o diretório onde deseja armazenar o projeto.</p>
+<p>Execute:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>anicolella<span class="op">/</span>AvaliacaoPoliticas_Pos<span class="op">.</span><span class="fu">git</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Entre na pasta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cd</span> AvaliacaoPoliticas_Pos</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Verifique:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>git status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O resultado deverá indicar algo semelhante a:</p>
+<pre class="text"><code>On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean</code></pre>
+<p>Agora o pesquisador possui uma cópia local do mesmo projeto.</p>
+<hr>
+</section>
+</section>
+<section id="fluxo-básico-de-trabalho-colaborativo" class="level1" data-number="23">
+<h1 data-number="23"><span class="header-section-number">23</span> 4. Fluxo básico de trabalho colaborativo</h1>
+<p>Existem agora diferentes cópias do projeto:</p>
+<pre class="text"><code>              GitHub
+                 │
+       AvaliacaoPoliticas_Pos
+                 │
+          branch main
+                 │
+       ┌─────────┼─────────┐
+       ↓         ↓         ↓
+ Pesquisador  Pesquisador  Pesquisador
+      1            2            3</code></pre>
+<p>O GitHub funciona como o ponto central de sincronização.</p>
+<p>A regra básica será:</p>
+<pre class="text"><code>ANTES de trabalhar
+        ↓
+     git pull
+        ↓
+editar os arquivos
+        ↓
+     git add
+        ↓
+    git commit
+        ↓
+     git push
+        ↓
+GitHub atualizado</code></pre>
+<section id="antes-de-começar-git-pull" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="antes-de-começar-git-pull"><span class="header-section-number">23.1</span> 4.1 Antes de começar: <code>git pull</code></h2>
+<p><strong>Antes de editar qualquer arquivo</strong>, atualize sua cópia local:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>git pull</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esse comando traz para o computador as alterações que outros colaboradores já enviaram ao GitHub.</p>
+<p>Por exemplo, se outro pesquisador modificou:</p>
+<pre class="text"><code>cap/cap3_experimentos.qmd</code></pre>
+<p>e enviou essa alteração ao GitHub, <code>git pull</code> atualizará sua cópia local desse arquivo.</p>
+<section id="regra-importante" class="level3" data-number="23.1.1">
+<h3 data-number="23.1.1" class="anchored" data-anchor-id="regra-importante"><span class="header-section-number">23.1.1</span> Regra importante</h3>
+<blockquote class="blockquote">
+<p>Sempre execute <code>git pull</code> antes de começar a trabalhar no projeto.</p>
+</blockquote>
+<p>Isso reduz significativamente a possibilidade de conflitos entre as alterações realizadas pelos colaboradores.</p>
+<hr>
+</section>
+</section>
+<section id="trabalhar-normalmente-no-positron" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="trabalhar-normalmente-no-positron"><span class="header-section-number">23.2</span> 4.2 Trabalhar normalmente no Positron</h2>
+<p>Depois do <code>git pull</code>, edite os arquivos normalmente.</p>
+<p>Por exemplo:</p>
+<pre class="text"><code>cap/cap3_experimentos.qmd</code></pre>
+<p>ou:</p>
+<pre class="text"><code>cap/cap5_did.qmd</code></pre>
+<p>Salve as alterações.</p>
+<hr>
+</section>
+<section id="verificar-o-que-foi-alterado" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="verificar-o-que-foi-alterado"><span class="header-section-number">23.3</span> 4.3 Verificar o que foi alterado</h2>
+<p>Depois de terminar o trabalho:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>git status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O Git mostrará os arquivos modificados.</p>
+<p>Por exemplo:</p>
+<pre class="text"><code>modified: cap/cap3_experimentos.qmd</code></pre>
+<hr>
+</section>
+<section id="adicionar-as-alterações" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="adicionar-as-alterações"><span class="header-section-number">23.4</span> 4.4 Adicionar as alterações</h2>
+<p>Para adicionar todas as alterações:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>git add <span class="op">.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Também é possível adicionar apenas um arquivo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>git add cap<span class="op">/</span>cap3_experimentos<span class="op">.</span><span class="fu">qmd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+<section id="criar-um-commit" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="criar-um-commit"><span class="header-section-number">23.5</span> 4.5 Criar um commit</h2>
+<p>O próximo passo é registrar as alterações:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>git commit <span class="op">-</span>m <span class="st">"Adiciona exemplo sobre experimentos aleatorizados"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O <strong>commit</strong> funciona como um registro das alterações realizadas naquele momento.</p>
+<p>É importante utilizar mensagens informativas.</p>
+<section id="bons-exemplos" class="level3" data-number="23.5.1">
+<h3 data-number="23.5.1" class="anchored" data-anchor-id="bons-exemplos"><span class="header-section-number">23.5.1</span> Bons exemplos</h3>
+<pre class="text"><code>Adiciona exemplo de RDD
+
+Revisa capítulo de diferenças-em-diferenças
+
+Corrige exercício de matching
+
+Atualiza referências bibliográficas</code></pre>
+<p>Evite mensagens genéricas como:</p>
+<pre class="text"><code>alteração
+
+teste
+
+correção
+
+novo</code></pre>
+<hr>
+</section>
+</section>
+<section id="enviar-as-alterações-para-o-github" class="level2" data-number="23.6">
+<h2 data-number="23.6" class="anchored" data-anchor-id="enviar-as-alterações-para-o-github"><span class="header-section-number">23.6</span> 4.6 Enviar as alterações para o GitHub</h2>
+<p>Depois do commit:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>git push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>As alterações serão enviadas para o repositório remoto.</p>
+<p>O fluxo completo foi:</p>
+<pre class="text"><code>Computador
+    │
+    │ git pull
+    ↓
+versão atualizada
+    │
+    ↓
+editar
+    │
+    ↓
+git add .
+    │
+    ↓
+git commit
+    │
+    │ git push
+    ↓
+GitHub</code></pre>
+<hr>
+</section>
+</section>
+<section id="rotina-diária" class="level1" data-number="24">
+<h1 data-number="24"><span class="header-section-number">24</span> 5. Rotina diária</h1>
+<p>Na prática, o pesquisador precisa lembrar de poucos comandos.</p>
+<section id="antes-de-começar" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="antes-de-começar"><span class="header-section-number">24.1</span> Antes de começar</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb59"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>git pull</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="depois-de-terminar" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="depois-de-terminar"><span class="header-section-number">24.2</span> Depois de terminar</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb60"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>git status</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>git add <span class="op">.</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>git commit <span class="op">-</span>m <span class="st">"Descrição do que foi realizado"</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>git push</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Portanto, a rotina básica é:</p>
+<pre class="text"><code>PULL → EDITAR → ADD → COMMIT → PUSH</code></pre>
+<hr>
+</section>
+</section>
+<section id="evitando-conflitos" class="level1" data-number="25">
+<h1 data-number="25"><span class="header-section-number">25</span> 6. Evitando conflitos</h1>
+<p>Quando todos trabalham diretamente na <code>main</code>, é importante evitar que duas pessoas editem simultaneamente o <strong>mesmo arquivo</strong>.</p>
+<p>Por exemplo, não há problema se um pesquisador estiver trabalhando em:</p>
+<pre class="text"><code>cap/cap3_experimentos.qmd</code></pre>
+<p>enquanto outro trabalha em:</p>
+<pre class="text"><code>cap/cap5_did.qmd</code></pre>
+<p>O Git consegue combinar essas alterações facilmente.</p>
+<p>O risco de conflito aumenta quando duas pessoas modificam simultaneamente as mesmas linhas do mesmo arquivo.</p>
+<p>Por isso, nesta etapa inicial, adotaremos duas regras:</p>
+<ol type="1">
+<li>executar <code>git pull</code> antes de começar;</li>
+<li>evitar que duas pessoas trabalhem simultaneamente no mesmo arquivo.</li>
+</ol>
+<p>Com uma equipe pequena, essas duas regras tornam o fluxo de trabalho bastante simples.</p>
+<hr>
+</section>
+<section id="resumo-dos-comandos" class="level1" data-number="26">
+<h1 data-number="26"><span class="header-section-number">26</span> 7. Resumo dos comandos</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Comando</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>git pull</code></td>
+<td>Baixa as alterações mais recentes do GitHub</td>
+</tr>
+<tr class="even">
+<td><code>git status</code></td>
+<td>Mostra quais arquivos foram alterados</td>
+</tr>
+<tr class="odd">
+<td><code>git add .</code></td>
+<td>Prepara as alterações para o commit</td>
+</tr>
+<tr class="even">
+<td><code>git commit -m "mensagem"</code></td>
+<td>Registra as alterações</td>
+</tr>
+<tr class="odd">
+<td><code>git push</code></td>
+<td>Envia os commits para o GitHub</td>
+</tr>
+</tbody>
+</table>
+<p>O ciclo fundamental é:</p>
+<pre class="text"><code>git pull
+
+# trabalhar e salvar os arquivos
+
+git status
+git add .
+git commit -m "Descreva a alteração"
+git push</code></pre>
+<hr>
+</section>
+<section id="próxima-etapa-branches" class="level1" data-number="27">
+<h1 data-number="27"><span class="header-section-number">27</span> 8. Próxima etapa: branches</h1>
+<p>O fluxo apresentado até aqui é adequado para equipes pequenas e projetos nos quais os colaboradores conseguem coordenar quem está trabalhando em cada arquivo.</p>
+<p>À medida que o projeto crescer, utilizaremos <strong>branches</strong> para permitir que diferentes alterações sejam desenvolvidas de forma independente.</p>
+<p>Nesse fluxo mais avançado teremos:</p>
+<pre class="text"><code>main
+ │
+ ├── nova-aula
+ ├── revisao-capitulo
+ └── novos-exercicios</code></pre>
+<p>As alterações serão posteriormente incorporadas à <code>main</code> por meio de <strong>Pull Requests</strong>.</p>
+<p>Esse procedimento será apresentado em uma etapa posterior.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap9_outrosmodelos.html" class="pagination-link" aria-label="Modelos Avançados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

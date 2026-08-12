@@ -1,0 +1,17 @@
+project:
+  type: website
+
+format:
+  revealjs:
+    embed-resources: true
+    theme: [simple, custom.scss]
+    slide-level: 3
+    fig-width: 2
+    fig-height: 2
+    fig-align: center
+    # Configurações extras úteis para aulas
+    transition: slide
+    slide-number: true
+
+execute:
+  echo: true

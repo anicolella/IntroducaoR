@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="dcterms.date" content="2024-03-12">
+
+<title>10&nbsp; Modelos Lineares – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap9_outrosmodelos.html" rel="next">
+<link href="../cap/cap7_descritiva_v2.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap8_lineares.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">10.1</span> Introdução</a>
+  <ul class="collapse">
+  <li><a href="#alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" id="toc-alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" class="nav-link" data-scroll-target="#alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico"><span class="header-section-number">10.1.1</span> Alguns Exemplos de Regressão Aplicados ao Contexto Jurídico:</a></li>
+  </ul></li>
+  <li><a href="#hipóteses-sobre-o-comportamento-do-termo-de-erro" id="toc-hipóteses-sobre-o-comportamento-do-termo-de-erro" class="nav-link" data-scroll-target="#hipóteses-sobre-o-comportamento-do-termo-de-erro"><span class="header-section-number">10.2</span> Hipóteses sobre o comportamento do Termo de Erro</a></li>
+  <li><a href="#estimação-dos-parâmetros-da-rls" id="toc-estimação-dos-parâmetros-da-rls" class="nav-link" data-scroll-target="#estimação-dos-parâmetros-da-rls"><span class="header-section-number">10.3</span> Estimação dos Parâmetros da RLS</a>
+  <ul class="collapse">
+  <li><a href="#teste-de-hipótese-sob-um-único-parametro" id="toc-teste-de-hipótese-sob-um-único-parametro" class="nav-link" data-scroll-target="#teste-de-hipótese-sob-um-único-parametro"><span class="header-section-number">10.3.1</span> Teste de Hipótese sob um Único Parametro</a></li>
+  <li><a href="#aplicação---estimando-uma-regressão-linear-simples" id="toc-aplicação---estimando-uma-regressão-linear-simples" class="nav-link" data-scroll-target="#aplicação---estimando-uma-regressão-linear-simples"><span class="header-section-number">10.3.2</span> Aplicação - Estimando uma Regressão Linear Simples</a></li>
+  </ul></li>
+  <li><a href="#caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" id="toc-caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" class="nav-link" data-scroll-target="#caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados"><span class="header-section-number">10.4</span> Caracteristicas do Método dos Mínimos Quadrados Ordinários em Determinadas Amostras de Dados</a>
+  <ul class="collapse">
+  <li><a href="#valores-estimados-e-resíduos" id="toc-valores-estimados-e-resíduos" class="nav-link" data-scroll-target="#valores-estimados-e-resíduos"><span class="header-section-number">10.4.1</span> Valores Estimados e Resíduos</a></li>
+  <li><a href="#propriedades-algébricas-do-mqo" id="toc-propriedades-algébricas-do-mqo" class="nav-link" data-scroll-target="#propriedades-algébricas-do-mqo"><span class="header-section-number">10.4.2</span> Propriedades Algébricas do MQO</a></li>
+  <li><a href="#qualidade-do-ajuste" id="toc-qualidade-do-ajuste" class="nav-link" data-scroll-target="#qualidade-do-ajuste"><span class="header-section-number">10.4.3</span> Qualidade do Ajuste</a></li>
+  </ul></li>
+  <li><a href="#unidade-de-medida-e-forma-funcional" id="toc-unidade-de-medida-e-forma-funcional" class="nav-link" data-scroll-target="#unidade-de-medida-e-forma-funcional"><span class="header-section-number">10.5</span> Unidade de Medida e Forma Funcional</a>
+  <ul class="collapse">
+  <li><a href="#unidade-de-medida" id="toc-unidade-de-medida" class="nav-link" data-scroll-target="#unidade-de-medida"><span class="header-section-number">10.5.1</span> Unidade de Medida</a></li>
+  </ul></li>
+  <li><a href="#incorporando-não-linearidades-nas-variáveis" id="toc-incorporando-não-linearidades-nas-variáveis" class="nav-link" data-scroll-target="#incorporando-não-linearidades-nas-variáveis"><span class="header-section-number">10.6</span> Incorporando não linearidades (nas variáveis!)</a>
+  <ul class="collapse">
+  <li><a href="#modelo-nível-nível" id="toc-modelo-nível-nível" class="nav-link" data-scroll-target="#modelo-nível-nível"><span class="header-section-number">10.6.1</span> Modelo Nível-Nível</a></li>
+  <li><a href="#modelo-nível-log" id="toc-modelo-nível-log" class="nav-link" data-scroll-target="#modelo-nível-log"><span class="header-section-number">10.6.2</span> Modelo Nível-log</a></li>
+  <li><a href="#modelo-log-nível" id="toc-modelo-log-nível" class="nav-link" data-scroll-target="#modelo-log-nível"><span class="header-section-number">10.6.3</span> Modelo Log-Nível</a></li>
+  <li><a href="#modelo-log-log" id="toc-modelo-log-log" class="nav-link" data-scroll-target="#modelo-log-log"><span class="header-section-number">10.6.4</span> Modelo Log-Log</a></li>
+  </ul></li>
+  <li><a href="#regressão-linear-múltipla-rlm" id="toc-regressão-linear-múltipla-rlm" class="nav-link" data-scroll-target="#regressão-linear-múltipla-rlm"><span class="header-section-number">10.7</span> Regressão Linear Múltipla (RLM)</a>
+  <ul class="collapse">
+  <li><a href="#exemplos-de-regressão-multipla-no-contexto-jurídico" id="toc-exemplos-de-regressão-multipla-no-contexto-jurídico" class="nav-link" data-scroll-target="#exemplos-de-regressão-multipla-no-contexto-jurídico"><span class="header-section-number">10.7.1</span> Exemplos de Regressão Multipla no Contexto Jurídico</a></li>
+  <li><a href="#a-interpretação-da-equação-de-regressão-de-mqo" id="toc-a-interpretação-da-equação-de-regressão-de-mqo" class="nav-link" data-scroll-target="#a-interpretação-da-equação-de-regressão-de-mqo"><span class="header-section-number">10.7.2</span> A Interpretação da Equação de Regressão de MQO</a></li>
+  </ul></li>
+  <li><a href="#estimação-dos-k-parametros-na-rlm" id="toc-estimação-dos-k-parametros-na-rlm" class="nav-link" data-scroll-target="#estimação-dos-k-parametros-na-rlm"><span class="header-section-number">10.8</span> Estimação dos k parametros na RLM</a>
+  <ul class="collapse">
+  <li><a href="#estimadores-de-mqo" id="toc-estimadores-de-mqo" class="nav-link" data-scroll-target="#estimadores-de-mqo"><span class="header-section-number">10.8.1</span> Estimadores de MQO</a></li>
+  <li><a href="#estimativas-de-mqo" id="toc-estimativas-de-mqo" class="nav-link" data-scroll-target="#estimativas-de-mqo"><span class="header-section-number">10.8.2</span> Estimativas de MQO</a></li>
+  <li><a href="#qualidade-do-ajuste-na-regressão-linear-multipla" id="toc-qualidade-do-ajuste-na-regressão-linear-multipla" class="nav-link" data-scroll-target="#qualidade-do-ajuste-na-regressão-linear-multipla"><span class="header-section-number">10.8.3</span> Qualidade do Ajuste na Regressão Linear Multipla</a></li>
+  <li><a href="#uso-de-variáveis-qualitativas-na-análise-de-rlm" id="toc-uso-de-variáveis-qualitativas-na-análise-de-rlm" class="nav-link" data-scroll-target="#uso-de-variáveis-qualitativas-na-análise-de-rlm"><span class="header-section-number">10.8.4</span> Uso de Variáveis Qualitativas na Análise de RLM</a></li>
+  <li><a href="#o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" id="toc-o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" class="nav-link" data-scroll-target="#o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente"><span class="header-section-number">10.8.5</span> O uso de Dummies para categorias multiplas e Interação entre a dummy e a variável dependente</a></li>
+  <li><a href="#incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." id="toc-incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." class="nav-link" data-scroll-target="#incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy."><span class="header-section-number">10.8.6</span> Incorporando Informações Ordinais com o uso de Variáveis Dummy.</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap8_lineares.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></h1>
+<p class="subtitle lead">Aplicação a Pesquisa em Direito</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 12, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Vamos iniciar o estudo de modelos lineares começando pela Regresão Linear Simples (RLS). Mais específicamente, vamos estudar a RLS no contexto de dados de corte transversal. Tal abordagem, segmentada por tipos de dados, facilíta o entendimento das hipóteses do modelo.</p>
+<p>Os conceitos estatísticos aplicados no estudo de RLS são os mesmos apresentados na seção anterior.</p>
+<p>O matérial desta seção é baseado na 4ed do livro de Jeffrey Wooldridge, Introdução à Econometria: Uma Abordagem Moderna, de 2013. Embora o título do livro remeta à econometria, os modelos apresentados no livro são aplicaveis à diversas Ciências Sociais, tais como o Direito, Ciência Política, Sociologia, Psicologia Empírica etc…</p>
+<p>A análise de Regressão é um instrumento poderoso para os centistas sociais. Podemos verificar como determinadas variáveis importantes nas ciencias sociais interagem com outras, as vezes em uma relação de causa e efeito.</p>
+<p>Aqui também teremos que ter uma questão ou problema. Anteriormente gostariamos de entender o que estava acontecendo, qual a Renda pc das mulheres, qual a taxa de feminicídio… Agora queremos ir mais a fundo, porque determinados bairros tem mais crime do que outros? O que determina a renda pc de uma mulher?</p>
+<section id="introdução" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">10.1</span> Introdução</h2>
+<p>Começamos com o modelo mais geral da população:</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1x + u \]</span></p>
+<p>Nesta equação, <span class="math inline">\(y\)</span> é a variavel dependente ou também denominada de variável explicada; <span class="math inline">\(x\)</span> é a variável explicativa e <span class="math inline">\(u\)</span> é o termo de erro. Essa equação é uma equação de <strong>regressão linear simples</strong>.</p>
+<p><strong>Vejamos um exemplo</strong></p>
+<p>Gostariamos de explicar a taxa de crimes nos bairros de uma cidade e consideramos que os níveis de desemprego nas localidades são importantes. Nosso modelo de regressão poderia ser específicado da seguinte maneira:</p>
+<p><span class="math display">\[Crime_i = \beta_0 + \beta_1Desemprego_i + u\]</span></p>
+<p>O subscrito <span class="math inline">\(i\)</span> se refere a um bairro hipotético da cidade. Note que nesse caso, <span class="math inline">\(i\)</span> é o subscrito que relaciona nossas unidades de observação (bairros). Nossas unidades de observação podem variar a depender do contexto em estudo: países, cidades, bairros, estados, pessoas, processos, varas, tribunais….</p>
+<p>Note que, novamente o termo de erro, <span class="math inline">\(u\)</span>, está presente na equação. O termo de erro, não observado, capta tudo aquilo que afeta <span class="math inline">\(Crime\)</span>, mas que não estamos controlando, ou seja, que não é explicado pelo <span class="math inline">\(Desemprego\)</span>.</p>
+<p>Voltemos a equação básica:</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1x + u \]</span></p>
+<p>Na análise de RLS estamos interessados nos parâmetros <span class="math inline">\(\beta_0\)</span> e sobretudo <span class="math inline">\(\beta_1\)</span>. A razão primordial para isso é que, tudo o mais constante, a relação acima aponta que</p>
+<p><span class="math display">\[\Delta y = \beta_1 \Delta x \]</span> , se <span class="math display">\[\Delta u = 0\]</span></p>
+<p>Isto é, se tudo o mais que afeta <span class="math inline">\(y\)</span> permanecer inalterado, uma variáção em <span class="math inline">\(x\)</span>, <span class="math inline">\(\Delta x\)</span>, terá um impacto de <span class="math inline">\(\beta_1 \Delta x\)</span> em <span class="math inline">\(y\)</span>. No exemplo da criminalidade, teremos que:</p>
+<p><span class="math display">\[\Delta crime = \beta_1 \Delta desemprego \]</span></p>
+<p>Assim, o aumento de 1 ponto no desemprego irá ter o efeito de <span class="math inline">\(\beta_1\)</span> unidades de crimes em média. Por isso, quando conseguimos estimar os parêmetros <span class="math inline">\(\beta\)</span> estamos mais próximos de entender as relações entre <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> em nossas aplicações.</p>
+<p>Cabe destacar algo bastante importante.As relações acima não encerram a questão da causalidade. Como podemos inferir um impacto causal do desemprego na criminalidade se estamos ignorando todos os demais fatores que ficaram de fora do modelo - fatores que são captados em <span class="math inline">\(u\)</span> não observados.</p>
+<section id="alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" class="level3" data-number="10.1.1">
+<h3 data-number="10.1.1" class="anchored" data-anchor-id="alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico"><span class="header-section-number">10.1.1</span> Alguns Exemplos de Regressão Aplicados ao Contexto Jurídico:</h3>
+<p>Considere os seguintes exemplos de RLS aplicadas ao contexto do Direito</p>
+<p><u><strong>Previsão de Sentenças com Base na Gravidade do Crime:</strong></u></p>
+<ul>
+<li><strong>Variável dependente <span class="math inline">\((Y)\)</span></strong>: Tamanho da pena,</li>
+<li><strong>Variável independente<span class="math inline">\((X)\)</span></strong>: Gravidade do Crime,</li>
+<li><strong>Objetivo</strong>: Identificar se a gravidade do crime tem influência sobre tamanho da pena.</li>
+</ul>
+<p>Nesse exemplo <span class="math inline">\(\beta_0\)</span> é o intercepto da regressão e <span class="math inline">\(\beta_1\)</span> o coeficiente de regressão que representa como a gravidade do crime influência o tamanho da pena, <span class="math inline">\(u\)</span> é o termo de erro.</p>
+<p><span class="math display">\[Dpena = \beta_0 + \beta_1{\text{Gravidade}} + u\]</span></p>
+<p><u><strong>Análise de Fatores que Influenciam o Tempo de Julgamento:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente (<span class="math inline">\(Y\)</span>)</strong>: Tempo de Duração do Processo</li>
+<li><strong>Variável Independente (<span class="math inline">\(x\)</span>)</strong>, Tipo de Processo (por exemplo, criminal, civil, administrativo).</li>
+<li><strong>Objetivo</strong>: Identificar se o tipo de processo tem impacto no tempo que um caso leva para ser concluído.</li>
+</ul>
+<p><span class="math display">\[Tempo = \beta_0 + \beta_1  Processo  + u\]</span></p>
+<p><u><strong>Previsão de Probabilidade de Recurso com Base em Decisões Anteriores:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente (<span class="math inline">\(Y\)</span>)</strong>: Probabilidade de Entrada com Recurso</li>
+<li><strong>Variável Independente (<span class="math inline">\(X\)</span>)</strong>: Resultado da Decisão Anterior (por exemplo, deferimento ou negação do recurso).</li>
+<li><strong>Objetivo</strong>: Determinar a probabilidade de um recurso ser apresentado com base no resultado de decisões passadas.</li>
+</ul>
+<p><span class="math display">\[Recurso = \beta_0 + \beta_1 Resultado_{-1} + u \]</span></p>
+<p><u><strong>Análise de Relação entre Número de Testemunhas e Veredito:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente (<span class="math inline">\(Y\)</span>)</strong>: Veredito (por exemplo, culpado ou inocente)</li>
+<li><strong>Variável Independente (<span class="math inline">\(X\)</span>)</strong>: Número de Testemunhas.</li>
+<li><strong>Objetivo</strong>: Investigar se o número de testemunhas influencia a decisão.</li>
+</ul>
+<p><span class="math display">\[ Veredito = \beta_0 + \beta_1 Testemunhas + u \]</span></p>
+</section>
+</section>
+<section id="hipóteses-sobre-o-comportamento-do-termo-de-erro" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="hipóteses-sobre-o-comportamento-do-termo-de-erro"><span class="header-section-number">10.2</span> Hipóteses sobre o comportamento do Termo de Erro</h2>
+<p>Se especificamos o modelo com <span class="math inline">\(\beta_0\)</span>, podemos assumir que <span class="math inline">\(u\)</span>, tem média igual a zero. Em notação de esperança matemática essa hipótese equivale a:</p>
+<p><span class="math display">\[E(u) = 0\]</span></p>
+<p>Podemos definir uma segunda hipotese sobre <span class="math inline">\(u\)</span>. Uma hipótese forte, é a de que <span class="math inline">\(u\)</span> e <span class="math inline">\(x\)</span> são independentes. Tal hípótese é crucial do modelo de RLS:</p>
+<p><span class="math display">\[E(u|x) = 0\]</span></p>
+<p>Justas as hipóteses de <span class="math inline">\(E(u) = 0\)</span> e <span class="math inline">\(E(u|x) = 0\)</span> são denominadas de hipotese de média condicional zero.</p>
+<p>Dessa forma, no nosso modelo inicial:</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1x + u\]</span></p>
+<p>Aplicando o operador <span class="math inline">\(E( \cdot |x )\)</span>, obtemos</p>
+<p><span class="math display">\[ E( y |x ) = \beta_0 + \beta_1x \]</span></p>
+<p>Assim, na equação acima, temos um aumento de uma unidade em <span class="math inline">\(x\)</span>, implica em um aumento no valor esperado (ou em média) de <span class="math inline">\(y\)</span> na magnitude de <span class="math inline">\(\beta_1\)</span>.</p>
+<p>A equação acima, é caracterizada como <strong>função de regressão populacional</strong>. Essa função nos fornece a relação entre os diferentes níveis de <span class="math inline">\(x\)</span> é o nível médio de <span class="math inline">\(y\)</span>, isto é <span class="math inline">\(E( y |x )\)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras/modelpop.png" class="img-fluid figure-img"></p>
+<figcaption>Função de Regressão Populacional, fonte: Anderson David R., Sweeney Dennis J., Williams Thomas A. (2019), Statistics for Business &amp; Economics, Cengage Learning; 14th edition</figcaption>
+</figure>
+</div>
+<p>Agora, podemos voltar a nossa equação base e verificarmos o progresso feito no entendimento do modelo:</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1x + u \]</span></p>
+<p><span class="math display">\[y = E( y |x ) + u \]</span></p>
+<p>Na equação acima, <span class="math inline">\(E( y |x )\)</span> é chamada de parte sistemática de <span class="math inline">\(y\)</span>. Isto é, a parte sistematicamente explicada por <span class="math inline">\(x\)</span>. Já o termo de erro não observado, <span class="math inline">\(u\)</span> é a parte não sistemática de <span class="math inline">\(y\)</span>, não explicada por <span class="math inline">\(x\)</span>.</p>
+</section>
+<section id="estimação-dos-parâmetros-da-rls" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="estimação-dos-parâmetros-da-rls"><span class="header-section-number">10.3</span> Estimação dos Parâmetros da RLS</h2>
+<p>Não conhecemos <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> queremos estimadores desses parametros: <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span>.</p>
+<p>Suponha que tenhamos uma amostra aleatória da população: <span class="math inline">\(\{(x_i, y_i): i = 1, ..., n\}\)</span>. Poderia ser uma amostra de crimes e taxa de desemprego por bairros.</p>
+<p>Em nosso modelo base:</p>
+<p><span class="math display">\[y_i = \beta_0 + \beta_1x_i + u_i \]</span></p>
+<p>onde <span class="math inline">\(u_i\)</span> é o erro aleatório da <span class="math inline">\(i\)</span>-ésima observação.</p>
+<p><u><strong>Como estimamos</strong> <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span>?</u></p>
+<p>Após algum esforço algébrico, tem-se:</p>
+<p><span class="math display">\[\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}\]</span></p>
+<p>e</p>
+<p><span class="math display">\[\hat{\beta}_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} (x_i - \bar{x})^2}\]</span></p>
+<p>Onde, <span class="math inline">\(\bar{x}\)</span> e <span class="math inline">\(\bar{y}\)</span> são as médias amostrais de <span class="math inline">\(X_i\)</span> e <span class="math inline">\(Y_i\)</span>, respectivamente.</p>
+<p>Os estimadores <span class="math inline">\(\hat{\beta}_0\)</span> e <span class="math inline">\(\hat{\beta}_1\)</span> são chamados de estimadores de Mínimos Quadrados Ordinários (MQO).</p>
+<p>A ideia é que os parâmetros que estimamos, <span class="math inline">\(\hat{\beta}_0\)</span> e <span class="math inline">\(\hat{\beta}_1\)</span>, são os parâmetros que minimizam a soma dos quadrados das diferenças entre nossos <span class="math inline">\(y_i\)</span> observados e seus <strong>valores preditos</strong> definidos como</p>
+<p><span class="math display">\[y_i- \hat{y}_i =y_i -  \hat{\beta}_0 + \hat{\beta}_1x_i=u_i\]</span></p>
+<p>Queremos minimizar o quadrado dessa diferença. Vejamos graficamente:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras/fittedvalue.png" class="img-fluid figure-img"></p>
+<figcaption>Valores Ajustados e Resíduos de MQO</figcaption>
+</figure>
+</div>
+<p>Antes de passarmos para o proxímo tópico de RLS, cabe mencionar uma nota sobre terminologia: quando estimamos equações de RLS do tipo <span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>, dizemos que “<em>rodamos a regressão de</em> <span class="math inline">\(y\)</span> sobre <span class="math inline">\(x\)</span> !”</p>
+<section id="teste-de-hipótese-sob-um-único-parametro" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="teste-de-hipótese-sob-um-único-parametro"><span class="header-section-number">10.3.1</span> Teste de Hipótese sob um Único Parametro</h3>
+<p>Agora precisamos testar se nossa estimativa é estatisticamente igual a zero ou se ela é diferente de zero.</p>
+<p><em>Há evidências que a nossa variável <span class="math inline">\(X\)</span> afeta a nossa variável <span class="math inline">\(Y\)</span> na população?</em></p>
+<p>Na maior parte do tempo testamos hipóteses do tipo</p>
+<p><span class="math display">\[H_0: {\beta_j}=0\]</span> Na hipótese principal testamos a situação que <span class="math inline">\(X\)</span> não afeta <span class="math inline">\(Y\)</span> na população sob análise. Na hipótese alternativa:</p>
+<p><span class="math display">\[H_1: \beta_j \neq 0\]</span></p>
+<p>Testamos a hipótese que <span class="math inline">\(X\)</span> afeta <span class="math inline">\(Y\)</span> nessa população. Graficamente temos a figura abaixo onde a média populacional é igual a 0:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras/thbicaudal.png" class="img-fluid figure-img"></p>
+<figcaption>Teste de hipótese, Fonte:CUEMATH</figcaption>
+</figure>
+</div>
+<p><strong>Estatística de Teste</strong>:</p>
+<p>Este é um valor calculado a partir dos dados da amostra que é usado para avaliar a probabilidade de observar tal valor se a hipótese nula fosse verdadeira (<span class="math inline">\(H_0: {\beta_j}=0\)</span>). Ele que vai dizer se estamos na área amarela ou azul da figura acima.</p>
+<section id="valor-p" class="level4" data-number="10.3.1.1">
+<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="valor-p"><span class="header-section-number">10.3.1.1</span> Valor-p:</h4>
+<p><strong>O valor-p</strong> é a probabilidade de observar uma estatística de teste tão extrema quanto, ou mais extrema do que, aquela calculada a partir dos dados da amostra, sob a suposição de que a hipótese nula seja verdadeira. Em outras palavras, mede quão provável é obter os resultados observados se a hipótese nula for correta.</p>
+<p><strong>Interpretação</strong>: Um valor-p pequeno (tipicamente menor que um nível de significância predefinido, comumente 0,05) sugere que os dados observados são improváveis de ter ocorrido se a hipótese nula fosse verdadeira. Portanto, fornece evidências contra a hipótese nula, e os pesquisadores podem rejeitar a hipótese nula em favor da hipótese alternativa. Por outro lado, um valor-p grande indica que os dados observados são consistentes com a hipótese nula, e as evidências evidências são insuficientes para rejeitá-la.</p>
+</section>
+</section>
+<section id="aplicação---estimando-uma-regressão-linear-simples" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="aplicação---estimando-uma-regressão-linear-simples"><span class="header-section-number">10.3.2</span> Aplicação - Estimando uma Regressão Linear Simples</h3>
+<p>Vamos utilizar aqui o nosso banco de dados anterior sobre feminicídio. É um banco com poucas obserações e possui fim didátco, apesar de serem dados reais.</p>
+<p>Uma questão incial é entender quem será <span class="math inline">\(Y\)</span> e quem será <span class="math inline">\(X\)</span>. Estamos querendo entender a taxa de feminicídio. A questão é, quais são seus determinantes? Aqui precisamos de alguma teoria…mas por hora, vamos ter como hipótese inicial que quanto maior a taxa de homícídio (ou maior a violência no estado) espera-se que em média a taxa de feminicídio aumente:</p>
+<p><span class="math display">\[Feminc_{tx} = \beta_0 + \beta_1 Homici_{tx} + u\]</span></p>
+<p>Apesar de parecer “muito complicado” na teoria, na prática o <code>R</code> estima uma RLS em segundos. A função para estimar é a<code>lm</code>, ou linear model.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Aplicação da RLS - Método dos Mínimos Quadrados Ordinários</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#carregando o pacote para ler arquivos em excel</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../dados/final_fem_22.Rdata"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Vamos chamar a partir de agora nosso banco de dados</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>dados<span class="ot">&lt;-</span> final_fem_22 </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="do">##Função para rodar a regressão</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> dados, feminic_tx <span class="sc">~</span> homic_tx)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#Essa função resume a regressão, ja testar a hipótese sobre o coeficiente e da outras estatisticas que abordaremos a seguir.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = feminic_tx ~ homic_tx, data = dados)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.28942 -0.30169  0.03482  0.30070  1.18192 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  1.14673    0.28607   4.009 0.000485 ***
+homic_tx     0.10580    0.05503   1.923 0.065990 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.5882 on 25 degrees of freedom
+Multiple R-squared:  0.1288,    Adjusted R-squared:  0.09397 
+F-statistic: 3.697 on 1 and 25 DF,  p-value: 0.06599</code></pre>
+</div>
+</div>
+<section id="entendendo-os-resultados" class="level4" data-number="10.3.2.1">
+<h4 data-number="10.3.2.1" class="anchored" data-anchor-id="entendendo-os-resultados"><span class="header-section-number">10.3.2.1</span> Entendendo os Resultados</h4>
+<p><strong>1. Resíduos</strong> (<em>Residuals</em>): apresenta a distribuição dos resíduos, observa-se que a mediana dos resíduos está próxima a zero.</p>
+<p><strong>2.Coeficientes</strong> Em seguida, abaixo tem-se <em>Coefficients</em> com 5 colunas.</p>
+<p><em>Coluna 1</em>: Nome da variável</p>
+<p><em>Coluna 2</em>: Coeficiente estimado <span class="math inline">\(\hat{\beta_0}\)</span> o intercepto e <span class="math inline">\(\hat{\beta_1}\)</span> do termo da variável homicídio</p>
+<p><em>Coluna 3</em>: É o desvio padrão da estimativas de <span class="math inline">\(\beta\)</span></p>
+<p><em>Coluna 4</em>: É a estatistica <code>t</code> utilizada para fazer o teste de hipótese e neste caso, tem-se: <span class="math display">\[H_0:\beta_0=0\]</span> <span class="math display">\[H_1:\beta_0 \neq 0\]</span> e <span class="math display">\[H_0:\beta_1=0\]</span> <span class="math display">\[H_1:\beta_1 \neq 0\]</span></p>
+<p><em>Coluna 5</em>: É o p-valor, a probabilidade de encontrarmos valores mais extremos da estatística t. Os asteriscos indicam *** signicante a 0,1%; ** a 1%; * a 5%; e <span class="math inline">\(.\)</span> a 10%.</p>
+<p><strong><u>Interpretando o Coeficiente</u></strong></p>
+<p>O coeficiente do intercepto nos diz que quando a taxa de homicídio for 0, ainda existira uma taxa de feminicídio de 1,14 pontos (<span class="math inline">\(\beta_0\)</span>), sendo significante a 0,1%. E cada 1 ponto de aumento na taxa de homicídio, aumenta em 0,106 (<span class="math inline">\(\beta_1\)</span>) pontos a taxa de feminicídio, significante a 10%.</p>
+<p><strong>3. <span class="math inline">\(R^2\)</span></strong>: Em seguida temos o <span class="math inline">\(R^2\)</span> e <span class="math inline">\(R^2\)</span> ajustado. Essas estatísticas calculam quanto da variância da taxa de feminicídio pode ser explicada pela variância da taxa de homicídio. Quando estão próximos a 1 explicam muito, quanto estão próximos a 0 explicam pouco. No caso o nosso <span class="math inline">\(R^2\)</span> ficou baixo e portanto boa parte da variabilidade do feminicídio, não foi explicada pela taxa de homicídio.</p>
+<p><strong>4. Estaística F</strong>: E por fim a estatística F mostra o grau de ajustamento do modelo. Se ela for significativa diz que o modelo é bem ajustados aos dados. As variáveis explicativas incluídas são importantes para a explicação da taxa de feminicídio.Essa estatística testa a seguinte hipótese.</p>
+<p><span class="math display">\[H_0:\beta_1=...=\beta_k=0\]</span> contra</p>
+<p><span class="math display">\[H_1: H_0\text{ é falsa}\]</span></p>
+<p><strong>VISUALMENTE</strong></p>
+<p>Abaixo tem-se os dados utilizados e a nossa reta de regressão estimada acima. Veja como ela se ajusta a nuvem de pontos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ajustando a reta de regessão.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">plot</span>(dados<span class="sc">$</span>homic_tx, dados<span class="sc">$</span>feminic_tx,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Taxa de Feminicídio vs.Tx de homicidio"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Taxa de Homicidio"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Taxa de Feminicídio"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"steelblue"</span>,          <span class="co"># Cor dos pontos</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">16</span>,              <span class="co"># Forma dos pontos (círculos sólidos)</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">1.0</span>,         <span class="co"># Tamanho dos pontos</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>     <span class="fu">abline</span>(modelo, <span class="at">col =</span> <span class="st">"lightsalmon3"</span>, <span class="at">lwd =</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cap8_lineares_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados"><span class="header-section-number">10.4</span> Caracteristicas do Método dos Mínimos Quadrados Ordinários em Determinadas Amostras de Dados</h2>
+<section id="valores-estimados-e-resíduos" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="valores-estimados-e-resíduos"><span class="header-section-number">10.4.1</span> Valores Estimados e Resíduos</h3>
+<p>Uma vez estimados <span class="math inline">\(\hat{\beta}_0\)</span> e <span class="math inline">\(\hat{\beta}_1\)</span> temos os valores ajustados ou também denominados de valores preditos ou <em>fitted values</em>.</p>
+<p>Para uma observação qualquer <span class="math inline">\(i\)</span>, seu valor estimado é:</p>
+<p><span class="math display">\[\hat{y}_i= \hat{\beta}_0 + \hat{\beta}_1x_i\]</span></p>
+<p>Todos os valores <span class="math inline">\(\hat{y}\)</span> estarão sobre a reta de regressão.</p>
+<p>O resíduo, tal qual definido anteriormente, será a diferença entre o valor ajustado <span class="math inline">\(\hat{y}\)</span> e o verdadeiro <span class="math inline">\(y\)</span> em nosso banco de dados:</p>
+<p><span class="math display">\[\hat{u}_i = y_i - \hat{y}_i\]</span></p>
+<p>Se <span class="math inline">\(\hat{u_i} &gt; 0\)</span> a regressão subestima <span class="math inline">\(y_i\)</span>. Se <span class="math inline">\(\hat{u_i} &lt; 0\)</span> a reta superestima <span class="math inline">\(y_i\)</span>. O cenário ideal é quando <span class="math inline">\(\hat{u}_i= 0\)</span>, algo que quase nunca acontece.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Obtendo os residuos da regressão</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(modelo)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> k <span class="ot">&lt;-</span> <span class="fu">density</span>(resid)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(k, <span class="at">xlab=</span><span class="st">"Erro"</span>,<span class="at">main=</span><span class="st">"Densidade de Kernel para o erro"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">polygon</span>(k, <span class="at">col=</span><span class="st">"burlywood3"</span>, <span class="at">border=</span><span class="st">"burlywood4"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cap8_lineares_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="propriedades-algébricas-do-mqo" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="propriedades-algébricas-do-mqo"><span class="header-section-number">10.4.2</span> Propriedades Algébricas do MQO</h3>
+<ol type="1">
+<li>A Soma dos Resíduos é zero:</li>
+</ol>
+<p><span class="math display">\[\sum_{i=1}^{n} \hat{u}_i = 0\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(resid)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.387779e-16</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>A covariancia amostral entre a variavel explicativa e os resíduos é zero:</li>
+</ol>
+<p><span class="math display">\[\sum_{i=1}^{n} x_i \hat{u}_i = 0\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#obtendo a variável x</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> dados<span class="sc">$</span>homic_tx</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#somando com os residuos</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x<span class="sc">*</span>resid)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.326673e-17</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li><p>O ponto <span class="math inline">\((\bar{x},\bar{y})\)</span> sempre estará sob a reta de regressão.</p></li>
+<li><p>A média dos valores estimados, <span class="math inline">\(\bar{\hat{y}}\)</span> é igual a média dos valores observados <span class="math inline">\(\bar{y}\)</span>.</p></li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#y dos dados </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> dados<span class="sc">$</span>feminic_tx</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.651852</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#y estimado</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>y_hat <span class="ot">&lt;-</span> <span class="fu">fitted.values</span>(modelo)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y_hat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.651852</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(y)<span class="sc">==</span><span class="fu">mean</span>(y_hat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<ol start="5" type="1">
+<li><p>Note que as estimatvas de MQO decompõe <span class="math inline">\(y\)</span> em 2 partes: 1) os valores ajustados <span class="math inline">\(\hat{y}\)</span> e os resíduos <span class="math inline">\(\hat{u}\)</span>.</p></li>
+<li><p>Os valores de <span class="math inline">\(\hat{y}\)</span> e <span class="math inline">\(\hat{u}\)</span> são não correlacionados na amostra!</p></li>
+</ol>
+</section>
+<section id="qualidade-do-ajuste" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="qualidade-do-ajuste"><span class="header-section-number">10.4.3</span> Qualidade do Ajuste</h3>
+<p>Nesta seção vamos responder a seguinte questão: “<em>Quão bem</em> <span class="math inline">\(x\)</span> explica <span class="math inline">\(y\)</span> ?”</p>
+<p>Considere as seguintes definições</p>
+<p>Soma dos Quadrado Totais (SQT):</p>
+<p><span class="math display">\[\text{SQT} = \sum_{i=1}^{n} (y_i - \bar{y})^2\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular a média da variável dependente (feminic_tx)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>media_feminic_tx <span class="ot">&lt;-</span> <span class="fu">mean</span>(dados<span class="sc">$</span>feminic_tx)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular a Soma dos Quadrados Totais (SQT)</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>sqt <span class="ot">&lt;-</span> <span class="fu">sum</span>((dados<span class="sc">$</span>feminic_tx <span class="sc">-</span> media_feminic_tx)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>sqt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.927407</code></pre>
+</div>
+</div>
+<p>Soma dos Quadrados Explicados (SQE):</p>
+<p><span class="math display">\[\text{SQE} = \sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular a Soma dos Quadrados Explicados (SQE)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sqe <span class="ot">&lt;-</span> <span class="fu">sum</span>((y_hat <span class="sc">-</span> media_feminic_tx)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>sqe</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.27879</code></pre>
+</div>
+</div>
+<p>Soma dos Quadrados dos Resíduos (SQR):</p>
+<p><span class="math display">\[\text{SQR} = \sum_{i=1}^{n} \hat{u}_i^2\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>residuos_quadrados <span class="ot">&lt;-</span> <span class="fu">residuals</span>(modelo)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sqr <span class="ot">&lt;-</span> <span class="fu">sum</span>(residuos_quadrados)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sqr</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 8.648617</code></pre>
+</div>
+</div>
+<p>O resultado mais importante é o seguinte:</p>
+<p><span class="math display">\[SQT =  SQE + SQR\]</span></p>
+<p>É apartir dessa iguadade que podemos mostrar algo sobre o ajuste dos MQO.</p>
+<p>Dívidindo ambos os lados por <span class="math inline">\(SQT\)</span> teremos</p>
+<p><span class="math display">\[1 = \frac{\text{SQE}}{\text{SQT}}  + \frac{\text{SQR}}{\text{SQT}}\]</span></p>
+<p>Rearranjando os termos</p>
+<p><span class="math display">\[R^2 = \frac{\text{SQE}}{\text{SQT}} = 1 - \frac{\text{SQR}}{\text{SQT}}\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#r-quadrado do modelo</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>r_quadrado <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> (sqr<span class="sc">/</span>sqt)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>r_quadrado</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1288141</code></pre>
+</div>
+</div>
+<p>Novamente, o <span class="math inline">\(R^2\)</span> é a porcentagem da variação de y que é explicada por <span class="math inline">\(x\)</span>. O valor de <span class="math inline">\(R^2\)</span> sempre estará na RLS entre <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span>.</p>
+</section>
+</section>
+<section id="unidade-de-medida-e-forma-funcional" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="unidade-de-medida-e-forma-funcional"><span class="header-section-number">10.5</span> Unidade de Medida e Forma Funcional</h2>
+<section id="unidade-de-medida" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="unidade-de-medida"><span class="header-section-number">10.5.1</span> Unidade de Medida</h3>
+<p>Vejamos o efeito de mudanças na unidade de medida das variáveis na nossa regressão.</p>
+<p><strong>1.</strong> Se a variável dependente (<span class="math inline">\(Y\)</span>) é multiplicada por uma constante <span class="math inline">\(c\)</span>, então as estimativas do intercepto e da inclinação também serão multiplicadas por <span class="math inline">\(c\)</span>. Vamos multiplicar por 10 e ver o que acontece:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">feminic_tx10 =</span>feminic_tx<span class="sc">*</span><span class="dv">10</span> )</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>modelo1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> dados, feminic_tx10 <span class="sc">~</span> homic_tx)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Estimate Std. Error  t value     Pr(&gt;|t|)
+(Intercept) 1.146731 0.28607061 4.008560 0.0004846694
+homic_tx    0.105805 0.05503129 1.922633 0.0659903845</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo1)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Estimate Std. Error  t value     Pr(&gt;|t|)
+(Intercept) 11.46731  2.8607061 4.008560 0.0004846694
+homic_tx     1.05805  0.5503129 1.922633 0.0659903845</code></pre>
+</div>
+</div>
+<p><strong>2.</strong> Se a variável explicativa (<span class="math inline">\(X\)</span>) é multiplicada por uma contante <span class="math inline">\(c\)</span>, então o coeficiente de inclinação será dívido por <span class="math inline">\(c\)</span>. Nada acontece com o intercepto. Vamos multiplicar agora a taxa de homicídio por 10</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">homic_tx10 =</span>homic_tx<span class="sc">*</span><span class="dv">10</span> )</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> dados, feminic_tx <span class="sc">~</span> homic_tx10)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Estimate Std. Error  t value     Pr(&gt;|t|)
+(Intercept) 1.146731 0.28607061 4.008560 0.0004846694
+homic_tx    0.105805 0.05503129 1.922633 0.0659903845</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo2)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Estimate  Std. Error  t value     Pr(&gt;|t|)
+(Intercept) 1.1467311 0.286070605 4.008560 0.0004846694
+homic_tx10  0.0105805 0.005503129 1.922633 0.0659903845</code></pre>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Se a variável explicativa (<span class="math inline">\(X\)</span>) é dividida por uma constante <span class="math inline">\(c\)</span>, então o coeficiente de inclinação é multiplicado por <span class="math inline">\(c\)</span>. Nada acontece com a constante.</li>
+</ol>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">homic_tx_10 =</span>homic_tx<span class="sc">/</span><span class="dv">10</span> )</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>modelo3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> dados, feminic_tx <span class="sc">~</span> homic_tx_10)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Estimate Std. Error  t value     Pr(&gt;|t|)
+(Intercept) 1.146731 0.28607061 4.008560 0.0004846694
+homic_tx    0.105805 0.05503129 1.922633 0.0659903845</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo3)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Estimate Std. Error  t value     Pr(&gt;|t|)
+(Intercept) 1.146731  0.2860706 4.008560 0.0004846694
+homic_tx_10 1.058050  0.5503129 1.922633 0.0659903845</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O <span class="math inline">\(R^2\)</span> e os testes de hipótese não depende das unidades de nossas variáveis.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="incorporando-não-linearidades-nas-variáveis" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="incorporando-não-linearidades-nas-variáveis"><span class="header-section-number">10.6</span> Incorporando não linearidades (nas variáveis!)</h2>
+<p>Vamos agora incorporar a não linearidade nas variáveis e ver como fica a sua interpretação. Abaixo tem-se uma tabela para interpretar os coeficientes e será explicada nos exemplos que virão a seguir.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Dependente</th>
+<th>Explicativa</th>
+<th>Interpretação de <span class="math inline">\(\beta_1\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nivel-nível</td>
+<td><span class="math inline">\(y\)</span></td>
+<td><span class="math inline">\(x\)</span></td>
+<td><span class="math inline">\(\beta_1 \Delta x\)</span></td>
+</tr>
+<tr class="even">
+<td>Nível-Log</td>
+<td><span class="math inline">\(y\)</span></td>
+<td><span class="math inline">\(ln(x)\)</span></td>
+<td><span class="math inline">\((\beta_1/100)\%\)</span> <span class="math inline">\(\Delta x\)</span></td>
+</tr>
+<tr class="odd">
+<td>Log-Nível</td>
+<td><span class="math inline">\(ln(y)\)</span></td>
+<td><span class="math inline">\(x\)</span></td>
+<td><span class="math inline">\(\% \Delta y = (100 \beta_1) \Delta x\)</span></td>
+</tr>
+<tr class="even">
+<td>Log_log</td>
+<td><span class="math inline">\(ln(y)\)</span></td>
+<td><span class="math inline">\(ln(x)\)</span></td>
+<td><span class="math inline">\(\% \Delta y = \beta_1\% \Delta x\)</span></td>
+</tr>
+</tbody>
+</table>
+<section id="modelo-nível-nível" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="modelo-nível-nível"><span class="header-section-number">10.6.1</span> Modelo Nível-Nível</h3>
+<p>Esse é o modelo que fizemos anteriormente e nos diz que uma variação absoluta em <span class="math inline">\(X\)</span> terá um efeito de <span class="math inline">\(\beta\)</span> em Y.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>modelo_nn<span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data=</span>dados, dados<span class="sc">$</span>feminic_tx <span class="sc">~</span> dados<span class="sc">$</span>homic_tx)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_nn)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Estimate Std. Error  t value     Pr(&gt;|t|)
+(Intercept)    1.146731 0.28607061 4.008560 0.0004846694
+dados$homic_tx 0.105805 0.05503129 1.922633 0.0659903845</code></pre>
+</div>
+</div>
+<p>O aumento de uma unidade na taxa de homicídio aumenta em 0,1058 a taxa de feminicídio.</p>
+</section>
+<section id="modelo-nível-log" class="level3" data-number="10.6.2">
+<h3 data-number="10.6.2" class="anchored" data-anchor-id="modelo-nível-log"><span class="header-section-number">10.6.2</span> Modelo Nível-log</h3>
+<p>Primeiramente vamos criar as variáveis em ln:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>Lnfeminic_tx <span class="ot">&lt;-</span> <span class="fu">log</span>(dados<span class="sc">$</span>feminic_tx)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>Lnhomic_tx <span class="ot">&lt;-</span> <span class="fu">log</span>(dados<span class="sc">$</span>homic_tx)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>O modelo Nível-Log considerá <span class="math inline">\(Y\)</span> no nível e <span class="math inline">\(X\)</span> no log. As variações relativas de <span class="math inline">\(X\)</span> implicam em variações absolutas constantes em <span class="math inline">\(Y\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>modelo_nl<span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data=</span>dados, dados<span class="sc">$</span>feminic_tx <span class="sc">~</span> dados<span class="sc">$</span>Lnhomic_tx)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_nl)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  Estimate Std. Error  t value   Pr(&gt;|t|)
+(Intercept)      0.7246404  0.4453288 1.627203 0.11623380
+dados$Lnhomic_tx 0.6238311  0.2900917 2.150462 0.04138118</code></pre>
+</div>
+</div>
+<p>A variação relativa de 1% na taxa de homicídio (<span class="math inline">\(X\)</span>), aumenta a taxa de feminicídio em 0,00623 <span class="math inline">\((\beta_1/100)\)</span></p>
+</section>
+<section id="modelo-log-nível" class="level3" data-number="10.6.3">
+<h3 data-number="10.6.3" class="anchored" data-anchor-id="modelo-log-nível"><span class="header-section-number">10.6.3</span> Modelo Log-Nível</h3>
+<p>Nesse modelo <span class="math inline">\(Y\)</span> está em log e <span class="math inline">\(X\)</span> em nível. Variações absolutas em <span class="math inline">\(X\)</span> implicam em variações exponenciais de <span class="math inline">\(Y\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>modelo_ln<span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data=</span>dados, dados<span class="sc">$</span>Lnfeminic_tx<span class="sc">~</span> dados<span class="sc">$</span>homic_tx)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_ln)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Estimate Std. Error  t value  Pr(&gt;|t|)
+(Intercept)    0.21824231 0.18282873 1.193698 0.2438007
+dados$homic_tx 0.04525001 0.03517069 1.286583 0.2100267</code></pre>
+</div>
+</div>
+<p>Para cada incremento adicional da taxa de homicídio, tem-se um incremento de 4,5% na taxa de feminicídio <span class="math inline">\(\% \Delta y = (100 \beta_1) \Delta x\)</span>.</p>
+<p>modelo_ll &lt;- lm(data=dados, dados<span class="math inline">\(Lnfeminic_tx~ dados\)</span>Lnhomic_tx) summary(modelo_ll)$coefficients</p>
+</section>
+<section id="modelo-log-log" class="level3" data-number="10.6.4">
+<h3 data-number="10.6.4" class="anchored" data-anchor-id="modelo-log-log"><span class="header-section-number">10.6.4</span> Modelo Log-Log</h3>
+<p>Nesse modelo tanto <span class="math inline">\(X\)</span> como <span class="math inline">\(Y\)</span> estão em log. Variações relativas em <span class="math inline">\(X\)</span> implicam em variações relativas em <span class="math inline">\(Y\)</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>modelo_ll <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data=</span>dados, dados<span class="sc">$</span>Lnfeminic_tx<span class="sc">~</span> dados<span class="sc">$</span>Lnhomic_tx)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_ll)<span class="sc">$</span>coefficients</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     Estimate Std. Error     t value  Pr(&gt;|t|)
+(Intercept)      0.0009590929   0.284865 0.003366832 0.9973404
+dados$Lnhomic_tx 0.2915325798   0.185564 1.571062163 0.1287399</code></pre>
+</div>
+</div>
+<p>Um aumento de 1% na taxa de homicídios aumenta em 0,29% a taxa de feminicídio nos estados brasileiros.</p>
+</section>
+</section>
+<section id="regressão-linear-múltipla-rlm" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="regressão-linear-múltipla-rlm"><span class="header-section-number">10.7</span> Regressão Linear Múltipla (RLM)</h2>
+<p>A RLM é uma extensão natural da RLS. Entretanto, ao invés de termos apenas uma variável explicativa podemos ter <span class="math inline">\(k\)</span> variáveis dependentes</p>
+<p><span class="math display">\[y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \ldots + \beta_k x_k + u\]</span> A hípótese fundamental é a de que:</p>
+<p><span class="math display">\[E(u|x_1, . . . ,x_k) = 0\]</span></p>
+<p>Problemas que façam com que um dos <span class="math inline">\(x_1, ...., x_k\)</span> ser correlacionado com <span class="math inline">\(u\)</span>, invalida a hipótese acima. Tal hipótese implica em não viés do MQO.</p>
+<section id="exemplos-de-regressão-multipla-no-contexto-jurídico" class="level3" data-number="10.7.1">
+<h3 data-number="10.7.1" class="anchored" data-anchor-id="exemplos-de-regressão-multipla-no-contexto-jurídico"><span class="header-section-number">10.7.1</span> Exemplos de Regressão Multipla no Contexto Jurídico</h3>
+<p><u><strong>Determinação de Fatores que Afetam o Valor de Indenizações:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente (<span class="math inline">\(Y\)</span>)</strong>: Valor da Indenização.</li>
+<li><strong>Variáveis Independentes (<span class="math inline">\(X\)</span>)</strong>: Idade da Vítima, Gravidade do Dano, Jurisdição.</li>
+<li><strong>Objetivo</strong>: Analisar como a idade da vítima, a gravidade do dano e a jurisdição influenciam o valor das indenizações concedidas</li>
+</ul>
+<p><span class="math display">\[Indenização = \beta_0 + \beta_1 idade+ \beta_2 Gravidade + \beta_2 Jurisdisção + u\]</span></p>
+<p><u><strong>Análise de Variáveis que Influenciam Taxas de Condenação em Casos Criminais:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente (<span class="math inline">\(Y\)</span>)</strong>: Taxa de Condenação.</li>
+<li><strong>Variáveis Independentes(<span class="math inline">\(X\)</span>)</strong>: Idade do Réu, Tipo de Crime, Local do Julgamento.</li>
+<li><strong>Objetivo</strong>: Investigar como a idade do réu, o tipo de crime e o local do julgamento afetam a probabilidade de condenação.</li>
+</ul>
+<p><span class="math display">\[Tx.Condenação = \beta_0 + \beta_1  idade  +  \beta_2 Local  + \beta_3  crime + u\]</span></p>
+<p><u><strong>Análise de Fatores que Influenciam a Taxa de Feminicídio:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente (<span class="math inline">\(Y\)</span>)</strong>: Taxa de Feminicídio por 100.000 mulheres</li>
+<li><strong>Variáveis Independentes (<span class="math inline">\(X\)</span>)</strong>: Taxa de Desemprego, Índice de Educação, Presença de Políticas de Proteção à Mulher.</li>
+<li><strong>Objetivo</strong>: Investigar como o desemprego, o nível de educação e a existência de políticas de proteção à mulher estão relacionados à taxa de feminicídio em diferentes regiões.</li>
+</ul>
+<p><span class="math display">\[Tx.feminicidio = \beta_0 + \beta_1 desemprego + \beta_2 educ + \beta_3 política + u \]</span></p>
+</section>
+<section id="a-interpretação-da-equação-de-regressão-de-mqo" class="level3" data-number="10.7.2">
+<h3 data-number="10.7.2" class="anchored" data-anchor-id="a-interpretação-da-equação-de-regressão-de-mqo"><span class="header-section-number">10.7.2</span> A Interpretação da Equação de Regressão de MQO</h3>
+<p>Tal qual no modelo de RLS, temos que:</p>
+<p><span class="math display">\[\Delta y = \beta_1 \Delta x_1 + \beta_2 \Delta x_2 + ...+\beta_k \Delta x_k\]</span></p>
+<p>O coeficiente <span class="math inline">\(\beta_j\)</span>, com <span class="math inline">\(j=1,...k\)</span>, mede o efeito do incremento de uma unidade de <span class="math inline">\(x_j\)</span> em <span class="math inline">\(y\)</span>. Isso continua com a mesma interpretação para modelos que usam o log.</p>
+<p>Suponha que estejamos interessados no efeito de <span class="math inline">\(x_1\)</span>. Podemos fazer o seguinte exercício: Tudo o mais constante qual o efeito de <span class="math inline">\(x_1\)</span> em <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display">\[\frac{\Delta y}{\Delta x} = \beta_1 \]</span></p>
+<p>Manter outros fatores fixos permite o cientista social, “mimetizar” um experimento, o qual é muito utilizado nas Ciências Naturais. Obviamente, isso não é tão simples assim. Entretanto, manter outros fatores fixos, e supondo que <span class="math display">\[E(u|x_1, . . . ,x_k) = 0\]</span> , nos aproxíma de afirmações de cunho causal.</p>
+</section>
+</section>
+<section id="estimação-dos-k-parametros-na-rlm" class="level2" data-number="10.8">
+<h2 data-number="10.8" class="anchored" data-anchor-id="estimação-dos-k-parametros-na-rlm"><span class="header-section-number">10.8</span> Estimação dos k parametros na RLM</h2>
+<section id="estimadores-de-mqo" class="level3" data-number="10.8.1">
+<h3 data-number="10.8.1" class="anchored" data-anchor-id="estimadores-de-mqo"><span class="header-section-number">10.8.1</span> Estimadores de MQO</h3>
+<p>A mecânica para conseguirmos estimativas de <span class="math inline">\(\beta_j\)</span>, fica uma pouco mais complicada. Felizmente, os <em>softwares</em>, tais como o <code>R</code>, fornecem essas estimativas com muita facilidade. Não obstante, convêm apresentar uma abordagem para o cálculo desses parâmetros. Utilizaremos álgebra de matrizes para mostrar um “algoritmo” para calcular esses <span class="math inline">\(\beta_j\)</span>. Em verdade, esse é o algoritmo utilizado pela função <code>lm()</code> do <code>R</code> no computo dos estimadores.</p>
+<p>Considere o modelo para a <span class="math inline">\(i\)</span>-ésima observação</p>
+<p><span class="math display">\[y_i = \beta_0 + \beta_1 x_{i1} + \beta_{2} x_{i2} + \beta_{3} x_{i3} + \ldots + \beta_k x_{ik} + u\]</span></p>
+<p>como temos <span class="math inline">\(n\)</span> observações (tamanho de nossa amostra), podemos organizar esses valores em vetores e matrizes.</p>
+<p>Assim, representamos o modelo de RLM da seguinte maneira:</p>
+<p><span class="math display">\[\mathbf{Y} = \mathbf{X} \boldsymbol{\beta} + \mathbf{u}\]</span></p>
+<p>Queremos encontrar um estimador de <span class="math inline">\(\boldsymbol{\beta}\)</span>, que chamaremos de <span class="math inline">\(\boldsymbol{\hat{\beta}}\)</span>. Esse estimador sera dado por:</p>
+<p><span class="math display">\[\hat{\boldsymbol{\beta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}\]</span></p>
+<p>Onde <span class="math inline">\(\mathbf{X}^T\)</span> é a matriz transposta de <span class="math inline">\(\mathbf{X}\)</span>, e <span class="math inline">\((\mathbf{X}^T \mathbf{X})^{-1}\)</span> é a matriz inversa da seguinte multiplicação de matrizes, <span class="math inline">\((\mathbf{X}^T \mathbf{X})\)</span></p>
+<p>Esse vetor de estimativas irá nos fornecer os valores para os <span class="math inline">\(\beta_j\)</span>, com <span class="math inline">\(j=1,...,k\)</span>.</p>
+</section>
+<section id="estimativas-de-mqo" class="level3" data-number="10.8.2">
+<h3 data-number="10.8.2" class="anchored" data-anchor-id="estimativas-de-mqo"><span class="header-section-number">10.8.2</span> Estimativas de MQO</h3>
+<p>Vamos analisar o efeito da taxa de homicídio e da renda per capita sobre a taxa de feminicídio. Ou seja:</p>
+<p><span class="math display">\[Feminic_i = \beta_0 + \beta_1 Homic_{i} + \beta_{2} Rendapc_i  + u\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Estimando uma regressão Linear Multipla</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>rlm <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data =</span> dados, feminic_tx <span class="sc">~</span> homic_tx <span class="sc">+</span> rendapc)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(rlm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = feminic_tx ~ homic_tx + rendapc, data = dados)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.32561 -0.31655 -0.00645  0.31188  1.11840 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)  
+(Intercept) 0.8852186  0.5368738   1.649    0.112  
+homic_tx    0.1167346  0.0588882   1.982    0.059 .
+rendapc     0.0001447  0.0002499   0.579    0.568  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.5962 on 24 degrees of freedom
+Multiple R-squared:  0.1408,    Adjusted R-squared:  0.06921 
+F-statistic: 1.967 on 2 and 24 DF,  p-value: 0.1618</code></pre>
+</div>
+</div>
+<p>A leitura dos resultados é análoga ao que já fizemos anteriormente. O aumento de uma unidade na taxa de homicídio aumenta em 0,11 a taxa de feminicídio e é significante a 10%. Veja o p-valor de 0.059. Entretanto, não há evidências de que a renda pc tem efeito sobre a taxa de feminicídio.</p>
+<p>Assim, estados mais violentos tendem a ter mais feminicídios. Entretanto, estados mais pobres e mais ricos possuem taxas similares de feminicídio.</p>
+</section>
+<section id="qualidade-do-ajuste-na-regressão-linear-multipla" class="level3" data-number="10.8.3">
+<h3 data-number="10.8.3" class="anchored" data-anchor-id="qualidade-do-ajuste-na-regressão-linear-multipla"><span class="header-section-number">10.8.3</span> Qualidade do Ajuste na Regressão Linear Multipla</h3>
+<p>Um fato importante sobre <span class="math inline">\(R^2\)</span> é que ele nunca diminui ao incluirmos variáveis no modelo. Isso decorre de propriedades algébricas desse indicador. Em nosso exemplo:</p>
+<ul>
+<li><strong>Modelo somente com Homicídio</strong>: <span class="math inline">\(R^2=0,12\)</span></li>
+<li><strong>Modelo com Homicídio e Renda</strong>: <span class="math inline">\(R^2=0,14\)</span></li>
+</ul>
+<p>Veja que o <span class="math inline">\(R^2\)</span> aumentou ao incluir a renda pc.</p>
+<p>Por isso, os softwares geralmente reportam uma outra estatística de ajuste o R-quadrado ajustado, <span class="math inline">\(\bar{R}^2\)</span>:</p>
+<p><span class="math display">\[\bar{R}^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - k - 1}\]</span></p>
+<p>O <span class="math inline">\(\bar{R}^2\)</span>, tal como expresso acima conta com a presença do <span class="math inline">\(R^2\)</span> original, mas note que, no denominador estamos dividindo por <span class="math inline">\(n-k-1\)</span>, onde <span class="math inline">\(n\)</span> é o tamanho da amostra em mãos, e <span class="math inline">\(k-1\)</span> se referem ao fato de termos <span class="math inline">\(k\)</span> variáveis explicativas e uma constante. Portanto, o <span class="math inline">\(\bar{R}^2\)</span>, impões uma penalidade à inclusão de variáveis independentes em um modelo de regressão. No nosso modelo:</p>
+<ul>
+<li><strong>Modelo somente com Homicídio</strong>: <span class="math inline">\(R^2=0,12\)</span> e <span class="math inline">\(\bar{R}^2= 0,094\)</span></li>
+<li><strong>Modelo com Homicídio e Renda</strong>: <span class="math inline">\(R^2=0,14\)</span> e <span class="math inline">\(\bar{R}^2= 0,069\)</span></li>
+</ul>
+<p>Podemos notar que a inclusão da renda pc contribui muito pouco para a explicação do modelo mas prejudicou as estimativas (menor grau de liberdade). Dessa forma observa-se que o <span class="math inline">\(R^2_{ajust}\)</span> ou <span class="math inline">\(\bar{R}^2\)</span> ficou menor.</p>
+<p>Não obstante, cabe destacar que um <span class="math inline">\(R^2\)</span> baixo não é uma evidencia definitiva contra nosso modelo. Em ciências sociais é comum verificarmos <span class="math inline">\(R^2\)</span> relatvamente pequenos. Isso significa que, embora coletivamente as variáveis explicativas não expliquem muito das variações de <span class="math inline">\(Y\)</span>, é possível que as estimativas de MQO sejam efeitos parciais confiáveis- tudo o mais constante - de cada <span class="math inline">\(X_j\)</span> sobre <span class="math inline">\(Y\)</span>.</p>
+</section>
+<section id="uso-de-variáveis-qualitativas-na-análise-de-rlm" class="level3" data-number="10.8.4">
+<h3 data-number="10.8.4" class="anchored" data-anchor-id="uso-de-variáveis-qualitativas-na-análise-de-rlm"><span class="header-section-number">10.8.4</span> Uso de Variáveis Qualitativas na Análise de RLM</h3>
+<p>O uso de variáveis binárias é a alternativa para utilizarmos variáveis qualitativas (discretas ou categóricas) no modelo de regressão. Dessa forma, variáveis que possuem categorias (homem/mulher; regiões, típo de homicídio). Considere os exemplos mencionados anteriormente.</p>
+<p><u><strong>Determinação de Fatores que Afetam o Valor de Indenizações:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente <span class="math inline">\((Y)\)</span></strong>: Valor da Indenização.</li>
+<li><strong>Variáveis Independentes <span class="math inline">\((X)\)</span></strong>: Idade da Vítima, Gravidade do Dano, Jurisdição.</li>
+<li><strong>Objetivo</strong>: Analisar como a idade da vítima, a gravidade do dano e a jurisdição influenciam o valor das indenizações concedidas</li>
+</ul>
+<p><span class="math display">\[Indenização = \beta_0 + \beta_1 idade+ \beta_2 Gravidade + \beta_2 Jurisdisção + u\]</span></p>
+<p><u><strong>Análise de Variáveis que Influenciam Taxas de Condenação em Casos Criminais:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente <span class="math inline">\((Y)\)</span></strong>: Taxa de Condenação.</li>
+<li><strong>Variáveis Independentes <span class="math inline">\((X)\)</span></strong>: Idade do Réu, Tipo de Crime, Local do Julgamento.</li>
+<li><strong>Objetivo</strong>: Investigar como a idade do réu, o tipo de crime e o local do julgamento afetam a probabilidade de condenação.</li>
+</ul>
+<p><span class="math display">\[Tx.Condenação = \beta_0 + \beta_1  idade  +  \beta_2 Local  + \beta_3  crime + u\]</span></p>
+<p><u><strong>Análise de Fatores que Influenciam a Taxa de Feminicídio:</strong></u></p>
+<ul>
+<li><strong>Variável Dependente <span class="math inline">\((Y)\)</span></strong>: Taxa de Feminicídio por 100.000 mulheres.</li>
+<li><strong>Variáveis Independentes <span class="math inline">\((X)\)</span></strong>: Taxa de Desemprego, Índice de Educação, Presença de Políticas de Proteção à Mulher.</li>
+<li><strong>Objetivo</strong>: Investigar como o desemprego, o nível de educação e a existência de políticas de proteção à mulher estão relacionados à taxa de feminicídio em diferentes regiões.</li>
+</ul>
+<p><span class="math display">\[Tx.feminicidio = \beta_0 + \beta_1 desemprego + \beta_2 educ + \beta_3 política + u \]</span></p>
+<p>Em todos esses exemplos temos o que denominamos de <strong>variáveis qualitativas</strong>. No primeiro exemplo, gravidade e jurisdição não são quantificaveis. No segundo exemplo, o tipo de crime, e a localidade. Por fim, no último exemplo, a variável que indica ou não a presença de uma política pública de proteção a mulher também é qualitativa.</p>
+<p>Felizmente, isso não traz problemas adcionais a estimação de MQO. Pelo menos quando tais variáveis aparecem como variáveis explicativas. Mais a frente veremos o que acontece quando a variável dependente é do tipo qualitativa.</p>
+<p>Duas coisas mudam quando temos as variáveis qualitativas como regressores:</p>
+<ol type="1">
+<li>Em primeiro lugar temos que organizar essas informações no banco de dados de modo coerente.</li>
+<li>Em segundo lugar, a introdução de variáveis qualitativas muda a interpretação dos resultados.</li>
+</ol>
+<p>Fatores qualitativos geralmente aparecem na forma de informações binárias, também denominadas,<em>dummy</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Variável Binária ou Dummy:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>É uma variável que assume o valor 1 se a “<u>condição occorre</u>” e 0 caso o contrário.</p>
+</div>
+</div>
+<p><u><strong>Exemplos:</strong></u></p>
+<p><strong>O crime de feminicídio ocorreu na região central?</strong> * <em>Variável Binária</em>: <code>crime_centro</code> (exemplo de nome) * se sim, ela recebe o valor 1, * se não ocorreu a variável recebe o valor 0.</p>
+<p>Nesse caso teremos uma coluna em nosso banco de dados denominada <code>crime_centro</code>, na qual a linha recebe o valor 1 caso o crime tenha ocorrido no centro e 0 caso o contrário.</p>
+<p><strong>O crime foi considerado grave?</strong></p>
+<ul>
+<li><em>Variável Binária</em>: <code>cri_grav</code> (exemplo de nome)</li>
+<li>Se sim, recebe o valor 1,</li>
+<li>caso contráriorecebe o valor 0.</li>
+</ul>
+<p><strong>Outras binárias….</strong></p>
+<ul>
+<li>1 se mulher e 0 se for homem.</li>
+<li>1 se for autodeclarado não-branco e 0 se for branco</li>
+<li>1 se trabalha e 0 se não trabalha</li>
+<li>1 se feminicídio e 0 se não for feminicídio.</li>
+</ul>
+<p>Utilizar 1 ou 0 é, de fato, um criterio arbitrário, mas essa escolha reside justamente na vantagem de se capturar informações importantes que tornam a interpretação dos resultados mais simples.</p>
+<p>As observações que receberam 1 como valor serão comparadas com aquelas observações que ficaram com o valor 0. Essas observações seriam nosso “grupo de comparação/grupo base”.</p>
+<section id="uma-única-variável-dummy-independente" class="level4" data-number="10.8.4.1">
+<h4 data-number="10.8.4.1" class="anchored" data-anchor-id="uma-única-variável-dummy-independente"><span class="header-section-number">10.8.4.1</span> Uma única Variável Dummy Independente</h4>
+<p>A forma mais simples de incorporar uma variável qualitativa e simplismente adicionarmos a variável binária na equação de regressão.</p>
+<p>Considere o exemplo prático retirado do livro do Wooldridge. Queremos entender os determinantes dos salários. Obviamente, o exemplo é bastante simples, mas será útil para avaliarmos a questão.</p>
+<p><span class="math display">\[salario_h = \beta_0 + \delta_0 feminino + \beta_1 educ + \beta_3 exper + \beta_4perm + u \]</span> Nesse exemplo, estamos tentando entender os quais os fatores que afetam os salários dos indivíduos. O salário pode ser explicado pela educação, experência, tempo no cargo e pelo fato de ser mulher. A variável feminino assume o valor 1, se o individuo for do sexo feminino e 0, caso o contrário. Na equação <span class="math inline">\(\delta_0\)</span> mede a diferença no salário entre homems e mulheres, dado os mesmos anos de estudos, experiência e tempo no cargo, e evidentemente o mesmo <span class="math inline">\(u\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"wooldridge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package=</span> <span class="st">"wooldridge"</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>wage_f<span class="ot">&lt;-</span><span class="fu">lm</span>(wage <span class="sc">~</span> female<span class="sc">+</span>educ<span class="sc">+</span>exper<span class="sc">+</span>tenure, <span class="at">data=</span>wage1)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wage_f)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wage ~ female + educ + exper + tenure, data = wage1)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.7675 -1.8080 -0.4229  1.0467 14.0075 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -1.56794    0.72455  -2.164   0.0309 *  
+female      -1.81085    0.26483  -6.838 2.26e-11 ***
+educ         0.57150    0.04934  11.584  &lt; 2e-16 ***
+exper        0.02540    0.01157   2.195   0.0286 *  
+tenure       0.14101    0.02116   6.663 6.83e-11 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.958 on 521 degrees of freedom
+Multiple R-squared:  0.3635,    Adjusted R-squared:  0.3587 
+F-statistic:  74.4 on 4 and 521 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>O coeficiente estimado para a binária que identifica mulheres foi de -1,81 e significativa a 1%. Isso indica que em média, uma mulher ganha menos US$ 1,81 por hora do que um homem com a mesma educação, experiência e tempo no cargo.</p>
+<p>Veja a figura abaixo ela mostra o efeito da binária feminina. Note que para um mesmo nível de escolaridade, o salário do homem é maior do que o salário da mulher. A dummy “desloca” o intercepto.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras/dummy1.png" class="img-fluid figure-img"></p>
+<figcaption>Variáveis binárias graficamente, fonte: SEmantic Scholar</figcaption>
+</figure>
+</div>
+<p>Podemos utilizar a binária para ver o efeito da experiência para homens e para mulheres. Podemos fazer isso criando uma variável que é a multiplicação entre experiência e feminino. Vejamos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>wage1<span class="sc">$</span>exp_f<span class="ot">&lt;-</span>wage1<span class="sc">$</span>exper<span class="sc">*</span>wage1<span class="sc">$</span>female</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>wage_f_2<span class="ot">&lt;-</span><span class="fu">lm</span>(wage <span class="sc">~</span> educ<span class="sc">+</span>female<span class="sc">+</span> exper<span class="sc">+</span>exp_f<span class="sc">+</span>tenure, <span class="at">data=</span>wage1)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wage_f_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = wage ~ educ + female + exper + exp_f + tenure, data = wage1)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.3215 -1.6447 -0.4678  1.0431 13.8889 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -2.27347    0.75952  -2.993 0.002891 ** 
+educ         0.58954    0.04938  11.938  &lt; 2e-16 ***
+female      -0.87766    0.41570  -2.111 0.035223 *  
+exper        0.05720    0.01589   3.601 0.000348 ***
+exp_f       -0.05635    0.01944  -2.898 0.003908 ** 
+tenure       0.12810    0.02148   5.964 4.56e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 2.937 on 520 degrees of freedom
+Multiple R-squared:  0.3737,    Adjusted R-squared:  0.3676 
+F-statistic: 62.04 on 5 and 520 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(wage1<span class="sc">$</span>wage)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.896103</code></pre>
+</div>
+</div>
+<p>Nesse novo modelo temos agora a binária de mulher, female, que mostra que o fato de ser mulher diminui o salário em -US$0,88. Veja que a média de salário é de US$ 5,9. A queda representa 15% a menos em relação ao homem.</p>
+<p>Com relação a multiplicação pela experiência, podemos assim analisar. Como a variável é 0 para homem, o efeito da experiência para os homens é o próprio coeficiente, exper. Para cada ano a mais de experiência o salário do homem aumenta em US$ 0,057. Para as mulheres é a soma do coeficiente, exper + exp_f.&nbsp;Para cada ao a mais da experência da mulher o mercado paga US$0,001 . Isso está representado no gráfico abaixo.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figuras/dummy2.png" class="img-fluid figure-img"></p>
+<figcaption>Variáveis binárias multiplicativas graficamente, fonte: University of Washington</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" class="level3" data-number="10.8.5">
+<h3 data-number="10.8.5" class="anchored" data-anchor-id="o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente"><span class="header-section-number">10.8.5</span> O uso de Dummies para categorias multiplas e Interação entre a dummy e a variável dependente</h3>
+<p>Considere a equação abaixo considerando o mesmo banco de dados anterior:</p>
+<p><span class="math display">\[log(salarioh) = \beta_0 + \beta_1  hsolteiro  +  \beta_2 mcasadas  + \beta_3 msolteiras + \beta_4educ + \beta_5exper + \beta_6exper^2 + u\]</span> Agora vamos dividir entre homens e mulheres, casadas(os) solteiras(os). Note que definimos uma dummy para cada grupo e o grupo de comparação utilizaremos o grupo de homens casados.</p>
+<p>As estimativas das dummies acima irão captar para cada grupo a diferença proporcional nos salarios-horas relativamente aos homens casados.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Aplicação de RLM multiplas dummies</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wage1, <span class="at">package=</span><span class="st">"wooldridge"</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="do">### criando as variáveis</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>wage1 <span class="ot">&lt;-</span> wage1 <span class="sc">%&gt;%</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hcasado =</span> <span class="fu">ifelse</span>(female<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> married<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>wage1 <span class="ot">&lt;-</span> wage1 <span class="sc">%&gt;%</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mcasada =</span> <span class="fu">ifelse</span>(female<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> married<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>wage1 <span class="ot">&lt;-</span> wage1 <span class="sc">%&gt;%</span></span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">msolteira =</span> <span class="fu">ifelse</span>(female<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> married<span class="sc">==</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>wage1 <span class="ot">&lt;-</span> wage1 <span class="sc">%&gt;%</span></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">hsolteiro =</span> <span class="fu">ifelse</span>(female<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> married<span class="sc">==</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb53-20"><a href="#cb53-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-21"><a href="#cb53-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-22"><a href="#cb53-22" aria-hidden="true" tabindex="-1"></a>status_civ <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(wage)<span class="sc">~</span>  hsolteiro <span class="sc">+</span> msolteira <span class="sc">+</span> mcasada <span class="sc">+</span> educ<span class="sc">+</span> exper  <span class="sc">+</span><span class="fu">I</span>(exper<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span>tenure, <span class="at">data=</span>wage1)</span>
+<span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(status_civ)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(wage) ~ hsolteiro + msolteira + mcasada + educ + 
+    exper + I(exper^2) + tenure, data = wage1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.89832 -0.24486 -0.03093  0.23483  1.11291 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.5370094  0.1070982   5.014 7.33e-07 ***
+hsolteiro   -0.2196913  0.0555033  -3.958 8.61e-05 ***
+msolteira   -0.3266998  0.0502974  -6.495 1.95e-10 ***
+mcasada     -0.4146530  0.0459328  -9.027  &lt; 2e-16 ***
+educ         0.0795322  0.0067169  11.841  &lt; 2e-16 ***
+exper        0.0297116  0.0051097   5.815 1.06e-08 ***
+I(exper^2)  -0.0005919  0.0001081  -5.475 6.84e-08 ***
+tenure       0.0149328  0.0028460   5.247 2.26e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.3949 on 518 degrees of freedom
+Multiple R-squared:  0.4553,    Adjusted R-squared:  0.448 
+F-statistic: 61.86 on 7 and 518 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Como temos um modelos log-nível, a interpretação é dada por <span class="math inline">\(\% \Delta y = (100 \beta_1) \Delta x\)</span>. Com base nas estimativas, verificamos que com relação aos homens casados:</p>
+<ul>
+<li><em>Homens solteiros</em> recebem cerca de 22% a menos.</li>
+<li><em>Mulheres solteiras</em> recebem 32,6% a menos.</li>
+<li><em>Mulheres casadas</em> recebem 41,5% a menos.</li>
+</ul>
+<p>Mantendo fixas educaçao, experiência e tempo no emprego.</p>
+<p><strong>Variáveis ao Quadrado: interpretando</strong></p>
+<p>Note que temos uma nova variável, a experência, ao quadrado. A variável ao quadrado tenta capturar a seguinte ideia: se cada ano a mais de experiência sempre gera o mesmo incremento de salário, ou se recebe cada vez menos por cada ano a mais de experiência. Temos agora uma mudança de interpretação</p>
+<p><span class="math display">\[\frac{\% \Delta y }{\Delta x}= 100\beta_5 +200\beta_6exper  \]</span></p>
+<p>Com base nas estimatvas:</p>
+<p><span class="math display">\[\frac{\% \Delta y }{\Delta x}= 100\times0,0297 +200\times -0,000592 \times exper\]</span></p>
+<p><span class="math display">\[\frac{\% \Delta y }{\Delta x}= 2,97 -0,118 \times exper  \]</span> Vamos pensar em uma pessoa que tem 0 anos de experiência e adquire um ano. Logo:</p>
+<p><span class="math display">\[\frac{\% \Delta y }{1}= 2,97 -0,118 \times 1 = 2,85\% \]</span> Ela ira receber 2,85% a mais de salário devido a essa experiência adquirida. Vejamos agora uma pessoa com 9 anos e adquire mais um ano, vai para 10. Logo</p>
+<p><span class="math display">\[\frac{\% \Delta y }{1}= 2,97 -0,118 \times 10 = 1,79\% \]</span> Esse ano a mais agora adicionou apenas 1,79% no seu salário. Para finalizar vejamos de 24 para 25 anos de experiência</p>
+<p><span class="math display">\[\frac{\% \Delta y }{1}= 2,97 -0,118 \times 25 = 0,02\% \]</span> Adiciona praticamente zero. E a partir desse ponto a adição será negativa, mais experiência terá menor salário. Assim o ponto de mudança será:</p>
+<p><span class="math display">\[ 2,97 -0,118 \times exper = 0 \implies exper=\frac{2,97}{0,118}=25,16 \]</span> O salário vai aumentando até chegar a experiência de 25 anos, depois desse ponto o mercado tende a penalizar com salários menores quem tem mais experiência.</p>
+</section>
+<section id="incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." class="level3" data-number="10.8.6">
+<h3 data-number="10.8.6" class="anchored" data-anchor-id="incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy."><span class="header-section-number">10.8.6</span> Incorporando Informações Ordinais com o uso de Variáveis Dummy.</h3>
+<p>Vamos agora entender a criação de binárias para variáveis com várias categorias. Um exemplo clássico de variável com diversas categorias é a região onde mora o indivíduo. Podemos ver isso no nosso banco anterior chamado <code>dados</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dados<span class="sc">$</span>regiao)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+CO  N NE  S SD 
+ 4  7  9  3  4 </code></pre>
+</div>
+</div>
+<p>Temos que escolher uma região de comparação, por exemplo Sudeste. Assim, pode-se criar uma binária para o CO, uma para o N, uma para o NE e uma para o S. Veja o exemplo abaixo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="do">### criando as variáveis</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CO =</span> <span class="fu">ifelse</span>(regiao<span class="sc">==</span><span class="st">"CO"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">NE =</span> <span class="fu">ifelse</span>(regiao<span class="sc">==</span><span class="st">"NE"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">N =</span> <span class="fu">ifelse</span>(regiao<span class="sc">==</span><span class="st">"N"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> dados <span class="sc">%&gt;%</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">S =</span> <span class="fu">ifelse</span>(regiao<span class="sc">==</span><span class="st">"S"</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Como esse banco é muito pequeno, vamos retomar o banco o Wooldridge <code>wage1</code>. Neste banco já está criada a variável de região sendo a região leste a de comparação. Vamos adicionar na regressão as regiões, sul, centro-norte e oeste.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>reg_salar <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(wage)<span class="sc">~</span>  northcen <span class="sc">+</span> west<span class="sc">+</span> south <span class="sc">+</span> female<span class="sc">+</span> educ<span class="sc">+</span> exper <span class="sc">+</span>tenure, <span class="at">data=</span>wage1)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_salar)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(wage) ~ northcen + west + south + female + educ + 
+    exper + tenure, data = wage1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-2.01490 -0.25600 -0.02259  0.25361  1.30569 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.534853   0.108019   4.951 9.98e-07 ***
+northcen    -0.064811   0.052512  -1.234  0.21768    
+west         0.078528   0.058211   1.349  0.17792    
+south       -0.061050   0.049041  -1.245  0.21374    
+female      -0.306808   0.037148  -8.259 1.23e-15 ***
+educ         0.086823   0.006943  12.504  &lt; 2e-16 ***
+exper        0.004808   0.001622   2.963  0.00318 ** 
+tenure       0.017148   0.002968   5.777 1.31e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4137 on 518 degrees of freedom
+Multiple R-squared:  0.4022,    Adjusted R-squared:  0.3941 
+F-statistic: 49.79 on 7 and 518 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>Observa-se no modelo acima que não há diferenças regionais importantes nos salários, quando controlamos para mulheres, educação, experiência e tempo no trabalho.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap7_descritiva_v2.html" class="pagination-link" aria-label="Análise Descritiva">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap9_outrosmodelos.html" class="pagination-link" aria-label="Modelos Avançados">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

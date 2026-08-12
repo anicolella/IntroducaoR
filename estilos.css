@@ -1,0 +1,23 @@
+/* Configuração geral das caixas */
+.definicao, .teorema, .exemplo {
+  border-radius: 4px; 
+  margin-bottom: 15px; 
+  overflow: hidden;
+}
+
+/* Espaçamento interno do texto */
+.definicao p, .teorema p, .exemplo p { 
+  padding: 10px; margin: 0; 
+}
+
+/* 1. Definição: Cinza e Preto */
+.definicao { border: 2px solid #404040; background-color: #f2f2f2; }
+.definicao::before { content: "Definição"; display: block; background-color: #404040; color: white; padding: 5px 10px; font-weight: bold; }
+
+/* 2. Teorema: Vermelho */
+.teorema { border: 2px solid red; background-color: #ffe6e6; }
+.teorema::before { content: "Teorema"; display: block; background-color: #ffcccc; color: black; padding: 5px 10px; font-weight: bold; border-bottom: 1px solid red; }
+
+/* 3. Exemplo: Azul */
+.exemplo { border: 2px solid #66b3ff; background-color: white; }
+.exemplo::before { content: "Exemplo"; display: block; background-color: #cce6ff; color: black; padding: 5px 10px; font-weight: bold; border-bottom: 1px solid #66b3ff; }

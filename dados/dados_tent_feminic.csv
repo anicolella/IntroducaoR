@@ -1,0 +1,28 @@
+estado;sigla;regiao;t_homic_abs;t_homic_tx;t_feminic_abs;t_feminic_tx;part_t_feminic
+Acre;AC;N;388;93.4;16;3.9;3.96
+Alagoas;AL;NE;160;9.8;54;3.3;25.23
+Amapa;AP;N;95;25.9;44;12.0;31.65
+Amazonas;AM;N;83;4.2;45;2.3;35.16
+Bahia;BA;NE;582;8.0;174;2.4;23.02
+Ceara;CE;NE;324;7.2;102;2.3;23.94
+Distrito Federal ;DF;CO;208;14.2;88;6.0;29.73
+Espirito Santo;ES;SD;450;23.1;70;3.6;13.46
+Goias;GO;CO;364;10.2;168;4.7;31.58
+Maranhao;MA;NE;264;7.7;106;3.1;28.65
+Mato Grosso;MT;CO;249;13.8;;;
+Mato Grosso do Sul;MS;CO;212;15.3;123;8.8;36.72
+Minas Gerais;MG;SD;438;4.2;194;1.9;30.7
+Para;PA;N;320;7.9;155;3.8;32.63
+Paraiba;PB;NE;86;4.2;28;1.4;24.56
+Parana;PR;S;373;6.4;69;1.2;15.61
+Pernambuco;PE;NE;263;5.6;114;2.4;30.24
+Piaui;PI;NE;171;10.1;98;5.8;36.43
+Rio de Janeiro;RJ;SD;536;6.4;293;3.5;35.34
+Rio Grande do Norte;RN;NE;346;20.4;38;2.2;9.9
+Rio Grande do Sul;RS;S;606;10.8;265;4.7;30.42
+Rondonia;RO;N;124;15.8;23;2.9;15.65
+Roraima;RR;N;47;15.4;15;4.9;24.19
+Santa Catarina;SC;S;373;9.7;175;4.6;31.93
+Sao Paulo;SP;SD;399;1.8;;;
+Sergipe;SE;NE;124;10.8;52;4.5;29.55
+Tocantins;TO;N;75;10.0;54;7.2;41.86

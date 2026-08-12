@@ -1,0 +1,284 @@
+# Prefácio
+
+## Bem-vindos
+
+Esta é a página da disciplina **REC3302 — Introdução ao R Aplicado à Economia e Finanças**, oferecida pela Faculdade de Economia, Administração e Contabilidade de Ribeirão Preto da Universidade de São Paulo.
+
+A disciplina utiliza o **R como ambiente para investigar problemas econômicos e financeiros por meio de dados**. O objetivo não é aprender uma lista isolada de comandos, mas desenvolver a capacidade de:
+
+- formular questões que possam ser investigadas;
+- identificar e obter os dados necessários;
+- compreender a estrutura das bases;
+- organizar e transformar informações;
+- construir variáveis economicamente relevantes;
+- visualizar e analisar os dados;
+- interpretar e comunicar os resultados;
+- produzir análises reproduzíveis.
+
+A pergunta central ao longo do curso será:
+
+> **O que precisamos aprender a fazer com os dados para responder a uma questão econômica concreta?**
+
+---
+
+## O problema como ponto de partida
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+
+### Aprender R com propósito
+
+Uma ferramenta será apresentada quando houver uma necessidade concreta de utilizá-la.
+
+Em vez de começar perguntando “qual comando aprenderemos?”, procuraremos identificar:
+
+- o que queremos descobrir;
+- quais informações são necessárias;
+- como os dados estão organizados;
+- quais operações precisamos realizar;
+- como verificar se o resultado faz sentido.
+
+:::
+
+::: {.g-col-12 .g-col-md-6}
+
+### Aprendizagem baseada em problemas
+
+Os estudantes trabalharão em grupos a partir de questões relacionadas a:
+
+- **Microeconomia**;
+- **Macroeconomia**;
+- **Finanças**.
+
+Os problemas serão desenvolvidos paralelamente às aulas. À medida que novas ferramentas forem aprendidas, elas serão aplicadas aos projetos dos grupos.
+
+:::
+
+:::
+
+---
+
+## Dois processos em paralelo
+
+A disciplina combinará dois processos que deverão convergir ao longo do semestre.
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+
+### Formação em R e análise de dados
+
+Ao longo das aulas, desenvolveremos conhecimentos sobre:
+
+- ambiente R;
+- organização de projetos;
+- fundamentos da linguagem;
+- importação e qualidade dos dados;
+- transformação e organização;
+- visualização;
+- estatística descritiva;
+- programação e automação;
+- modelos, quando necessários;
+- comunicação reproduzível.
+
+:::
+
+::: {.g-col-12 .g-col-md-6}
+
+### Desenvolvimento dos problemas
+
+Cada grupo deverá avançar progressivamente por etapas como:
+
+- delimitação da questão;
+- identificação das fontes;
+- obtenção dos dados;
+- compreensão da base;
+- construção das variáveis;
+- tratamento;
+- análise;
+- validação;
+- interpretação;
+- documentação.
+
+:::
+
+:::
+
+O problema fornece a motivação para aprender novas ferramentas. A formação em R, por sua vez, amplia o que os grupos conseguem investigar.
+
+---
+
+## Percurso da disciplina
+
+A formação parte da compreensão do problema e avança até a produção de análises aplicadas e reproduzíveis.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Percurso pedagógico da disciplina, da formulação do problema à produção de tutoriais aplicados"
+
+flowchart TD
+    A["Problemas, ciência e evidência"] --> B["Ambiente e fundamentos de R"]
+    B --> C["Transformação e organização"]
+    C --> D["Visualização e descrição"]
+    D --> E["Programação e automação"]
+    E --> F["Da descrição à explicação<br/>Aprofundamento em Data Science"]
+    F --> G["Produção de tutoriais"]
+
+    G --> H["Microeconomia"]
+    G --> I["Macroeconomia"]
+    G --> J["Finanças"]
+
+    K["IA como apoio ao aprendizado"] -. acompanha .-> B
+    K -. acompanha .-> C
+    K -. acompanha .-> D
+    K -. acompanha .-> F
+    K -. acompanha .-> G
+
+    L["Recursos complementares"] -. apoia .-> G
+
+    classDef principal fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef aprofundamento fill:#FFF1D6,stroke:#8A6426,stroke-width:2px,color:#4A3512;
+    classDef transversal fill:#E8EEF5,stroke:#415A77,stroke-width:2px,color:#1D3557;
+
+    class A,B,C,D,E,G,H,I,J principal;
+    class F aprofundamento;
+    class K,L transversal;
+```
+
+O percurso não deve ser entendido como uma sequência rígida. Os grupos poderão consultar ferramentas e aprofundamentos diferentes conforme as necessidades de seus problemas.
+
+---
+
+## Áreas de aplicação
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+
+### Microeconomia
+
+Os tutoriais poderão utilizar microdados de pesquisas como a **PNAD Contínua**, a **Pesquisa Nacional de Saúde (PNS)** e a **Pesquisa de Orçamentos Familiares (POF)** para investigar temas como:
+
+- mercado de trabalho;
+- renda;
+- educação;
+- saúde;
+- consumo;
+- desigualdade;
+- indivíduos, famílias e domicílios.
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Macroeconomia
+
+As aplicações poderão utilizar séries do **Banco Central do Brasil**, do **Ipeadata** e de outras fontes oficiais para analisar:
+
+- inflação;
+- juros;
+- atividade econômica;
+- crédito;
+- câmbio;
+- expectativas;
+- outros indicadores macroeconômicos.
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Finanças
+
+Os tutoriais poderão utilizar dados do **Yahoo Finance**, da **B3** e de outras fontes adequadas para trabalhar com:
+
+- preços de ativos;
+- retornos;
+- índices;
+- volatilidade;
+- comparação entre ativos;
+- risco e retorno.
+
+:::
+
+:::
+
+Cada área possui fontes, estruturas de dados e problemas próprios. Por isso, os tutoriais não precisarão seguir exatamente os mesmos procedimentos.
+
+---
+
+## Da descrição à explicação
+
+Uma primeira etapa da análise consiste em organizar, visualizar e descrever os dados para responder:
+
+> **O que está acontecendo?**
+
+Podemos investigar distribuições, tendências, diferenças entre grupos e relações entre variáveis.
+
+Em um momento de **aprofundamento em Data Science**, alguns problemas poderão exigir uma nova pergunta:
+
+> **Por que isso pode estar acontecendo?**
+
+Nesse ponto, serão introduzidos modelos e ferramentas adicionais quando forem necessários. O objetivo não é transformar a disciplina em um curso completo de Econometria, mas mostrar como o R pode apoiar a formulação, implementação e interpretação de análises econômicas.
+
+---
+
+## Produto da disciplina
+
+O principal produto dos grupos será um **tutorial aplicado e reproduzível**.
+
+Um tutorial deverá permitir que outra pessoa:
+
+1. compreenda o problema econômico;
+2. identifique a fonte dos dados;
+3. obtenha os dados, quando possível;
+4. compreenda sua estrutura;
+5. reproduza as etapas de tratamento;
+6. entenda a construção das variáveis;
+7. execute a análise;
+8. interprete os resultados;
+9. adapte o procedimento para problemas semelhantes.
+
+Os tutoriais que atingirem qualidade adequada poderão ser revisados, padronizados e incorporados a esta página.
+
+Assim, o site terá duas funções:
+
+- disponibilizar o material didático da disciplina;
+- formar um repositório coletivo de aplicações em Microeconomia, Macroeconomia e Finanças.
+
+A construção da página será, portanto, parte do próprio processo de aprendizagem.
+
+---
+
+## Inteligência artificial como apoio
+
+Ferramentas de inteligência artificial poderão apoiar atividades como:
+
+- compreender códigos;
+- investigar erros;
+- explorar documentação;
+- comparar alternativas;
+- revisar soluções;
+- desenvolver estratégias de análise;
+- aprender com maior autonomia.
+
+A IA será utilizada como **ferramenta de apoio à aprendizagem e à investigação**, não como substituta da compreensão do problema.
+
+Todo código, explicação ou resultado produzido com seu auxílio deverá ser compreendido, testado e validado.
+
+---
+
+## Como continuar
+
+Nas próximas páginas, você encontrará:
+
+- informações sobre a disciplina, equipe, avaliação e entregas;
+- orientações para utilizar esta apostila;
+- material de formação em R e análise de dados;
+- conteúdos de aprofundamento;
+- tutoriais aplicados;
+- recursos complementares.
+
+O percurso poderá variar conforme a experiência do estudante e as necessidades de seu projeto, mas um princípio deverá permanecer constante:
+
+> **compreender o problema, trabalhar cuidadosamente com os dados e produzir resultados que possam ser explicados, verificados e reproduzidos.**

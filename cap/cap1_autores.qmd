@@ -1,0 +1,23 @@
+# Sobre o Autor
+
+
+::: {.container style="display: flex; flex-direction: column; gap: 2rem;"}
+::: {.autor style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;"}
+
+::: {.bio}
+## **Alexandre Nicolella**
+
+![](../figuras/alexandre.jpg){width=140px height=140px style="border-radius: 50%; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.15);"} 
+
+É professor de Economia na Universidade de São Paulo, atuando na Faculdade de Economia, Administração e Contabilidade de Ribeirão Preto (FEA-RP). Possui doutorado em Economia Aplicada pela mesma universidade, com períodos de pesquisa como professor visitante na University of Kent (Reino Unido) e na University of Illinois (EUA). Sua atuação recente tem se concentrado nas áreas de economia social e ambiental, com projetos financiados por instituições internacionais como IFPRI, Banco Mundial, GIZ e BID, além de agências nacionais como CAPES, FAPESP, MEC, INEP e BNDES. Leciona disciplinas de Estatística na graduação e Avaliação de Políticas Públicas na pós-graduação em Economia. Tem experiência consolidada na aplicação de métodos quantitativos à análise de questões sociais e na avaliação de impacto de políticas públicas.
+
+
+📘 [Currículo Lattes](https://lattes.cnpq.br/1375868138002604) • 
+
+🔗 [ORCID](https://orcid.org/0000-0002-1006-6527)
+
+🐙 [GitHub](https://github.com/anicolella)
+
+:::
+:::
+:::

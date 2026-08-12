@@ -1,0 +1,207 @@
+# Informações da Disciplina
+
+<span style="font-size:20px; font-weight:bold;">REC3302 – Introdução ao R Aplicado à Economia e Finanças</span>
+
+<span style="font-size:18px; font-weight:bold;">Faculdade de Economia, Administração e Contabilidade de Ribeirão Preto – USP</span>
+
+---
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+
+👨‍🏫 <span style="font-size:20px; font-weight:bold;">EQUIPE</span>
+
+**Professor**  
+Alexandre Nicolella  
+✉ nicolella@usp.br
+
+**Monitores**  
+João Vitor Domingues  
+Mariana Pupo
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+🕒 <span style="font-size:20px; font-weight:bold;">HORÁRIO</span>
+
+**Quarta-feira**  
+19:00–20:40
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+📈 <span style="font-size:20px; font-weight:bold;">AVALIAÇÃO</span>
+
+| Componente | Peso |
+|---|---:|
+| Tutoriais entregues e validados | 100% |
+
+:::
+
+:::
+
+---
+
+## Organização dos grupos
+
+Os estudantes serão organizados em grupos associados a uma das três áreas de aplicação:
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+
+### Microeconomia
+
+Problemas desenvolvidos principalmente a partir de microdados de indivíduos, famílias e domicílios.
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Macroeconomia
+
+Problemas relacionados a séries e indicadores econômicos provenientes de fontes oficiais.
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Finanças
+
+Problemas relacionados a preços, retornos, índices, risco e outras informações financeiras.
+
+:::
+
+:::
+
+Cada grupo partirá de uma **questão econômica concreta**. A escolha da área não define antecipadamente qual ferramenta ou modelo será utilizado. As técnicas necessárias serão identificadas durante o desenvolvimento do problema.
+
+---
+
+## Desenvolvimento dos trabalhos
+
+Os projetos serão desenvolvidos paralelamente às aulas. A formação em R e análise de dados, a discussão com os grupos e a construção dos tutoriais deverão avançar conjuntamente ao longo do semestre.
+
+À medida que novas competências forem introduzidas, os grupos deverão utilizá-las para avançar em seus problemas. As dificuldades encontradas nos projetos também ajudarão a identificar quais ferramentas e conhecimentos precisam ser desenvolvidos.
+
+O trabalho será organizado por meio de uma **sequência de entregas parciais**, definida e acompanhada com cada grupo.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Fluxo paralelo de formação, desenvolvimento, discussão e validação dos tutoriais"
+
+flowchart LR
+    A["Questão econômica"] --> B["Dados e fontes"]
+    B --> C["Estrutura da base"]
+    C --> D["Construção das variáveis"]
+    D --> E["Tratamento e análise"]
+    E --> F["Interpretação"]
+    F --> G["Tutorial"]
+    G --> H["Revisão e validação"]
+
+    I["Formação em R e análise de dados"] -. apoia .-> B
+    I -. apoia .-> C
+    I -. apoia .-> D
+    I -. apoia .-> E
+
+    J["Discussão e acompanhamento dos grupos"] -. acompanha .-> A
+    J -. acompanha .-> C
+    J -. acompanha .-> E
+    J -. acompanha .-> G
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef paralelo fill:#E8EEF5,stroke:#415A77,stroke-width:2px,color:#1D3557;
+    class A,B,C,D,E,F,G,H etapa;
+    class I,J paralelo;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+A sequência detalhada e as datas serão definidas ao longo da disciplina, considerando as características de cada problema.
+
+---
+
+## Entregas e prazos
+
+::: {.callout-important title="Cumprimento dos prazos"}
+
+As entregas parciais fazem parte do processo de desenvolvimento, discussão e avaliação dos tutoriais.
+
+Cada grupo deverá cumprir a sequência de entregas e os respectivos prazos acordados ao longo do semestre.
+
+**Entregas realizadas fora do prazo terão desconto na nota.**
+
+:::
+
+As entregas intermediárias permitirão:
+
+- identificar dificuldades antecipadamente;
+- revisar a formulação do problema;
+- verificar a adequação dos dados;
+- corrigir procedimentos;
+- acompanhar a construção das variáveis;
+- validar progressivamente a análise;
+- melhorar a clareza e a reprodutibilidade do tutorial.
+
+---
+
+## Avaliação
+
+A avaliação da disciplina será composta integralmente pelo **processo de desenvolvimento e pela entrega dos tutoriais validados**.
+
+| Componente | Peso |
+|---|---:|
+| Desenvolvimento, entrega e validação dos tutoriais | 100% |
+
+A avaliação não estará restrita ao documento final. Também fará parte dela o trabalho desenvolvido ao longo do semestre, incluindo:
+
+- cumprimento das entregas parciais;
+- participação nas discussões e revisões;
+- incorporação das orientações recebidas;
+- qualidade progressiva do trabalho;
+- consistência entre o problema, os dados e a análise.
+
+Entre os critérios gerais de avaliação estarão:
+
+- clareza e relevância do problema econômico;
+- adequação das fontes e dos dados;
+- compreensão da estrutura da base;
+- construção e documentação das variáveis;
+- correção das etapas de tratamento;
+- adequação da análise;
+- interpretação dos resultados;
+- legibilidade do código;
+- reprodutibilidade;
+- cumprimento das entregas e dos prazos;
+- qualidade do tutorial produzido.
+
+Os critérios detalhados e sua eventual distribuição de pesos serão definidos posteriormente.
+
+---
+
+## Validação dos tutoriais
+
+Um tutorial será considerado validado quando apresentar qualidade suficiente para que outra pessoa consiga:
+
+1. compreender a questão econômica;
+2. identificar e obter os dados;
+3. entender a estrutura da base;
+4. reproduzir o tratamento;
+5. compreender a construção das variáveis;
+6. executar a análise;
+7. interpretar os resultados;
+8. adaptar o procedimento para uma situação semelhante.
+
+Se o tutorial não for validado na primeira avaliação, o grupo terá **uma oportunidade adicional de revisão**, considerando as orientações recebidas. Após essa revisão, será realizada a avaliação final do trabalho.
+
+Os trabalhos validados que atingirem qualidade adequada poderão ser revisados, padronizados e incorporados à página da disciplina.
+
+---
+
+## Bibliografia
+
+A definir.
+
+As referências serão indicadas e ampliadas conforme os conteúdos e as necessidades dos problemas desenvolvidos.

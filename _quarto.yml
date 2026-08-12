@@ -1,0 +1,77 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "Introdução ao R"
+  subtitle: "Notas de Aula"
+  navbar:
+    background: "#818f81"
+    logo: figuras/usp.png
+    search: true
+    left:
+      - text: "Home"
+        file: index.qmd
+      #- intro.qmd
+      #- summary.qmd
+      #- pesquisa.qmd
+      #- interpretando.qmd
+    right:
+      - icon: github
+        href: https://github.com/anicolella/IntroducaoR
+        aria-label: GitHub
+  sidebar:
+    background: "#F4F6F6"
+    search: true
+    style: "docked"
+  page-navigation: true
+  author:
+  - name: "Alexandre Nicolella"
+    affiliation: "Universidade de São Paulo (USP)"
+  date: "03/13/2026"
+  chapters:
+    - index.qmd
+    - cap/cap2_summary.qmd
+    - cap/cap2_1_como_utilizar.qmd
+    - cap/cap1_autores.qmd
+
+    - part: "Manipulando os Dados"
+      chapters:
+        - cap/cap3_int_R.qmd
+        - cap/cap4_dplyr.qmd
+        - cap/cap5_googledrive.qmd
+
+    - part: "Motivando e Relembrando"
+      chapters:
+        - cap/cap6_estatistica.qmd
+
+    - part: "Gerando Informação"
+      chapters:
+        - cap/cap7_descritiva_v2.qmd
+        - cap/cap8_lineares.qmd
+        - cap/cap9_outrosmodelos.qmd
+
+
+    - part: "Tópicos Extras"
+      chapters:
+        - cap/capextra_github.qmd
+
+
+bibliography: references.bib
+
+execute:
+  freeze: auto
+
+format:
+  html:
+    theme: cosmo
+    css: estilos.css
+    toc: true
+    fontsize: 16px
+    #linestretch: 1.7
+  #pdf:
+    #documentclass: scrreprt
+
+
+editor: visual
+

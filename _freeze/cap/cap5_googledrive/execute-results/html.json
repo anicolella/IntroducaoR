@@ -1,0 +1,15 @@
+{
+  "hash": "9a45858c17ce002b115dd54d58729df6",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Google Drive\"\nsubtitle: \"Importanto os dados\"\nauthor:\n- Alexandre Nicolella\ndate: \"03/03/2026\"\nformat: html\n---\n\n## Introdução\n\nVamos aqui importar os dados de arquivos compartilhados o Google Drive. Vamos usar arquivos que não precisam de autenticação. São aqueles que *\" qualquer um com o link\"* podem acessar. Para isso terá que utilizar o pacote `googledrive`.\n\n### Encontrando o ID\n\nPrimeiramente precisa ter acesso ao link de compartilhamento. Vejamos o link de compartilhamento do arquivo `cjpg.rds`\n\n`https://drive.google.com/file/d/1kHMnLjY8siz0vUbiO-G0oQg5RIF8Z4xf/view?usp=sharing`\n\n\nO **ID** é a seguinte parte do endereço: `1kHMnLjY8siz0vUbiO-G0oQg5RIF8Z4xf`\n\nCom esse string podemos fazer o download do arquivo\n\n### Fazendo o download\n\nPrimeiramente vamos excluir a autenticação com o comando `drive_deauth()`. Poderá checar a exclusão com o comando `drive_user()`, ele mostrará que não existe usuário logado ou autenticado.\n\nDepois indicaremos o caminho do arquivo no google drive e com o caminho indicado ele fará o download na pasta do seu computador indicada na parte superior da aba *Console*. Depois é só fazer a leitura para transformar o arquivo em `.Rdata`. Vejamos:\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# IMPORTANTO: final_fem_22\nlibrary(googledrive)\n\ndrive_deauth()\ndrive_user() \n\nfinal_fem_public <- drive_get(as_id(\"1kHMnLjY8siz0vUbiO-G0oQg5RIF8Z4xf\"))\n\ndrive_download(\n  final_fem_public,\n  path = \"../dados/final_fem_22.csv\",\n  overwrite = TRUE\n)\n\nfinal_fem_22 <- read.csv(\n  \"../dados/final_fem_22.csv\",\n  header = TRUE,\n  sep = \";\"\n)\n```\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

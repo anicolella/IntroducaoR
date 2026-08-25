@@ -42,6 +42,12 @@ book:
         - cap/cap06_evidencia_conclusao.qmd
         - cap/cap07_planejamento_investigacao.qmd
 
+    - part: "Ambiente e fundamentos de R"
+      chapters:
+        - cap/cap08_ambiente_r.qmd
+        - cap/cap09_projetos_reprodutiveis.qmd
+        - cap/cap10_objetos_operacoes.qmd
+
     - part: "Manipulando os Dados"
       chapters:
         - cap/cap3_int_R.qmd

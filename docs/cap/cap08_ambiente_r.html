@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="dcterms.date" content="2026-08-25">
+
+<title>8&nbsp; R e o ambiente de trabalho – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap09_projetos_reprodutiveis.html" rel="next">
+<link href="../cap/cap07_planejamento_investigacao.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html">Ambiente e fundamentos de R</a></li><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Do problema econômico à investigação com dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap05_pergunta_dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap06_evidencia_conclusao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Da evidência à conclusão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap07_planejamento_investigacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ambiente e fundamentos de R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap08_ambiente_r.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap09_projetos_reprodutiveis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Projetos e organização reproduzível</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap10_objetos_operacoes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Objetos e operações fundamentais</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#o-que-é-r" id="toc-o-que-é-r" class="nav-link active" data-scroll-target="#o-que-é-r"><span class="header-section-number">8.1</span> O que é R?</a></li>
+  <li><a href="#linguagem-e-ide-não-são-a-mesma-coisa" id="toc-linguagem-e-ide-não-são-a-mesma-coisa" class="nav-link" data-scroll-target="#linguagem-e-ide-não-são-a-mesma-coisa"><span class="header-section-number">8.2</span> Linguagem e IDE não são a mesma coisa</a></li>
+  <li><a href="#instalação" id="toc-instalação" class="nav-link" data-scroll-target="#instalação"><span class="header-section-number">8.3</span> Instalação</a>
+  <ul class="collapse">
+  <li><a href="#instalar-o-r" id="toc-instalar-o-r" class="nav-link" data-scroll-target="#instalar-o-r"><span class="header-section-number">8.3.1</span> Instalar o R</a></li>
+  <li><a href="#escolher-uma-ide" id="toc-escolher-uma-ide" class="nav-link" data-scroll-target="#escolher-uma-ide"><span class="header-section-number">8.3.2</span> Escolher uma IDE</a></li>
+  </ul></li>
+  <li><a href="#componentes-do-ambiente-de-trabalho" id="toc-componentes-do-ambiente-de-trabalho" class="nav-link" data-scroll-target="#componentes-do-ambiente-de-trabalho"><span class="header-section-number">8.4</span> Componentes do ambiente de trabalho</a>
+  <ul class="collapse">
+  <li><a href="#editor" id="toc-editor" class="nav-link" data-scroll-target="#editor"><span class="header-section-number">8.4.1</span> Editor</a></li>
+  <li><a href="#console" id="toc-console" class="nav-link" data-scroll-target="#console"><span class="header-section-number">8.4.2</span> Console</a></li>
+  <li><a href="#terminal" id="toc-terminal" class="nav-link" data-scroll-target="#terminal"><span class="header-section-number">8.4.3</span> Terminal</a></li>
+  <li><a href="#arquivos-ambiente-gráficos-e-ajuda" id="toc-arquivos-ambiente-gráficos-e-ajuda" class="nav-link" data-scroll-target="#arquivos-ambiente-gráficos-e-ajuda"><span class="header-section-number">8.4.4</span> Arquivos, ambiente, gráficos e ajuda</a></li>
+  </ul></li>
+  <li><a href="#console-ou-script" id="toc-console-ou-script" class="nav-link" data-scroll-target="#console-ou-script"><span class="header-section-number">8.5</span> Console ou script?</a></li>
+  <li><a href="#criando-o-primeiro-script" id="toc-criando-o-primeiro-script" class="nav-link" data-scroll-target="#criando-o-primeiro-script"><span class="header-section-number">8.6</span> Criando o primeiro script</a></li>
+  <li><a href="#mensagens-avisos-e-erros" id="toc-mensagens-avisos-e-erros" class="nav-link" data-scroll-target="#mensagens-avisos-e-erros"><span class="header-section-number">8.7</span> Mensagens, avisos e erros</a></li>
+  <li><a href="#ajuda-e-documentação" id="toc-ajuda-e-documentação" class="nav-link" data-scroll-target="#ajuda-e-documentação"><span class="header-section-number">8.8</span> Ajuda e documentação</a></li>
+  <li><a href="#inteligência-artificial-e-documentação" id="toc-inteligência-artificial-e-documentação" class="nav-link" data-scroll-target="#inteligência-artificial-e-documentação"><span class="header-section-number">8.9</span> Inteligência artificial e documentação</a></li>
+  <li><a href="#atividade-conhecendo-o-ambiente" id="toc-atividade-conhecendo-o-ambiente" class="nav-link" data-scroll-target="#atividade-conhecendo-o-ambiente"><span class="header-section-number">8.10</span> Atividade — conhecendo o ambiente</a>
+  <ul class="collapse">
+  <li><a href="#etapa-1-identifique-os-componentes" id="toc-etapa-1-identifique-os-componentes" class="nav-link" data-scroll-target="#etapa-1-identifique-os-componentes"><span class="header-section-number">8.10.1</span> Etapa 1 — Identifique os componentes</a></li>
+  <li><a href="#etapa-2-crie-e-execute-um-script" id="toc-etapa-2-crie-e-execute-um-script" class="nav-link" data-scroll-target="#etapa-2-crie-e-execute-um-script"><span class="header-section-number">8.10.2</span> Etapa 2 — Crie e execute um script</a></li>
+  <li><a href="#etapa-3-consulte-a-ajuda" id="toc-etapa-3-consulte-a-ajuda" class="nav-link" data-scroll-target="#etapa-3-consulte-a-ajuda"><span class="header-section-number">8.10.3</span> Etapa 3 — Consulte a ajuda</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html">Ambiente e fundamentos de R</a></li><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></h1>
+<p class="subtitle lead">Linguagem, interfaces e primeiros passos</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 25, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Até aqui, planejamos uma investigação econômica com dados. Agora começaremos a construir as competências técnicas necessárias para executá-la.</p>
+<p>Neste capítulo, conheceremos o R e os ambientes que podem ser utilizados para escrever e executar código. O objetivo não é memorizar todos os componentes da interface, mas compreender <strong>onde escrevemos, onde executamos e onde encontramos os resultados e a documentação</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, você deverá ser capaz de:</p>
+<ul>
+<li>explicar a diferença entre R, RStudio e Positron;</li>
+<li>reconhecer o papel de uma IDE;</li>
+<li>localizar editor, console, terminal, arquivos e ajuda;</li>
+<li>distinguir comandos temporários de código registrado em um script;</li>
+<li>criar, salvar e executar um script simples;</li>
+<li>consultar a documentação de uma função.</li>
+</ul>
+</div>
+</div>
+<section id="o-que-é-r" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="o-que-é-r"><span class="header-section-number">8.1</span> O que é R?</h2>
+<p>R é uma <strong>linguagem e um ambiente para computação estatística e produção de gráficos</strong> <span class="citation" data-cites="rproject">(<a href="#ref-rproject" role="doc-biblioref">R Core Team, n.d.</a>)</span>. Com ele, podemos representar informações por meio de objetos, executar operações, transformar bases, estimar modelos e construir visualizações.</p>
+<p>O R é software livre e pode ser utilizado em Windows, macOS e Linux. Sua funcionalidade pode ser ampliada por meio de pacotes desenvolvidos por uma comunidade internacional.</p>
+<p>Para a Economia e as Finanças, o R permite trabalhar com:</p>
+<ul>
+<li>microdados de indivíduos, famílias e empresas;</li>
+<li>séries macroeconômicas;</li>
+<li>preços e retornos de ativos;</li>
+<li>tabelas, gráficos e mapas;</li>
+<li>estatística e econometria;</li>
+<li>documentos e tutoriais reproduzíveis em Quarto.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="R não é apenas um programa de clicar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>R não é apenas um programa de clicar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em R, registramos instruções em código. No início, isso exige aprender uma nova linguagem. Em compensação, o código preserva a sequência da análise, facilita correções e permite repetir o trabalho com novos dados.</p>
+</div>
+</div>
+</section>
+<section id="linguagem-e-ide-não-são-a-mesma-coisa" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="linguagem-e-ide-não-são-a-mesma-coisa"><span class="header-section-number">8.2</span> Linguagem e IDE não são a mesma coisa</h2>
+<p>O <strong>R</strong> executa os comandos. Uma <strong>IDE</strong>, ou ambiente integrado de desenvolvimento, reúne ferramentas que ajudam a escrever, executar, inspecionar e organizar esses comandos.</p>
+<p>Nesta disciplina, poderão ser utilizados principalmente <strong>RStudio</strong> e <strong>Positron</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Estudante"] --&gt; B["IDE&lt;br/&gt;RStudio ou Positron"]
+    B --&gt; C["Linguagem R"]
+    C --&gt; D["Dados"]
+    C --&gt; E["Tabelas e gráficos"]
+    C --&gt; F["Análises"]
+    B --&gt; G["Scripts e documentos Quarto"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef resultado fill:#FFF1D6,stroke:#8A6426,stroke-width:2px,color:#4A3512;
+    class A,B,C,G etapa;
+    class D,E,F resultado;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Essa distinção ajuda a diagnosticar problemas. É possível ter o R instalado e ainda não possuir o RStudio ou o Positron. Também é possível instalar uma IDE que não consegue localizar uma instalação válida do R.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="A IDE não substitui o R">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>A IDE não substitui o R
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>RStudio e Positron oferecem interfaces para trabalhar com R, mas o mecanismo que interpreta os comandos continua sendo o R. Em geral, precisamos instalar o R e depois configurar ou instalar a IDE escolhida.</p>
+</div>
+</div>
+</section>
+<section id="instalação" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="instalação"><span class="header-section-number">8.3</span> Instalação</h2>
+<section id="instalar-o-r" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="instalar-o-r"><span class="header-section-number">8.3.1</span> Instalar o R</h3>
+<p>A distribuição oficial está disponível no <a href="https://cran.r-project.org/">CRAN</a>. Escolha o sistema operacional, baixe a versão estável e siga o instalador.</p>
+<p>Depois da instalação, confirme que o R pode ser iniciado. Não é necessário personalizar diretórios ou opções avançadas neste primeiro momento.</p>
+</section>
+<section id="escolher-uma-ide" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="escolher-uma-ide"><span class="header-section-number">8.3.2</span> Escolher uma IDE</h3>
+<p>O <strong>RStudio Desktop</strong> é uma IDE consolidada, com editor, console, ferramentas para gráficos, ajuda, histórico, depuração e gerenciamento de projetos <span class="citation" data-cites="rstudioide">(<a href="#ref-rstudioide" role="doc-biblioref">Posit Software, PBC, n.d.-c</a>)</span>.</p>
+<p>O <strong>Positron</strong> é uma IDE mais recente da Posit, com suporte nativo a R e Python e recursos voltados à ciência de dados <span class="citation" data-cites="positron">(<a href="#ref-positron" role="doc-biblioref">Posit Software, PBC, n.d.-b</a>)</span>. Ele também oferece editor, console, visualização de dados, gráficos, ajuda e terminal.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Característica</th>
+<th>RStudio</th>
+<th>Positron</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Foco</td>
+<td>Fluxos de trabalho fortemente associados ao R</td>
+<td>Ciência de dados com R e Python</td>
+</tr>
+<tr class="even">
+<td>Interface</td>
+<td>Organização tradicional em painéis</td>
+<td>Interface baseada no ecossistema do VS Code</td>
+</tr>
+<tr class="odd">
+<td>Console de R</td>
+<td>Integrado</td>
+<td>Integrado</td>
+</tr>
+<tr class="even">
+<td>Quarto</td>
+<td>Suporte integrado</td>
+<td>Suporte integrado</td>
+</tr>
+<tr class="odd">
+<td>Projetos</td>
+<td>Projetos do RStudio e diretórios de trabalho</td>
+<td>Pastas e espaços de trabalho</td>
+</tr>
+<tr class="even">
+<td>Indicação inicial</td>
+<td>Familiar e amplamente documentado</td>
+<td>Útil para fluxos multilíngues e ambiente moderno</td>
+</tr>
+</tbody>
+</table>
+<p>Os exemplos de código serão os mesmos nos dois ambientes. O que muda principalmente é a posição de botões, painéis e comandos da interface.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Escolha um ambiente para começar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Escolha um ambiente para começar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Não é necessário aprender RStudio e Positron simultaneamente. Escolha o ambiente utilizado nas aulas ou aquele em que você se sente mais confortável. Depois de compreender a relação entre editor, console e arquivos, a transição se torna mais simples.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="componentes-do-ambiente-de-trabalho" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="componentes-do-ambiente-de-trabalho"><span class="header-section-number">8.4</span> Componentes do ambiente de trabalho</h2>
+<p>Apesar das diferenças visuais, as IDEs apresentam componentes com funções semelhantes.</p>
+<section id="editor" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="editor"><span class="header-section-number">8.4.1</span> Editor</h3>
+<p>O <strong>editor</strong> é o local em que escrevemos e salvamos scripts, documentos Quarto e outros arquivos de texto. Ele oferece recursos como cores para a sintaxe, sugestões, recuo automático e indicação de alguns erros.</p>
+<p>O código escrito no editor não é necessariamente executado no momento em que é digitado. Ele permanece registrado no arquivo até que selecionemos uma linha, um trecho ou o documento inteiro para execução.</p>
+</section>
+<section id="console" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="console"><span class="header-section-number">8.4.2</span> Console</h3>
+<p>O <strong>console</strong> mantém uma sessão ativa do R. Nele podemos executar comandos e observar resultados e mensagens.</p>
+<p>Quando o console está pronto para receber uma instrução, geralmente apresenta o símbolo:</p>
+<pre class="text"><code>&gt;</code></pre>
+<p>Podemos experimentar um cálculo simples:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>O resultado aparece no console. Entretanto, se o comando foi digitado apenas ali, ele não fica organizado como parte do roteiro da análise.</p>
+</section>
+<section id="terminal" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="terminal"><span class="header-section-number">8.4.3</span> Terminal</h3>
+<p>O <strong>terminal</strong> permite enviar comandos ao sistema operacional. Ele é utilizado para tarefas como navegar entre pastas, executar programas e trabalhar com Git.</p>
+<p>Terminal e console do R não são a mesma coisa:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Local</th>
+<th>Interpreta principalmente</th>
+<th>Exemplo de uso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Console do R</td>
+<td>linguagem R</td>
+<td>calcular uma média ou inspecionar um objeto</td>
+</tr>
+<tr class="even">
+<td>Terminal</td>
+<td>comandos do sistema</td>
+<td>consultar o estado de um repositório Git</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observe onde o comando está sendo executado">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Observe onde o comando está sendo executado
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um comando do R inserido no terminal pode gerar erro, assim como um comando do sistema inserido no console do R. Antes de executar, confirme qual painel está ativo.</p>
+</div>
+</div>
+</section>
+<section id="arquivos-ambiente-gráficos-e-ajuda" class="level3" data-number="8.4.4">
+<h3 data-number="8.4.4" class="anchored" data-anchor-id="arquivos-ambiente-gráficos-e-ajuda"><span class="header-section-number">8.4.4</span> Arquivos, ambiente, gráficos e ajuda</h3>
+<p>As IDEs também fornecem formas de:</p>
+<ul>
+<li>navegar pelos arquivos do projeto;</li>
+<li>observar objetos existentes na sessão;</li>
+<li>visualizar tabelas e gráficos;</li>
+<li>instalar e consultar pacotes;</li>
+<li>abrir documentação;</li>
+<li>acompanhar mensagens e problemas do código.</li>
+</ul>
+<p>A posição exata desses componentes varia. O mais importante é reconhecer sua função, não memorizar um desenho específico da tela.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Figura a acrescentar posteriormente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Figura a acrescentar posteriormente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Este é um bom ponto para incluirmos capturas próprias das interfaces utilizadas em aula, com setas indicando editor, console, terminal, arquivos, gráficos e ajuda.</p>
+<p>Capturas produzidas pelo professor evitarão dúvidas de licença e poderão refletir exatamente a versão e a configuração utilizadas pelos alunos.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="console-ou-script" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="console-ou-script"><span class="header-section-number">8.5</span> Console ou script?</h2>
+<p>O console é útil para testes rápidos. O <strong>script</strong> é o arquivo em que registramos o código que precisa ser compreendido e executado novamente.</p>
+<p>Considere:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>taxa_participacao <span class="ot">&lt;-</span> <span class="fl">58.4</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>taxa_participacao</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Se essas linhas forem salvas em um arquivo como <code>analise.R</code>, poderemos reabri-las, modificá-las e executá-las novamente.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Escrever no script"] --&gt; B["Executar no console"]
+    B --&gt; C["Observar resultado ou erro"]
+    C --&gt; D["Corrigir no script"]
+    D --&gt; B
+    C --&gt; E["Salvar a versão compreendida"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="O histórico do console não substitui o script">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>O histórico do console não substitui o script
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O histórico registra comandos executados, inclusive tentativas incompletas ou incorretas. O script deve conter a sequência revisada que representa a análise.</p>
+</div>
+</div>
+</section>
+<section id="criando-o-primeiro-script" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="criando-o-primeiro-script"><span class="header-section-number">8.6</span> Criando o primeiro script</h2>
+<p>Crie um novo arquivo de texto para R e salve-o como:</p>
+<pre class="text"><code>primeiros_passos.R</code></pre>
+<p>Digite:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Meu primeiro script em R</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>valor_inicial <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>taxa_crescimento <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>valor_final <span class="ot">&lt;-</span> valor_inicial <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> taxa_crescimento)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>valor_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Execute uma linha de cada vez e observe o console.</p>
+<p>Alguns elementos já podem ser reconhecidos:</p>
+<ul>
+<li>o símbolo <code>&lt;-</code> atribui um valor a um objeto;</li>
+<li>os nomes ajudam a lembrar o que cada objeto representa;</li>
+<li>a linha iniciada por <code>#</code> é um comentário;</li>
+<li>a última linha solicita a apresentação do resultado.</li>
+</ul>
+<p>Objetos, atribuição e operações serão estudados detalhadamente no Capítulo 10. Neste momento, o objetivo é apenas experimentar o percurso entre script e console.</p>
+</section>
+<section id="mensagens-avisos-e-erros" class="level2" data-number="8.7">
+<h2 data-number="8.7" class="anchored" data-anchor-id="mensagens-avisos-e-erros"><span class="header-section-number">8.7</span> Mensagens, avisos e erros</h2>
+<p>Ao executar código, o R pode apresentar:</p>
+<ul>
+<li><strong>resultado:</strong> resposta produzida pelo comando;</li>
+<li><strong>mensagem:</strong> informação fornecida por uma função ou pacote;</li>
+<li><strong>aviso:</strong> indicação de que o comando terminou, mas algo merece atenção;</li>
+<li><strong>erro:</strong> indicação de que a operação não pôde ser concluída.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Não ignore as mensagens em vermelho">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Não ignore as mensagens em vermelho
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Leia o texto antes de tentar outro comando. Procure identificar:</p>
+<ul>
+<li>em qual linha ocorreu o problema;</li>
+<li>qual objeto ou função foi mencionado;</li>
+<li>se existe erro de digitação;</li>
+<li>se faltam aspas, vírgulas ou parênteses;</li>
+<li>se o comando está sendo executado no local correto.</li>
+</ul>
+<p>Mensagens de erro fazem parte da programação e são uma fonte importante de aprendizagem.</p>
+</div>
+</div>
+</section>
+<section id="ajuda-e-documentação" class="level2" data-number="8.8">
+<h2 data-number="8.8" class="anchored" data-anchor-id="ajuda-e-documentação"><span class="header-section-number">8.8</span> Ajuda e documentação</h2>
+<p>Não é necessário memorizar todas as funções. É necessário aprender a consultar a documentação.</p>
+<p>Para abrir a ajuda de uma função, podemos utilizar:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>?mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>ou:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para executar exemplos fornecidos pela documentação:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Uma página de ajuda geralmente apresenta:</p>
+<ul>
+<li>descrição da função;</li>
+<li>forma de uso;</li>
+<li>argumentos;</li>
+<li>detalhes;</li>
+<li>valor retornado;</li>
+<li>exemplos;</li>
+<li>referências e funções relacionadas.</li>
+</ul>
+<p>O RStudio possui ajuda integrada, e o Positron oferece um painel de ajuda para documentação de funções, pacotes e vinhetas <span class="citation" data-cites="positronhelp">(<a href="#ref-positronhelp" role="doc-biblioref">Posit Software, PBC, n.d.-a</a>)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Leia primeiro Usage e Arguments">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Leia primeiro Usage e Arguments
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Quando encontrar uma função desconhecida:</p>
+<ol type="1">
+<li>observe como ela é chamada em <strong>Usage</strong>;</li>
+<li>identifique os argumentos em <strong>Arguments</strong>;</li>
+<li>examine o que ela retorna em <strong>Value</strong>;</li>
+<li>execute um exemplo pequeno;</li>
+<li>adapte somente depois de compreender a estrutura.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="inteligência-artificial-e-documentação" class="level2" data-number="8.9">
+<h2 data-number="8.9" class="anchored" data-anchor-id="inteligência-artificial-e-documentação"><span class="header-section-number">8.9</span> Inteligência artificial e documentação</h2>
+<p>A IA pode explicar uma mensagem ou ajudar a localizar uma função, mas a documentação oficial deve ser utilizada para confirmar:</p>
+<ul>
+<li>se a função realmente existe;</li>
+<li>a qual pacote pertence;</li>
+<li>quais argumentos aceita;</li>
+<li>que tipo de objeto retorna;</li>
+<li>se há condições ou limitações importantes.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Confirme no seu ambiente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Confirme no seu ambiente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma resposta de IA pode se referir a outra versão do pacote ou inventar um argumento plausível. Execute um exemplo pequeno e consulte a ajuda instalada antes de incorporar a solução ao projeto.</p>
+</div>
+</div>
+</section>
+<section id="atividade-conhecendo-o-ambiente" class="level2" data-number="8.10">
+<h2 data-number="8.10" class="anchored" data-anchor-id="atividade-conhecendo-o-ambiente"><span class="header-section-number">8.10</span> Atividade — conhecendo o ambiente</h2>
+<section id="etapa-1-identifique-os-componentes" class="level3" data-number="8.10.1">
+<h3 data-number="8.10.1" class="anchored" data-anchor-id="etapa-1-identifique-os-componentes"><span class="header-section-number">8.10.1</span> Etapa 1 — Identifique os componentes</h3>
+<p>No ambiente escolhido, localize:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">editor;</label></li>
+<li><label><input type="checkbox">console do R;</label></li>
+<li><label><input type="checkbox">terminal;</label></li>
+<li><label><input type="checkbox">navegador de arquivos;</label></li>
+<li><label><input type="checkbox">visualizador de gráficos;</label></li>
+<li><label><input type="checkbox">painel de ajuda.</label></li>
+</ul>
+</section>
+<section id="etapa-2-crie-e-execute-um-script" class="level3" data-number="8.10.2">
+<h3 data-number="8.10.2" class="anchored" data-anchor-id="etapa-2-crie-e-execute-um-script"><span class="header-section-number">8.10.2</span> Etapa 2 — Crie e execute um script</h3>
+<ol type="1">
+<li>crie <code>primeiros_passos.R</code>;</li>
+<li>digite o exemplo apresentado no capítulo;</li>
+<li>salve o arquivo;</li>
+<li>execute uma linha de cada vez;</li>
+<li>altere a taxa de crescimento;</li>
+<li>execute novamente;</li>
+<li>explique por que o resultado mudou.</li>
+</ol>
+</section>
+<section id="etapa-3-consulte-a-ajuda" class="level3" data-number="8.10.3">
+<h3 data-number="8.10.3" class="anchored" data-anchor-id="etapa-3-consulte-a-ajuda"><span class="header-section-number">8.10.3</span> Etapa 3 — Consulte a ajuda</h3>
+<p>Abra a documentação de <code>mean()</code> e registre:</p>
+<ul>
+<li>para que serve a função;</li>
+<li>qual é seu primeiro argumento;</li>
+<li>para que serve o argumento <code>na.rm</code>;</li>
+<li>um exemplo encontrado na documentação.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Checklist do ambiente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Checklist do ambiente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul class="task-list">
+<li><label><input type="checkbox">Consigo explicar a diferença entre R e IDE?</label></li>
+<li><label><input type="checkbox">Sei onde escrever e salvar o código?</label></li>
+<li><label><input type="checkbox">Sei onde os comandos são executados?</label></li>
+<li><label><input type="checkbox">Distingo console do R e terminal?</label></li>
+<li><label><input type="checkbox">Consigo executar uma linha do script?</label></li>
+<li><label><input type="checkbox">Consigo localizar e ler a ajuda de uma função?</label></li>
+<li><label><input type="checkbox">Sei onde procurar quando aparece uma mensagem de erro?</label></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Produto deste capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Produto deste capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final, você deverá ter um ambiente capaz de executar R e um primeiro script salvo. Esse arquivo será simples, mas representa uma mudança importante: os comandos deixam de ser tentativas isoladas e passam a formar um registro reproduzível.</p>
+<p>No próximo capítulo, organizaremos esse trabalho dentro de um projeto com estrutura de pastas e caminhos relativos.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-positronhelp" class="csl-entry" role="listitem">
+Posit Software, PBC. n.d.-a. <span>“Positron Help Pane.”</span> Accessed August 25, 2026. <a href="https://positron.posit.co/help-pane">https://positron.posit.co/help-pane</a>.
+</div>
+<div id="ref-positron" class="csl-entry" role="listitem">
+Posit Software, PBC. n.d.-b. <span>“Positron: R Overview.”</span> Accessed August 25, 2026. <a href="https://positron.posit.co/guide-r.html">https://positron.posit.co/guide-r.html</a>.
+</div>
+<div id="ref-rstudioide" class="csl-entry" role="listitem">
+Posit Software, PBC. n.d.-c. <span>“RStudio IDE User Guide.”</span> Accessed August 25, 2026. <a href="https://docs.posit.co/ide/user/">https://docs.posit.co/ide/user/</a>.
+</div>
+<div id="ref-rproject" class="csl-entry" role="listitem">
+R Core Team. n.d. <span>“What Is r?”</span> Accessed August 25, 2026. <a href="https://www.r-project.org/about.html">https://www.r-project.org/about.html</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap07_planejamento_investigacao.html" class="pagination-link" aria-label="Planejamento da investigação em R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap09_projetos_reprodutiveis.html" class="pagination-link" aria-label="Projetos e organização reproduzível">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Projetos e organização reproduzível</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

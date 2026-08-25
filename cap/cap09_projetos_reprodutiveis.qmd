@@ -1,0 +1,455 @@
+---
+title: "Projetos e organização reproduzível"
+subtitle: "Integrando R, Quarto, GitHub e inteligência artificial"
+author:
+  - Alexandre Nicolella
+date: "08/25/2026"
+format: html
+---
+
+No capítulo anterior, conhecemos o R e os ambientes em que podemos escrever e executar código. Agora organizaremos dados, scripts, documentos e resultados dentro de um **projeto reproduzível**.
+
+Um projeto não é apenas uma pasta que reúne arquivos. Ele registra a relação entre a pergunta, os dados, as decisões, o código e os produtos da investigação. Quando essa estrutura é clara, o trabalho pode ser retomado, revisado, compartilhado e executado novamente.
+
+Ao final do capítulo, apresentaremos o ambiente utilizado na construção desta própria apostila: R, Positron, Quarto e GitHub integrados, com apoio de ferramentas de inteligência artificial e do Prism para escrita científica em LaTeX.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- explicar por que uma investigação deve ser organizada como projeto;
+- identificar a raiz de um projeto;
+- propor uma estrutura coerente de pastas;
+- utilizar caminhos relativos;
+- distinguir arquivos-fonte, dados e resultados gerados;
+- reconhecer o papel do Quarto, GitHub e das ferramentas de IA;
+- criar a organização inicial do projeto do seu grupo.
+:::
+
+## Por que trabalhar dentro de um projeto?
+
+Uma investigação utiliza arquivos que cumprem funções diferentes:
+
+- dados obtidos das fontes;
+- dicionários e documentação;
+- scripts com operações em R;
+- figuras e tabelas produzidas;
+- textos explicativos;
+- referências;
+- registros das decisões tomadas.
+
+Quando esses arquivos ficam dispersos, o código passa a depender da memória de quem o escreveu. Torna-se difícil descobrir qual base foi usada, qual script deve ser executado primeiro e qual resultado corresponde à versão atual da análise.
+
+Um projeto cria uma unidade de trabalho:
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Projeto como unidade que reúne pergunta, dados, código, resultados e documentação"
+
+flowchart TB
+    P["Projeto"]
+    P --> A["Pergunta"]
+    P --> B["Dados"]
+    P --> C["Código"]
+    P --> D["Resultados"]
+    P --> E["Documentação"]
+    P --> F["Histórico de decisões"]
+
+    classDef central fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef componente fill:#FFF1D6,stroke:#8A6426,stroke-width:2px,color:#4A3512;
+    class P central;
+    class A,B,C,D,E,F componente;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+::: {.callout-important title="O projeto é a unidade da análise"}
+Não compartilhe apenas o script nem apenas a base. Compartilhe a estrutura necessária para compreender e reproduzir o trabalho.
+:::
+
+## A raiz do projeto
+
+A **raiz** é a pasta principal a partir da qual a estrutura do projeto é organizada. Todas as demais pastas e arquivos ficam dentro dela.
+
+Considere:
+
+``` text
+tutorial-pnad/
+├── dados/
+├── script/
+├── figuras/
+└── tutorial.qmd
+```
+
+Nesse exemplo, `tutorial-pnad/` é a raiz. O arquivo `tutorial.qmd` e as pastas `dados/`, `script/` e `figuras/` são localizados em relação a ela.
+
+No RStudio, podemos criar um projeto próprio da IDE. No Positron, normalmente abrimos a pasta que representa o projeto ou espaço de trabalho. Em ambos os casos, o princípio é o mesmo: abrir o trabalho a partir de sua raiz.
+
+::: {.callout-warning title="Abrir apenas um arquivo pode ocultar o contexto"}
+Se você abrir diretamente um script localizado no meio de várias pastas, a IDE pode não reconhecer corretamente a raiz. Prefira abrir primeiro o projeto ou sua pasta principal e, depois, navegar até o arquivo.
+:::
+
+## Uma estrutura inicial de pastas
+
+Não existe uma única estrutura correta para todos os projetos. A organização deve refletir o tipo de dados e de produto que será construído.
+
+Para os tutoriais da disciplina, uma estrutura inicial possível é:
+
+``` text
+nome-do-projeto/
+├── dados/
+│   ├── originais/
+│   └── tratados/
+├── script/
+├── figuras/
+├── resultados/
+├── referencias/
+├── tutorial.qmd
+├── README.md
+└── .gitignore
+```
+
+### `dados/originais/`
+
+Contém os arquivos obtidos da fonte, preservados sem alteração manual. Se for necessário corrigir ou transformar os dados, o código deverá produzir uma nova versão.
+
+### `dados/tratados/`
+
+Contém bases derivadas dos dados originais. Cada arquivo deverá poder ser recriado pela execução dos scripts.
+
+### `script/`
+
+Reúne códigos utilizados para obter, limpar, transformar e analisar os dados. Se existirem vários scripts, seus nomes devem indicar a função e, quando necessário, a ordem de execução.
+
+### `figuras/` e `resultados/`
+
+Armazenam produtos gerados pela análise. Algumas figuras podem ser externas; nesse caso, sua origem e licença precisam ser registradas.
+
+### `referencias/`
+
+Pode reunir dicionários, manuais, notas metodológicas e outros documentos necessários para compreender os dados.
+
+### `tutorial.qmd`
+
+Integra explicação, código, resultados e referências em um documento Quarto.
+
+### `README.md`
+
+Apresenta o propósito do projeto e explica como sua estrutura deve ser utilizada.
+
+### `.gitignore`
+
+Registra arquivos e pastas que não devem ser incluídos no controle de versão, como caches, arquivos temporários, credenciais e resultados muito grandes ou facilmente regeneráveis.
+
+::: {.callout-tip title="Comece simples"}
+Não crie muitas pastas vazias apenas porque aparecem em um modelo. Comece com a estrutura necessária e amplie quando surgir uma nova função claramente identificável.
+:::
+
+## Nomes de arquivos
+
+Bons nomes facilitam a localização, a ordenação e a interpretação.
+
+Prefira nomes:
+
+- curtos, mas informativos;
+- escritos com letras minúsculas;
+- sem espaços;
+- separados por `_` ou `-`;
+- consistentes ao longo do projeto.
+
+| Evite | Prefira | Motivo |
+|------------------------|------------------------|------------------------|
+| `Base Final Nova.csv` | `pnad_tratada.csv` | nome mais previsível e informativo |
+| `script2.R` | `02_construir_variaveis.R` | indica função e ordem |
+| `grafico bom.png` | `participacao_por_filhos.png` | descreve o conteúdo |
+| `final_agora_vai.qmd` | `tutorial.qmd` | a versão será registrada pelo Git |
+
+::: {.callout-warning title="Não use o nome do arquivo como controle de versão"}
+Nomes como `final`, `final2`, `revisado` e `agora_final` não informam quais mudanças ocorreram. O Git será utilizado para registrar versões e permitir recuperar estados anteriores.
+:::
+
+## Arquivos-fonte e arquivos gerados
+
+Um **arquivo-fonte** contém instruções ou conteúdo produzido e revisado diretamente. Um **arquivo gerado** é resultado da execução de outro arquivo.
+
+| Arquivo                       | Tipo          | Exemplo            |
+|-------------------------------|---------------|--------------------|
+| script R                      | fonte         | `01_importar.R`    |
+| documento Quarto              | fonte         | `tutorial.qmd`     |
+| base obtida da instituição    | dado original | `pnad_2025.txt`    |
+| base produzida pelo script    | gerado        | `pnad_tratada.rds` |
+| gráfico produzido pelo código | gerado        | `participacao.png` |
+| página produzida pelo Quarto  | gerado        | `tutorial.html`    |
+
+Essa classificação ajuda a decidir o que precisa ser preservado, versionado ou recriado.
+
+::: {.callout-note title="Nem todo arquivo gerado deve ser ignorado"}
+Neste projeto, a pasta `docs/` contém o site gerado pelo Quarto e é versionada porque o GitHub Pages publica diretamente seu conteúdo.
+
+Em outro projeto, resultados gerados poderão ser excluídos do Git se puderem ser reconstruídos e não forem necessários para publicação.
+:::
+
+## Caminhos relativos
+
+Um caminho informa onde um arquivo está localizado. Caminhos absolutos começam em uma localização específica do computador:
+
+``` text
+C:/Users/nome/Desktop/projeto/dados/base.csv
+```
+
+Esse caminho tende a falhar quando o projeto é movido ou utilizado por outra pessoa.
+
+Um caminho relativo começa na raiz do projeto:
+
+``` r
+dados <- read.csv("dados/originais/base.csv")
+```
+
+Se a estrutura interna for preservada, o projeto poderá ser movido ou clonado sem alterar o código.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Caminho relativo que parte da raiz do projeto e chega ao arquivo dentro da pasta de dados originais"
+
+flowchart LR
+    A["Raiz do projeto"] --> B["dados/"]
+    B --> C["originais/"]
+    C --> D["base.csv"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+::: {.callout-important title="Evite depender de `setwd()`"}
+O comando `setwd()` altera manualmente o diretório de trabalho e frequentemente introduz um caminho específico de um computador. Abrir corretamente a raiz do projeto e utilizar caminhos relativos torna o código mais portátil.
+:::
+
+## Um ambiente integrado de trabalho
+
+O projeto pode reunir diferentes ferramentas, cada uma com uma responsabilidade principal.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Ecossistema da disciplina integrando R, Positron, Quarto, GitHub, GitHub Pages, ferramentas de inteligência artificial e Prism"
+
+flowchart LR
+    A["Problema econômico"] --> B["Projeto"]
+
+    subgraph P["Ambiente de desenvolvimento"]
+        C["R"]
+        D["Positron"]
+        E["Quarto"]
+    end
+
+    B --> D
+    D --> C
+    D --> E
+    C --> E
+
+    E --> F["Apostila e tutoriais"]
+    F --> G["GitHub"]
+    G --> H["GitHub Pages"]
+
+    I["Copilot"] -. "apoia código e edição" .-> D
+    J["GPT / Codex"] -. "discute, propõe, revisa e valida" .-> B
+    K["Prism + LaTeX"] -. "apoia escrita científica" .-> F
+
+    classDef principal fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef apoio fill:#E8EEF5,stroke:#415A77,stroke-width:2px,color:#1D3557;
+    class A,B,C,D,E,F,G,H principal;
+    class I,J,K apoio;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+### R
+
+Executa as operações de obtenção, transformação, análise e visualização dos dados.
+
+### Positron
+
+Reúne editor, console, terminal, arquivos e documentos em um ambiente de desenvolvimento com suporte a R e Python.
+
+### Quarto
+
+Combina texto, código, tabelas, gráficos e referências. A partir dos arquivos `.qmd`, produz páginas HTML e outros formatos.
+
+### Git e GitHub
+
+O Git registra alterações localmente. O GitHub hospeda o repositório, facilita colaboração e permite publicar o site com GitHub Pages.
+
+### Copilot
+
+O GitHub Copilot pode apoiar explicações, sugestões de código, edições e tarefas no editor e no ecossistema do GitHub [@githubcopilot]. Toda sugestão deve ser lida e verificada.
+
+### GPT e Codex
+
+GPT pode apoiar discussão, explicação e revisão. O Codex pode examinar arquivos autorizados do projeto e ajudar em tarefas como mapear a estrutura, propor alterações, editar arquivos e executar verificações [@codexdocs].
+
+### Prism
+
+O Prism é um ambiente de escrita científica baseado em LaTeX que reúne colaboração e assistência contextual de IA [@openaiprism]. Ele pode apoiar manuscritos, equações, referências e revisão textual.
+
+::: {.callout-note title="Integração não significa que tudo está conectado automaticamente"}
+Algumas ferramentas trabalham nos mesmos arquivos; outras participam de etapas complementares. O Quarto permanece como sistema principal da apostila. O Prism pode apoiar a escrita de artigos científicos em LaTeX sem substituir o projeto em R ou o site Quarto.
+:::
+
+## Diferentes formas de integração
+
+| Tipo de integração | Exemplo |
+|------------------------------------|------------------------------------|
+| Mesmos arquivos | R e Quarto dentro do projeto |
+| Mesmo ambiente | editor, console e terminal no Positron |
+| Controle de versão | alterações registradas pelo Git |
+| Colaboração | repositório compartilhado no GitHub |
+| Publicação | Quarto renderizado em `docs/` e disponibilizado no GitHub Pages |
+| Apoio contextual | Copilot ou Codex examinando os arquivos autorizados |
+| Escrita complementar | manuscrito em LaTeX trabalhado no Prism |
+
+Compreender essas diferenças evita imaginar que uma ferramenta transfere automaticamente contexto, arquivos ou decisões para todas as outras.
+
+## IA como apoio ao trabalho
+
+As ferramentas de IA podem contribuir em diferentes momentos:
+
+- decompor um problema em tarefas menores;
+- explicar conceitos ou mensagens de erro;
+- propor alternativas de código;
+- localizar inconsistências;
+- revisar clareza e organização;
+- sugerir testes;
+- ajudar com sintaxe de R, Quarto ou LaTeX;
+- comparar versões de uma solução.
+
+Por outro lado, as decisões centrais permanecem sob responsabilidade humana:
+
+- definir o problema;
+- selecionar os dados;
+- escolher conceitos e variáveis;
+- aprovar alterações;
+- verificar código e referências;
+- interpretar resultados;
+- assumir a autoria e a responsabilidade pelo produto.
+
+::: {.callout-warning title="Acesso ao projeto não garante compreensão do problema"}
+Uma IA pode ler muitos arquivos e ainda interpretar incorretamente o objetivo da investigação. Fornecer contexto, registrar decisões e trabalhar em ciclos de revisão reduz esse risco, mas não elimina a necessidade de validação humana.
+:::
+
+## Estudo de caso — a construção desta apostila
+
+Esta apostila é também um exemplo do ambiente descrito neste capítulo.
+
+O trabalho começou com uma concepção pedagógica: ensinar R aplicado à Economia por meio de problemas e produzir tutoriais reproduzíveis. O professor já possuía capítulos, slides, referências, dados e experiências de cursos anteriores.
+
+O desenvolvimento ocorreu em ciclos.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Ciclo colaborativo utilizado na construção da apostila: proposição, discussão, aprovação, alteração e validação"
+
+flowchart LR
+    A["Concepção e materiais do professor"] --> B["Proposição"]
+    B --> C["Discussão e revisão"]
+    C --> D["Aprovação"]
+    D --> E["Alteração controlada"]
+    E --> F["Renderização e validação"]
+    F -. "novo ciclo" .-> B
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+### O que coube ao professor
+
+- definir a identidade e os objetivos da disciplina;
+- reunir os materiais existentes;
+- avaliar as propostas;
+- identificar repetições e mudanças de foco necessárias;
+- escolher exemplos e recursos visuais;
+- aprovar cada alteração;
+- preservar sua maneira de ensinar e escrever.
+
+### O que coube ao apoio da IA
+
+- examinar a estrutura do projeto;
+- relacionar materiais e capítulos;
+- propor organizações alternativas;
+- transformar decisões aprovadas em arquivos Quarto;
+- verificar caminhos e referências;
+- executar a renderização;
+- relatar erros e ajustar problemas localizados;
+- manter registro claro dos arquivos alterados.
+
+### Exemplos de decisões ocorridas
+
+- a primeira proposta de capítulos foi considerada repetitiva e refeita;
+- o prefácio foi marcado como não numerado para alinhar os nomes dos arquivos à numeração do livro;
+- caminhos e códigos demonstrativos foram ajustados para preservar a reprodução;
+- uma imagem com marca d’água não foi utilizada;
+- os capítulos foram escritos e aprovados gradualmente;
+- cada nova etapa foi validada com `quarto render`.
+
+::: {.callout-important title="Um produto com a identidade do professor"}
+A IA não definiu autonomamente a disciplina. O resultado surgiu da combinação entre a concepção pedagógica do professor, seus materiais anteriores, as sucessivas decisões editoriais e o apoio técnico da IA.
+
+Autoria envolve orientar, selecionar, revisar, rejeitar, modificar e validar. O objetivo do apoio tecnológico foi ampliar a capacidade de organizar e desenvolver o material sem substituir essas decisões.
+:::
+
+::: {.callout-note title="Registro visual a acrescentar"}
+Posteriormente, poderemos incluir uma captura própria deste projeto aberto no Codex ou no Positron, mostrando a conversa, os arquivos `.qmd`, o `_quarto.yml`, a pasta `docs/` e o resultado renderizado.
+
+Essa imagem ajudará os alunos a relacionar o diagrama ao ambiente real utilizado na construção da apostila.
+:::
+
+## Atividade — organização inicial do projeto
+
+### Etapa 1 — Crie a raiz
+
+Escolha um nome curto e informativo para a pasta do projeto do grupo.
+
+### Etapa 2 — Proponha a estrutura
+
+Crie apenas as pastas necessárias para a primeira etapa e explique a função de cada uma.
+
+### Etapa 3 — Crie o `README.md`
+
+O arquivo deverá informar:
+
+- título provisório;
+- integrantes;
+- pergunta inicial;
+- fonte de dados candidata;
+- estrutura das pastas;
+- sequência inicial de execução;
+- data da última revisão.
+
+### Etapa 4 — Teste um caminho relativo
+
+Crie um pequeno arquivo dentro de `dados/originais/` e escreva, em um script, o caminho relativo necessário para acessá-lo. A importação será desenvolvida detalhadamente no Capítulo 11.
+
+### Etapa 5 — Defina o ambiente de apoio
+
+Registre:
+
+- qual IDE será utilizada;
+- como os arquivos serão compartilhados;
+- quais ferramentas de IA poderão ser usadas;
+- para quais tarefas;
+- como as respostas e alterações serão verificadas;
+- que informações não devem ser fornecidas às ferramentas.
+
+::: {.callout-tip title="Checklist da organização"}
+- [ ] A raiz do projeto está claramente identificada?
+- [ ] Dados originais e tratados estão separados?
+- [ ] Código, figuras e documentos possuem locais definidos?
+- [ ] Os nomes dos arquivos são informativos e consistentes?
+- [ ] Os caminhos poderão ser relativos?
+- [ ] O `README.md` explica como iniciar?
+- [ ] O grupo sabe o que será versionado?
+- [ ] O uso de IA inclui revisão e validação humana?
+:::
+
+::: {.callout-important title="Produto deste capítulo"}
+A entrega será a **estrutura inicial do projeto**, acompanhada do `README.md` e de uma breve justificativa das ferramentas escolhidas.
+
+No próximo capítulo, começaremos a representar informações no R por meio de objetos, vetores e operações fundamentais.
+:::

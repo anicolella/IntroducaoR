@@ -9,7 +9,7 @@
 <meta name="author" content="Alexandre Nicolella">
 <meta name="dcterms.date" content="2024-03-12">
 
-<title>12&nbsp; Análise Descritiva – Introdução ao R</title>
+<title>15&nbsp; Análise Descritiva – Introdução ao R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -193,7 +193,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -275,7 +275,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Manipulando os Dados</span></a>
+ <span class="menu-text">Ambiente e fundamentos de R</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -283,20 +283,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  <a href="../cap/cap08_ambiente_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  <a href="../cap/cap09_projetos_reprodutiveis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Projetos e organização reproduzível</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  <a href="../cap/cap10_objetos_operacoes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Objetos e operações fundamentais</span></span></a>
   </div>
 </li>
       </ul>
@@ -304,7 +304,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Motivando e Relembrando</span></a>
+ <span class="menu-text">Manipulando os Dados</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -312,8 +312,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
   </div>
 </li>
       </ul>
@@ -321,7 +333,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Gerando Informação</span></a>
+ <span class="menu-text">Motivando e Relembrando</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -329,20 +341,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
   </div>
 </li>
       </ul>
@@ -350,7 +350,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Tópicos Extras</span></a>
+ <span class="menu-text">Gerando Informação</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -358,8 +358,37 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
   </div>
 </li>
       </ul>
@@ -374,23 +403,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#cadeia-de-valor-do-conhecimento" id="toc-cadeia-de-valor-do-conhecimento" class="nav-link active" data-scroll-target="#cadeia-de-valor-do-conhecimento"><span class="header-section-number">12.1</span> Cadeia de Valor do Conhecimento</a></li>
-  <li><a href="#estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra" id="toc-estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra" class="nav-link" data-scroll-target="#estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra"><span class="header-section-number">12.2</span> Estatísticas Descritivas: Medidas Numéricas a partir da amostra</a>
+  <li><a href="#cadeia-de-valor-do-conhecimento" id="toc-cadeia-de-valor-do-conhecimento" class="nav-link active" data-scroll-target="#cadeia-de-valor-do-conhecimento"><span class="header-section-number">15.1</span> Cadeia de Valor do Conhecimento</a></li>
+  <li><a href="#estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra" id="toc-estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra" class="nav-link" data-scroll-target="#estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra"><span class="header-section-number">15.2</span> Estatísticas Descritivas: Medidas Numéricas a partir da amostra</a>
   <ul class="collapse">
-  <li><a href="#gráficos-no-r" id="toc-gráficos-no-r" class="nav-link" data-scroll-target="#gráficos-no-r"><span class="header-section-number">12.2.1</span> Gráficos no R</a></li>
+  <li><a href="#gráficos-no-r" id="toc-gráficos-no-r" class="nav-link" data-scroll-target="#gráficos-no-r"><span class="header-section-number">15.2.1</span> Gráficos no R</a></li>
   </ul></li>
-  <li><a href="#medidas-de-posição" id="toc-medidas-de-posição" class="nav-link" data-scroll-target="#medidas-de-posição"><span class="header-section-number">12.3</span> Medidas de Posição:</a></li>
-  <li><a href="#medidas-de-variabilidade" id="toc-medidas-de-variabilidade" class="nav-link" data-scroll-target="#medidas-de-variabilidade"><span class="header-section-number">12.4</span> Medidas de Variabilidade</a></li>
-  <li><a href="#medidas-de-associação" id="toc-medidas-de-associação" class="nav-link" data-scroll-target="#medidas-de-associação"><span class="header-section-number">12.5</span> Medidas de Associação</a></li>
+  <li><a href="#medidas-de-posição" id="toc-medidas-de-posição" class="nav-link" data-scroll-target="#medidas-de-posição"><span class="header-section-number">15.3</span> Medidas de Posição:</a></li>
+  <li><a href="#medidas-de-variabilidade" id="toc-medidas-de-variabilidade" class="nav-link" data-scroll-target="#medidas-de-variabilidade"><span class="header-section-number">15.4</span> Medidas de Variabilidade</a></li>
+  <li><a href="#medidas-de-associação" id="toc-medidas-de-associação" class="nav-link" data-scroll-target="#medidas-de-associação"><span class="header-section-number">15.5</span> Medidas de Associação</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></h1>
 <p class="subtitle lead">Tirando Informação dos Dados</p>
 </div>
 
@@ -420,8 +449,8 @@ window.Quarto = {
 </header>
 
 
-<section id="cadeia-de-valor-do-conhecimento" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="cadeia-de-valor-do-conhecimento"><span class="header-section-number">12.1</span> Cadeia de Valor do Conhecimento</h2>
+<section id="cadeia-de-valor-do-conhecimento" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="cadeia-de-valor-do-conhecimento"><span class="header-section-number">15.1</span> Cadeia de Valor do Conhecimento</h2>
 <p>A construção do conhecimento é um caminho longo e complexo. A cadeia de valor do conhecimento é um modelo que busca representar esse caminho. Vejamos a Figura abaixo:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -453,8 +482,8 @@ window.Quarto = {
 <li><p><strong>Interpretação dos Resultados</strong>: Interpretar os resultados obtidos na análise descritiva e exploratória de forma a responder à pergunta de pesquisa. Isso pode envolver a elaboração de conclusões, recomendações, entre outros aspectos.</p></li>
 </ol>
 </section>
-<section id="estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra"><span class="header-section-number">12.2</span> Estatísticas Descritivas: Medidas Numéricas a partir da amostra</h2>
+<section id="estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="estatísticas-descritivas-medidas-numéricas-a-partir-da-amostra"><span class="header-section-number">15.2</span> Estatísticas Descritivas: Medidas Numéricas a partir da amostra</h2>
 <p>A análise descritiva é uma etapa fundamental no processo de análise de dados. Ela consiste em descrever os dados coletados de forma a identificar padrões, tendências, relações entre variáveis, entre outros aspectos.</p>
 <p>Vamos entender 3 padrões importantes nessa etapa:</p>
 <ol type="1">
@@ -735,8 +764,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="gráficos-no-r" class="level3" data-number="12.2.1">
-<h3 data-number="12.2.1" class="anchored" data-anchor-id="gráficos-no-r"><span class="header-section-number">12.2.1</span> Gráficos no R</h3>
+<section id="gráficos-no-r" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="gráficos-no-r"><span class="header-section-number">15.2.1</span> Gráficos no R</h3>
 <p>O ggplot2 é um pacote do R utilizado para criar gráficos estatísticos de forma poderosa e flexível. Apesar de parecer complexo, é fácil de aprender, pois possui princípios básicos simples e poucos casos excepcionais.O ggplot2 é projetado para ser utilizado iterativamente: você começa com os dados brutos e adiciona camadas de anotações ou resumos estatísticos.</p>
 <p><strong>A GRAMÁTICA DOS GRÁFICOS</strong></p>
 <p>O ggplot2 é um pacote do R que implementa a Grammar of Graphics (Wilkinson, 2005), uma abordagem para criar gráficos estatísticos. Ele organiza os gráficos em componentes fundamentais, permitindo flexibilidade e personalização.</p>
@@ -968,8 +997,8 @@ window.Quarto = {
 <p>Para os temas pode acessar a <a href="https://r-graph-gallery.com/package/ggthemes.html">Galeria</a> ou <a href="https://r-graph-gallery.com/ggplot2-package.html#theme-widget">Exemplos Dinâmicos</a>.</p>
 </section>
 </section>
-<section id="medidas-de-posição" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="medidas-de-posição"><span class="header-section-number">12.3</span> Medidas de Posição:</h2>
+<section id="medidas-de-posição" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="medidas-de-posição"><span class="header-section-number">15.3</span> Medidas de Posição:</h2>
 <p><strong>MÉDIA AMOSTRAL:</strong></p>
 <p><span class="math display">\[\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i\]</span></p>
 <div class="cell">
@@ -1311,8 +1340,8 @@ window.Quarto = {
 </table>
 </div>
 </div>
-<section id="visualizando-as-medidas-por-categorias" class="level4" data-number="12.3.0.1">
-<h4 data-number="12.3.0.1" class="anchored" data-anchor-id="visualizando-as-medidas-por-categorias"><span class="header-section-number">12.3.0.1</span> Visualizando as medidas por categorias</h4>
+<section id="visualizando-as-medidas-por-categorias" class="level4" data-number="15.3.0.1">
+<h4 data-number="15.3.0.1" class="anchored" data-anchor-id="visualizando-as-medidas-por-categorias"><span class="header-section-number">15.3.0.1</span> Visualizando as medidas por categorias</h4>
 <p><strong>Gráfico de Pizza</strong></p>
 <p>O gráfico de pizza indica as proporções de uma determinada variável de classe. Aqui utilizamos a média do número de feminicídios absoluto por região.</p>
 <div class="cell">
@@ -1595,8 +1624,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="medidas-de-variabilidade" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="medidas-de-variabilidade"><span class="header-section-number">12.4</span> Medidas de Variabilidade</h2>
+<section id="medidas-de-variabilidade" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="medidas-de-variabilidade"><span class="header-section-number">15.4</span> Medidas de Variabilidade</h2>
 <p><strong>AMPLITUDE:</strong></p>
 <p>Amplitude é a diferença entre o valor mínimo e máximo de uma série de dados.</p>
 <p><span class="math display">\[\text{Amplitude} = \text{Maior Valor} - \text{Menor Valor}\]</span></p>
@@ -1780,8 +1809,8 @@ window.Quarto = {
 <p>Para entendermos vamos supor que existam duas variáveis com mesmo desvio padrão, igual a 10. A primeira terá média de 10 e a segunda de 20, vejamos a diferença no coeficiente de variação.</p>
 <p><span class="math inline">\(\text{CV}_{X_1}=\frac{10}{10}.100=100\%\)</span> e <span class="math inline">\(\text{CV}_{X_2}=\frac{10}{20}.100=50\%\)</span></p>
 <p>A variabilidade relativa é menor para a segunda variável. No exemplo acima a taxa de feminicídio tem uma variabilidade relativa maior (91%) do que a tentativa de feminicídio (74%) entre os Estados Brasileiros.</p>
-<section id="visualizando-a-distribuição-dos-dados" class="level4" data-number="12.4.0.1">
-<h4 data-number="12.4.0.1" class="anchored" data-anchor-id="visualizando-a-distribuição-dos-dados"><span class="header-section-number">12.4.0.1</span> Visualizando a Distribuição dos Dados</h4>
+<section id="visualizando-a-distribuição-dos-dados" class="level4" data-number="15.4.0.1">
+<h4 data-number="15.4.0.1" class="anchored" data-anchor-id="visualizando-a-distribuição-dos-dados"><span class="header-section-number">15.4.0.1</span> Visualizando a Distribuição dos Dados</h4>
 <p><strong>Boxplot</strong></p>
 <p>O boxplot é um gráfico que traz muitas informações e pode ser visto como a distribuição de probabilidade dos dados. O box ou caixa contém 50% dos dados. O limite superior indica o percentil de 75% (<em>Q3</em>) e o limite inferior indica o percentil de 25% (<em>Q1</em>). A linha que corta o box indica a mediana, ou seja, <em>Q2</em>. Os bigodes são calculados com base na distância interquantílica, ou seja,</p>
 <p><em>Limite inferior: Q1-1,5(Q3-Q1)</em></p>
@@ -2072,8 +2101,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="medidas-de-associação" class="level2" data-number="12.5">
-<h2 data-number="12.5" class="anchored" data-anchor-id="medidas-de-associação"><span class="header-section-number">12.5</span> Medidas de Associação</h2>
+<section id="medidas-de-associação" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="medidas-de-associação"><span class="header-section-number">15.5</span> Medidas de Associação</h2>
 <p><strong>COVARIÂNCIA AMOSTRAL</strong></p>
 <p>Covariância entre duas variáveis: A covariância entre duas variáveis X e Y é uma medida estatística que descreve como essas variáveis variam juntas. Em outras palavras, a covariância indica a tendência de X e Y de se moverem na mesma direção (covariância positiva) ou em direções opostas (covariância negativa).</p>
 <p><span class="math display">\[\text{Cov}(X, Y) = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \bar{X})(Y_i - \bar{Y})\]</span></p>
@@ -2092,8 +2121,8 @@ window.Quarto = {
 <pre><code>[1] 0.3589068</code></pre>
 </div>
 </div>
-<section id="visualizando-a-associação" class="level4" data-number="12.5.0.1">
-<h4 data-number="12.5.0.1" class="anchored" data-anchor-id="visualizando-a-associação"><span class="header-section-number">12.5.0.1</span> Visualizando a Associação</h4>
+<section id="visualizando-a-associação" class="level4" data-number="15.5.0.1">
+<h4 data-number="15.5.0.1" class="anchored" data-anchor-id="visualizando-a-associação"><span class="header-section-number">15.5.0.1</span> Visualizando a Associação</h4>
 <p><strong>Scatter Plot</strong></p>
 <p>O Scatter Plot é conhecido como o gráfico de dispersão. Ele relaciona duas ou três variáveis, ou seja, plota <span class="math inline">\(X\)</span> contra <span class="math inline">\(Y\)</span>. Muito utilizado para ver o comportamento conjunto de duas séries.</p>
 <p>Como já visto que renda pc e a taxa de feminicídio não mostram um comportamento conjunto:</p>
@@ -2590,12 +2619,12 @@ window.Quarto = {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../cap/cap6_estatistica.html" class="pagination-link" aria-label="Uma Introdução à Estatística">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../cap/cap8_lineares.html" class="pagination-link" aria-label="Modelos Lineares">
-        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

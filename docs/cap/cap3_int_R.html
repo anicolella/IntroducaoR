@@ -9,7 +9,7 @@
 <meta name="author" content="Alexandre Nicolella">
 <meta name="dcterms.date" content="2026-03-03">
 
-<title>8&nbsp; Maipulando os Dados – Introdução ao R</title>
+<title>11&nbsp; Maipulando os Dados – Introdução ao R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../cap/cap4_dplyr.html" rel="next">
-<link href="../cap/cap07_planejamento_investigacao.html" rel="prev">
+<link href="../cap/cap10_objetos_operacoes.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -160,7 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -242,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Manipulando os Dados</span></a>
+ <span class="menu-text">Ambiente e fundamentos de R</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -250,20 +250,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  <a href="../cap/cap08_ambiente_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  <a href="../cap/cap09_projetos_reprodutiveis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Projetos e organização reproduzível</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  <a href="../cap/cap10_objetos_operacoes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Objetos e operações fundamentais</span></span></a>
   </div>
 </li>
       </ul>
@@ -271,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Motivando e Relembrando</span></a>
+ <span class="menu-text">Manipulando os Dados</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -279,8 +279,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
   </div>
 </li>
       </ul>
@@ -288,7 +300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Gerando Informação</span></a>
+ <span class="menu-text">Motivando e Relembrando</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -296,20 +308,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
   </div>
 </li>
       </ul>
@@ -317,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Tópicos Extras</span></a>
+ <span class="menu-text">Gerando Informação</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -325,8 +325,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
   </div>
 </li>
       </ul>
@@ -341,33 +370,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#o-r-project-e-as-boas-práticas" id="toc-o-r-project-e-as-boas-práticas" class="nav-link active" data-scroll-target="#o-r-project-e-as-boas-práticas"><span class="header-section-number">8.1</span> O R-project e as Boas Práticas</a>
+  <li><a href="#o-r-project-e-as-boas-práticas" id="toc-o-r-project-e-as-boas-práticas" class="nav-link active" data-scroll-target="#o-r-project-e-as-boas-práticas"><span class="header-section-number">11.1</span> O R-project e as Boas Práticas</a>
   <ul class="collapse">
-  <li><a href="#o-software-r" id="toc-o-software-r" class="nav-link" data-scroll-target="#o-software-r"><span class="header-section-number">8.1.1</span> O software R</a></li>
-  <li><a href="#utilizando-interface-gráfica---o-rstudio" id="toc-utilizando-interface-gráfica---o-rstudio" class="nav-link" data-scroll-target="#utilizando-interface-gráfica---o-rstudio"><span class="header-section-number">8.1.2</span> Utilizando Interface Gráfica - O Rstudio</a></li>
-  <li><a href="#ajuda" id="toc-ajuda" class="nav-link" data-scroll-target="#ajuda"><span class="header-section-number">8.1.3</span> Ajuda</a></li>
-  <li><a href="#boas-práticas" id="toc-boas-práticas" class="nav-link" data-scroll-target="#boas-práticas"><span class="header-section-number">8.1.4</span> Boas Práticas</a></li>
-  <li><a href="#criando-projeto-no-r" id="toc-criando-projeto-no-r" class="nav-link" data-scroll-target="#criando-projeto-no-r"><span class="header-section-number">8.1.5</span> Criando projeto no R</a></li>
-  <li><a href="#identação-é-importante" id="toc-identação-é-importante" class="nav-link" data-scroll-target="#identação-é-importante"><span class="header-section-number">8.1.6</span> Identação é Importante</a></li>
+  <li><a href="#o-software-r" id="toc-o-software-r" class="nav-link" data-scroll-target="#o-software-r"><span class="header-section-number">11.1.1</span> O software R</a></li>
+  <li><a href="#utilizando-interface-gráfica---o-rstudio" id="toc-utilizando-interface-gráfica---o-rstudio" class="nav-link" data-scroll-target="#utilizando-interface-gráfica---o-rstudio"><span class="header-section-number">11.1.2</span> Utilizando Interface Gráfica - O Rstudio</a></li>
+  <li><a href="#ajuda" id="toc-ajuda" class="nav-link" data-scroll-target="#ajuda"><span class="header-section-number">11.1.3</span> Ajuda</a></li>
+  <li><a href="#boas-práticas" id="toc-boas-práticas" class="nav-link" data-scroll-target="#boas-práticas"><span class="header-section-number">11.1.4</span> Boas Práticas</a></li>
+  <li><a href="#criando-projeto-no-r" id="toc-criando-projeto-no-r" class="nav-link" data-scroll-target="#criando-projeto-no-r"><span class="header-section-number">11.1.5</span> Criando projeto no R</a></li>
+  <li><a href="#identação-é-importante" id="toc-identação-é-importante" class="nav-link" data-scroll-target="#identação-é-importante"><span class="header-section-number">11.1.6</span> Identação é Importante</a></li>
   </ul></li>
-  <li><a href="#inserindo-dados-no-r" id="toc-inserindo-dados-no-r" class="nav-link" data-scroll-target="#inserindo-dados-no-r"><span class="header-section-number">8.2</span> Inserindo Dados no R</a>
+  <li><a href="#inserindo-dados-no-r" id="toc-inserindo-dados-no-r" class="nav-link" data-scroll-target="#inserindo-dados-no-r"><span class="header-section-number">11.2</span> Inserindo Dados no R</a>
   <ul class="collapse">
-  <li><a href="#tipos-de-variáveis" id="toc-tipos-de-variáveis" class="nav-link" data-scroll-target="#tipos-de-variáveis"><span class="header-section-number">8.2.1</span> Tipos de Variáveis</a></li>
-  <li><a href="#importando-os-dados" id="toc-importando-os-dados" class="nav-link" data-scroll-target="#importando-os-dados"><span class="header-section-number">8.2.2</span> Importando os Dados</a></li>
-  <li><a href="#exportanto-os-dados" id="toc-exportanto-os-dados" class="nav-link" data-scroll-target="#exportanto-os-dados"><span class="header-section-number">8.2.3</span> Exportanto os Dados</a></li>
-  <li><a href="#lidando-com-dados-missing" id="toc-lidando-com-dados-missing" class="nav-link" data-scroll-target="#lidando-com-dados-missing"><span class="header-section-number">8.2.4</span> Lidando com Dados Missing</a></li>
+  <li><a href="#tipos-de-variáveis" id="toc-tipos-de-variáveis" class="nav-link" data-scroll-target="#tipos-de-variáveis"><span class="header-section-number">11.2.1</span> Tipos de Variáveis</a></li>
+  <li><a href="#importando-os-dados" id="toc-importando-os-dados" class="nav-link" data-scroll-target="#importando-os-dados"><span class="header-section-number">11.2.2</span> Importando os Dados</a></li>
+  <li><a href="#exportanto-os-dados" id="toc-exportanto-os-dados" class="nav-link" data-scroll-target="#exportanto-os-dados"><span class="header-section-number">11.2.3</span> Exportanto os Dados</a></li>
+  <li><a href="#lidando-com-dados-missing" id="toc-lidando-com-dados-missing" class="nav-link" data-scroll-target="#lidando-com-dados-missing"><span class="header-section-number">11.2.4</span> Lidando com Dados Missing</a></li>
   </ul></li>
-  <li><a href="#operando-o-banco-de-dados" id="toc-operando-o-banco-de-dados" class="nav-link" data-scroll-target="#operando-o-banco-de-dados"><span class="header-section-number">8.3</span> Operando o Banco de Dados</a>
+  <li><a href="#operando-o-banco-de-dados" id="toc-operando-o-banco-de-dados" class="nav-link" data-scroll-target="#operando-o-banco-de-dados"><span class="header-section-number">11.3</span> Operando o Banco de Dados</a>
   <ul class="collapse">
-  <li><a href="#criando-uma-nova-variável" id="toc-criando-uma-nova-variável" class="nav-link" data-scroll-target="#criando-uma-nova-variável"><span class="header-section-number">8.3.1</span> Criando uma Nova Variável</a></li>
-  <li><a href="#operadores-aritméticos-e-lógicos" id="toc-operadores-aritméticos-e-lógicos" class="nav-link" data-scroll-target="#operadores-aritméticos-e-lógicos"><span class="header-section-number">8.3.2</span> Operadores Aritméticos e Lógicos</a></li>
+  <li><a href="#criando-uma-nova-variável" id="toc-criando-uma-nova-variável" class="nav-link" data-scroll-target="#criando-uma-nova-variável"><span class="header-section-number">11.3.1</span> Criando uma Nova Variável</a></li>
+  <li><a href="#operadores-aritméticos-e-lógicos" id="toc-operadores-aritméticos-e-lógicos" class="nav-link" data-scroll-target="#operadores-aritméticos-e-lógicos"><span class="header-section-number">11.3.2</span> Operadores Aritméticos e Lógicos</a></li>
   </ul></li>
-  <li><a href="#algumas-funções-importantes" id="toc-algumas-funções-importantes" class="nav-link" data-scroll-target="#algumas-funções-importantes"><span class="header-section-number">8.4</span> Algumas Funções Importantes</a>
+  <li><a href="#algumas-funções-importantes" id="toc-algumas-funções-importantes" class="nav-link" data-scroll-target="#algumas-funções-importantes"><span class="header-section-number">11.4</span> Algumas Funções Importantes</a>
   <ul class="collapse">
-  <li><a href="#ordenando-os-dados" id="toc-ordenando-os-dados" class="nav-link" data-scroll-target="#ordenando-os-dados"><span class="header-section-number">8.4.1</span> Ordenando os Dados</a></li>
-  <li><a href="#fazendo-merge" id="toc-fazendo-merge" class="nav-link" data-scroll-target="#fazendo-merge"><span class="header-section-number">8.4.2</span> Fazendo Merge</a></li>
-  <li><a href="#agregando" id="toc-agregando" class="nav-link" data-scroll-target="#agregando"><span class="header-section-number">8.4.3</span> Agregando</a></li>
-  <li><a href="#criando-subconjunto" id="toc-criando-subconjunto" class="nav-link" data-scroll-target="#criando-subconjunto"><span class="header-section-number">8.4.4</span> Criando Subconjunto</a></li>
+  <li><a href="#ordenando-os-dados" id="toc-ordenando-os-dados" class="nav-link" data-scroll-target="#ordenando-os-dados"><span class="header-section-number">11.4.1</span> Ordenando os Dados</a></li>
+  <li><a href="#fazendo-merge" id="toc-fazendo-merge" class="nav-link" data-scroll-target="#fazendo-merge"><span class="header-section-number">11.4.2</span> Fazendo Merge</a></li>
+  <li><a href="#agregando" id="toc-agregando" class="nav-link" data-scroll-target="#agregando"><span class="header-section-number">11.4.3</span> Agregando</a></li>
+  <li><a href="#criando-subconjunto" id="toc-criando-subconjunto" class="nav-link" data-scroll-target="#criando-subconjunto"><span class="header-section-number">11.4.4</span> Criando Subconjunto</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -375,9 +404,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap3_int_R.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></h1>
 <p class="subtitle lead">Uma Breve Introdução ao R</p>
 </div>
 
@@ -407,10 +436,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="o-r-project-e-as-boas-práticas" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="o-r-project-e-as-boas-práticas"><span class="header-section-number">8.1</span> O R-project e as Boas Práticas</h2>
-<section id="o-software-r" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="o-software-r"><span class="header-section-number">8.1.1</span> O software R</h3>
+<section id="o-r-project-e-as-boas-práticas" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="o-r-project-e-as-boas-práticas"><span class="header-section-number">11.1</span> O R-project e as Boas Práticas</h2>
+<section id="o-software-r" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="o-software-r"><span class="header-section-number">11.1.1</span> O software R</h3>
 <p>O R é uma linguagem e ambiente de desenvolvimento de Estatística e gráficos. É uma ferramenta poderosa, fornecendo ao seu usuário maior integração e qualidade gráfica e de análise. Alguns motivos para utilizar o R:</p>
 <ul>
 <li><p><strong>É Gratuito</strong>: é um projeto open-source. Pode ser utilizado em qualquer sistema operacional e tem aberto seus códigos e pactos para poder ser inspecionado.</p></li>
@@ -422,16 +451,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><strong>Conexão com Outros Pacotes</strong>: O R integra com outros pacotes que automatizam o nosso trabalho cotidiano. Pode se conectar com o Python, Java, SQL, Latex etc.</p></li>
 </ul>
 </section>
-<section id="utilizando-interface-gráfica---o-rstudio" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="utilizando-interface-gráfica---o-rstudio"><span class="header-section-number">8.1.2</span> Utilizando Interface Gráfica - O Rstudio</h3>
+<section id="utilizando-interface-gráfica---o-rstudio" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="utilizando-interface-gráfica---o-rstudio"><span class="header-section-number">11.1.2</span> Utilizando Interface Gráfica - O Rstudio</h3>
 <p>Pode-se realizar seu script diretamente no console do R. Ele irá realizar um comando por vez. O R é uma interface leve e com poucos recursos gráficos.</p>
 <p>Uma alternativa ao uso do R diretamente é o Rstudio, o qual é um editor de código ou um ambiente de desenvolvimento integrado. Ele possui quatro janelas, sendo a primeira a janela de script (superior esquerda) onde escrevemos os comandos em R.</p>
 <p>A segunda janela é o console (inferior esquerda) similar ao que temos no R e onde os resultados são apresentados. Pode-se digitar comando diretamente no console do RStudio.</p>
 <p>A terceira é a janela de ambiente e história (superior direita) ela armazena seus dados, valores e funções e a aba história possui a memoria dos comandos realizados.</p>
 <p>Por fim a quarta janela (inferior direita) apresenta os pacotes, os gráficos, os arquivos gerados e ajuda. Essa janela facilita a instalação de pacotes, carregamento de bibliotecas, visualização de gráficos e o caminho dos arquivos.</p>
 </section>
-<section id="ajuda" class="level3" data-number="8.1.3">
-<h3 data-number="8.1.3" class="anchored" data-anchor-id="ajuda"><span class="header-section-number">8.1.3</span> Ajuda</h3>
+<section id="ajuda" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="ajuda"><span class="header-section-number">11.1.3</span> Ajuda</h3>
 <p>Para abrir a ajuda geral o seguinte abaixo pode ser utilizado e abrirá uma janela no seu navegador.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help.start</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -449,8 +478,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="boas-práticas" class="level3" data-number="8.1.4">
-<h3 data-number="8.1.4" class="anchored" data-anchor-id="boas-práticas"><span class="header-section-number">8.1.4</span> Boas Práticas</h3>
+<section id="boas-práticas" class="level3" data-number="11.1.4">
+<h3 data-number="11.1.4" class="anchored" data-anchor-id="boas-práticas"><span class="header-section-number">11.1.4</span> Boas Práticas</h3>
 <p>É fundamental que o usuário seja organizado. Forma é muito importante! Assim o usuário deve adotar padrões que auxiliem na organização do seu script ou programa.</p>
 <p><strong>Case Sensitivy</strong>: O R diferencia letras minúsculas e maiúscula. Ou seja, m é diferente de M. Por exemplo, considere as três formas de escrever a palavra idade.</p>
 <p style="text-align: center;">
@@ -491,8 +520,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="criando-projeto-no-r" class="level3" data-number="8.1.5">
-<h3 data-number="8.1.5" class="anchored" data-anchor-id="criando-projeto-no-r"><span class="header-section-number">8.1.5</span> Criando projeto no R</h3>
+<section id="criando-projeto-no-r" class="level3" data-number="11.1.5">
+<h3 data-number="11.1.5" class="anchored" data-anchor-id="criando-projeto-no-r"><span class="header-section-number">11.1.5</span> Criando projeto no R</h3>
 <p>Para saber em qual diretório o R está utilizando para salvar seu espaço de trabalho utilize o seguinte comando:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -502,8 +531,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>  File <span class="ot">-&gt;</span> New Project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="identação-é-importante" class="level3" data-number="8.1.6">
-<h3 data-number="8.1.6" class="anchored" data-anchor-id="identação-é-importante"><span class="header-section-number">8.1.6</span> Identação é Importante</h3>
+<section id="identação-é-importante" class="level3" data-number="11.1.6">
+<h3 data-number="11.1.6" class="anchored" data-anchor-id="identação-é-importante"><span class="header-section-number">11.1.6</span> Identação é Importante</h3>
 <p>Identar é o recuo no texto em relação a margem. É importante que esse recuo exista para linhas do seu programa que são hierarquicamente conectadas. Vejamos dois exemplos com e sem identação:</p>
 <p><em>Sem Identação</em></p>
 <div class="cell">
@@ -524,10 +553,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="inserindo-dados-no-r" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="inserindo-dados-no-r"><span class="header-section-number">8.2</span> Inserindo Dados no R</h2>
-<section id="tipos-de-variáveis" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="tipos-de-variáveis"><span class="header-section-number">8.2.1</span> Tipos de Variáveis</h3>
+<section id="inserindo-dados-no-r" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="inserindo-dados-no-r"><span class="header-section-number">11.2</span> Inserindo Dados no R</h2>
+<section id="tipos-de-variáveis" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="tipos-de-variáveis"><span class="header-section-number">11.2.1</span> Tipos de Variáveis</h3>
 <p>O R possui diversos tipos de variáveis. Alguns desses tipos são:</p>
 <p><strong>Vetores</strong>: Vamos inserir os dados denúmero de homicídios de mulheres nos diversos Estados brasileiros para o ano de 2022.No primeiro elemento teremos um erro, ao invés de 22 colocaremos 2.E não colocamos o valor do Distrito Federal e nem Tocantins</p>
 <div class="cell">
@@ -642,8 +671,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>O comando <code>levels</code> fornece as classes existentes, no caso acima temos 5, sendo elas 4, 7, 9, 3 e 4.</p>
 <p>Fatores podem ser as características de raça, gênero, status familiar, status de saúde, qualidade do atendimento etc.</p>
-<section id="data-frame-ou-banco-de-dados" class="level4" data-number="8.2.1.1">
-<h4 data-number="8.2.1.1" class="anchored" data-anchor-id="data-frame-ou-banco-de-dados"><span class="header-section-number">8.2.1.1</span> Data Frame ou Banco de Dados</h4>
+<section id="data-frame-ou-banco-de-dados" class="level4" data-number="11.2.1.1">
+<h4 data-number="11.2.1.1" class="anchored" data-anchor-id="data-frame-ou-banco-de-dados"><span class="header-section-number">11.2.1.1</span> Data Frame ou Banco de Dados</h4>
 <p>Esse é um tipo mais geral de variável e consegue lidar na mesma estrutura com variaveis de tipos distintos como numérica, texto e fator. Um banco de dados similar aos outros programas estatísticos. Podemos criar essa variável de forma manual. Nosso banco de dados será composto por 4 variáveis, a primeira o estado, a segunda a região, a terceira o número de homicídios femininos e a quarta o número de feminicidios. As três primeiras já foram incluidas acima e vamos criar somente a quarta. O comando <code>typeof</code> mostra qual o tipo de variável.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>feminic_abs<span class="ot">=</span><span class="fu">c</span>(<span class="dv">11</span>,  <span class="dv">31</span>,  <span class="dv">8</span>,  <span class="dv">21</span>,  <span class="dv">107</span>,  <span class="dv">28</span>,  <span class="dv">19</span>,  <span class="dv">33</span>,  <span class="dv">56</span>,  <span class="dv">69</span>,  <span class="dv">47</span>,  <span class="dv">40</span>,  <span class="dv">171</span>,  <span class="dv">49</span>,  <span class="dv">26</span>,  <span class="dv">77</span>,  <span class="dv">72</span>,  <span class="dv">24</span>,  <span class="dv">111</span>,  <span class="dv">16</span>,  <span class="dv">110</span>,  <span class="dv">24</span>,  <span class="dv">3</span>,  <span class="dv">56</span>,  <span class="dv">195</span>,  <span class="dv">19</span>,  <span class="dv">14</span>) </span>
@@ -706,8 +735,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Entretanto, inserir dados na mão pode ser uma tarefa muito penosa e existem soluções bem mais simples e rápidas para inserção de dados. Nas seções seguintes veremos aprenderemos mais funções úteis para lidar com banco de dados.</p>
 </section>
-<section id="trabalhando-com-as-variáveis" class="level4" data-number="8.2.1.2">
-<h4 data-number="8.2.1.2" class="anchored" data-anchor-id="trabalhando-com-as-variáveis"><span class="header-section-number">8.2.1.2</span> Trabalhando com as variáveis:</h4>
+<section id="trabalhando-com-as-variáveis" class="level4" data-number="11.2.1.2">
+<h4 data-number="11.2.1.2" class="anchored" data-anchor-id="trabalhando-com-as-variáveis"><span class="header-section-number">11.2.1.2</span> Trabalhando com as variáveis:</h4>
 <p>Vamos retomar duas variáveis <em>homic_abs</em> e <em>estado</em> e vamos manipular essas duas variáveis. Primeiramente vejamos o número de elementos, estrutura, classe e nome:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(homic_abs) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -752,8 +781,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="importando-os-dados" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="importando-os-dados"><span class="header-section-number">8.2.2</span> Importando os Dados</h3>
+<section id="importando-os-dados" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="importando-os-dados"><span class="header-section-number">11.2.2</span> Importando os Dados</h3>
 <p>Disponibilizamos dois banco de dados, um contendo os homicídios e feminicídios por estado e outro com as tentativas. Esses arquivos estão em formato csv (comma separated values).</p>
 <p>Para leitura desse arquivo em csv o seguinte comando é necessário <code>read.csv</code>, indicado que possui cabeçalho e que o separador é “;”. Observe que vc tem que indicar o caminho correto.</p>
 <div class="cell">
@@ -781,8 +810,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="exportanto-os-dados" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="exportanto-os-dados"><span class="header-section-number">8.2.3</span> Exportanto os Dados</h3>
+<section id="exportanto-os-dados" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="exportanto-os-dados"><span class="header-section-number">11.2.3</span> Exportanto os Dados</h3>
 <p>Podemos exportar os dados em diferentes formatos. Alguns exemplos são csv, texto delimitado, excel, stata. Vejamos em csv:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(df_feminic22, <span class="st">"../dados/export_feminic.csv"</span>, <span class="at">sep=</span><span class="st">";"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -793,8 +822,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.dta</span>(df_feminic22, <span class="st">"../dados/export_feminic.dta"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="lidando-com-dados-missing" class="level3" data-number="8.2.4">
-<h3 data-number="8.2.4" class="anchored" data-anchor-id="lidando-com-dados-missing"><span class="header-section-number">8.2.4</span> Lidando com Dados Missing</h3>
+<section id="lidando-com-dados-missing" class="level3" data-number="11.2.4">
+<h3 data-number="11.2.4" class="anchored" data-anchor-id="lidando-com-dados-missing"><span class="header-section-number">11.2.4</span> Lidando com Dados Missing</h3>
 <p>Não temos informação para as tentativas de feminicidio para os estados de São Paulo e Mato Grosso. Uma maneira de lidar com valores missing seria fazer um subconjunto que veremos mais a frente. Agora seguiremos alguns passos para analisar os valores missing do nosso banco de dados.</p>
 <p>Primeiramente, analisamos se há valores missing no banco de dados:</p>
 <div class="cell">
@@ -841,10 +870,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="operando-o-banco-de-dados" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="operando-o-banco-de-dados"><span class="header-section-number">8.3</span> Operando o Banco de Dados</h2>
-<section id="criando-uma-nova-variável" class="level3" data-number="8.3.1">
-<h3 data-number="8.3.1" class="anchored" data-anchor-id="criando-uma-nova-variável"><span class="header-section-number">8.3.1</span> Criando uma Nova Variável</h3>
+<section id="operando-o-banco-de-dados" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="operando-o-banco-de-dados"><span class="header-section-number">11.3</span> Operando o Banco de Dados</h2>
+<section id="criando-uma-nova-variável" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="criando-uma-nova-variável"><span class="header-section-number">11.3.1</span> Criando uma Nova Variável</h3>
 <p>Vamos criar uma variável que seria a soma dos homicídios e feminicídios no estado. Para criar a variável precisamos dizer primeiro qual o banco de dados em que queremos criar e qual o nome da variável, conforme apresentado na expressão abaixo.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape)</span>
@@ -866,8 +895,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="operadores-aritméticos-e-lógicos" class="level3" data-number="8.3.2">
-<h3 data-number="8.3.2" class="anchored" data-anchor-id="operadores-aritméticos-e-lógicos"><span class="header-section-number">8.3.2</span> Operadores Aritméticos e Lógicos</h3>
+<section id="operadores-aritméticos-e-lógicos" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="operadores-aritméticos-e-lógicos"><span class="header-section-number">11.3.2</span> Operadores Aritméticos e Lógicos</h3>
 <p>Utilizando os vetores criados anteriormente:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>feminic_abs<span class="sc">&gt;</span><span class="dv">50</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -949,10 +978,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </section>
 </section>
-<section id="algumas-funções-importantes" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="algumas-funções-importantes"><span class="header-section-number">8.4</span> Algumas Funções Importantes</h2>
-<section id="ordenando-os-dados" class="level3" data-number="8.4.1">
-<h3 data-number="8.4.1" class="anchored" data-anchor-id="ordenando-os-dados"><span class="header-section-number">8.4.1</span> Ordenando os Dados</h3>
+<section id="algumas-funções-importantes" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="algumas-funções-importantes"><span class="header-section-number">11.4</span> Algumas Funções Importantes</h2>
+<section id="ordenando-os-dados" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="ordenando-os-dados"><span class="header-section-number">11.4.1</span> Ordenando os Dados</h3>
 <p>Vamos ordenar os estados dos nossos 2 <em>data frames</em> pela participação do feminicídio no total de homicídios de mulheres.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>df_feminic22_ord<span class="ot">&lt;-</span>df_feminic22[<span class="fu">order</span>(df_feminic22<span class="sc">$</span>part_feminic, <span class="at">decreasing =</span> <span class="cn">TRUE</span>),] </span>
@@ -960,16 +989,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>df_t_feminic22_ord<span class="ot">&lt;-</span>df_t_feminic22[<span class="fu">order</span>(df_t_feminic22<span class="sc">$</span>part_t_feminic, <span class="at">decreasing =</span> <span class="cn">TRUE</span>),] </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="fazendo-merge" class="level3" data-number="8.4.2">
-<h3 data-number="8.4.2" class="anchored" data-anchor-id="fazendo-merge"><span class="header-section-number">8.4.2</span> Fazendo Merge</h3>
+<section id="fazendo-merge" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="fazendo-merge"><span class="header-section-number">11.4.2</span> Fazendo Merge</h3>
 <p>Temos dois <em>data frames</em> um contendo homicídios e feminicídios e outro contendo as tentativas. Vamos agora juntar os dois. Para isso os bancos devem conter uma chave única que identifica cada linha e essa deve estar presente nos dois bancos. Inclusive devem ter o mesmo nome.No caso em questão podemos usar o estado como nossa chave que irá conectar os dois bancos.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>df_final_feminic_22 <span class="ot">&lt;-</span> <span class="fu">merge</span>(df_feminic22,df_t_feminic22,<span class="at">by=</span><span class="st">"sigla"</span>,<span class="at">keep.all=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Agora temos um banco único com homicídios e tentativas de homicídios.</p>
 </section>
-<section id="agregando" class="level3" data-number="8.4.3">
-<h3 data-number="8.4.3" class="anchored" data-anchor-id="agregando"><span class="header-section-number">8.4.3</span> Agregando</h3>
+<section id="agregando" class="level3" data-number="11.4.3">
+<h3 data-number="11.4.3" class="anchored" data-anchor-id="agregando"><span class="header-section-number">11.4.3</span> Agregando</h3>
 <p>Vamos criar um banco de dados que contenha os valores médios das variáveis. Para isso vamos agregar fazendo a média por região. Poderíamos utilizar outra função, como a soma, para fazer a agregação:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>regiao_media <span class="ot">&lt;-</span><span class="fu">aggregate</span>(df_final_feminic_22, <span class="at">by=</span><span class="fu">list</span>(df_final_feminic_22<span class="sc">$</span>regiao.x), <span class="at">FUN=</span>mean, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
@@ -996,8 +1025,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="criando-subconjunto" class="level3" data-number="8.4.4">
-<h3 data-number="8.4.4" class="anchored" data-anchor-id="criando-subconjunto"><span class="header-section-number">8.4.4</span> Criando Subconjunto</h3>
+<section id="criando-subconjunto" class="level3" data-number="11.4.4">
+<h3 data-number="11.4.4" class="anchored" data-anchor-id="criando-subconjunto"><span class="header-section-number">11.4.4</span> Criando Subconjunto</h3>
 <p><strong>Selecionando Variáveis</strong>:</p>
 <p>Podemos estar interessado em manter somente algumas variáveis no nosso banco de dados, por exemplo, queremos manter estado e a participação do feminicídio no total. Assim:</p>
 <div class="cell">
@@ -1469,13 +1498,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../cap/cap07_planejamento_investigacao.html" class="pagination-link" aria-label="Planejamento da investigação em R">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span>
+      <a href="../cap/cap10_objetos_operacoes.html" class="pagination-link" aria-label="Objetos e operações fundamentais">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Objetos e operações fundamentais</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../cap/cap4_dplyr.html" class="pagination-link" aria-label="O Dplyr">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">O Dplyr</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">O Dplyr</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

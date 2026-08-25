@@ -1,0 +1,379 @@
+---
+title: "R e o ambiente de trabalho"
+subtitle: "Linguagem, interfaces e primeiros passos"
+author:
+  - Alexandre Nicolella
+date: "08/25/2026"
+format: html
+---
+
+Até aqui, planejamos uma investigação econômica com dados. Agora começaremos a construir as competências técnicas necessárias para executá-la.
+
+Neste capítulo, conheceremos o R e os ambientes que podem ser utilizados para escrever e executar código. O objetivo não é memorizar todos os componentes da interface, mas compreender **onde escrevemos, onde executamos e onde encontramos os resultados e a documentação**.
+
+::: {.callout-note title="Objetivos do capítulo"}
+
+Ao final deste capítulo, você deverá ser capaz de:
+
+- explicar a diferença entre R, RStudio e Positron;
+- reconhecer o papel de uma IDE;
+- localizar editor, console, terminal, arquivos e ajuda;
+- distinguir comandos temporários de código registrado em um script;
+- criar, salvar e executar um script simples;
+- consultar a documentação de uma função.
+
+:::
+
+## O que é R?
+
+R é uma **linguagem e um ambiente para computação estatística e produção de gráficos** [@rproject]. Com ele, podemos representar informações por meio de objetos, executar operações, transformar bases, estimar modelos e construir visualizações.
+
+O R é software livre e pode ser utilizado em Windows, macOS e Linux. Sua funcionalidade pode ser ampliada por meio de pacotes desenvolvidos por uma comunidade internacional.
+
+Para a Economia e as Finanças, o R permite trabalhar com:
+
+- microdados de indivíduos, famílias e empresas;
+- séries macroeconômicas;
+- preços e retornos de ativos;
+- tabelas, gráficos e mapas;
+- estatística e econometria;
+- documentos e tutoriais reproduzíveis em Quarto.
+
+::: {.callout-important title="R não é apenas um programa de clicar"}
+
+Em R, registramos instruções em código. No início, isso exige aprender uma nova linguagem. Em compensação, o código preserva a sequência da análise, facilita correções e permite repetir o trabalho com novos dados.
+
+:::
+
+## Linguagem e IDE não são a mesma coisa
+
+O **R** executa os comandos. Uma **IDE**, ou ambiente integrado de desenvolvimento, reúne ferramentas que ajudam a escrever, executar, inspecionar e organizar esses comandos.
+
+Nesta disciplina, poderão ser utilizados principalmente **RStudio** e **Positron**.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Relação entre o estudante, a IDE, a linguagem R e os arquivos e resultados do projeto"
+
+flowchart LR
+    A["Estudante"] --> B["IDE<br/>RStudio ou Positron"]
+    B --> C["Linguagem R"]
+    C --> D["Dados"]
+    C --> E["Tabelas e gráficos"]
+    C --> F["Análises"]
+    B --> G["Scripts e documentos Quarto"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef resultado fill:#FFF1D6,stroke:#8A6426,stroke-width:2px,color:#4A3512;
+    class A,B,C,G etapa;
+    class D,E,F resultado;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+Essa distinção ajuda a diagnosticar problemas. É possível ter o R instalado e ainda não possuir o RStudio ou o Positron. Também é possível instalar uma IDE que não consegue localizar uma instalação válida do R.
+
+::: {.callout-warning title="A IDE não substitui o R"}
+
+RStudio e Positron oferecem interfaces para trabalhar com R, mas o mecanismo que interpreta os comandos continua sendo o R. Em geral, precisamos instalar o R e depois configurar ou instalar a IDE escolhida.
+
+:::
+
+## Instalação
+
+### Instalar o R
+
+A distribuição oficial está disponível no [CRAN](https://cran.r-project.org/). Escolha o sistema operacional, baixe a versão estável e siga o instalador.
+
+Depois da instalação, confirme que o R pode ser iniciado. Não é necessário personalizar diretórios ou opções avançadas neste primeiro momento.
+
+### Escolher uma IDE
+
+O **RStudio Desktop** é uma IDE consolidada, com editor, console, ferramentas para gráficos, ajuda, histórico, depuração e gerenciamento de projetos [@rstudioide].
+
+O **Positron** é uma IDE mais recente da Posit, com suporte nativo a R e Python e recursos voltados à ciência de dados [@positron]. Ele também oferece editor, console, visualização de dados, gráficos, ajuda e terminal.
+
+| Característica | RStudio | Positron |
+|---|---|---|
+| Foco | Fluxos de trabalho fortemente associados ao R | Ciência de dados com R e Python |
+| Interface | Organização tradicional em painéis | Interface baseada no ecossistema do VS Code |
+| Console de R | Integrado | Integrado |
+| Quarto | Suporte integrado | Suporte integrado |
+| Projetos | Projetos do RStudio e diretórios de trabalho | Pastas e espaços de trabalho |
+| Indicação inicial | Familiar e amplamente documentado | Útil para fluxos multilíngues e ambiente moderno |
+
+Os exemplos de código serão os mesmos nos dois ambientes. O que muda principalmente é a posição de botões, painéis e comandos da interface.
+
+::: {.callout-tip title="Escolha um ambiente para começar"}
+
+Não é necessário aprender RStudio e Positron simultaneamente. Escolha o ambiente utilizado nas aulas ou aquele em que você se sente mais confortável. Depois de compreender a relação entre editor, console e arquivos, a transição se torna mais simples.
+
+:::
+
+## Componentes do ambiente de trabalho
+
+Apesar das diferenças visuais, as IDEs apresentam componentes com funções semelhantes.
+
+### Editor
+
+O **editor** é o local em que escrevemos e salvamos scripts, documentos Quarto e outros arquivos de texto. Ele oferece recursos como cores para a sintaxe, sugestões, recuo automático e indicação de alguns erros.
+
+O código escrito no editor não é necessariamente executado no momento em que é digitado. Ele permanece registrado no arquivo até que selecionemos uma linha, um trecho ou o documento inteiro para execução.
+
+### Console
+
+O **console** mantém uma sessão ativa do R. Nele podemos executar comandos e observar resultados e mensagens.
+
+Quando o console está pronto para receber uma instrução, geralmente apresenta o símbolo:
+
+```text
+>
+```
+
+Podemos experimentar um cálculo simples:
+
+```r
+2 + 2
+```
+
+O resultado aparece no console. Entretanto, se o comando foi digitado apenas ali, ele não fica organizado como parte do roteiro da análise.
+
+### Terminal
+
+O **terminal** permite enviar comandos ao sistema operacional. Ele é utilizado para tarefas como navegar entre pastas, executar programas e trabalhar com Git.
+
+Terminal e console do R não são a mesma coisa:
+
+| Local | Interpreta principalmente | Exemplo de uso |
+|---|---|---|
+| Console do R | linguagem R | calcular uma média ou inspecionar um objeto |
+| Terminal | comandos do sistema | consultar o estado de um repositório Git |
+
+::: {.callout-warning title="Observe onde o comando está sendo executado"}
+
+Um comando do R inserido no terminal pode gerar erro, assim como um comando do sistema inserido no console do R. Antes de executar, confirme qual painel está ativo.
+
+:::
+
+### Arquivos, ambiente, gráficos e ajuda
+
+As IDEs também fornecem formas de:
+
+- navegar pelos arquivos do projeto;
+- observar objetos existentes na sessão;
+- visualizar tabelas e gráficos;
+- instalar e consultar pacotes;
+- abrir documentação;
+- acompanhar mensagens e problemas do código.
+
+A posição exata desses componentes varia. O mais importante é reconhecer sua função, não memorizar um desenho específico da tela.
+
+::: {.callout-note title="Figura a acrescentar posteriormente"}
+
+Este é um bom ponto para incluirmos capturas próprias das interfaces utilizadas em aula, com setas indicando editor, console, terminal, arquivos, gráficos e ajuda.
+
+Capturas produzidas pelo professor evitarão dúvidas de licença e poderão refletir exatamente a versão e a configuração utilizadas pelos alunos.
+
+:::
+
+## Console ou script?
+
+O console é útil para testes rápidos. O **script** é o arquivo em que registramos o código que precisa ser compreendido e executado novamente.
+
+Considere:
+
+```r
+taxa_participacao <- 58.4
+taxa_participacao
+```
+
+Se essas linhas forem salvas em um arquivo como `analise.R`, poderemos reabri-las, modificá-las e executá-las novamente.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Fluxo recomendado entre escrever no script, executar no console, verificar o resultado e corrigir o script"
+
+flowchart LR
+    A["Escrever no script"] --> B["Executar no console"]
+    B --> C["Observar resultado ou erro"]
+    C --> D["Corrigir no script"]
+    D --> B
+    C --> E["Salvar a versão compreendida"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+::: {.callout-important title="O histórico do console não substitui o script"}
+
+O histórico registra comandos executados, inclusive tentativas incompletas ou incorretas. O script deve conter a sequência revisada que representa a análise.
+
+:::
+
+## Criando o primeiro script
+
+Crie um novo arquivo de texto para R e salve-o como:
+
+```text
+primeiros_passos.R
+```
+
+Digite:
+
+```r
+# Meu primeiro script em R
+
+valor_inicial <- 100
+taxa_crescimento <- 0.05
+valor_final <- valor_inicial * (1 + taxa_crescimento)
+
+valor_final
+```
+
+Execute uma linha de cada vez e observe o console.
+
+Alguns elementos já podem ser reconhecidos:
+
+- o símbolo `<-` atribui um valor a um objeto;
+- os nomes ajudam a lembrar o que cada objeto representa;
+- a linha iniciada por `#` é um comentário;
+- a última linha solicita a apresentação do resultado.
+
+Objetos, atribuição e operações serão estudados detalhadamente no Capítulo 10. Neste momento, o objetivo é apenas experimentar o percurso entre script e console.
+
+## Mensagens, avisos e erros
+
+Ao executar código, o R pode apresentar:
+
+- **resultado:** resposta produzida pelo comando;
+- **mensagem:** informação fornecida por uma função ou pacote;
+- **aviso:** indicação de que o comando terminou, mas algo merece atenção;
+- **erro:** indicação de que a operação não pôde ser concluída.
+
+::: {.callout-warning title="Não ignore as mensagens em vermelho"}
+
+Leia o texto antes de tentar outro comando. Procure identificar:
+
+- em qual linha ocorreu o problema;
+- qual objeto ou função foi mencionado;
+- se existe erro de digitação;
+- se faltam aspas, vírgulas ou parênteses;
+- se o comando está sendo executado no local correto.
+
+Mensagens de erro fazem parte da programação e são uma fonte importante de aprendizagem.
+
+:::
+
+## Ajuda e documentação
+
+Não é necessário memorizar todas as funções. É necessário aprender a consultar a documentação.
+
+Para abrir a ajuda de uma função, podemos utilizar:
+
+```r
+?mean
+```
+
+ou:
+
+```r
+help(mean)
+```
+
+Para executar exemplos fornecidos pela documentação:
+
+```r
+example(mean)
+```
+
+Uma página de ajuda geralmente apresenta:
+
+- descrição da função;
+- forma de uso;
+- argumentos;
+- detalhes;
+- valor retornado;
+- exemplos;
+- referências e funções relacionadas.
+
+O RStudio possui ajuda integrada, e o Positron oferece um painel de ajuda para documentação de funções, pacotes e vinhetas [@positronhelp].
+
+::: {.callout-tip title="Leia primeiro Usage e Arguments"}
+
+Quando encontrar uma função desconhecida:
+
+1. observe como ela é chamada em **Usage**;
+2. identifique os argumentos em **Arguments**;
+3. examine o que ela retorna em **Value**;
+4. execute um exemplo pequeno;
+5. adapte somente depois de compreender a estrutura.
+
+:::
+
+## Inteligência artificial e documentação
+
+A IA pode explicar uma mensagem ou ajudar a localizar uma função, mas a documentação oficial deve ser utilizada para confirmar:
+
+- se a função realmente existe;
+- a qual pacote pertence;
+- quais argumentos aceita;
+- que tipo de objeto retorna;
+- se há condições ou limitações importantes.
+
+::: {.callout-warning title="Confirme no seu ambiente"}
+
+Uma resposta de IA pode se referir a outra versão do pacote ou inventar um argumento plausível. Execute um exemplo pequeno e consulte a ajuda instalada antes de incorporar a solução ao projeto.
+
+:::
+
+## Atividade — conhecendo o ambiente
+
+### Etapa 1 — Identifique os componentes
+
+No ambiente escolhido, localize:
+
+- [ ] editor;
+- [ ] console do R;
+- [ ] terminal;
+- [ ] navegador de arquivos;
+- [ ] visualizador de gráficos;
+- [ ] painel de ajuda.
+
+### Etapa 2 — Crie e execute um script
+
+1. crie `primeiros_passos.R`;
+2. digite o exemplo apresentado no capítulo;
+3. salve o arquivo;
+4. execute uma linha de cada vez;
+5. altere a taxa de crescimento;
+6. execute novamente;
+7. explique por que o resultado mudou.
+
+### Etapa 3 — Consulte a ajuda
+
+Abra a documentação de `mean()` e registre:
+
+- para que serve a função;
+- qual é seu primeiro argumento;
+- para que serve o argumento `na.rm`;
+- um exemplo encontrado na documentação.
+
+::: {.callout-tip title="Checklist do ambiente"}
+
+- [ ] Consigo explicar a diferença entre R e IDE?
+- [ ] Sei onde escrever e salvar o código?
+- [ ] Sei onde os comandos são executados?
+- [ ] Distingo console do R e terminal?
+- [ ] Consigo executar uma linha do script?
+- [ ] Consigo localizar e ler a ajuda de uma função?
+- [ ] Sei onde procurar quando aparece uma mensagem de erro?
+
+:::
+
+::: {.callout-important title="Produto deste capítulo"}
+
+Ao final, você deverá ter um ambiente capaz de executar R e um primeiro script salvo. Esse arquivo será simples, mas representa uma mudança importante: os comandos deixam de ser tentativas isoladas e passam a formar um registro reproduzível.
+
+No próximo capítulo, organizaremos esse trabalho dentro de um projeto com estrutura de pastas e caminhos relativos.
+
+:::

@@ -1,0 +1,442 @@
+---
+title: "Objetos e operações fundamentais"
+subtitle: "Construindo um pequeno banco de salários passo a passo"
+author:
+  - Alexandre Nicolella
+date: "08/25/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+Nos capítulos anteriores, preparamos o ambiente de trabalho e organizamos um projeto reproduzível. Agora começaremos a trabalhar efetivamente com a linguagem R.
+
+Em vez de apresentar uma lista desconectada de comandos, construiremos aos poucos um pequeno banco de salários. Cada novo objeto terá uma função na investigação e nos ajudará a compreender uma ideia fundamental da linguagem.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- criar objetos e atribuir valores;
+- escolher nomes claros para os objetos;
+- reconhecer valores numéricos, textuais e lógicos;
+- construir e inspecionar vetores;
+- selecionar e modificar elementos por sua posição;
+- utilizar operadores aritméticos, relacionais e lógicos;
+- chamar funções e informar seus argumentos;
+- representar uma variável categórica como fator;
+- reunir vetores em um pequeno *data frame*.
+:::
+
+## Uma pergunta para orientar o exemplo
+
+Vamos partir de uma pergunta econômica simples:
+
+> Como os salários diferem entre homens e mulheres, e que outras características devem ser consideradas nessa comparação?
+
+Ainda não temos ferramentas suficientes para responder adequadamente a essa pergunta. Por enquanto, nosso objetivo será mais modesto: representar no R algumas informações necessárias para começar a investigá-la.
+
+Utilizaremos 12 observações da base `wage1`, disponível no pacote `wooldridge`. A base completa contém 526 trabalhadores entrevistados na *Current Population Survey* dos Estados Unidos em 1976 e é apresentada por @wooldridge2020. As 12 linhas foram retiradas da base original: não são dados inventados.
+
+::: {.callout-important title="Uma miniatura didática"}
+Selecionamos seis homens e seis mulheres e apenas cinco características. Essa pequena seleção permitirá enxergar cada passo da construção do banco. Ela **não representa uma amostra adequada para tirar conclusões** sobre diferenças salariais.
+
+No próximo capítulo, carregaremos a base completa e aprenderemos a importar dados sem digitá-los manualmente.
+:::
+
+As informações utilizadas serão:
+
+| Variável | O que representa |
+|---|---|
+| `id` | linha da observação na base original |
+| `salario` | rendimento médio por hora, em dólares de 1976 |
+| `sexo` | homem ou mulher |
+| `educacao` | anos de educação formal |
+| `experiencia` | anos de experiência potencial |
+| `permanencia` | anos no emprego atual |
+
+## Criando o primeiro objeto
+
+No R, armazenamos informações em **objetos**. O operador `<-` atribui o valor que aparece à direita ao nome que aparece à esquerda.
+
+```{r}
+salario_1 <- 3.00
+salario_1
+```
+
+O R guardou o número `3` no objeto chamado `salario_1`. Para consultar seu conteúdo, basta executar o nome do objeto.
+
+Também podemos substituir o valor armazenado:
+
+```{r}
+salario_1 <- 3.10
+salario_1
+```
+
+::: {.callout-warning title="A atribuição substitui o conteúdo anterior"}
+Depois do segundo comando, `salario_1` contém apenas `3.10`. O valor anterior não permanece guardado automaticamente. Por isso, é importante manter os comandos em um script e utilizar controle de versão.
+:::
+
+### Nomes claros e consistentes
+
+O R diferencia letras maiúsculas de minúsculas. Portanto, os nomes abaixo identificam objetos diferentes:
+
+```{r}
+idade <- 20
+Idade <- 25
+
+idade
+Idade
+```
+
+Prefira nomes curtos, mas informativos. Nesta apostila, adotaremos letras minúsculas e o sublinhado para separar palavras.
+
+| Nome | Avaliação |
+|---|---|
+| `x` | pouco informativo |
+| `idade_em_que_o_individuo_concluiu_a_graduacao` | informativo, mas longo |
+| `idade_formatura` | curto e informativo |
+
+::: {.callout-tip title="Uma regra prática"}
+Use nomes que revelem o conteúdo do objeto. Evite espaços, acentos e nomes iniciados por números. Escolha um padrão e mantenha-o ao longo do projeto.
+:::
+
+## Tipos básicos de valores
+
+Os objetos podem armazenar diferentes tipos de informação. Comecemos com três tipos frequentes.
+
+```{r}
+salario_exemplo <- 6.25
+sexo_exemplo <- "mulher"
+emprego_atual <- TRUE
+
+salario_exemplo
+sexo_exemplo
+emprego_atual
+```
+
+O primeiro valor é numérico; o segundo é texto; o terceiro é lógico e pode assumir `TRUE` ou `FALSE`.
+
+A função `class()` ajuda a identificar como o R está representando cada objeto:
+
+```{r}
+class(salario_exemplo)
+class(sexo_exemplo)
+class(emprego_atual)
+```
+
+Observe que textos precisam aparecer entre aspas. Já `TRUE` e `FALSE` são palavras reservadas do R e não recebem aspas.
+
+## Construindo vetores
+
+Um **vetor** reúne valores do mesmo tipo em uma sequência. A função `c()` combina os elementos. Vamos começar pelos salários dos 12 trabalhadores.
+
+```{r}
+salario <- c(
+  3.00, 6.00, 5.30, 8.75, 11.25, 18.18,
+  3.10, 3.24, 5.00, 3.60, 6.25, 8.13
+)
+
+salario
+```
+
+Criamos agora um vetor de texto para identificar o sexo de cada trabalhador. A ordem precisa acompanhar rigorosamente a ordem dos salários.
+
+```{r}
+sexo <- c(
+  "homem", "homem", "homem", "homem", "homem", "homem",
+  "mulher", "mulher", "mulher", "mulher", "mulher", "mulher"
+)
+
+sexo
+```
+
+Em seguida, inserimos os demais vetores. Cada posição representa sempre o mesmo trabalhador.
+
+```{r}
+id <- c(3, 4, 5, 6, 7, 10, 1, 2, 8, 9, 11, 12)
+
+educacao <- c(
+  11, 8, 12, 16, 18, 17,
+  11, 12, 12, 12, 16, 13
+)
+
+experiencia <- c(
+  2, 44, 7, 9, 15, 22,
+  2, 22, 5, 26, 8, 3
+)
+
+permanencia <- c(
+  0, 28, 2, 8, 7, 21,
+  0, 2, 3, 4, 2, 0
+)
+
+id
+educacao
+experiencia
+permanencia
+```
+
+::: {.callout-warning title="A posição conecta as informações"}
+Nos vetores acima, o primeiro salário, o primeiro sexo e o primeiro valor de educação pertencem à mesma pessoa. Se as ordens forem diferentes ou os vetores tiverem tamanhos incompatíveis, construiremos um banco incorreto.
+:::
+
+## Inspecionando os objetos
+
+Antes de operar com um objeto, devemos verificar o que ele contém. Algumas funções básicas serão utilizadas muitas vezes:
+
+```{r}
+length(salario)
+class(salario)
+typeof(salario)
+str(salario)
+```
+
+- `length()` informa o número de elementos;
+- `class()` informa a classe do objeto;
+- `typeof()` mostra seu tipo interno;
+- `str()` apresenta sua estrutura de forma compacta.
+
+Podemos confirmar se todos os vetores possuem o mesmo comprimento:
+
+```{r}
+length(id)
+length(salario)
+length(sexo)
+length(educacao)
+length(experiencia)
+length(permanencia)
+```
+
+## Selecionando elementos por posição
+
+Os colchetes `[]` permitem acessar partes de um vetor. O número dentro dos colchetes indica a posição desejada.
+
+```{r}
+salario[1]
+salario[7]
+salario[1:6]
+```
+
+Também podemos excluir uma posição utilizando um índice negativo:
+
+```{r}
+salario[-1]
+```
+
+E podemos selecionar posições não consecutivas com um vetor de índices:
+
+```{r}
+salario[c(1, 4, 7, 10)]
+```
+
+### Corrigindo um valor
+
+Suponha que o primeiro salário tivesse sido digitado incorretamente como `30` em vez de `3`. Podemos criar uma cópia, examinar o erro e corrigir apenas o primeiro elemento.
+
+```{r}
+salario_teste <- salario
+salario_teste[1] <- 30
+salario_teste
+```
+
+```{r}
+salario_teste[1] <- 3.00
+salario_teste
+```
+
+O vetor original não foi alterado:
+
+```{r}
+salario
+```
+
+## Operações aritméticas
+
+Os operadores aritméticos usuais funcionam com objetos numéricos.
+
+```{r}
+salario[1] + salario[2]
+salario[1] * 2
+salario[1] / 2
+salario[1]^2
+```
+
+As operações também podem ser aplicadas a todos os elementos de um vetor. Por exemplo, podemos expressar os salários como um índice no qual `100` corresponde a um salário de 5 dólares por hora:
+
+```{r}
+indice_salario <- salario / 5 * 100
+indice_salario
+```
+
+Essa característica é chamada de **vetorização**: não precisamos escrever a mesma operação separadamente para cada trabalhador.
+
+## Comparações e valores lógicos
+
+Podemos formular condições com operadores relacionais. O resultado de cada comparação será `TRUE` ou `FALSE`.
+
+```{r}
+salario > 5
+educacao >= 12
+sexo == "mulher"
+```
+
+Observe a diferença entre os operadores:
+
+- `<-` atribui um valor a um objeto;
+- `==` verifica se dois valores são iguais;
+- `!=` verifica se dois valores são diferentes.
+
+Uma condição lógica também pode ser utilizada dentro dos colchetes para selecionar valores:
+
+```{r}
+salario[salario > 5]
+```
+
+Podemos combinar condições com `&` (E) e `|` (OU):
+
+```{r}
+salario[sexo == "mulher" & salario > 5]
+salario[educacao >= 16 | experiencia >= 20]
+```
+
+| Operador | Significado |
+|:---:|---|
+| `<` | menor que |
+| `<=` | menor ou igual a |
+| `>` | maior que |
+| `>=` | maior ou igual a |
+| `==` | igual a |
+| `!=` | diferente de |
+| `&` | condição E |
+| `\|` | condição OU |
+
+## Funções e argumentos
+
+Uma função executa uma tarefa. Escrevemos seu nome e, entre parênteses, informamos os **argumentos** necessários.
+
+```{r}
+mean(salario)
+min(salario)
+max(salario)
+sum(salario)
+```
+
+Na expressão `mean(salario)`, `mean` é a função e `salario` é o argumento. Algumas funções aceitam vários argumentos. Em `round()`, por exemplo, podemos informar o objeto e o número de casas decimais:
+
+```{r}
+media_salario <- mean(salario)
+round(media_salario, digits = 2)
+```
+
+Nomear o argumento, como em `digits = 2`, torna o comando mais fácil de ler.
+
+::: {.callout-tip title="Como consultar a ajuda"}
+Se não souber quais argumentos uma função aceita, execute `?nome_da_funcao` no console. Por exemplo:
+
+```r
+?round
+```
+
+A ajuda é aberta no ambiente de desenvolvimento e não durante a renderização da apostila.
+:::
+
+## Representando categorias com fatores
+
+O vetor `sexo` contém textos que representam duas categorias. Podemos convertê-lo em um **fator**, estrutura utilizada pelo R para variáveis categóricas.
+
+```{r}
+sexo_fator <- factor(sexo)
+sexo_fator
+```
+
+A função `levels()` mostra as categorias existentes, enquanto `summary()` conta quantas observações pertencem a cada uma:
+
+```{r}
+levels(sexo_fator)
+summary(sexo_fator)
+```
+
+Também podemos representar a mesma informação como uma variável binária, seguindo a definição da base original: `1` indica mulher e `0` indica homem.
+
+```{r}
+mulher <- c(
+  0, 0, 0, 0, 0, 0,
+  1, 1, 1, 1, 1, 1
+)
+
+mulher
+```
+
+As duas representações têm usos diferentes. O texto ou fator favorece a leitura; a variável binária é comum em operações e modelos. É indispensável documentar o significado de `0` e `1`.
+
+## Reunindo os vetores em um banco
+
+Até agora, cada variável existe separadamente. A função `data.frame()` reúne vetores de mesmo comprimento em uma estrutura com linhas e colunas.
+
+```{r}
+salarios_12 <- data.frame(
+  id,
+  salario,
+  sexo = sexo_fator,
+  mulher,
+  educacao,
+  experiencia,
+  permanencia
+)
+
+salarios_12
+```
+
+Cada linha representa um trabalhador, nossa **unidade de observação**. Cada coluna representa uma característica medida para esses trabalhadores.
+
+Podemos fazer uma primeira inspeção:
+
+```{r}
+dim(salarios_12)
+names(salarios_12)
+str(salarios_12)
+```
+
+E utilizar a notação `$` para acessar uma variável dentro do banco:
+
+```{r}
+mean(salarios_12$salario)
+summary(salarios_12$sexo)
+```
+
+::: {.callout-caution title="Ainda não podemos explicar a diferença salarial"}
+Uma média calculada com essas 12 observações serve para praticar R, mas não sustenta uma conclusão econômica. Para avançar, precisaremos utilizar todas as observações, examinar a qualidade dos dados e considerar educação, experiência e permanência no emprego.
+:::
+
+## O caminho percorrido
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+    A[Valores] --> B[Objetos]
+    B --> C[Vetores]
+    C --> D[Inspeção e operações]
+    D --> E[Fator]
+    E --> F[Pequeno data frame]
+    F --> G[Base completa no próximo capítulo]
+
+    classDef etapa fill:#dcebdc,stroke:#355e3b,color:#1f3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+```
+
+Começamos com valores isolados e terminamos com um pequeno banco construído de forma transparente. No próximo capítulo, estudaremos a estrutura dos *data frames* com mais cuidado e carregaremos a base `wage1` completa. Depois, salvaremos e importaremos versões em diferentes formatos, como CSV, Excel e RDS.
+
+## Pratique
+
+1. Crie um objeto chamado `salario_referencia` com o valor `5`.
+2. Calcule a diferença entre cada elemento de `salario` e `salario_referencia`.
+3. Selecione os salários dos trabalhadores com 12 ou mais anos de educação.
+4. Verifique quantos trabalhadores possuem pelo menos 10 anos de experiência.
+5. Use `class()` e `str()` para comparar os objetos `sexo`, `sexo_fator` e `mulher`.
+
+::: {.callout-note title="Para guardar"}
+No R, uma análise começa pela criação e organização de objetos. Antes de executar operações, verifique o tipo, o comprimento e o significado econômico das informações que eles armazenam.
+:::

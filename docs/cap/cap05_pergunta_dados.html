@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="dcterms.date" content="2026-08-25">
+
+<title>5&nbsp; Da pergunta aos dados – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap06_evidencia_conclusao.html" rel="next">
+<link href="../cap/cap04_problema_pergunta.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap04_problema_pergunta.html">Do problema econômico à investigação com dados</a></li><li class="breadcrumb-item"><a href="../cap/cap05_pergunta_dados.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Do problema econômico à investigação com dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap05_pergunta_dados.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap06_evidencia_conclusao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Da evidência à conclusão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap07_planejamento_investigacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#a-pergunta-orienta-a-procura-pelos-dados" id="toc-a-pergunta-orienta-a-procura-pelos-dados" class="nav-link active" data-scroll-target="#a-pergunta-orienta-a-procura-pelos-dados"><span class="header-section-number">5.1</span> A pergunta orienta a procura pelos dados</a></li>
+  <li><a href="#o-que-uma-linha-da-base-representa" id="toc-o-que-uma-linha-da-base-representa" class="nav-link" data-scroll-target="#o-que-uma-linha-da-base-representa"><span class="header-section-number">5.2</span> O que uma linha da base representa?</a></li>
+  <li><a href="#quem-ou-o-que-queremos-estudar" id="toc-quem-ou-o-que-queremos-estudar" class="nav-link" data-scroll-target="#quem-ou-o-que-queremos-estudar"><span class="header-section-number">5.3</span> Quem ou o que queremos estudar?</a></li>
+  <li><a href="#recortes-temporal-e-geográfico" id="toc-recortes-temporal-e-geográfico" class="nav-link" data-scroll-target="#recortes-temporal-e-geográfico"><span class="header-section-number">5.4</span> Recortes temporal e geográfico</a></li>
+  <li><a href="#quais-informações-serão-necessárias" id="toc-quais-informações-serão-necessárias" class="nav-link" data-scroll-target="#quais-informações-serão-necessárias"><span class="header-section-number">5.5</span> Quais informações serão necessárias?</a></li>
+  <li><a href="#fontes-para-as-três-áreas" id="toc-fontes-para-as-três-áreas" class="nav-link" data-scroll-target="#fontes-para-as-três-áreas"><span class="header-section-number">5.6</span> Fontes para as três áreas</a>
+  <ul class="collapse">
+  <li><a href="#microeconomia" id="toc-microeconomia" class="nav-link" data-scroll-target="#microeconomia"><span class="header-section-number">5.6.1</span> Microeconomia</a></li>
+  <li><a href="#macroeconomia" id="toc-macroeconomia" class="nav-link" data-scroll-target="#macroeconomia"><span class="header-section-number">5.6.2</span> Macroeconomia</a></li>
+  <li><a href="#finanças" id="toc-finanças" class="nav-link" data-scroll-target="#finanças"><span class="header-section-number">5.6.3</span> Finanças</a></li>
+  </ul></li>
+  <li><a href="#os-dados-realmente-permitem-responder" id="toc-os-dados-realmente-permitem-responder" class="nav-link" data-scroll-target="#os-dados-realmente-permitem-responder"><span class="header-section-number">5.7</span> Os dados realmente permitem responder?</a></li>
+  <li><a href="#atividade-ficha-inicial-dos-dados" id="toc-atividade-ficha-inicial-dos-dados" class="nav-link" data-scroll-target="#atividade-ficha-inicial-dos-dados"><span class="header-section-number">5.8</span> Atividade — ficha inicial dos dados</a>
+  <ul class="collapse">
+  <li><a href="#etapa-1-traduza-a-pergunta-em-informações" id="toc-etapa-1-traduza-a-pergunta-em-informações" class="nav-link" data-scroll-target="#etapa-1-traduza-a-pergunta-em-informações"><span class="header-section-number">5.8.1</span> Etapa 1 — Traduza a pergunta em informações</a></li>
+  <li><a href="#etapa-2-avalie-uma-fonte-candidata" id="toc-etapa-2-avalie-uma-fonte-candidata" class="nav-link" data-scroll-target="#etapa-2-avalie-uma-fonte-candidata"><span class="header-section-number">5.8.2</span> Etapa 2 — Avalie uma fonte candidata</a></li>
+  <li><a href="#etapa-3-registre-a-decisão" id="toc-etapa-3-registre-a-decisão" class="nav-link" data-scroll-target="#etapa-3-registre-a-decisão"><span class="header-section-number">5.8.3</span> Etapa 3 — Registre a decisão</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap04_problema_pergunta.html">Do problema econômico à investigação com dados</a></li><li class="breadcrumb-item"><a href="../cap/cap05_pergunta_dados.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></h1>
+<p class="subtitle lead">Identificando as informações necessárias para a investigação</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 25, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>No capítulo anterior, partimos de um tema, identificamos um problema econômico e formulamos uma pergunta inicial. Agora precisamos verificar se essa pergunta pode ser investigada com dados.</p>
+<p>Esse movimento exige mais do que encontrar uma planilha para abrir no R. Precisamos compreender <strong>o que cada registro representa</strong>, quais informações estão disponíveis e quais limitações a fonte impõe à análise.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, você deverá ser capaz de:</p>
+<ul>
+<li>relacionar a pergunta de investigação às informações necessárias;</li>
+<li>identificar a unidade de observação de uma base;</li>
+<li>distinguir população e amostra;</li>
+<li>definir os recortes temporal e geográfico da investigação;</li>
+<li>diferenciar variáveis disponíveis de variáveis que precisam ser construídas;</li>
+<li>avaliar se uma fonte de dados é adequada à pergunta.</li>
+</ul>
+</div>
+</div>
+<section id="a-pergunta-orienta-a-procura-pelos-dados" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="a-pergunta-orienta-a-procura-pelos-dados"><span class="header-section-number">5.1</span> A pergunta orienta a procura pelos dados</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p>Uma base não é adequada apenas porque contém muitas informações ou porque é fácil de obter. Sua utilidade depende da pergunta que queremos responder.</p>
+<p>Considere três perguntas:</p>
+<ol type="1">
+<li>Como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos?</li>
+<li>Como os componentes da inflação evoluem ao longo do tempo?</li>
+<li>Como retorno e volatilidade diferem entre tipos de ativos?</li>
+</ol>
+<p>Cada uma exige uma estrutura distinta. A primeira precisa de informações sobre pessoas e famílias; a segunda, de séries de preços organizadas no tempo; a terceira, de cotações ou retornos de ativos.</p>
+</div><div class="column" style="width:30%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/computador.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Os dados precisam ser organizados e interpretados com apoio de ferramentas computacionais."><img src="../figuras/figuras0/computador.png" class="img-fluid figure-img" style="width:100.0%" alt="Ilustração com computadores, códigos e símbolos de programação"></a></p>
+<figcaption>Os dados precisam ser organizados e interpretados com apoio de ferramentas computacionais.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Pergunta econômica"] --&gt; B["Informações necessárias"]
+    B --&gt; C["Unidade de observação"]
+    C --&gt; D["Variáveis"]
+    D --&gt; E["Fonte de dados"]
+    E --&gt; F["Avaliação da viabilidade"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Não adapte a pergunta silenciosamente à primeira base encontrada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Não adapte a pergunta silenciosamente à primeira base encontrada
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>É normal reformular a pergunta quando conhecemos melhor os dados. Entretanto, a mudança precisa ser consciente e registrada.</p>
+<p>Se a fonte não contém a informação necessária, temos três possibilidades: procurar outra fonte, reformular justificadamente a pergunta ou reconhecer que a investigação não é viável nas condições atuais.</p>
+</div>
+</div>
+</section>
+<section id="o-que-uma-linha-da-base-representa" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="o-que-uma-linha-da-base-representa"><span class="header-section-number">5.2</span> O que uma linha da base representa?</h2>
+<p>A <strong>unidade de observação</strong> é o elemento representado por cada linha da base de dados. Identificá-la é uma das primeiras tarefas ao abrir um conjunto de dados no R.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Área</th>
+<th>Possível unidade de observação</th>
+<th>Exemplo de informação registrada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Microeconomia</td>
+<td>pessoa</td>
+<td>idade, escolaridade e condição de ocupação</td>
+</tr>
+<tr class="even">
+<td>Microeconomia</td>
+<td>domicílio</td>
+<td>localização, número de moradores e características da moradia</td>
+</tr>
+<tr class="odd">
+<td>Macroeconomia</td>
+<td>período</td>
+<td>inflação ou taxa de juros em determinado mês</td>
+</tr>
+<tr class="even">
+<td>Finanças</td>
+<td>ativo em uma data</td>
+<td>preço, volume negociado ou retorno diário</td>
+</tr>
+</tbody>
+</table>
+<p>Nem sempre a unidade está evidente. Uma base pode combinar informações de diferentes níveis. Na PNAD Contínua, por exemplo, as linhas representam pessoas, mas elas também carregam identificadores e características do domicílio. Para investigar composição familiar, pode ser necessário relacionar várias pessoas que vivem na mesma unidade domiciliar.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Uma linha não é necessariamente uma pessoa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Uma linha não é necessariamente uma pessoa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de contar linhas, calcular médias ou remover duplicatas, pergunte: <strong>o que cada linha representa?</strong></p>
+<p>Em uma série mensal, 12 linhas podem representar um ano. Em uma base financeira, várias linhas podem corresponder ao mesmo ativo em datas diferentes. Tratar essas estruturas como se fossem uma lista de indivíduos produz interpretações incorretas.</p>
+</div>
+</div>
+</section>
+<section id="quem-ou-o-que-queremos-estudar" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="quem-ou-o-que-queremos-estudar"><span class="header-section-number">5.3</span> Quem ou o que queremos estudar?</h2>
+<p>A <strong>população</strong> é o conjunto de unidades sobre o qual desejamos produzir informação. A <strong>amostra</strong> é a parcela da população efetivamente observada na pesquisa.</p>
+<p>Na PNAD Contínua, não são entrevistados todos os moradores do Brasil. O IBGE utiliza uma amostra de domicílios e disponibiliza pesos que permitem produzir estimativas representativas da população dentro dos limites do desenho da pesquisa <span class="citation" data-cites="ibgepnadc">(<a href="#ref-ibgepnadc" role="doc-biblioref">Instituto Brasileiro de Geografia e Estatística, n.d.</a>)</span>.</p>
+<p>Em outros contextos, a relação pode ser diferente. Um conjunto com todas as observações mensais de uma série do Banco Central em determinado intervalo não é uma amostra domiciliar. Ainda assim, o período escolhido representa apenas uma parte da trajetória possível da variável.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="População e amostra neste capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>População e amostra neste capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Neste momento, precisamos apenas identificar <strong>para quem ou para que contexto</strong> desejamos interpretar os resultados e <strong>quais unidades foram efetivamente observadas</strong>.</p>
+<p>Pesos amostrais, margem de erro e inferência serão discutidos quando forem necessários à análise estatística.</p>
+</div>
+</div>
+</section>
+<section id="recortes-temporal-e-geográfico" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="recortes-temporal-e-geográfico"><span class="header-section-number">5.4</span> Recortes temporal e geográfico</h2>
+<p>Uma pergunta precisa ser compatível com a cobertura dos dados.</p>
+<p>O <strong>recorte temporal</strong> define o período analisado. Ele pode ser determinado pela pergunta — por exemplo, antes e depois de uma mudança econômica — ou pela disponibilidade da fonte. Também precisamos conhecer a frequência: anual, trimestral, mensal, diária ou intradiária.</p>
+<p>O <strong>recorte geográfico</strong> identifica onde o fenômeno será estudado. Uma base pode permitir resultados para o Brasil, grandes regiões, unidades da Federação ou municípios, mas nem sempre oferece precisão suficiente para todos esses níveis.</p>
+<p>Antes de escolher o recorte, verifique:</p>
+<ul>
+<li>quando a série ou pesquisa começa;</li>
+<li>se existem interrupções;</li>
+<li>com que frequência os dados são divulgados;</li>
+<li>se a metodologia mudou;</li>
+<li>quais níveis geográficos estão identificados;</li>
+<li>se a amostra comporta o detalhamento desejado.</li>
+</ul>
+</section>
+<section id="quais-informações-serão-necessárias" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="quais-informações-serão-necessárias"><span class="header-section-number">5.5</span> Quais informações serão necessárias?</h2>
+<p>Uma pergunta econômica raramente corresponde diretamente a uma única coluna. Precisamos traduzi-la em informações observáveis.</p>
+<p>Retomemos o exemplo sobre trabalho feminino:</p>
+<blockquote class="blockquote">
+<p>Como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos?</p>
+</blockquote>
+<p>Para avançar, talvez sejam necessárias informações sobre:</p>
+<ul>
+<li>sexo e idade;</li>
+<li>condição de participação na força de trabalho;</li>
+<li>identificação do domicílio;</li>
+<li>relação entre os moradores;</li>
+<li>presença de filhos;</li>
+<li>idade dos filhos;</li>
+<li>período e localização.</li>
+</ul>
+<p>Algumas dessas informações podem estar disponíveis diretamente. Outras terão de ser <strong>construídas</strong> combinando registros ou transformando variáveis.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Variável disponível</strong></td>
+<td>idade declarada da pessoa</td>
+</tr>
+<tr class="even">
+<td><strong>Variável recodificada</strong></td>
+<td>grupo etário criado a partir da idade</td>
+</tr>
+<tr class="odd">
+<td><strong>Variável construída</strong></td>
+<td>indicador de presença de criança no domicílio</td>
+</tr>
+<tr class="even">
+<td><strong>Medida calculada</strong></td>
+<td>taxa de participação de determinado grupo</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-tip callout-titled" title="Descreva a necessidade antes de procurar o nome da coluna">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Descreva a necessidade antes de procurar o nome da coluna
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Primeiro escreva “precisamos identificar se existem crianças no domicílio”. Depois procure no dicionário quais variáveis e relações permitem construir essa informação.</p>
+<p>Começar pelo nome de uma coluna pode fazer com que a pergunta fique limitada ao que é mais fácil de localizar, e não ao que é economicamente relevante.</p>
+</div>
+</div>
+</section>
+<section id="fontes-para-as-três-áreas" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="fontes-para-as-três-áreas"><span class="header-section-number">5.6</span> Fontes para as três áreas</h2>
+<section id="microeconomia" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="microeconomia"><span class="header-section-number">5.6.1</span> Microeconomia</h3>
+<p>Pesquisas domiciliares e de saúde permitem estudar indivíduos, famílias e domicílios.</p>
+<ul>
+<li><strong>PNAD Contínua:</strong> trabalho, rendimento, educação e características demográficas. O IBGE disponibiliza microdados, dicionários, documentação e notas metodológicas <span class="citation" data-cites="ibgepnadc">(<a href="#ref-ibgepnadc" role="doc-biblioref">Instituto Brasileiro de Geografia e Estatística, n.d.</a>)</span>.</li>
+<li><strong>POF:</strong> despesas, rendimentos, consumo e condições de vida das famílias.</li>
+<li><strong>PNS:</strong> saúde, acesso a serviços e características individuais e domiciliares.</li>
+</ul>
+<p>Essas pesquisas têm desenhos amostrais e módulos específicos. Nem toda informação é coletada em todos os anos ou visitas.</p>
+</section>
+<section id="macroeconomia" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="macroeconomia"><span class="header-section-number">5.6.2</span> Macroeconomia</h3>
+<p>Séries temporais permitem acompanhar indicadores agregados.</p>
+<ul>
+<li><strong>Banco Central do Brasil:</strong> o Sistema Gerenciador de Séries Temporais reúne séries econômicas e seus metadados. O portal também disponibiliza recursos em formatos como CSV e JSON <span class="citation" data-cites="bcbsgs">(<a href="#ref-bcbsgs" role="doc-biblioref">Banco Central do Brasil, n.d.</a>)</span>.</li>
+<li><strong>Ipeadata:</strong> reúne séries macroeconômicas, regionais e sociais provenientes de diferentes instituições <span class="citation" data-cites="ipeadata">(<a href="#ref-ipeadata" role="doc-biblioref">Instituto de Pesquisa Econômica Aplicada, n.d.</a>)</span>.</li>
+</ul>
+<p>Para cada série, devemos verificar definição, unidade de medida, frequência, fonte original e eventuais revisões.</p>
+</section>
+<section id="finanças" class="level3" data-number="5.6.3">
+<h3 data-number="5.6.3" class="anchored" data-anchor-id="finanças"><span class="header-section-number">5.6.3</span> Finanças</h3>
+<p>Dados financeiros podem conter preços, índices, volumes e outras informações de mercado.</p>
+<ul>
+<li><strong>B3:</strong> disponibiliza séries históricas de cotações e documentação sobre os campos dos arquivos <span class="citation" data-cites="b3cotacoes">(<a href="#ref-b3cotacoes" role="doc-biblioref">B3, n.d.</a>)</span>.</li>
+<li><strong>Yahoo Finance:</strong> pode facilitar a obtenção de séries por meio de pacotes utilizados no R, mas sua disponibilidade e seus termos podem mudar. Para análises que exigem rastreabilidade, é importante registrar a data de obtenção e conferir a definição das informações.</li>
+</ul>
+<p>Preços precisam ser interpretados com atenção a eventos como dividendos, desdobramentos, mudanças de ticker e ajustes históricos.</p>
+</section>
+</section>
+<section id="os-dados-realmente-permitem-responder" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="os-dados-realmente-permitem-responder"><span class="header-section-number">5.7</span> Os dados realmente permitem responder?</h2>
+<p>Encontrar uma coluna com o nome esperado não garante que a base seja adequada. Antes de iniciar a programação, avalie pelo menos seis dimensões.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimensão</th>
+<th>Pergunta de verificação</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cobertura</td>
+<td>A fonte observa o grupo, lugar e período de interesse?</td>
+</tr>
+<tr class="even">
+<td>Unidade</td>
+<td>Cada registro representa a unidade necessária para a pergunta?</td>
+</tr>
+<tr class="odd">
+<td>Conceito</td>
+<td>A variável mede o fenômeno econômico que queremos estudar?</td>
+</tr>
+<tr class="even">
+<td>Periodicidade</td>
+<td>A frequência é compatível com a comparação pretendida?</td>
+</tr>
+<tr class="odd">
+<td>Consistência</td>
+<td>A definição ou a metodologia mudou no período?</td>
+</tr>
+<tr class="even">
+<td>Acesso</td>
+<td>Os dados e a documentação podem ser obtidos e reutilizados?</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled" title="O nome da variável não basta">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>O nome da variável não basta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Duas fontes podem usar o mesmo nome para medidas diferentes. “Renda”, por exemplo, pode significar renda do trabalho, renda domiciliar, renda per capita, valor bruto, valor líquido, valor nominal ou valor corrigido.</p>
+<p>Leia o dicionário e os metadados antes de interpretar ou transformar a variável.</p>
+</div>
+</div>
+</section>
+<section id="atividade-ficha-inicial-dos-dados" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="atividade-ficha-inicial-dos-dados"><span class="header-section-number">5.8</span> Atividade — ficha inicial dos dados</h2>
+<p>Retome a pergunta escolhida no capítulo anterior. O objetivo ainda não é baixar ou analisar a base, mas verificar se existe um caminho plausível até os dados.</p>
+<section id="etapa-1-traduza-a-pergunta-em-informações" class="level3" data-number="5.8.1">
+<h3 data-number="5.8.1" class="anchored" data-anchor-id="etapa-1-traduza-a-pergunta-em-informações"><span class="header-section-number">5.8.1</span> Etapa 1 — Traduza a pergunta em informações</h3>
+<p>Preencha:</p>
+<ul>
+<li><strong>Pergunta inicial:</strong></li>
+<li><strong>Fenômeno que queremos observar:</strong></li>
+<li><strong>Unidade de observação necessária:</strong></li>
+<li><strong>Grupo ou contexto de interesse:</strong></li>
+<li><strong>Período:</strong></li>
+<li><strong>Recorte geográfico:</strong></li>
+<li><strong>Informações necessárias:</strong></li>
+<li><strong>Informações que provavelmente precisarão ser construídas:</strong></li>
+</ul>
+</section>
+<section id="etapa-2-avalie-uma-fonte-candidata" class="level3" data-number="5.8.2">
+<h3 data-number="5.8.2" class="anchored" data-anchor-id="etapa-2-avalie-uma-fonte-candidata"><span class="header-section-number">5.8.2</span> Etapa 2 — Avalie uma fonte candidata</h3>
+<ul>
+<li><strong>Instituição responsável:</strong></li>
+<li><strong>Nome da base ou pesquisa:</strong></li>
+<li><strong>Endereço oficial:</strong></li>
+<li><strong>Documentação disponível:</strong></li>
+<li><strong>Unidade de observação da base:</strong></li>
+<li><strong>Período e frequência:</strong></li>
+<li><strong>Cobertura geográfica:</strong></li>
+<li><strong>Variáveis potencialmente úteis:</strong></li>
+<li><strong>Principais limitações identificadas:</strong></li>
+<li><strong>Data em que a fonte foi consultada:</strong></li>
+</ul>
+</section>
+<section id="etapa-3-registre-a-decisão" class="level3" data-number="5.8.3">
+<h3 data-number="5.8.3" class="anchored" data-anchor-id="etapa-3-registre-a-decisão"><span class="header-section-number">5.8.3</span> Etapa 3 — Registre a decisão</h3>
+<p>O grupo deverá concluir uma das alternativas:</p>
+<ol type="1">
+<li>a fonte parece adequada e a pergunta pode ser mantida;</li>
+<li>a fonte é parcialmente adequada e a pergunta precisa ser refinada;</li>
+<li>a fonte é inadequada e será necessário procurar outra;</li>
+<li>não encontramos dados viáveis e precisamos reconsiderar o problema.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Checklist de validação da fonte">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Checklist de validação da fonte
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul class="task-list">
+<li><label><input type="checkbox">Sabemos o que cada linha da base representa?</label></li>
+<li><label><input type="checkbox">A fonte cobre o grupo, período e local da pergunta?</label></li>
+<li><label><input type="checkbox">Localizamos o dicionário ou os metadados?</label></li>
+<li><label><input type="checkbox">Identificamos as informações disponíveis diretamente?</label></li>
+<li><label><input type="checkbox">Registramos as informações que terão de ser construídas?</label></li>
+<li><label><input type="checkbox">Reconhecemos pelo menos uma limitação da fonte?</label></li>
+<li><label><input type="checkbox">Conseguimos explicar por que essa base é adequada à pergunta?</label></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Produto deste capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Produto deste capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A segunda entrega será a <strong>ficha inicial dos dados</strong>, relacionando a pergunta de investigação a uma fonte candidata, à unidade de observação, aos recortes e às informações necessárias.</p>
+<p>Essa ficha não encerra a escolha dos dados. Ela documenta o ponto de partida e permite que professor, monitores e grupo discutam a viabilidade antes de investir tempo na programação.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-b3cotacoes" class="csl-entry" role="listitem">
+B3. n.d. <span>“Cotações Históricas.”</span> Accessed August 25, 2026. <a href="https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/cotacoes-historicas/">https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/cotacoes-historicas/</a>.
+</div>
+<div id="ref-bcbsgs" class="csl-entry" role="listitem">
+Banco Central do Brasil. n.d. <span>“Sistema Gerenciador de Séries Temporais.”</span> Accessed August 25, 2026. <a href="https://www3.bcb.gov.br/sgspub/">https://www3.bcb.gov.br/sgspub/</a>.
+</div>
+<div id="ref-ibgepnadc" class="csl-entry" role="listitem">
+Instituto Brasileiro de Geografia e Estatística. n.d. <span>“PNAD Contínua: Microdados.”</span> Accessed August 25, 2026. <a href="https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html?caminho=Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua">https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html?caminho=Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua</a>.
+</div>
+<div id="ref-ipeadata" class="csl-entry" role="listitem">
+Instituto de Pesquisa Econômica Aplicada. n.d. <span>“Ipeadata.”</span> Accessed August 25, 2026. <a href="https://www.ipeadata.gov.br/">https://www.ipeadata.gov.br/</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap04_problema_pergunta.html" class="pagination-link" aria-label="Do problema econômico à pergunta de investigação">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap06_evidencia_conclusao.html" class="pagination-link" aria-label="Da evidência à conclusão">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Da evidência à conclusão</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

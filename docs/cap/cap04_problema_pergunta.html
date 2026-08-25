@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="dcterms.date" content="2026-08-25">
+
+<title>4&nbsp; Do problema econômico à pergunta de investigação – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap05_pergunta_dados.html" rel="next">
+<link href="../cap/cap1_autores.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap04_problema_pergunta.html">Do problema econômico à investigação com dados</a></li><li class="breadcrumb-item"><a href="../cap/cap04_problema_pergunta.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Do problema econômico à investigação com dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap05_pergunta_dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap06_evidencia_conclusao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Da evidência à conclusão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap07_planejamento_investigacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#por-que-começar-pelo-problema-econômico" id="toc-por-que-começar-pelo-problema-econômico" class="nav-link active" data-scroll-target="#por-que-começar-pelo-problema-econômico"><span class="header-section-number">4.1</span> Por que começar pelo problema econômico?</a></li>
+  <li><a href="#tema-problema-e-pergunta" id="toc-tema-problema-e-pergunta" class="nav-link" data-scroll-target="#tema-problema-e-pergunta"><span class="header-section-number">4.2</span> Tema, problema e pergunta</a></li>
+  <li><a href="#o-que-caracteriza-uma-boa-pergunta" id="toc-o-que-caracteriza-uma-boa-pergunta" class="nav-link" data-scroll-target="#o-que-caracteriza-uma-boa-pergunta"><span class="header-section-number">4.3</span> O que caracteriza uma boa pergunta?</a>
+  <ul class="collapse">
+  <li><a href="#interesse" id="toc-interesse" class="nav-link" data-scroll-target="#interesse"><span class="header-section-number">4.3.1</span> Interesse</a></li>
+  <li><a href="#relevância-econômica" id="toc-relevância-econômica" class="nav-link" data-scroll-target="#relevância-econômica"><span class="header-section-number">4.3.2</span> Relevância econômica</a></li>
+  <li><a href="#clareza" id="toc-clareza" class="nav-link" data-scroll-target="#clareza"><span class="header-section-number">4.3.3</span> Clareza</a></li>
+  <li><a href="#delimitação" id="toc-delimitação" class="nav-link" data-scroll-target="#delimitação"><span class="header-section-number">4.3.4</span> Delimitação</a></li>
+  <li><a href="#viabilidade" id="toc-viabilidade" class="nav-link" data-scroll-target="#viabilidade"><span class="header-section-number">4.3.5</span> Viabilidade</a></li>
+  </ul></li>
+  <li><a href="#da-pergunta-ampla-à-pergunta-investigável" id="toc-da-pergunta-ampla-à-pergunta-investigável" class="nav-link" data-scroll-target="#da-pergunta-ampla-à-pergunta-investigável"><span class="header-section-number">4.4</span> Da pergunta ampla à pergunta investigável</a></li>
+  <li><a href="#exemplos-nas-três-áreas-da-disciplina" id="toc-exemplos-nas-três-áreas-da-disciplina" class="nav-link" data-scroll-target="#exemplos-nas-três-áreas-da-disciplina"><span class="header-section-number">4.5</span> Exemplos nas três áreas da disciplina</a></li>
+  <li><a href="#a-pergunta-como-parte-de-um-processo" id="toc-a-pergunta-como-parte-de-um-processo" class="nav-link" data-scroll-target="#a-pergunta-como-parte-de-um-processo"><span class="header-section-number">4.6</span> A pergunta como parte de um processo</a></li>
+  <li><a href="#atividade-proposta-inicial-do-tutorial" id="toc-atividade-proposta-inicial-do-tutorial" class="nav-link" data-scroll-target="#atividade-proposta-inicial-do-tutorial"><span class="header-section-number">4.7</span> Atividade — proposta inicial do tutorial</a>
+  <ul class="collapse">
+  <li><a href="#etapa-1-compare-alternativas" id="toc-etapa-1-compare-alternativas" class="nav-link" data-scroll-target="#etapa-1-compare-alternativas"><span class="header-section-number">4.7.1</span> Etapa 1 — Compare alternativas</a></li>
+  <li><a href="#etapa-2-formule-a-pergunta" id="toc-etapa-2-formule-a-pergunta" class="nav-link" data-scroll-target="#etapa-2-formule-a-pergunta"><span class="header-section-number">4.7.2</span> Etapa 2 — Formule a pergunta</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap04_problema_pergunta.html">Do problema econômico à investigação com dados</a></li><li class="breadcrumb-item"><a href="../cap/cap04_problema_pergunta.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></h1>
+<p class="subtitle lead">Escolhendo o ponto de partida do tutorial</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 25, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="columns">
+<div class="column" style="width:75%;">
+<p>Uma análise de dados não começa com um comando do R. Ela começa com uma dúvida sobre um fenômeno que desejamos compreender.</p>
+<p>Na Economia, podemos nos interessar pelo crescimento da informalidade, pela evolução da inflação, pela desigualdade de rendimentos ou pelo comportamento dos preços de ativos. Esses são <strong>temas relevantes</strong>, mas ainda não são perguntas que possam orientar uma análise.</p>
+<p>Neste capítulo, vamos transformar um interesse amplo em uma <strong>pergunta de investigação clara, relevante e viável</strong>. Essa pergunta será o ponto de partida do tutorial desenvolvido pelo grupo e ajudará a definir o que precisaremos aprender a fazer no R.</p>
+</div><div class="column" style="width:25%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="../figuras/figuras0/observation.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Investigar começa por observar e formular perguntas."><img src="../figuras/figuras0/observation.png" class="img-fluid figure-img" style="width:90.0%" alt="Ilustração de uma pessoa utilizando uma lupa para investigar um problema"></a></p>
+<figcaption>Investigar começa por observar e formular perguntas.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, você deverá ser capaz de:</p>
+<ul>
+<li>distinguir tema, problema econômico e pergunta de investigação;</li>
+<li>avaliar o interesse, a relevância e a viabilidade de uma pergunta;</li>
+<li>delimitar uma pergunta sem antecipar o método ou o resultado;</li>
+<li>reconhecer quando uma pergunta ainda está ampla ou imprecisa;</li>
+<li>formular a pergunta inicial do tutorial do seu grupo.</li>
+</ul>
+</div>
+</div>
+<section id="por-que-começar-pelo-problema-econômico" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="por-que-começar-pelo-problema-econômico"><span class="header-section-number">4.1</span> Por que começar pelo problema econômico?</h2>
+<p>O R oferece muitas funções para importar, transformar, visualizar e analisar dados. Entretanto, executar essas operações sem uma pergunta pode produzir tabelas e gráficos corretos, mas pouco informativos.</p>
+<p>Na disciplina, a lógica será diferente: primeiro identificamos o que desejamos compreender; depois investigamos quais dados e ferramentas podem nos ajudar. Assim, aprender uma nova operação no R deixa de ser um exercício isolado e passa a responder a uma necessidade concreta.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Tema econômico"] --&gt; B["Problema econômico"]
+    B --&gt; C["Pergunta de investigação"]
+    C --&gt; D["O que precisamos descobrir?"]
+    D --&gt; E["O que precisamos aprender no R?"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="O R é um meio, não o ponto de partida">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>O R é um meio, não o ponto de partida
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Perguntas como “como usar o <code>ggplot2</code>?” ou “como calcular uma média no R?” podem ser úteis durante a aprendizagem, mas não constituem o problema econômico do tutorial.</p>
+<p>Uma pergunta aplicada seria: <strong>como o rendimento médio do trabalho difere entre grupos de trabalhadores?</strong> A partir dela, surgem necessidades concretas: selecionar observações, criar grupos, calcular medidas e comunicar os resultados.</p>
+</div>
+</div>
+</section>
+<section id="tema-problema-e-pergunta" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="tema-problema-e-pergunta"><span class="header-section-number">4.2</span> Tema, problema e pergunta</h2>
+<p>Esses três elementos estão relacionados, mas cumprem funções diferentes.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th>Função</th>
+<th>Exemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Tema</strong></td>
+<td>Indica uma área ampla de interesse.</td>
+<td>Participação feminina no mercado de trabalho.</td>
+</tr>
+<tr class="even">
+<td><strong>Problema econômico</strong></td>
+<td>Identifica uma situação, mudança ou relação que merece ser compreendida.</td>
+<td>A participação no mercado de trabalho pode variar conforme a composição familiar e a presença de filhos.</td>
+</tr>
+<tr class="odd">
+<td><strong>Pergunta de investigação</strong></td>
+<td>Delimita o que será investigado.</td>
+<td>Como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos no Brasil?</td>
+</tr>
+</tbody>
+</table>
+<p>Um tema pode originar muitos problemas, e um mesmo problema pode ser investigado por meio de perguntas diferentes. Por isso, a passagem de um elemento para outro exige escolhas.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Evite começar pela ferramenta">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Evite começar pela ferramenta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>“Analisar a PNAD no R” ainda não define uma investigação. A PNAD é uma fonte de dados, e o R é a ferramenta. Falta indicar <strong>qual fenômeno econômico queremos compreender</strong>.</p>
+</div>
+</div>
+</section>
+<section id="o-que-caracteriza-uma-boa-pergunta" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="o-que-caracteriza-uma-boa-pergunta"><span class="header-section-number">4.3</span> O que caracteriza uma boa pergunta?</h2>
+<p>A escolha de um problema é parte central da investigação. Uma boa pergunta precisa combinar interesse e viabilidade: problemas muito fáceis podem acrescentar pouco, enquanto problemas importantes, mas impossíveis de executar nas condições disponíveis, tendem a não avançar <span class="citation" data-cites="alon2009">(<a href="#ref-alon2009" role="doc-biblioref">Alon 2009</a>)</span>.</p>
+<p>Para esta disciplina, utilizaremos cinco critérios.</p>
+<p>O diagrama abaixo resume a relação entre os dois critérios centrais apresentados por Alon <span class="citation" data-cites="alon2009">(<a href="#ref-alon2009" role="doc-biblioref">Alon 2009</a>)</span>. A posição de um problema não é fixa: ela pode mudar à medida que encontramos dados, delimitamos a pergunta e desenvolvemos novas competências.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">quadrantChart
+    title Interesse e viabilidade do problema
+    x-axis Baixa viabilidade --&gt; Alta viabilidade
+    y-axis Baixo interesse --&gt; Alto interesse
+    quadrant-1 Bons candidatos
+    quadrant-2 Interessantes, mas precisam ser ajustados
+    quadrant-3 Pouco promissores
+    quadrant-4 Viáveis, mas pouco motivadores
+    Problema A: [0.78, 0.82]
+    Problema B: [0.32, 0.76]
+    Problema C: [0.72, 0.28]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="interesse" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="interesse"><span class="header-section-number">4.3.1</span> Interesse</h3>
+<p>A pergunta desperta curiosidade no grupo? Existe vontade genuína de compreender o resultado?</p>
+<p>O interesse é importante porque uma investigação exige leitura, tentativa, correção e persistência. O grupo trabalhará com a mesma questão durante uma parte considerável do curso.</p>
+</section>
+<section id="relevância-econômica" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="relevância-econômica"><span class="header-section-number">4.3.2</span> Relevância econômica</h3>
+<p>A resposta ajuda a compreender uma decisão, um comportamento, uma transformação econômica ou uma condição social?</p>
+<p>Uma pergunta não precisa resolver um grande debate da Economia. Ela deve, entretanto, produzir informação que tenha significado além da execução do código.</p>
+</section>
+<section id="clareza" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="clareza"><span class="header-section-number">4.3.3</span> Clareza</h3>
+<p>É possível compreender o que está sendo perguntado sem uma longa explicação adicional?</p>
+<p>Termos vagos como “impacto”, “situação”, “melhoria” ou “desempenho” precisam ser empregados com cuidado. Se cada integrante do grupo interpreta a pergunta de uma maneira diferente, ela ainda precisa ser trabalhada.</p>
+</section>
+<section id="delimitação" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="delimitação"><span class="header-section-number">4.3.4</span> Delimitação</h3>
+<p>A pergunta informa suficientemente bem qual fenômeno será estudado e em qual contexto?</p>
+<p>Delimitar não significa incluir todos os detalhes na mesma frase. Significa reduzir a ambiguidade e impedir que a investigação tente explicar tudo ao mesmo tempo.</p>
+</section>
+<section id="viabilidade" class="level3" data-number="4.3.5">
+<h3 data-number="4.3.5" class="anchored" data-anchor-id="viabilidade"><span class="header-section-number">4.3.5</span> Viabilidade</h3>
+<p>O grupo conseguirá avançar com o tempo, os dados e os conhecimentos que poderá desenvolver ao longo da disciplina?</p>
+<p>Não é necessário dominar antecipadamente todas as ferramentas. Parte da aprendizagem consiste em perguntar: <strong>o que precisamos aprender no R para investigar este problema?</strong> Contudo, deve existir um caminho plausível entre a pergunta e o tutorial.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Uma pergunta inicial não precisa ser definitiva">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Uma pergunta inicial não precisa ser definitiva
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A investigação raramente segue uma linha perfeitamente reta. Conversas, leituras e o primeiro contato com os dados podem revelar dificuldades ou possibilidades que levam à reformulação da pergunta <span class="citation" data-cites="alon2009">(<a href="#ref-alon2009" role="doc-biblioref">Alon 2009</a>)</span>.</p>
+<p>Revisar a pergunta diante de nova informação é parte do trabalho, não sinal de fracasso.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="da-pergunta-ampla-à-pergunta-investigável" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="da-pergunta-ampla-à-pergunta-investigável"><span class="header-section-number">4.4</span> Da pergunta ampla à pergunta investigável</h2>
+<p>Uma pergunta ampla ajuda a indicar a direção do trabalho, mas ainda pode conter muitas investigações diferentes.</p>
+<p>Considere a pergunta:</p>
+<blockquote class="blockquote">
+<p>Como está o mercado de trabalho brasileiro?</p>
+</blockquote>
+<p>Ela é relevante, mas “mercado de trabalho” pode envolver emprego, desemprego, informalidade, salários, jornada, ocupações ou desigualdade. Também não sabemos qual grupo ou período interessa.</p>
+<p>Podemos torná-la mais precisa por meio de três movimentos.</p>
+<ol type="1">
+<li><strong>Escolher o fenômeno:</strong> participação, rendimento, informalidade ou outro resultado.</li>
+<li><strong>Definir o contexto:</strong> grupo, local ou período relevante.</li>
+<li><strong>Indicar a comparação ou relação de interesse:</strong> entre grupos, ao longo do tempo ou segundo alguma característica.</li>
+</ol>
+<p>Uma possível reformulação seria:</p>
+<blockquote class="blockquote">
+<p>Como a taxa de informalidade entre jovens de 18 a 29 anos evoluiu nas regiões brasileiras nos últimos cinco anos?</p>
+</blockquote>
+<div class="callout callout-style-default callout-warning callout-titled" title="Delimitar não é antecipar a resposta">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Delimitar não é antecipar a resposta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma pergunta não deve afirmar previamente aquilo que a análise deveria investigar.</p>
+<p>Em vez de perguntar “por que a automação reduziu os empregos de trabalhadores menos escolarizados?”, podemos começar com “como a exposição à automação se relaciona com a composição das ocupações segundo a escolaridade?”. A primeira formulação já presume uma causa e um resultado; a segunda mantém aberta a possibilidade de confrontar a ideia com os dados.</p>
+</div>
+</div>
+</section>
+<section id="exemplos-nas-três-áreas-da-disciplina" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="exemplos-nas-três-áreas-da-disciplina"><span class="header-section-number">4.5</span> Exemplos nas três áreas da disciplina</h2>
+<p>As perguntas abaixo ilustram possibilidades iniciais. Elas ainda poderão ser ajustadas quando examinarmos as fontes e a estrutura dos dados.</p>
+<div class="grid">
+<section id="microeconomia" class="level3 g-col-12 g-col-md-4" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="microeconomia"><span class="header-section-number">4.5.1</span> Microeconomia</h3>
+<p><strong>Tema:</strong> trabalho feminino.</p>
+<p><strong>Problema:</strong> responsabilidades familiares podem estar relacionadas à participação e à jornada de trabalho das mulheres.</p>
+<p><strong>Pergunta:</strong> como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos?</p>
+</section>
+<section id="macroeconomia" class="level3 g-col-12 g-col-md-4" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="macroeconomia"><span class="header-section-number">4.5.2</span> Macroeconomia</h3>
+<p><strong>Tema:</strong> inflação.</p>
+<p><strong>Problema:</strong> diferentes componentes da inflação podem apresentar trajetórias distintas ao longo do tempo.</p>
+<p><strong>Pergunta:</strong> como a contribuição dos principais grupos do índice de preços variou durante períodos de aceleração e desaceleração da inflação?</p>
+</section>
+<section id="finanças" class="level3 g-col-12 g-col-md-4" data-number="4.5.3">
+<h3 data-number="4.5.3" class="anchored" data-anchor-id="finanças"><span class="header-section-number">4.5.3</span> Finanças</h3>
+<p><strong>Tema:</strong> risco e retorno.</p>
+<p><strong>Problema:</strong> ativos com desempenhos médios semelhantes podem apresentar comportamentos muito diferentes ao longo do tempo.</p>
+<p><strong>Pergunta:</strong> como retorno e volatilidade diferem entre um índice de ações e ativos de renda fixa em períodos selecionados?</p>
+</section>
+</div>
+<p>Estudos econômicos também ajudam a perceber como uma pergunta pode evoluir. Autor, Levy e Murnane <span class="citation" data-cites="autorlevymurnane2003">(<a href="#ref-autorlevymurnane2003" role="doc-biblioref">Autor et al. 2003</a>)</span>, por exemplo, não se limitam a observar a relação entre tecnologia e qualificação do trabalho: eles investigam <strong>quais tarefas os computadores substituem ou complementam</strong>. O exemplo mostra a passagem de uma regularidade ampla para uma pergunta sobre mecanismos.</p>
+<p>Autor, Goldin e Katz <span class="citation" data-cites="autorgoldinkatz2020">(<a href="#ref-autorgoldinkatz2020" role="doc-biblioref">Autor et al. 2020</a>)</span> mostram outra possibilidade: retomar uma explicação conhecida e perguntar em que medida ela permanece capaz de interpretar novos períodos históricos. Já Autor <span class="citation" data-cites="autor2024">(<a href="#ref-autor2024" role="doc-biblioref">Autor 2024</a>)</span> formula uma hipótese sobre como a inteligência artificial poderá alterar a distribuição da expertise no trabalho. Esses textos não serão leituras obrigatórias neste momento; funcionam como exemplos de diferentes caminhos para construir uma investigação econômica.</p>
+</section>
+<section id="a-pergunta-como-parte-de-um-processo" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="a-pergunta-como-parte-de-um-processo"><span class="header-section-number">4.6</span> A pergunta como parte de um processo</h2>
+<p>Escolher uma pergunta não é uma decisão solitária nem instantânea. A discussão com colegas, professor e monitores ajuda a identificar pressupostos, ambiguidades e dificuldades que não eram visíveis na primeira formulação.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Propor"] --&gt; B["Discutir"]
+    B --&gt; C["Verificar a viabilidade"]
+    C --&gt; D["Reformular"]
+    D --&gt; E["Validar a pergunta inicial"]
+    D -. "se necessário" .-&gt; B
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>A pergunta aprovada nessa etapa será <strong>inicial</strong>. Ela dará direção ao projeto, mas poderá ser refinada quando o grupo conhecer melhor os dados. Mudanças deverão ser justificadas e registradas para que o percurso do tutorial permaneça compreensível e reproduzível.</p>
+</section>
+<section id="atividade-proposta-inicial-do-tutorial" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="atividade-proposta-inicial-do-tutorial"><span class="header-section-number">4.7</span> Atividade — proposta inicial do tutorial</h2>
+<p>O grupo deverá discutir possibilidades nas áreas de Microeconomia, Macroeconomia ou Finanças e registrar sua proposta inicial.</p>
+<section id="etapa-1-compare-alternativas" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="etapa-1-compare-alternativas"><span class="header-section-number">4.7.1</span> Etapa 1 — Compare alternativas</h3>
+<p>Proponha três problemas e avalie cada um de acordo com os critérios abaixo. Utilize uma escala de 1 a 5, em que 1 indica avaliação muito baixa e 5, muito alta.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Problema considerado</th>
+<th style="text-align: right;">Interesse</th>
+<th style="text-align: right;">Relevância</th>
+<th style="text-align: right;">Clareza</th>
+<th style="text-align: right;">Viabilidade</th>
+<th style="text-align: right;">Disponibilidade inicial de dados</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Problema 1</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>Problema 2</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>Problema 3</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>As notas ajudam a organizar a discussão, mas não produzem automaticamente a escolha. O grupo deverá justificar por que um problema oferece a melhor combinação entre aprendizagem, relevância e possibilidade de execução.</p>
+</section>
+<section id="etapa-2-formule-a-pergunta" class="level3" data-number="4.7.2">
+<h3 data-number="4.7.2" class="anchored" data-anchor-id="etapa-2-formule-a-pergunta"><span class="header-section-number">4.7.2</span> Etapa 2 — Formule a pergunta</h3>
+<p>Preencha a ficha:</p>
+<ul>
+<li><strong>Área:</strong> Microeconomia, Macroeconomia ou Finanças.</li>
+<li><strong>Tema:</strong> qual é o assunto mais amplo?</li>
+<li><strong>Problema econômico:</strong> qual situação ou relação merece ser compreendida?</li>
+<li><strong>Justificativa:</strong> por que vale a pena investigar esse problema?</li>
+<li><strong>Pergunta inicial:</strong> o que exatamente o grupo pretende descobrir?</li>
+<li><strong>O que já sabemos:</strong> quais informações ou argumentos motivam a pergunta?</li>
+<li><strong>O que precisamos descobrir:</strong> quais dúvidas permanecem abertas?</li>
+<li><strong>O que talvez precisemos aprender no R:</strong> quais operações parecem necessárias?</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled" title="Checklist para revisar a pergunta">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Checklist para revisar a pergunta
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes da entrega, verifique:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">A pergunta trata de um fenômeno econômico, e não apenas de uma ferramenta do R?</label></li>
+<li><label><input type="checkbox">Uma pessoa de fora do grupo consegue compreender o que será investigado?</label></li>
+<li><label><input type="checkbox">A pergunta evita antecipar o resultado?</label></li>
+<li><label><input type="checkbox">O recorte é compatível com o tempo da disciplina?</label></li>
+<li><label><input type="checkbox">Existe uma possibilidade razoável de encontrar dados?</label></li>
+<li><label><input type="checkbox">A resposta poderá ser transformada em um tutorial útil para outras pessoas?</label></li>
+<li><label><input type="checkbox">O grupo consegue explicar por que escolheu essa pergunta?</label></li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled" title="Produto deste capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Produto deste capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A primeira entrega será uma proposta curta contendo o problema econômico, a justificativa, a pergunta inicial e o registro das alternativas consideradas.</p>
+<p>No próximo capítulo, examinaremos quais dados seriam necessários para responder à pergunta. Somente então definiremos população, unidade de observação, variáveis e fontes de dados.</p>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-alon2009" class="csl-entry" role="listitem">
+Alon, Uri. 2009. <span>“How to Choose a Good Scientific Problem.”</span> <em>Molecular Biology of the Cell</em> 20 (3): 616–17. <a href="https://doi.org/10.1091/mbc.e08-09-0924">https://doi.org/10.1091/mbc.e08-09-0924</a>.
+</div>
+<div id="ref-autor2024" class="csl-entry" role="listitem">
+Autor, David. 2024. <em>Applying AI to Rebuild Middle Class Jobs</em>. Working Paper No. 32140. National Bureau of Economic Research. <a href="https://doi.org/10.3386/w32140">https://doi.org/10.3386/w32140</a>.
+</div>
+<div id="ref-autorlevymurnane2003" class="csl-entry" role="listitem">
+Autor, David H., Frank Levy, and Richard J. Murnane. 2003. <span>“The Skill Content of Recent Technological Change: An Empirical Exploration.”</span> <em>The Quarterly Journal of Economics</em> 118 (4): 1279–333. <a href="https://doi.org/10.1162/003355303322552801">https://doi.org/10.1162/003355303322552801</a>.
+</div>
+<div id="ref-autorgoldinkatz2020" class="csl-entry" role="listitem">
+Autor, David, Claudia Goldin, and Lawrence F. Katz. 2020. <span>“Extending the Race Between Education and Technology.”</span> <em>AEA Papers and Proceedings</em> 110: 347–51. <a href="https://doi.org/10.1257/pandp.20201061">https://doi.org/10.1257/pandp.20201061</a>.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap1_autores.html" class="pagination-link" aria-label="Sobre o Autor">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap05_pergunta_dados.html" class="pagination-link" aria-label="Da pergunta aos dados">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
+
+
+
+
+</body></html>

@@ -1,0 +1,297 @@
+---
+title: "Do problema econômico à pergunta de investigação"
+subtitle: "Escolhendo o ponto de partida do tutorial"
+author:
+  - Alexandre Nicolella
+date: "08/25/2026"
+format: html
+---
+
+::::: columns
+::: {.column width="75%"}
+
+Uma análise de dados não começa com um comando do R. Ela começa com uma dúvida sobre um fenômeno que desejamos compreender.
+
+Na Economia, podemos nos interessar pelo crescimento da informalidade, pela evolução da inflação, pela desigualdade de rendimentos ou pelo comportamento dos preços de ativos. Esses são **temas relevantes**, mas ainda não são perguntas que possam orientar uma análise.
+
+Neste capítulo, vamos transformar um interesse amplo em uma **pergunta de investigação clara, relevante e viável**. Essa pergunta será o ponto de partida do tutorial desenvolvido pelo grupo e ajudará a definir o que precisaremos aprender a fazer no R.
+
+:::
+
+::: {.column width="25%"}
+
+![Investigar começa por observar e formular perguntas.](../figuras/figuras0/observation.png){.lightbox fig-alt="Ilustração de uma pessoa utilizando uma lupa para investigar um problema" width="90%"}
+
+:::
+:::::
+
+::: {.callout-note title="Objetivos do capítulo"}
+
+Ao final deste capítulo, você deverá ser capaz de:
+
+- distinguir tema, problema econômico e pergunta de investigação;
+- avaliar o interesse, a relevância e a viabilidade de uma pergunta;
+- delimitar uma pergunta sem antecipar o método ou o resultado;
+- reconhecer quando uma pergunta ainda está ampla ou imprecisa;
+- formular a pergunta inicial do tutorial do seu grupo.
+
+:::
+
+## Por que começar pelo problema econômico?
+
+O R oferece muitas funções para importar, transformar, visualizar e analisar dados. Entretanto, executar essas operações sem uma pergunta pode produzir tabelas e gráficos corretos, mas pouco informativos.
+
+Na disciplina, a lógica será diferente: primeiro identificamos o que desejamos compreender; depois investigamos quais dados e ferramentas podem nos ajudar. Assim, aprender uma nova operação no R deixa de ser um exercício isolado e passa a responder a uma necessidade concreta.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Fluxo que parte de um tema econômico, identifica um problema, formula uma pergunta e reconhece as necessidades de aprendizagem em R"
+
+flowchart LR
+    A["Tema econômico"] --> B["Problema econômico"]
+    B --> C["Pergunta de investigação"]
+    C --> D["O que precisamos descobrir?"]
+    D --> E["O que precisamos aprender no R?"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+::: {.callout-important title="O R é um meio, não o ponto de partida"}
+
+Perguntas como “como usar o `ggplot2`?” ou “como calcular uma média no R?” podem ser úteis durante a aprendizagem, mas não constituem o problema econômico do tutorial.
+
+Uma pergunta aplicada seria: **como o rendimento médio do trabalho difere entre grupos de trabalhadores?** A partir dela, surgem necessidades concretas: selecionar observações, criar grupos, calcular medidas e comunicar os resultados.
+
+:::
+
+## Tema, problema e pergunta
+
+Esses três elementos estão relacionados, mas cumprem funções diferentes.
+
+| Elemento | Função | Exemplo |
+|---|---|---|
+| **Tema** | Indica uma área ampla de interesse. | Participação feminina no mercado de trabalho. |
+| **Problema econômico** | Identifica uma situação, mudança ou relação que merece ser compreendida. | A participação no mercado de trabalho pode variar conforme a composição familiar e a presença de filhos. |
+| **Pergunta de investigação** | Delimita o que será investigado. | Como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos no Brasil? |
+
+Um tema pode originar muitos problemas, e um mesmo problema pode ser investigado por meio de perguntas diferentes. Por isso, a passagem de um elemento para outro exige escolhas.
+
+::: {.callout-warning title="Evite começar pela ferramenta"}
+
+“Analisar a PNAD no R” ainda não define uma investigação. A PNAD é uma fonte de dados, e o R é a ferramenta. Falta indicar **qual fenômeno econômico queremos compreender**.
+
+:::
+
+## O que caracteriza uma boa pergunta?
+
+A escolha de um problema é parte central da investigação. Uma boa pergunta precisa combinar interesse e viabilidade: problemas muito fáceis podem acrescentar pouco, enquanto problemas importantes, mas impossíveis de executar nas condições disponíveis, tendem a não avançar [@alon2009].
+
+Para esta disciplina, utilizaremos cinco critérios.
+
+O diagrama abaixo resume a relação entre os dois critérios centrais apresentados por Alon [@alon2009]. A posição de um problema não é fixa: ela pode mudar à medida que encontramos dados, delimitamos a pergunta e desenvolvemos novas competências.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Matriz que relaciona interesse e viabilidade na escolha de um problema de investigação"
+
+quadrantChart
+    title Interesse e viabilidade do problema
+    x-axis Baixa viabilidade --> Alta viabilidade
+    y-axis Baixo interesse --> Alto interesse
+    quadrant-1 Bons candidatos
+    quadrant-2 Interessantes, mas precisam ser ajustados
+    quadrant-3 Pouco promissores
+    quadrant-4 Viáveis, mas pouco motivadores
+    Problema A: [0.78, 0.82]
+    Problema B: [0.32, 0.76]
+    Problema C: [0.72, 0.28]
+```
+
+### Interesse
+
+A pergunta desperta curiosidade no grupo? Existe vontade genuína de compreender o resultado?
+
+O interesse é importante porque uma investigação exige leitura, tentativa, correção e persistência. O grupo trabalhará com a mesma questão durante uma parte considerável do curso.
+
+### Relevância econômica
+
+A resposta ajuda a compreender uma decisão, um comportamento, uma transformação econômica ou uma condição social?
+
+Uma pergunta não precisa resolver um grande debate da Economia. Ela deve, entretanto, produzir informação que tenha significado além da execução do código.
+
+### Clareza
+
+É possível compreender o que está sendo perguntado sem uma longa explicação adicional?
+
+Termos vagos como “impacto”, “situação”, “melhoria” ou “desempenho” precisam ser empregados com cuidado. Se cada integrante do grupo interpreta a pergunta de uma maneira diferente, ela ainda precisa ser trabalhada.
+
+### Delimitação
+
+A pergunta informa suficientemente bem qual fenômeno será estudado e em qual contexto?
+
+Delimitar não significa incluir todos os detalhes na mesma frase. Significa reduzir a ambiguidade e impedir que a investigação tente explicar tudo ao mesmo tempo.
+
+### Viabilidade
+
+O grupo conseguirá avançar com o tempo, os dados e os conhecimentos que poderá desenvolver ao longo da disciplina?
+
+Não é necessário dominar antecipadamente todas as ferramentas. Parte da aprendizagem consiste em perguntar: **o que precisamos aprender no R para investigar este problema?** Contudo, deve existir um caminho plausível entre a pergunta e o tutorial.
+
+::: {.callout-tip title="Uma pergunta inicial não precisa ser definitiva"}
+
+A investigação raramente segue uma linha perfeitamente reta. Conversas, leituras e o primeiro contato com os dados podem revelar dificuldades ou possibilidades que levam à reformulação da pergunta [@alon2009].
+
+Revisar a pergunta diante de nova informação é parte do trabalho, não sinal de fracasso.
+
+:::
+
+## Da pergunta ampla à pergunta investigável
+
+Uma pergunta ampla ajuda a indicar a direção do trabalho, mas ainda pode conter muitas investigações diferentes.
+
+Considere a pergunta:
+
+> Como está o mercado de trabalho brasileiro?
+
+Ela é relevante, mas “mercado de trabalho” pode envolver emprego, desemprego, informalidade, salários, jornada, ocupações ou desigualdade. Também não sabemos qual grupo ou período interessa.
+
+Podemos torná-la mais precisa por meio de três movimentos.
+
+1. **Escolher o fenômeno:** participação, rendimento, informalidade ou outro resultado.
+2. **Definir o contexto:** grupo, local ou período relevante.
+3. **Indicar a comparação ou relação de interesse:** entre grupos, ao longo do tempo ou segundo alguma característica.
+
+Uma possível reformulação seria:
+
+> Como a taxa de informalidade entre jovens de 18 a 29 anos evoluiu nas regiões brasileiras nos últimos cinco anos?
+
+::: {.callout-warning title="Delimitar não é antecipar a resposta"}
+
+Uma pergunta não deve afirmar previamente aquilo que a análise deveria investigar.
+
+Em vez de perguntar “por que a automação reduziu os empregos de trabalhadores menos escolarizados?”, podemos começar com “como a exposição à automação se relaciona com a composição das ocupações segundo a escolaridade?”. A primeira formulação já presume uma causa e um resultado; a segunda mantém aberta a possibilidade de confrontar a ideia com os dados.
+
+:::
+
+## Exemplos nas três áreas da disciplina
+
+As perguntas abaixo ilustram possibilidades iniciais. Elas ainda poderão ser ajustadas quando examinarmos as fontes e a estrutura dos dados.
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+
+### Microeconomia
+
+**Tema:** trabalho feminino.
+
+**Problema:** responsabilidades familiares podem estar relacionadas à participação e à jornada de trabalho das mulheres.
+
+**Pergunta:** como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos?
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Macroeconomia
+
+**Tema:** inflação.
+
+**Problema:** diferentes componentes da inflação podem apresentar trajetórias distintas ao longo do tempo.
+
+**Pergunta:** como a contribuição dos principais grupos do índice de preços variou durante períodos de aceleração e desaceleração da inflação?
+
+:::
+
+::: {.g-col-12 .g-col-md-4}
+
+### Finanças
+
+**Tema:** risco e retorno.
+
+**Problema:** ativos com desempenhos médios semelhantes podem apresentar comportamentos muito diferentes ao longo do tempo.
+
+**Pergunta:** como retorno e volatilidade diferem entre um índice de ações e ativos de renda fixa em períodos selecionados?
+
+:::
+
+:::
+
+Estudos econômicos também ajudam a perceber como uma pergunta pode evoluir. Autor, Levy e Murnane [@autorlevymurnane2003], por exemplo, não se limitam a observar a relação entre tecnologia e qualificação do trabalho: eles investigam **quais tarefas os computadores substituem ou complementam**. O exemplo mostra a passagem de uma regularidade ampla para uma pergunta sobre mecanismos.
+
+Autor, Goldin e Katz [@autorgoldinkatz2020] mostram outra possibilidade: retomar uma explicação conhecida e perguntar em que medida ela permanece capaz de interpretar novos períodos históricos. Já Autor [@autor2024] formula uma hipótese sobre como a inteligência artificial poderá alterar a distribuição da expertise no trabalho. Esses textos não serão leituras obrigatórias neste momento; funcionam como exemplos de diferentes caminhos para construir uma investigação econômica.
+
+## A pergunta como parte de um processo
+
+Escolher uma pergunta não é uma decisão solitária nem instantânea. A discussão com colegas, professor e monitores ajuda a identificar pressupostos, ambiguidades e dificuldades que não eram visíveis na primeira formulação.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Ciclo de formulação e revisão da pergunta de investigação"
+
+flowchart LR
+    A["Propor"] --> B["Discutir"]
+    B --> C["Verificar a viabilidade"]
+    C --> D["Reformular"]
+    D --> E["Validar a pergunta inicial"]
+    D -. "se necessário" .-> B
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+A pergunta aprovada nessa etapa será **inicial**. Ela dará direção ao projeto, mas poderá ser refinada quando o grupo conhecer melhor os dados. Mudanças deverão ser justificadas e registradas para que o percurso do tutorial permaneça compreensível e reproduzível.
+
+## Atividade — proposta inicial do tutorial
+
+O grupo deverá discutir possibilidades nas áreas de Microeconomia, Macroeconomia ou Finanças e registrar sua proposta inicial.
+
+### Etapa 1 — Compare alternativas
+
+Proponha três problemas e avalie cada um de acordo com os critérios abaixo. Utilize uma escala de 1 a 5, em que 1 indica avaliação muito baixa e 5, muito alta.
+
+| Problema considerado | Interesse | Relevância | Clareza | Viabilidade | Disponibilidade inicial de dados |
+|---|---:|---:|---:|---:|---:|
+| Problema 1 |  |  |  |  |  |
+| Problema 2 |  |  |  |  |  |
+| Problema 3 |  |  |  |  |  |
+
+As notas ajudam a organizar a discussão, mas não produzem automaticamente a escolha. O grupo deverá justificar por que um problema oferece a melhor combinação entre aprendizagem, relevância e possibilidade de execução.
+
+### Etapa 2 — Formule a pergunta
+
+Preencha a ficha:
+
+- **Área:** Microeconomia, Macroeconomia ou Finanças.
+- **Tema:** qual é o assunto mais amplo?
+- **Problema econômico:** qual situação ou relação merece ser compreendida?
+- **Justificativa:** por que vale a pena investigar esse problema?
+- **Pergunta inicial:** o que exatamente o grupo pretende descobrir?
+- **O que já sabemos:** quais informações ou argumentos motivam a pergunta?
+- **O que precisamos descobrir:** quais dúvidas permanecem abertas?
+- **O que talvez precisemos aprender no R:** quais operações parecem necessárias?
+
+::: {.callout-tip title="Checklist para revisar a pergunta"}
+
+Antes da entrega, verifique:
+
+- [ ] A pergunta trata de um fenômeno econômico, e não apenas de uma ferramenta do R?
+- [ ] Uma pessoa de fora do grupo consegue compreender o que será investigado?
+- [ ] A pergunta evita antecipar o resultado?
+- [ ] O recorte é compatível com o tempo da disciplina?
+- [ ] Existe uma possibilidade razoável de encontrar dados?
+- [ ] A resposta poderá ser transformada em um tutorial útil para outras pessoas?
+- [ ] O grupo consegue explicar por que escolheu essa pergunta?
+
+:::
+
+::: {.callout-important title="Produto deste capítulo"}
+
+A primeira entrega será uma proposta curta contendo o problema econômico, a justificativa, a pergunta inicial e o registro das alternativas consideradas.
+
+No próximo capítulo, examinaremos quais dados seriam necessários para responder à pergunta. Somente então definiremos população, unidade de observação, variáveis e fontes de dados.
+
+:::

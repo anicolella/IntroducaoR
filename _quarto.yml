@@ -35,6 +35,13 @@ book:
     - cap/cap2_1_como_utilizar.qmd
     - cap/cap1_autores.qmd
 
+    - part: "Do problema econômico à investigação com dados"
+      chapters:
+        - cap/cap04_problema_pergunta.qmd
+        - cap/cap05_pergunta_dados.qmd
+        - cap/cap06_evidencia_conclusao.qmd
+        - cap/cap07_planejamento_investigacao.qmd
+
     - part: "Manipulando os Dados"
       chapters:
         - cap/cap3_int_R.qmd

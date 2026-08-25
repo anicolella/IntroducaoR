@@ -1,0 +1,272 @@
+---
+title: "Da pergunta aos dados"
+subtitle: "Identificando as informações necessárias para a investigação"
+author:
+  - Alexandre Nicolella
+date: "08/25/2026"
+format: html
+---
+
+No capítulo anterior, partimos de um tema, identificamos um problema econômico e formulamos uma pergunta inicial. Agora precisamos verificar se essa pergunta pode ser investigada com dados.
+
+Esse movimento exige mais do que encontrar uma planilha para abrir no R. Precisamos compreender **o que cada registro representa**, quais informações estão disponíveis e quais limitações a fonte impõe à análise.
+
+::: {.callout-note title="Objetivos do capítulo"}
+
+Ao final deste capítulo, você deverá ser capaz de:
+
+- relacionar a pergunta de investigação às informações necessárias;
+- identificar a unidade de observação de uma base;
+- distinguir população e amostra;
+- definir os recortes temporal e geográfico da investigação;
+- diferenciar variáveis disponíveis de variáveis que precisam ser construídas;
+- avaliar se uma fonte de dados é adequada à pergunta.
+
+:::
+
+## A pergunta orienta a procura pelos dados
+
+::::: columns
+::: {.column width="70%"}
+
+Uma base não é adequada apenas porque contém muitas informações ou porque é fácil de obter. Sua utilidade depende da pergunta que queremos responder.
+
+Considere três perguntas:
+
+1. Como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos?
+2. Como os componentes da inflação evoluem ao longo do tempo?
+3. Como retorno e volatilidade diferem entre tipos de ativos?
+
+Cada uma exige uma estrutura distinta. A primeira precisa de informações sobre pessoas e famílias; a segunda, de séries de preços organizadas no tempo; a terceira, de cotações ou retornos de ativos.
+
+:::
+
+::: {.column width="30%"}
+
+![Os dados precisam ser organizados e interpretados com apoio de ferramentas computacionais.](../figuras/figuras0/computador.png){.lightbox fig-alt="Ilustração com computadores, códigos e símbolos de programação" width="100%"}
+
+:::
+:::::
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Fluxo que relaciona a pergunta econômica às informações necessárias, à unidade de observação, às variáveis e à fonte de dados"
+
+flowchart LR
+    A["Pergunta econômica"] --> B["Informações necessárias"]
+    B --> C["Unidade de observação"]
+    C --> D["Variáveis"]
+    D --> E["Fonte de dados"]
+    E --> F["Avaliação da viabilidade"]
+
+    classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#2F5D3A,stroke-width:2px;
+```
+
+::: {.callout-important title="Não adapte a pergunta silenciosamente à primeira base encontrada"}
+
+É normal reformular a pergunta quando conhecemos melhor os dados. Entretanto, a mudança precisa ser consciente e registrada.
+
+Se a fonte não contém a informação necessária, temos três possibilidades: procurar outra fonte, reformular justificadamente a pergunta ou reconhecer que a investigação não é viável nas condições atuais.
+
+:::
+
+## O que uma linha da base representa?
+
+A **unidade de observação** é o elemento representado por cada linha da base de dados. Identificá-la é uma das primeiras tarefas ao abrir um conjunto de dados no R.
+
+| Área | Possível unidade de observação | Exemplo de informação registrada |
+|---|---|---|
+| Microeconomia | pessoa | idade, escolaridade e condição de ocupação |
+| Microeconomia | domicílio | localização, número de moradores e características da moradia |
+| Macroeconomia | período | inflação ou taxa de juros em determinado mês |
+| Finanças | ativo em uma data | preço, volume negociado ou retorno diário |
+
+Nem sempre a unidade está evidente. Uma base pode combinar informações de diferentes níveis. Na PNAD Contínua, por exemplo, as linhas representam pessoas, mas elas também carregam identificadores e características do domicílio. Para investigar composição familiar, pode ser necessário relacionar várias pessoas que vivem na mesma unidade domiciliar.
+
+::: {.callout-warning title="Uma linha não é necessariamente uma pessoa"}
+
+Antes de contar linhas, calcular médias ou remover duplicatas, pergunte: **o que cada linha representa?**
+
+Em uma série mensal, 12 linhas podem representar um ano. Em uma base financeira, várias linhas podem corresponder ao mesmo ativo em datas diferentes. Tratar essas estruturas como se fossem uma lista de indivíduos produz interpretações incorretas.
+
+:::
+
+## Quem ou o que queremos estudar?
+
+A **população** é o conjunto de unidades sobre o qual desejamos produzir informação. A **amostra** é a parcela da população efetivamente observada na pesquisa.
+
+Na PNAD Contínua, não são entrevistados todos os moradores do Brasil. O IBGE utiliza uma amostra de domicílios e disponibiliza pesos que permitem produzir estimativas representativas da população dentro dos limites do desenho da pesquisa [@ibgepnadc].
+
+Em outros contextos, a relação pode ser diferente. Um conjunto com todas as observações mensais de uma série do Banco Central em determinado intervalo não é uma amostra domiciliar. Ainda assim, o período escolhido representa apenas uma parte da trajetória possível da variável.
+
+::: {.callout-note title="População e amostra neste capítulo"}
+
+Neste momento, precisamos apenas identificar **para quem ou para que contexto** desejamos interpretar os resultados e **quais unidades foram efetivamente observadas**.
+
+Pesos amostrais, margem de erro e inferência serão discutidos quando forem necessários à análise estatística.
+
+:::
+
+## Recortes temporal e geográfico
+
+Uma pergunta precisa ser compatível com a cobertura dos dados.
+
+O **recorte temporal** define o período analisado. Ele pode ser determinado pela pergunta — por exemplo, antes e depois de uma mudança econômica — ou pela disponibilidade da fonte. Também precisamos conhecer a frequência: anual, trimestral, mensal, diária ou intradiária.
+
+O **recorte geográfico** identifica onde o fenômeno será estudado. Uma base pode permitir resultados para o Brasil, grandes regiões, unidades da Federação ou municípios, mas nem sempre oferece precisão suficiente para todos esses níveis.
+
+Antes de escolher o recorte, verifique:
+
+- quando a série ou pesquisa começa;
+- se existem interrupções;
+- com que frequência os dados são divulgados;
+- se a metodologia mudou;
+- quais níveis geográficos estão identificados;
+- se a amostra comporta o detalhamento desejado.
+
+## Quais informações serão necessárias?
+
+Uma pergunta econômica raramente corresponde diretamente a uma única coluna. Precisamos traduzi-la em informações observáveis.
+
+Retomemos o exemplo sobre trabalho feminino:
+
+> Como a participação feminina no mercado de trabalho difere segundo a presença e a idade dos filhos?
+
+Para avançar, talvez sejam necessárias informações sobre:
+
+- sexo e idade;
+- condição de participação na força de trabalho;
+- identificação do domicílio;
+- relação entre os moradores;
+- presença de filhos;
+- idade dos filhos;
+- período e localização.
+
+Algumas dessas informações podem estar disponíveis diretamente. Outras terão de ser **construídas** combinando registros ou transformando variáveis.
+
+| Tipo | Exemplo |
+|---|---|
+| **Variável disponível** | idade declarada da pessoa |
+| **Variável recodificada** | grupo etário criado a partir da idade |
+| **Variável construída** | indicador de presença de criança no domicílio |
+| **Medida calculada** | taxa de participação de determinado grupo |
+
+::: {.callout-tip title="Descreva a necessidade antes de procurar o nome da coluna"}
+
+Primeiro escreva “precisamos identificar se existem crianças no domicílio”. Depois procure no dicionário quais variáveis e relações permitem construir essa informação.
+
+Começar pelo nome de uma coluna pode fazer com que a pergunta fique limitada ao que é mais fácil de localizar, e não ao que é economicamente relevante.
+
+:::
+
+## Fontes para as três áreas
+
+### Microeconomia
+
+Pesquisas domiciliares e de saúde permitem estudar indivíduos, famílias e domicílios.
+
+- **PNAD Contínua:** trabalho, rendimento, educação e características demográficas. O IBGE disponibiliza microdados, dicionários, documentação e notas metodológicas [@ibgepnadc].
+- **POF:** despesas, rendimentos, consumo e condições de vida das famílias.
+- **PNS:** saúde, acesso a serviços e características individuais e domiciliares.
+
+Essas pesquisas têm desenhos amostrais e módulos específicos. Nem toda informação é coletada em todos os anos ou visitas.
+
+### Macroeconomia
+
+Séries temporais permitem acompanhar indicadores agregados.
+
+- **Banco Central do Brasil:** o Sistema Gerenciador de Séries Temporais reúne séries econômicas e seus metadados. O portal também disponibiliza recursos em formatos como CSV e JSON [@bcbsgs].
+- **Ipeadata:** reúne séries macroeconômicas, regionais e sociais provenientes de diferentes instituições [@ipeadata].
+
+Para cada série, devemos verificar definição, unidade de medida, frequência, fonte original e eventuais revisões.
+
+### Finanças
+
+Dados financeiros podem conter preços, índices, volumes e outras informações de mercado.
+
+- **B3:** disponibiliza séries históricas de cotações e documentação sobre os campos dos arquivos [@b3cotacoes].
+- **Yahoo Finance:** pode facilitar a obtenção de séries por meio de pacotes utilizados no R, mas sua disponibilidade e seus termos podem mudar. Para análises que exigem rastreabilidade, é importante registrar a data de obtenção e conferir a definição das informações.
+
+Preços precisam ser interpretados com atenção a eventos como dividendos, desdobramentos, mudanças de ticker e ajustes históricos.
+
+## Os dados realmente permitem responder?
+
+Encontrar uma coluna com o nome esperado não garante que a base seja adequada. Antes de iniciar a programação, avalie pelo menos seis dimensões.
+
+| Dimensão | Pergunta de verificação |
+|---|---|
+| Cobertura | A fonte observa o grupo, lugar e período de interesse? |
+| Unidade | Cada registro representa a unidade necessária para a pergunta? |
+| Conceito | A variável mede o fenômeno econômico que queremos estudar? |
+| Periodicidade | A frequência é compatível com a comparação pretendida? |
+| Consistência | A definição ou a metodologia mudou no período? |
+| Acesso | Os dados e a documentação podem ser obtidos e reutilizados? |
+
+::: {.callout-warning title="O nome da variável não basta"}
+
+Duas fontes podem usar o mesmo nome para medidas diferentes. “Renda”, por exemplo, pode significar renda do trabalho, renda domiciliar, renda per capita, valor bruto, valor líquido, valor nominal ou valor corrigido.
+
+Leia o dicionário e os metadados antes de interpretar ou transformar a variável.
+
+:::
+
+## Atividade — ficha inicial dos dados
+
+Retome a pergunta escolhida no capítulo anterior. O objetivo ainda não é baixar ou analisar a base, mas verificar se existe um caminho plausível até os dados.
+
+### Etapa 1 — Traduza a pergunta em informações
+
+Preencha:
+
+- **Pergunta inicial:**
+- **Fenômeno que queremos observar:**
+- **Unidade de observação necessária:**
+- **Grupo ou contexto de interesse:**
+- **Período:**
+- **Recorte geográfico:**
+- **Informações necessárias:**
+- **Informações que provavelmente precisarão ser construídas:**
+
+### Etapa 2 — Avalie uma fonte candidata
+
+- **Instituição responsável:**
+- **Nome da base ou pesquisa:**
+- **Endereço oficial:**
+- **Documentação disponível:**
+- **Unidade de observação da base:**
+- **Período e frequência:**
+- **Cobertura geográfica:**
+- **Variáveis potencialmente úteis:**
+- **Principais limitações identificadas:**
+- **Data em que a fonte foi consultada:**
+
+### Etapa 3 — Registre a decisão
+
+O grupo deverá concluir uma das alternativas:
+
+1. a fonte parece adequada e a pergunta pode ser mantida;
+2. a fonte é parcialmente adequada e a pergunta precisa ser refinada;
+3. a fonte é inadequada e será necessário procurar outra;
+4. não encontramos dados viáveis e precisamos reconsiderar o problema.
+
+::: {.callout-tip title="Checklist de validação da fonte"}
+
+- [ ] Sabemos o que cada linha da base representa?
+- [ ] A fonte cobre o grupo, período e local da pergunta?
+- [ ] Localizamos o dicionário ou os metadados?
+- [ ] Identificamos as informações disponíveis diretamente?
+- [ ] Registramos as informações que terão de ser construídas?
+- [ ] Reconhecemos pelo menos uma limitação da fonte?
+- [ ] Conseguimos explicar por que essa base é adequada à pergunta?
+
+:::
+
+::: {.callout-important title="Produto deste capítulo"}
+
+A segunda entrega será a **ficha inicial dos dados**, relacionando a pergunta de investigação a uma fonte candidata, à unidade de observação, aos recortes e às informações necessárias.
+
+Essa ficha não encerra a escolha dos dados. Ela documenta o ponto de partida e permite que professor, monitores e grupo discutam a viabilidade antes de investir tempo na programação.
+
+:::

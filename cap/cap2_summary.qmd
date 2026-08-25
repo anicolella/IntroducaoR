@@ -1,85 +1,69 @@
 # Informações da Disciplina
 
-<span style="font-size:20px; font-weight:bold;">REC3302 – Introdução ao R Aplicado à Economia e Finanças</span>
+[REC3302 – Introdução ao R Aplicado à Economia e Finanças]{style="font-size:20px; font-weight:bold;"}
 
-<span style="font-size:18px; font-weight:bold;">Faculdade de Economia, Administração e Contabilidade de Ribeirão Preto – USP</span>
+[Faculdade de Economia, Administração e Contabilidade de Ribeirão Preto – USP]{style="font-size:18px; font-weight:bold;"}
 
----
+------------------------------------------------------------------------
 
-::: {.grid}
-
+:::::: grid
 ::: {.g-col-12 .g-col-md-4}
+👨‍🏫 [EQUIPE]{style="font-size:20px; font-weight:bold;"}
 
-👨‍🏫 <span style="font-size:20px; font-weight:bold;">EQUIPE</span>
+**Professor**\
+Alexandre Nicolella\
+✉ nicolella\@usp.br
 
-**Professor**  
-Alexandre Nicolella  
-✉ nicolella@usp.br
-
-**Monitores**  
-João Vitor Domingues  
+**Monitores**\
+João Vitor Domingues\
 Mariana Pupo
-
 :::
 
 ::: {.g-col-12 .g-col-md-4}
+🕒 [HORÁRIO]{style="font-size:20px; font-weight:bold;"}
 
-🕒 <span style="font-size:20px; font-weight:bold;">HORÁRIO</span>
-
-**Quarta-feira**  
-19:00–20:40
-
+**Quarta-feira**\
+8:00–9:40
 :::
 
 ::: {.g-col-12 .g-col-md-4}
+📈 [AVALIAÇÃO]{style="font-size:20px; font-weight:bold;"}
 
-📈 <span style="font-size:20px; font-weight:bold;">AVALIAÇÃO</span>
-
-| Componente | Peso |
-|---|---:|
+| Componente                      | Peso |
+|---------------------------------|-----:|
 | Tutoriais entregues e validados | 100% |
-
 :::
+::::::
 
-:::
-
----
+------------------------------------------------------------------------
 
 ## Organização dos grupos
 
 Os estudantes serão organizados em grupos associados a uma das três áreas de aplicação:
 
-::: {.grid}
-
+:::::: grid
 ::: {.g-col-12 .g-col-md-4}
-
 ### Microeconomia
 
 Problemas desenvolvidos principalmente a partir de microdados de indivíduos, famílias e domicílios.
-
 :::
 
 ::: {.g-col-12 .g-col-md-4}
-
 ### Macroeconomia
 
 Problemas relacionados a séries e indicadores econômicos provenientes de fontes oficiais.
-
 :::
 
 ::: {.g-col-12 .g-col-md-4}
-
 ### Finanças
 
 Problemas relacionados a preços, retornos, índices, risco e outras informações financeiras.
-
 :::
-
-:::
+::::::
 
 Cada grupo partirá de uma **questão econômica concreta**. A escolha da área não define antecipadamente qual ferramenta ou modelo será utilizado. As técnicas necessárias serão identificadas durante o desenvolvimento do problema.
 
----
+------------------------------------------------------------------------
 
 ## Desenvolvimento dos trabalhos
 
@@ -121,18 +105,16 @@ flowchart LR
 
 A sequência detalhada e as datas serão definidas ao longo da disciplina, considerando as características de cada problema.
 
----
+------------------------------------------------------------------------
 
 ## Entregas e prazos
 
 ::: {.callout-important title="Cumprimento dos prazos"}
-
 As entregas parciais fazem parte do processo de desenvolvimento, discussão e avaliação dos tutoriais.
 
 Cada grupo deverá cumprir a sequência de entregas e os respectivos prazos acordados ao longo do semestre.
 
 **Entregas realizadas fora do prazo terão desconto na nota.**
-
 :::
 
 As entregas intermediárias permitirão:
@@ -145,14 +127,14 @@ As entregas intermediárias permitirão:
 - validar progressivamente a análise;
 - melhorar a clareza e a reprodutibilidade do tutorial.
 
----
+------------------------------------------------------------------------
 
 ## Avaliação
 
 A avaliação da disciplina será composta integralmente pelo **processo de desenvolvimento e pela entrega dos tutoriais validados**.
 
-| Componente | Peso |
-|---|---:|
+| Componente                                         | Peso |
+|----------------------------------------------------|-----:|
 | Desenvolvimento, entrega e validação dos tutoriais | 100% |
 
 A avaliação não estará restrita ao documento final. Também fará parte dela o trabalho desenvolvido ao longo do semestre, incluindo:
@@ -179,26 +161,26 @@ Entre os critérios gerais de avaliação estarão:
 
 Os critérios detalhados e sua eventual distribuição de pesos serão definidos posteriormente.
 
----
+------------------------------------------------------------------------
 
 ## Validação dos tutoriais
 
 Um tutorial será considerado validado quando apresentar qualidade suficiente para que outra pessoa consiga:
 
-1. compreender a questão econômica;
-2. identificar e obter os dados;
-3. entender a estrutura da base;
-4. reproduzir o tratamento;
-5. compreender a construção das variáveis;
-6. executar a análise;
-7. interpretar os resultados;
-8. adaptar o procedimento para uma situação semelhante.
+1.  compreender a questão econômica;
+2.  identificar e obter os dados;
+3.  entender a estrutura da base;
+4.  reproduzir o tratamento;
+5.  compreender a construção das variáveis;
+6.  executar a análise;
+7.  interpretar os resultados;
+8.  adaptar o procedimento para uma situação semelhante.
 
 Se o tutorial não for validado na primeira avaliação, o grupo terá **uma oportunidade adicional de revisão**, considerando as orientações recebidas. Após essa revisão, será realizada a avaliação final do trabalho.
 
 Os trabalhos validados que atingirem qualidade adequada poderão ser revisados, padronizados e incorporados à página da disciplina.
 
----
+------------------------------------------------------------------------
 
 ## Bibliografia
 

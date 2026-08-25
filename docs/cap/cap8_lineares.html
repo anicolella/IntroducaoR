@@ -9,7 +9,7 @@
 <meta name="author" content="Alexandre Nicolella">
 <meta name="dcterms.date" content="2024-03-12">
 
-<title>10&nbsp; Modelos Lineares – Introdução ao R</title>
+<title>13&nbsp; Modelos Lineares – Introdução ao R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -189,7 +189,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap8_lineares.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap8_lineares.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -212,31 +212,31 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefácio</span></span></a>
+ <span class="menu-text">Prefácio</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Manipulando os Dados</span></a>
+ <span class="menu-text">Do problema econômico à investigação com dados</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -244,20 +244,26 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  <a href="../cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  <a href="../cap/cap05_pergunta_dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  <a href="../cap/cap06_evidencia_conclusao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Da evidência à conclusão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap07_planejamento_investigacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span></a>
   </div>
 </li>
       </ul>
@@ -265,7 +271,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Motivando e Relembrando</span></a>
+ <span class="menu-text">Manipulando os Dados</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -273,8 +279,20 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
   </div>
 </li>
       </ul>
@@ -282,7 +300,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Gerando Informação</span></a>
+ <span class="menu-text">Motivando e Relembrando</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -290,20 +308,8 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
   </div>
 </li>
       </ul>
@@ -311,7 +317,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Tópicos Extras</span></a>
+ <span class="menu-text">Gerando Informação</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -319,8 +325,37 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
   </div>
 </li>
       </ul>
@@ -335,46 +370,46 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">10.1</span> Introdução</a>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">13.1</span> Introdução</a>
   <ul class="collapse">
-  <li><a href="#alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" id="toc-alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" class="nav-link" data-scroll-target="#alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico"><span class="header-section-number">10.1.1</span> Alguns Exemplos de Regressão Aplicados ao Contexto Jurídico:</a></li>
+  <li><a href="#alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" id="toc-alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" class="nav-link" data-scroll-target="#alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico"><span class="header-section-number">13.1.1</span> Alguns Exemplos de Regressão Aplicados ao Contexto Jurídico:</a></li>
   </ul></li>
-  <li><a href="#hipóteses-sobre-o-comportamento-do-termo-de-erro" id="toc-hipóteses-sobre-o-comportamento-do-termo-de-erro" class="nav-link" data-scroll-target="#hipóteses-sobre-o-comportamento-do-termo-de-erro"><span class="header-section-number">10.2</span> Hipóteses sobre o comportamento do Termo de Erro</a></li>
-  <li><a href="#estimação-dos-parâmetros-da-rls" id="toc-estimação-dos-parâmetros-da-rls" class="nav-link" data-scroll-target="#estimação-dos-parâmetros-da-rls"><span class="header-section-number">10.3</span> Estimação dos Parâmetros da RLS</a>
+  <li><a href="#hipóteses-sobre-o-comportamento-do-termo-de-erro" id="toc-hipóteses-sobre-o-comportamento-do-termo-de-erro" class="nav-link" data-scroll-target="#hipóteses-sobre-o-comportamento-do-termo-de-erro"><span class="header-section-number">13.2</span> Hipóteses sobre o comportamento do Termo de Erro</a></li>
+  <li><a href="#estimação-dos-parâmetros-da-rls" id="toc-estimação-dos-parâmetros-da-rls" class="nav-link" data-scroll-target="#estimação-dos-parâmetros-da-rls"><span class="header-section-number">13.3</span> Estimação dos Parâmetros da RLS</a>
   <ul class="collapse">
-  <li><a href="#teste-de-hipótese-sob-um-único-parametro" id="toc-teste-de-hipótese-sob-um-único-parametro" class="nav-link" data-scroll-target="#teste-de-hipótese-sob-um-único-parametro"><span class="header-section-number">10.3.1</span> Teste de Hipótese sob um Único Parametro</a></li>
-  <li><a href="#aplicação---estimando-uma-regressão-linear-simples" id="toc-aplicação---estimando-uma-regressão-linear-simples" class="nav-link" data-scroll-target="#aplicação---estimando-uma-regressão-linear-simples"><span class="header-section-number">10.3.2</span> Aplicação - Estimando uma Regressão Linear Simples</a></li>
+  <li><a href="#teste-de-hipótese-sob-um-único-parametro" id="toc-teste-de-hipótese-sob-um-único-parametro" class="nav-link" data-scroll-target="#teste-de-hipótese-sob-um-único-parametro"><span class="header-section-number">13.3.1</span> Teste de Hipótese sob um Único Parametro</a></li>
+  <li><a href="#aplicação---estimando-uma-regressão-linear-simples" id="toc-aplicação---estimando-uma-regressão-linear-simples" class="nav-link" data-scroll-target="#aplicação---estimando-uma-regressão-linear-simples"><span class="header-section-number">13.3.2</span> Aplicação - Estimando uma Regressão Linear Simples</a></li>
   </ul></li>
-  <li><a href="#caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" id="toc-caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" class="nav-link" data-scroll-target="#caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados"><span class="header-section-number">10.4</span> Caracteristicas do Método dos Mínimos Quadrados Ordinários em Determinadas Amostras de Dados</a>
+  <li><a href="#caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" id="toc-caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" class="nav-link" data-scroll-target="#caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados"><span class="header-section-number">13.4</span> Caracteristicas do Método dos Mínimos Quadrados Ordinários em Determinadas Amostras de Dados</a>
   <ul class="collapse">
-  <li><a href="#valores-estimados-e-resíduos" id="toc-valores-estimados-e-resíduos" class="nav-link" data-scroll-target="#valores-estimados-e-resíduos"><span class="header-section-number">10.4.1</span> Valores Estimados e Resíduos</a></li>
-  <li><a href="#propriedades-algébricas-do-mqo" id="toc-propriedades-algébricas-do-mqo" class="nav-link" data-scroll-target="#propriedades-algébricas-do-mqo"><span class="header-section-number">10.4.2</span> Propriedades Algébricas do MQO</a></li>
-  <li><a href="#qualidade-do-ajuste" id="toc-qualidade-do-ajuste" class="nav-link" data-scroll-target="#qualidade-do-ajuste"><span class="header-section-number">10.4.3</span> Qualidade do Ajuste</a></li>
+  <li><a href="#valores-estimados-e-resíduos" id="toc-valores-estimados-e-resíduos" class="nav-link" data-scroll-target="#valores-estimados-e-resíduos"><span class="header-section-number">13.4.1</span> Valores Estimados e Resíduos</a></li>
+  <li><a href="#propriedades-algébricas-do-mqo" id="toc-propriedades-algébricas-do-mqo" class="nav-link" data-scroll-target="#propriedades-algébricas-do-mqo"><span class="header-section-number">13.4.2</span> Propriedades Algébricas do MQO</a></li>
+  <li><a href="#qualidade-do-ajuste" id="toc-qualidade-do-ajuste" class="nav-link" data-scroll-target="#qualidade-do-ajuste"><span class="header-section-number">13.4.3</span> Qualidade do Ajuste</a></li>
   </ul></li>
-  <li><a href="#unidade-de-medida-e-forma-funcional" id="toc-unidade-de-medida-e-forma-funcional" class="nav-link" data-scroll-target="#unidade-de-medida-e-forma-funcional"><span class="header-section-number">10.5</span> Unidade de Medida e Forma Funcional</a>
+  <li><a href="#unidade-de-medida-e-forma-funcional" id="toc-unidade-de-medida-e-forma-funcional" class="nav-link" data-scroll-target="#unidade-de-medida-e-forma-funcional"><span class="header-section-number">13.5</span> Unidade de Medida e Forma Funcional</a>
   <ul class="collapse">
-  <li><a href="#unidade-de-medida" id="toc-unidade-de-medida" class="nav-link" data-scroll-target="#unidade-de-medida"><span class="header-section-number">10.5.1</span> Unidade de Medida</a></li>
+  <li><a href="#unidade-de-medida" id="toc-unidade-de-medida" class="nav-link" data-scroll-target="#unidade-de-medida"><span class="header-section-number">13.5.1</span> Unidade de Medida</a></li>
   </ul></li>
-  <li><a href="#incorporando-não-linearidades-nas-variáveis" id="toc-incorporando-não-linearidades-nas-variáveis" class="nav-link" data-scroll-target="#incorporando-não-linearidades-nas-variáveis"><span class="header-section-number">10.6</span> Incorporando não linearidades (nas variáveis!)</a>
+  <li><a href="#incorporando-não-linearidades-nas-variáveis" id="toc-incorporando-não-linearidades-nas-variáveis" class="nav-link" data-scroll-target="#incorporando-não-linearidades-nas-variáveis"><span class="header-section-number">13.6</span> Incorporando não linearidades (nas variáveis!)</a>
   <ul class="collapse">
-  <li><a href="#modelo-nível-nível" id="toc-modelo-nível-nível" class="nav-link" data-scroll-target="#modelo-nível-nível"><span class="header-section-number">10.6.1</span> Modelo Nível-Nível</a></li>
-  <li><a href="#modelo-nível-log" id="toc-modelo-nível-log" class="nav-link" data-scroll-target="#modelo-nível-log"><span class="header-section-number">10.6.2</span> Modelo Nível-log</a></li>
-  <li><a href="#modelo-log-nível" id="toc-modelo-log-nível" class="nav-link" data-scroll-target="#modelo-log-nível"><span class="header-section-number">10.6.3</span> Modelo Log-Nível</a></li>
-  <li><a href="#modelo-log-log" id="toc-modelo-log-log" class="nav-link" data-scroll-target="#modelo-log-log"><span class="header-section-number">10.6.4</span> Modelo Log-Log</a></li>
+  <li><a href="#modelo-nível-nível" id="toc-modelo-nível-nível" class="nav-link" data-scroll-target="#modelo-nível-nível"><span class="header-section-number">13.6.1</span> Modelo Nível-Nível</a></li>
+  <li><a href="#modelo-nível-log" id="toc-modelo-nível-log" class="nav-link" data-scroll-target="#modelo-nível-log"><span class="header-section-number">13.6.2</span> Modelo Nível-log</a></li>
+  <li><a href="#modelo-log-nível" id="toc-modelo-log-nível" class="nav-link" data-scroll-target="#modelo-log-nível"><span class="header-section-number">13.6.3</span> Modelo Log-Nível</a></li>
+  <li><a href="#modelo-log-log" id="toc-modelo-log-log" class="nav-link" data-scroll-target="#modelo-log-log"><span class="header-section-number">13.6.4</span> Modelo Log-Log</a></li>
   </ul></li>
-  <li><a href="#regressão-linear-múltipla-rlm" id="toc-regressão-linear-múltipla-rlm" class="nav-link" data-scroll-target="#regressão-linear-múltipla-rlm"><span class="header-section-number">10.7</span> Regressão Linear Múltipla (RLM)</a>
+  <li><a href="#regressão-linear-múltipla-rlm" id="toc-regressão-linear-múltipla-rlm" class="nav-link" data-scroll-target="#regressão-linear-múltipla-rlm"><span class="header-section-number">13.7</span> Regressão Linear Múltipla (RLM)</a>
   <ul class="collapse">
-  <li><a href="#exemplos-de-regressão-multipla-no-contexto-jurídico" id="toc-exemplos-de-regressão-multipla-no-contexto-jurídico" class="nav-link" data-scroll-target="#exemplos-de-regressão-multipla-no-contexto-jurídico"><span class="header-section-number">10.7.1</span> Exemplos de Regressão Multipla no Contexto Jurídico</a></li>
-  <li><a href="#a-interpretação-da-equação-de-regressão-de-mqo" id="toc-a-interpretação-da-equação-de-regressão-de-mqo" class="nav-link" data-scroll-target="#a-interpretação-da-equação-de-regressão-de-mqo"><span class="header-section-number">10.7.2</span> A Interpretação da Equação de Regressão de MQO</a></li>
+  <li><a href="#exemplos-de-regressão-multipla-no-contexto-jurídico" id="toc-exemplos-de-regressão-multipla-no-contexto-jurídico" class="nav-link" data-scroll-target="#exemplos-de-regressão-multipla-no-contexto-jurídico"><span class="header-section-number">13.7.1</span> Exemplos de Regressão Multipla no Contexto Jurídico</a></li>
+  <li><a href="#a-interpretação-da-equação-de-regressão-de-mqo" id="toc-a-interpretação-da-equação-de-regressão-de-mqo" class="nav-link" data-scroll-target="#a-interpretação-da-equação-de-regressão-de-mqo"><span class="header-section-number">13.7.2</span> A Interpretação da Equação de Regressão de MQO</a></li>
   </ul></li>
-  <li><a href="#estimação-dos-k-parametros-na-rlm" id="toc-estimação-dos-k-parametros-na-rlm" class="nav-link" data-scroll-target="#estimação-dos-k-parametros-na-rlm"><span class="header-section-number">10.8</span> Estimação dos k parametros na RLM</a>
+  <li><a href="#estimação-dos-k-parametros-na-rlm" id="toc-estimação-dos-k-parametros-na-rlm" class="nav-link" data-scroll-target="#estimação-dos-k-parametros-na-rlm"><span class="header-section-number">13.8</span> Estimação dos k parametros na RLM</a>
   <ul class="collapse">
-  <li><a href="#estimadores-de-mqo" id="toc-estimadores-de-mqo" class="nav-link" data-scroll-target="#estimadores-de-mqo"><span class="header-section-number">10.8.1</span> Estimadores de MQO</a></li>
-  <li><a href="#estimativas-de-mqo" id="toc-estimativas-de-mqo" class="nav-link" data-scroll-target="#estimativas-de-mqo"><span class="header-section-number">10.8.2</span> Estimativas de MQO</a></li>
-  <li><a href="#qualidade-do-ajuste-na-regressão-linear-multipla" id="toc-qualidade-do-ajuste-na-regressão-linear-multipla" class="nav-link" data-scroll-target="#qualidade-do-ajuste-na-regressão-linear-multipla"><span class="header-section-number">10.8.3</span> Qualidade do Ajuste na Regressão Linear Multipla</a></li>
-  <li><a href="#uso-de-variáveis-qualitativas-na-análise-de-rlm" id="toc-uso-de-variáveis-qualitativas-na-análise-de-rlm" class="nav-link" data-scroll-target="#uso-de-variáveis-qualitativas-na-análise-de-rlm"><span class="header-section-number">10.8.4</span> Uso de Variáveis Qualitativas na Análise de RLM</a></li>
-  <li><a href="#o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" id="toc-o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" class="nav-link" data-scroll-target="#o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente"><span class="header-section-number">10.8.5</span> O uso de Dummies para categorias multiplas e Interação entre a dummy e a variável dependente</a></li>
-  <li><a href="#incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." id="toc-incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." class="nav-link" data-scroll-target="#incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy."><span class="header-section-number">10.8.6</span> Incorporando Informações Ordinais com o uso de Variáveis Dummy.</a></li>
+  <li><a href="#estimadores-de-mqo" id="toc-estimadores-de-mqo" class="nav-link" data-scroll-target="#estimadores-de-mqo"><span class="header-section-number">13.8.1</span> Estimadores de MQO</a></li>
+  <li><a href="#estimativas-de-mqo" id="toc-estimativas-de-mqo" class="nav-link" data-scroll-target="#estimativas-de-mqo"><span class="header-section-number">13.8.2</span> Estimativas de MQO</a></li>
+  <li><a href="#qualidade-do-ajuste-na-regressão-linear-multipla" id="toc-qualidade-do-ajuste-na-regressão-linear-multipla" class="nav-link" data-scroll-target="#qualidade-do-ajuste-na-regressão-linear-multipla"><span class="header-section-number">13.8.3</span> Qualidade do Ajuste na Regressão Linear Multipla</a></li>
+  <li><a href="#uso-de-variáveis-qualitativas-na-análise-de-rlm" id="toc-uso-de-variáveis-qualitativas-na-análise-de-rlm" class="nav-link" data-scroll-target="#uso-de-variáveis-qualitativas-na-análise-de-rlm"><span class="header-section-number">13.8.4</span> Uso de Variáveis Qualitativas na Análise de RLM</a></li>
+  <li><a href="#o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" id="toc-o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" class="nav-link" data-scroll-target="#o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente"><span class="header-section-number">13.8.5</span> O uso de Dummies para categorias multiplas e Interação entre a dummy e a variável dependente</a></li>
+  <li><a href="#incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." id="toc-incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." class="nav-link" data-scroll-target="#incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy."><span class="header-section-number">13.8.6</span> Incorporando Informações Ordinais com o uso de Variáveis Dummy.</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -382,9 +417,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap8_lineares.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap8_lineares.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></h1>
 <p class="subtitle lead">Aplicação a Pesquisa em Direito</p>
 </div>
 
@@ -419,8 +454,8 @@ window.Quarto = {
 <p>O matérial desta seção é baseado na 4ed do livro de Jeffrey Wooldridge, Introdução à Econometria: Uma Abordagem Moderna, de 2013. Embora o título do livro remeta à econometria, os modelos apresentados no livro são aplicaveis à diversas Ciências Sociais, tais como o Direito, Ciência Política, Sociologia, Psicologia Empírica etc…</p>
 <p>A análise de Regressão é um instrumento poderoso para os centistas sociais. Podemos verificar como determinadas variáveis importantes nas ciencias sociais interagem com outras, as vezes em uma relação de causa e efeito.</p>
 <p>Aqui também teremos que ter uma questão ou problema. Anteriormente gostariamos de entender o que estava acontecendo, qual a Renda pc das mulheres, qual a taxa de feminicídio… Agora queremos ir mais a fundo, porque determinados bairros tem mais crime do que outros? O que determina a renda pc de uma mulher?</p>
-<section id="introdução" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">10.1</span> Introdução</h2>
+<section id="introdução" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">13.1</span> Introdução</h2>
 <p>Começamos com o modelo mais geral da população:</p>
 <p><span class="math display">\[y = \beta_0 + \beta_1x + u \]</span></p>
 <p>Nesta equação, <span class="math inline">\(y\)</span> é a variavel dependente ou também denominada de variável explicada; <span class="math inline">\(x\)</span> é a variável explicativa e <span class="math inline">\(u\)</span> é o termo de erro. Essa equação é uma equação de <strong>regressão linear simples</strong>.</p>
@@ -437,8 +472,8 @@ window.Quarto = {
 <p><span class="math display">\[\Delta crime = \beta_1 \Delta desemprego \]</span></p>
 <p>Assim, o aumento de 1 ponto no desemprego irá ter o efeito de <span class="math inline">\(\beta_1\)</span> unidades de crimes em média. Por isso, quando conseguimos estimar os parêmetros <span class="math inline">\(\beta\)</span> estamos mais próximos de entender as relações entre <span class="math inline">\(x\)</span> e <span class="math inline">\(y\)</span> em nossas aplicações.</p>
 <p>Cabe destacar algo bastante importante.As relações acima não encerram a questão da causalidade. Como podemos inferir um impacto causal do desemprego na criminalidade se estamos ignorando todos os demais fatores que ficaram de fora do modelo - fatores que são captados em <span class="math inline">\(u\)</span> não observados.</p>
-<section id="alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" class="level3" data-number="10.1.1">
-<h3 data-number="10.1.1" class="anchored" data-anchor-id="alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico"><span class="header-section-number">10.1.1</span> Alguns Exemplos de Regressão Aplicados ao Contexto Jurídico:</h3>
+<section id="alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico" class="level3" data-number="13.1.1">
+<h3 data-number="13.1.1" class="anchored" data-anchor-id="alguns-exemplos-de-regressão-aplicados-ao-contexto-jurídico"><span class="header-section-number">13.1.1</span> Alguns Exemplos de Regressão Aplicados ao Contexto Jurídico:</h3>
 <p>Considere os seguintes exemplos de RLS aplicadas ao contexto do Direito</p>
 <p><u><strong>Previsão de Sentenças com Base na Gravidade do Crime:</strong></u></p>
 <ul>
@@ -471,8 +506,8 @@ window.Quarto = {
 <p><span class="math display">\[ Veredito = \beta_0 + \beta_1 Testemunhas + u \]</span></p>
 </section>
 </section>
-<section id="hipóteses-sobre-o-comportamento-do-termo-de-erro" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="hipóteses-sobre-o-comportamento-do-termo-de-erro"><span class="header-section-number">10.2</span> Hipóteses sobre o comportamento do Termo de Erro</h2>
+<section id="hipóteses-sobre-o-comportamento-do-termo-de-erro" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="hipóteses-sobre-o-comportamento-do-termo-de-erro"><span class="header-section-number">13.2</span> Hipóteses sobre o comportamento do Termo de Erro</h2>
 <p>Se especificamos o modelo com <span class="math inline">\(\beta_0\)</span>, podemos assumir que <span class="math inline">\(u\)</span>, tem média igual a zero. Em notação de esperança matemática essa hipótese equivale a:</p>
 <p><span class="math display">\[E(u) = 0\]</span></p>
 <p>Podemos definir uma segunda hipotese sobre <span class="math inline">\(u\)</span>. Uma hipótese forte, é a de que <span class="math inline">\(u\)</span> e <span class="math inline">\(x\)</span> são independentes. Tal hípótese é crucial do modelo de RLS:</p>
@@ -495,8 +530,8 @@ window.Quarto = {
 <p><span class="math display">\[y = E( y |x ) + u \]</span></p>
 <p>Na equação acima, <span class="math inline">\(E( y |x )\)</span> é chamada de parte sistemática de <span class="math inline">\(y\)</span>. Isto é, a parte sistematicamente explicada por <span class="math inline">\(x\)</span>. Já o termo de erro não observado, <span class="math inline">\(u\)</span> é a parte não sistemática de <span class="math inline">\(y\)</span>, não explicada por <span class="math inline">\(x\)</span>.</p>
 </section>
-<section id="estimação-dos-parâmetros-da-rls" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="estimação-dos-parâmetros-da-rls"><span class="header-section-number">10.3</span> Estimação dos Parâmetros da RLS</h2>
+<section id="estimação-dos-parâmetros-da-rls" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="estimação-dos-parâmetros-da-rls"><span class="header-section-number">13.3</span> Estimação dos Parâmetros da RLS</h2>
 <p>Não conhecemos <span class="math inline">\(\beta_0\)</span> e <span class="math inline">\(\beta_1\)</span> queremos estimadores desses parametros: <span class="math inline">\(\hat{\beta_0}\)</span> e <span class="math inline">\(\hat{\beta_1}\)</span>.</p>
 <p>Suponha que tenhamos uma amostra aleatória da população: <span class="math inline">\(\{(x_i, y_i): i = 1, ..., n\}\)</span>. Poderia ser uma amostra de crimes e taxa de desemprego por bairros.</p>
 <p>Em nosso modelo base:</p>
@@ -519,8 +554,8 @@ window.Quarto = {
 </figure>
 </div>
 <p>Antes de passarmos para o proxímo tópico de RLS, cabe mencionar uma nota sobre terminologia: quando estimamos equações de RLS do tipo <span class="math inline">\(y = \beta_0 + \beta_1 x + u\)</span>, dizemos que “<em>rodamos a regressão de</em> <span class="math inline">\(y\)</span> sobre <span class="math inline">\(x\)</span> !”</p>
-<section id="teste-de-hipótese-sob-um-único-parametro" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="teste-de-hipótese-sob-um-único-parametro"><span class="header-section-number">10.3.1</span> Teste de Hipótese sob um Único Parametro</h3>
+<section id="teste-de-hipótese-sob-um-único-parametro" class="level3" data-number="13.3.1">
+<h3 data-number="13.3.1" class="anchored" data-anchor-id="teste-de-hipótese-sob-um-único-parametro"><span class="header-section-number">13.3.1</span> Teste de Hipótese sob um Único Parametro</h3>
 <p>Agora precisamos testar se nossa estimativa é estatisticamente igual a zero ou se ela é diferente de zero.</p>
 <p><em>Há evidências que a nossa variável <span class="math inline">\(X\)</span> afeta a nossa variável <span class="math inline">\(Y\)</span> na população?</em></p>
 <p>Na maior parte do tempo testamos hipóteses do tipo</p>
@@ -535,14 +570,14 @@ window.Quarto = {
 </div>
 <p><strong>Estatística de Teste</strong>:</p>
 <p>Este é um valor calculado a partir dos dados da amostra que é usado para avaliar a probabilidade de observar tal valor se a hipótese nula fosse verdadeira (<span class="math inline">\(H_0: {\beta_j}=0\)</span>). Ele que vai dizer se estamos na área amarela ou azul da figura acima.</p>
-<section id="valor-p" class="level4" data-number="10.3.1.1">
-<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="valor-p"><span class="header-section-number">10.3.1.1</span> Valor-p:</h4>
+<section id="valor-p" class="level4" data-number="13.3.1.1">
+<h4 data-number="13.3.1.1" class="anchored" data-anchor-id="valor-p"><span class="header-section-number">13.3.1.1</span> Valor-p:</h4>
 <p><strong>O valor-p</strong> é a probabilidade de observar uma estatística de teste tão extrema quanto, ou mais extrema do que, aquela calculada a partir dos dados da amostra, sob a suposição de que a hipótese nula seja verdadeira. Em outras palavras, mede quão provável é obter os resultados observados se a hipótese nula for correta.</p>
 <p><strong>Interpretação</strong>: Um valor-p pequeno (tipicamente menor que um nível de significância predefinido, comumente 0,05) sugere que os dados observados são improváveis de ter ocorrido se a hipótese nula fosse verdadeira. Portanto, fornece evidências contra a hipótese nula, e os pesquisadores podem rejeitar a hipótese nula em favor da hipótese alternativa. Por outro lado, um valor-p grande indica que os dados observados são consistentes com a hipótese nula, e as evidências evidências são insuficientes para rejeitá-la.</p>
 </section>
 </section>
-<section id="aplicação---estimando-uma-regressão-linear-simples" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="aplicação---estimando-uma-regressão-linear-simples"><span class="header-section-number">10.3.2</span> Aplicação - Estimando uma Regressão Linear Simples</h3>
+<section id="aplicação---estimando-uma-regressão-linear-simples" class="level3" data-number="13.3.2">
+<h3 data-number="13.3.2" class="anchored" data-anchor-id="aplicação---estimando-uma-regressão-linear-simples"><span class="header-section-number">13.3.2</span> Aplicação - Estimando uma Regressão Linear Simples</h3>
 <p>Vamos utilizar aqui o nosso banco de dados anterior sobre feminicídio. É um banco com poucas obserações e possui fim didátco, apesar de serem dados reais.</p>
 <p>Uma questão incial é entender quem será <span class="math inline">\(Y\)</span> e quem será <span class="math inline">\(X\)</span>. Estamos querendo entender a taxa de feminicídio. A questão é, quais são seus determinantes? Aqui precisamos de alguma teoria…mas por hora, vamos ter como hipótese inicial que quanto maior a taxa de homícídio (ou maior a violência no estado) espera-se que em média a taxa de feminicídio aumente:</p>
 <p><span class="math display">\[Feminc_{tx} = \beta_0 + \beta_1 Homici_{tx} + u\]</span></p>
@@ -583,8 +618,8 @@ Multiple R-squared:  0.1288,    Adjusted R-squared:  0.09397
 F-statistic: 3.697 on 1 and 25 DF,  p-value: 0.06599</code></pre>
 </div>
 </div>
-<section id="entendendo-os-resultados" class="level4" data-number="10.3.2.1">
-<h4 data-number="10.3.2.1" class="anchored" data-anchor-id="entendendo-os-resultados"><span class="header-section-number">10.3.2.1</span> Entendendo os Resultados</h4>
+<section id="entendendo-os-resultados" class="level4" data-number="13.3.2.1">
+<h4 data-number="13.3.2.1" class="anchored" data-anchor-id="entendendo-os-resultados"><span class="header-section-number">13.3.2.1</span> Entendendo os Resultados</h4>
 <p><strong>1. Resíduos</strong> (<em>Residuals</em>): apresenta a distribuição dos resíduos, observa-se que a mediana dos resíduos está próxima a zero.</p>
 <p><strong>2.Coeficientes</strong> Em seguida, abaixo tem-se <em>Coefficients</em> com 5 colunas.</p>
 <p><em>Coluna 1</em>: Nome da variável</p>
@@ -621,10 +656,10 @@ F-statistic: 3.697 on 1 and 25 DF,  p-value: 0.06599</code></pre>
 </section>
 </section>
 </section>
-<section id="caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados"><span class="header-section-number">10.4</span> Caracteristicas do Método dos Mínimos Quadrados Ordinários em Determinadas Amostras de Dados</h2>
-<section id="valores-estimados-e-resíduos" class="level3" data-number="10.4.1">
-<h3 data-number="10.4.1" class="anchored" data-anchor-id="valores-estimados-e-resíduos"><span class="header-section-number">10.4.1</span> Valores Estimados e Resíduos</h3>
+<section id="caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="caracteristicas-do-método-dos-mínimos-quadrados-ordinários-em-determinadas-amostras-de-dados"><span class="header-section-number">13.4</span> Caracteristicas do Método dos Mínimos Quadrados Ordinários em Determinadas Amostras de Dados</h2>
+<section id="valores-estimados-e-resíduos" class="level3" data-number="13.4.1">
+<h3 data-number="13.4.1" class="anchored" data-anchor-id="valores-estimados-e-resíduos"><span class="header-section-number">13.4.1</span> Valores Estimados e Resíduos</h3>
 <p>Uma vez estimados <span class="math inline">\(\hat{\beta}_0\)</span> e <span class="math inline">\(\hat{\beta}_1\)</span> temos os valores ajustados ou também denominados de valores preditos ou <em>fitted values</em>.</p>
 <p>Para uma observação qualquer <span class="math inline">\(i\)</span>, seu valor estimado é:</p>
 <p><span class="math display">\[\hat{y}_i= \hat{\beta}_0 + \hat{\beta}_1x_i\]</span></p>
@@ -647,8 +682,8 @@ F-statistic: 3.697 on 1 and 25 DF,  p-value: 0.06599</code></pre>
 </div>
 </div>
 </section>
-<section id="propriedades-algébricas-do-mqo" class="level3" data-number="10.4.2">
-<h3 data-number="10.4.2" class="anchored" data-anchor-id="propriedades-algébricas-do-mqo"><span class="header-section-number">10.4.2</span> Propriedades Algébricas do MQO</h3>
+<section id="propriedades-algébricas-do-mqo" class="level3" data-number="13.4.2">
+<h3 data-number="13.4.2" class="anchored" data-anchor-id="propriedades-algébricas-do-mqo"><span class="header-section-number">13.4.2</span> Propriedades Algébricas do MQO</h3>
 <ol type="1">
 <li>A Soma dos Resíduos é zero:</li>
 </ol>
@@ -700,8 +735,8 @@ F-statistic: 3.697 on 1 and 25 DF,  p-value: 0.06599</code></pre>
 <li><p>Os valores de <span class="math inline">\(\hat{y}\)</span> e <span class="math inline">\(\hat{u}\)</span> são não correlacionados na amostra!</p></li>
 </ol>
 </section>
-<section id="qualidade-do-ajuste" class="level3" data-number="10.4.3">
-<h3 data-number="10.4.3" class="anchored" data-anchor-id="qualidade-do-ajuste"><span class="header-section-number">10.4.3</span> Qualidade do Ajuste</h3>
+<section id="qualidade-do-ajuste" class="level3" data-number="13.4.3">
+<h3 data-number="13.4.3" class="anchored" data-anchor-id="qualidade-do-ajuste"><span class="header-section-number">13.4.3</span> Qualidade do Ajuste</h3>
 <p>Nesta seção vamos responder a seguinte questão: “<em>Quão bem</em> <span class="math inline">\(x\)</span> explica <span class="math inline">\(y\)</span> ?”</p>
 <p>Considere as seguintes definições</p>
 <p>Soma dos Quadrado Totais (SQT):</p>
@@ -755,10 +790,10 @@ F-statistic: 3.697 on 1 and 25 DF,  p-value: 0.06599</code></pre>
 <p>Novamente, o <span class="math inline">\(R^2\)</span> é a porcentagem da variação de y que é explicada por <span class="math inline">\(x\)</span>. O valor de <span class="math inline">\(R^2\)</span> sempre estará na RLS entre <span class="math inline">\(0\)</span> e <span class="math inline">\(1\)</span>.</p>
 </section>
 </section>
-<section id="unidade-de-medida-e-forma-funcional" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="unidade-de-medida-e-forma-funcional"><span class="header-section-number">10.5</span> Unidade de Medida e Forma Funcional</h2>
-<section id="unidade-de-medida" class="level3" data-number="10.5.1">
-<h3 data-number="10.5.1" class="anchored" data-anchor-id="unidade-de-medida"><span class="header-section-number">10.5.1</span> Unidade de Medida</h3>
+<section id="unidade-de-medida-e-forma-funcional" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="unidade-de-medida-e-forma-funcional"><span class="header-section-number">13.5</span> Unidade de Medida e Forma Funcional</h2>
+<section id="unidade-de-medida" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="unidade-de-medida"><span class="header-section-number">13.5.1</span> Unidade de Medida</h3>
 <p>Vejamos o efeito de mudanças na unidade de medida das variáveis na nossa regressão.</p>
 <p><strong>1.</strong> Se a variável dependente (<span class="math inline">\(Y\)</span>) é multiplicada por uma constante <span class="math inline">\(c\)</span>, então as estimativas do intercepto e da inclinação também serão multiplicadas por <span class="math inline">\(c\)</span>. Vamos multiplicar por 10 e ver o que acontece:</p>
 <div class="cell">
@@ -838,8 +873,8 @@ homic_tx_10 1.058050  0.5503129 1.922633 0.0659903845</code></pre>
 </div>
 </section>
 </section>
-<section id="incorporando-não-linearidades-nas-variáveis" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="incorporando-não-linearidades-nas-variáveis"><span class="header-section-number">10.6</span> Incorporando não linearidades (nas variáveis!)</h2>
+<section id="incorporando-não-linearidades-nas-variáveis" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="incorporando-não-linearidades-nas-variáveis"><span class="header-section-number">13.6</span> Incorporando não linearidades (nas variáveis!)</h2>
 <p>Vamos agora incorporar a não linearidade nas variáveis e ver como fica a sua interpretação. Abaixo tem-se uma tabela para interpretar os coeficientes e será explicada nos exemplos que virão a seguir.</p>
 <table class="caption-top table">
 <colgroup>
@@ -883,8 +918,8 @@ homic_tx_10 1.058050  0.5503129 1.922633 0.0659903845</code></pre>
 </tr>
 </tbody>
 </table>
-<section id="modelo-nível-nível" class="level3" data-number="10.6.1">
-<h3 data-number="10.6.1" class="anchored" data-anchor-id="modelo-nível-nível"><span class="header-section-number">10.6.1</span> Modelo Nível-Nível</h3>
+<section id="modelo-nível-nível" class="level3" data-number="13.6.1">
+<h3 data-number="13.6.1" class="anchored" data-anchor-id="modelo-nível-nível"><span class="header-section-number">13.6.1</span> Modelo Nível-Nível</h3>
 <p>Esse é o modelo que fizemos anteriormente e nos diz que uma variação absoluta em <span class="math inline">\(X\)</span> terá um efeito de <span class="math inline">\(\beta\)</span> em Y.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>modelo_nn<span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data=</span>dados, dados<span class="sc">$</span>feminic_tx <span class="sc">~</span> dados<span class="sc">$</span>homic_tx)</span>
@@ -897,8 +932,8 @@ dados$homic_tx 0.105805 0.05503129 1.922633 0.0659903845</code></pre>
 </div>
 <p>O aumento de uma unidade na taxa de homicídio aumenta em 0,1058 a taxa de feminicídio.</p>
 </section>
-<section id="modelo-nível-log" class="level3" data-number="10.6.2">
-<h3 data-number="10.6.2" class="anchored" data-anchor-id="modelo-nível-log"><span class="header-section-number">10.6.2</span> Modelo Nível-log</h3>
+<section id="modelo-nível-log" class="level3" data-number="13.6.2">
+<h3 data-number="13.6.2" class="anchored" data-anchor-id="modelo-nível-log"><span class="header-section-number">13.6.2</span> Modelo Nível-log</h3>
 <p>Primeiramente vamos criar as variáveis em ln:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>dados<span class="sc">$</span>Lnfeminic_tx <span class="ot">&lt;-</span> <span class="fu">log</span>(dados<span class="sc">$</span>feminic_tx)</span>
@@ -916,8 +951,8 @@ dados$Lnhomic_tx 0.6238311  0.2900917 2.150462 0.04138118</code></pre>
 </div>
 <p>A variação relativa de 1% na taxa de homicídio (<span class="math inline">\(X\)</span>), aumenta a taxa de feminicídio em 0,00623 <span class="math inline">\((\beta_1/100)\)</span></p>
 </section>
-<section id="modelo-log-nível" class="level3" data-number="10.6.3">
-<h3 data-number="10.6.3" class="anchored" data-anchor-id="modelo-log-nível"><span class="header-section-number">10.6.3</span> Modelo Log-Nível</h3>
+<section id="modelo-log-nível" class="level3" data-number="13.6.3">
+<h3 data-number="13.6.3" class="anchored" data-anchor-id="modelo-log-nível"><span class="header-section-number">13.6.3</span> Modelo Log-Nível</h3>
 <p>Nesse modelo <span class="math inline">\(Y\)</span> está em log e <span class="math inline">\(X\)</span> em nível. Variações absolutas em <span class="math inline">\(X\)</span> implicam em variações exponenciais de <span class="math inline">\(Y\)</span>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>modelo_ln<span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data=</span>dados, dados<span class="sc">$</span>Lnfeminic_tx<span class="sc">~</span> dados<span class="sc">$</span>homic_tx)</span>
@@ -931,8 +966,8 @@ dados$homic_tx 0.04525001 0.03517069 1.286583 0.2100267</code></pre>
 <p>Para cada incremento adicional da taxa de homicídio, tem-se um incremento de 4,5% na taxa de feminicídio <span class="math inline">\(\% \Delta y = (100 \beta_1) \Delta x\)</span>.</p>
 <p>modelo_ll &lt;- lm(data=dados, dados<span class="math inline">\(Lnfeminic_tx~ dados\)</span>Lnhomic_tx) summary(modelo_ll)$coefficients</p>
 </section>
-<section id="modelo-log-log" class="level3" data-number="10.6.4">
-<h3 data-number="10.6.4" class="anchored" data-anchor-id="modelo-log-log"><span class="header-section-number">10.6.4</span> Modelo Log-Log</h3>
+<section id="modelo-log-log" class="level3" data-number="13.6.4">
+<h3 data-number="13.6.4" class="anchored" data-anchor-id="modelo-log-log"><span class="header-section-number">13.6.4</span> Modelo Log-Log</h3>
 <p>Nesse modelo tanto <span class="math inline">\(X\)</span> como <span class="math inline">\(Y\)</span> estão em log. Variações relativas em <span class="math inline">\(X\)</span> implicam em variações relativas em <span class="math inline">\(Y\)</span></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>modelo_ll <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">data=</span>dados, dados<span class="sc">$</span>Lnfeminic_tx<span class="sc">~</span> dados<span class="sc">$</span>Lnhomic_tx)</span>
@@ -946,14 +981,14 @@ dados$Lnhomic_tx 0.2915325798   0.185564 1.571062163 0.1287399</code></pre>
 <p>Um aumento de 1% na taxa de homicídios aumenta em 0,29% a taxa de feminicídio nos estados brasileiros.</p>
 </section>
 </section>
-<section id="regressão-linear-múltipla-rlm" class="level2" data-number="10.7">
-<h2 data-number="10.7" class="anchored" data-anchor-id="regressão-linear-múltipla-rlm"><span class="header-section-number">10.7</span> Regressão Linear Múltipla (RLM)</h2>
+<section id="regressão-linear-múltipla-rlm" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="regressão-linear-múltipla-rlm"><span class="header-section-number">13.7</span> Regressão Linear Múltipla (RLM)</h2>
 <p>A RLM é uma extensão natural da RLS. Entretanto, ao invés de termos apenas uma variável explicativa podemos ter <span class="math inline">\(k\)</span> variáveis dependentes</p>
 <p><span class="math display">\[y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \ldots + \beta_k x_k + u\]</span> A hípótese fundamental é a de que:</p>
 <p><span class="math display">\[E(u|x_1, . . . ,x_k) = 0\]</span></p>
 <p>Problemas que façam com que um dos <span class="math inline">\(x_1, ...., x_k\)</span> ser correlacionado com <span class="math inline">\(u\)</span>, invalida a hipótese acima. Tal hipótese implica em não viés do MQO.</p>
-<section id="exemplos-de-regressão-multipla-no-contexto-jurídico" class="level3" data-number="10.7.1">
-<h3 data-number="10.7.1" class="anchored" data-anchor-id="exemplos-de-regressão-multipla-no-contexto-jurídico"><span class="header-section-number">10.7.1</span> Exemplos de Regressão Multipla no Contexto Jurídico</h3>
+<section id="exemplos-de-regressão-multipla-no-contexto-jurídico" class="level3" data-number="13.7.1">
+<h3 data-number="13.7.1" class="anchored" data-anchor-id="exemplos-de-regressão-multipla-no-contexto-jurídico"><span class="header-section-number">13.7.1</span> Exemplos de Regressão Multipla no Contexto Jurídico</h3>
 <p><u><strong>Determinação de Fatores que Afetam o Valor de Indenizações:</strong></u></p>
 <ul>
 <li><strong>Variável Dependente (<span class="math inline">\(Y\)</span>)</strong>: Valor da Indenização.</li>
@@ -976,8 +1011,8 @@ dados$Lnhomic_tx 0.2915325798   0.185564 1.571062163 0.1287399</code></pre>
 </ul>
 <p><span class="math display">\[Tx.feminicidio = \beta_0 + \beta_1 desemprego + \beta_2 educ + \beta_3 política + u \]</span></p>
 </section>
-<section id="a-interpretação-da-equação-de-regressão-de-mqo" class="level3" data-number="10.7.2">
-<h3 data-number="10.7.2" class="anchored" data-anchor-id="a-interpretação-da-equação-de-regressão-de-mqo"><span class="header-section-number">10.7.2</span> A Interpretação da Equação de Regressão de MQO</h3>
+<section id="a-interpretação-da-equação-de-regressão-de-mqo" class="level3" data-number="13.7.2">
+<h3 data-number="13.7.2" class="anchored" data-anchor-id="a-interpretação-da-equação-de-regressão-de-mqo"><span class="header-section-number">13.7.2</span> A Interpretação da Equação de Regressão de MQO</h3>
 <p>Tal qual no modelo de RLS, temos que:</p>
 <p><span class="math display">\[\Delta y = \beta_1 \Delta x_1 + \beta_2 \Delta x_2 + ...+\beta_k \Delta x_k\]</span></p>
 <p>O coeficiente <span class="math inline">\(\beta_j\)</span>, com <span class="math inline">\(j=1,...k\)</span>, mede o efeito do incremento de uma unidade de <span class="math inline">\(x_j\)</span> em <span class="math inline">\(y\)</span>. Isso continua com a mesma interpretação para modelos que usam o log.</p>
@@ -986,10 +1021,10 @@ dados$Lnhomic_tx 0.2915325798   0.185564 1.571062163 0.1287399</code></pre>
 <p>Manter outros fatores fixos permite o cientista social, “mimetizar” um experimento, o qual é muito utilizado nas Ciências Naturais. Obviamente, isso não é tão simples assim. Entretanto, manter outros fatores fixos, e supondo que <span class="math display">\[E(u|x_1, . . . ,x_k) = 0\]</span> , nos aproxíma de afirmações de cunho causal.</p>
 </section>
 </section>
-<section id="estimação-dos-k-parametros-na-rlm" class="level2" data-number="10.8">
-<h2 data-number="10.8" class="anchored" data-anchor-id="estimação-dos-k-parametros-na-rlm"><span class="header-section-number">10.8</span> Estimação dos k parametros na RLM</h2>
-<section id="estimadores-de-mqo" class="level3" data-number="10.8.1">
-<h3 data-number="10.8.1" class="anchored" data-anchor-id="estimadores-de-mqo"><span class="header-section-number">10.8.1</span> Estimadores de MQO</h3>
+<section id="estimação-dos-k-parametros-na-rlm" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="estimação-dos-k-parametros-na-rlm"><span class="header-section-number">13.8</span> Estimação dos k parametros na RLM</h2>
+<section id="estimadores-de-mqo" class="level3" data-number="13.8.1">
+<h3 data-number="13.8.1" class="anchored" data-anchor-id="estimadores-de-mqo"><span class="header-section-number">13.8.1</span> Estimadores de MQO</h3>
 <p>A mecânica para conseguirmos estimativas de <span class="math inline">\(\beta_j\)</span>, fica uma pouco mais complicada. Felizmente, os <em>softwares</em>, tais como o <code>R</code>, fornecem essas estimativas com muita facilidade. Não obstante, convêm apresentar uma abordagem para o cálculo desses parâmetros. Utilizaremos álgebra de matrizes para mostrar um “algoritmo” para calcular esses <span class="math inline">\(\beta_j\)</span>. Em verdade, esse é o algoritmo utilizado pela função <code>lm()</code> do <code>R</code> no computo dos estimadores.</p>
 <p>Considere o modelo para a <span class="math inline">\(i\)</span>-ésima observação</p>
 <p><span class="math display">\[y_i = \beta_0 + \beta_1 x_{i1} + \beta_{2} x_{i2} + \beta_{3} x_{i3} + \ldots + \beta_k x_{ik} + u\]</span></p>
@@ -1001,8 +1036,8 @@ dados$Lnhomic_tx 0.2915325798   0.185564 1.571062163 0.1287399</code></pre>
 <p>Onde <span class="math inline">\(\mathbf{X}^T\)</span> é a matriz transposta de <span class="math inline">\(\mathbf{X}\)</span>, e <span class="math inline">\((\mathbf{X}^T \mathbf{X})^{-1}\)</span> é a matriz inversa da seguinte multiplicação de matrizes, <span class="math inline">\((\mathbf{X}^T \mathbf{X})\)</span></p>
 <p>Esse vetor de estimativas irá nos fornecer os valores para os <span class="math inline">\(\beta_j\)</span>, com <span class="math inline">\(j=1,...,k\)</span>.</p>
 </section>
-<section id="estimativas-de-mqo" class="level3" data-number="10.8.2">
-<h3 data-number="10.8.2" class="anchored" data-anchor-id="estimativas-de-mqo"><span class="header-section-number">10.8.2</span> Estimativas de MQO</h3>
+<section id="estimativas-de-mqo" class="level3" data-number="13.8.2">
+<h3 data-number="13.8.2" class="anchored" data-anchor-id="estimativas-de-mqo"><span class="header-section-number">13.8.2</span> Estimativas de MQO</h3>
 <p>Vamos analisar o efeito da taxa de homicídio e da renda per capita sobre a taxa de feminicídio. Ou seja:</p>
 <p><span class="math display">\[Feminic_i = \beta_0 + \beta_1 Homic_{i} + \beta_{2} Rendapc_i  + u\]</span></p>
 <div class="cell">
@@ -1036,8 +1071,8 @@ F-statistic: 1.967 on 2 and 24 DF,  p-value: 0.1618</code></pre>
 <p>A leitura dos resultados é análoga ao que já fizemos anteriormente. O aumento de uma unidade na taxa de homicídio aumenta em 0,11 a taxa de feminicídio e é significante a 10%. Veja o p-valor de 0.059. Entretanto, não há evidências de que a renda pc tem efeito sobre a taxa de feminicídio.</p>
 <p>Assim, estados mais violentos tendem a ter mais feminicídios. Entretanto, estados mais pobres e mais ricos possuem taxas similares de feminicídio.</p>
 </section>
-<section id="qualidade-do-ajuste-na-regressão-linear-multipla" class="level3" data-number="10.8.3">
-<h3 data-number="10.8.3" class="anchored" data-anchor-id="qualidade-do-ajuste-na-regressão-linear-multipla"><span class="header-section-number">10.8.3</span> Qualidade do Ajuste na Regressão Linear Multipla</h3>
+<section id="qualidade-do-ajuste-na-regressão-linear-multipla" class="level3" data-number="13.8.3">
+<h3 data-number="13.8.3" class="anchored" data-anchor-id="qualidade-do-ajuste-na-regressão-linear-multipla"><span class="header-section-number">13.8.3</span> Qualidade do Ajuste na Regressão Linear Multipla</h3>
 <p>Um fato importante sobre <span class="math inline">\(R^2\)</span> é que ele nunca diminui ao incluirmos variáveis no modelo. Isso decorre de propriedades algébricas desse indicador. Em nosso exemplo:</p>
 <ul>
 <li><strong>Modelo somente com Homicídio</strong>: <span class="math inline">\(R^2=0,12\)</span></li>
@@ -1054,8 +1089,8 @@ F-statistic: 1.967 on 2 and 24 DF,  p-value: 0.1618</code></pre>
 <p>Podemos notar que a inclusão da renda pc contribui muito pouco para a explicação do modelo mas prejudicou as estimativas (menor grau de liberdade). Dessa forma observa-se que o <span class="math inline">\(R^2_{ajust}\)</span> ou <span class="math inline">\(\bar{R}^2\)</span> ficou menor.</p>
 <p>Não obstante, cabe destacar que um <span class="math inline">\(R^2\)</span> baixo não é uma evidencia definitiva contra nosso modelo. Em ciências sociais é comum verificarmos <span class="math inline">\(R^2\)</span> relatvamente pequenos. Isso significa que, embora coletivamente as variáveis explicativas não expliquem muito das variações de <span class="math inline">\(Y\)</span>, é possível que as estimativas de MQO sejam efeitos parciais confiáveis- tudo o mais constante - de cada <span class="math inline">\(X_j\)</span> sobre <span class="math inline">\(Y\)</span>.</p>
 </section>
-<section id="uso-de-variáveis-qualitativas-na-análise-de-rlm" class="level3" data-number="10.8.4">
-<h3 data-number="10.8.4" class="anchored" data-anchor-id="uso-de-variáveis-qualitativas-na-análise-de-rlm"><span class="header-section-number">10.8.4</span> Uso de Variáveis Qualitativas na Análise de RLM</h3>
+<section id="uso-de-variáveis-qualitativas-na-análise-de-rlm" class="level3" data-number="13.8.4">
+<h3 data-number="13.8.4" class="anchored" data-anchor-id="uso-de-variáveis-qualitativas-na-análise-de-rlm"><span class="header-section-number">13.8.4</span> Uso de Variáveis Qualitativas na Análise de RLM</h3>
 <p>O uso de variáveis binárias é a alternativa para utilizarmos variáveis qualitativas (discretas ou categóricas) no modelo de regressão. Dessa forma, variáveis que possuem categorias (homem/mulher; regiões, típo de homicídio). Considere os exemplos mencionados anteriormente.</p>
 <p><u><strong>Determinação de Fatores que Afetam o Valor de Indenizações:</strong></u></p>
 <ul>
@@ -1117,8 +1152,8 @@ F-statistic: 1.967 on 2 and 24 DF,  p-value: 0.1618</code></pre>
 </ul>
 <p>Utilizar 1 ou 0 é, de fato, um criterio arbitrário, mas essa escolha reside justamente na vantagem de se capturar informações importantes que tornam a interpretação dos resultados mais simples.</p>
 <p>As observações que receberam 1 como valor serão comparadas com aquelas observações que ficaram com o valor 0. Essas observações seriam nosso “grupo de comparação/grupo base”.</p>
-<section id="uma-única-variável-dummy-independente" class="level4" data-number="10.8.4.1">
-<h4 data-number="10.8.4.1" class="anchored" data-anchor-id="uma-única-variável-dummy-independente"><span class="header-section-number">10.8.4.1</span> Uma única Variável Dummy Independente</h4>
+<section id="uma-única-variável-dummy-independente" class="level4" data-number="13.8.4.1">
+<h4 data-number="13.8.4.1" class="anchored" data-anchor-id="uma-única-variável-dummy-independente"><span class="header-section-number">13.8.4.1</span> Uma única Variável Dummy Independente</h4>
 <p>A forma mais simples de incorporar uma variável qualitativa e simplismente adicionarmos a variável binária na equação de regressão.</p>
 <p>Considere o exemplo prático retirado do livro do Wooldridge. Queremos entender os determinantes dos salários. Obviamente, o exemplo é bastante simples, mas será útil para avaliarmos a questão.</p>
 <p><span class="math display">\[salario_h = \beta_0 + \delta_0 feminino + \beta_1 educ + \beta_3 exper + \beta_4perm + u \]</span> Nesse exemplo, estamos tentando entender os quais os fatores que afetam os salários dos indivíduos. O salário pode ser explicado pela educação, experência, tempo no cargo e pelo fato de ser mulher. A variável feminino assume o valor 1, se o individuo for do sexo feminino e 0, caso o contrário. Na equação <span class="math inline">\(\delta_0\)</span> mede a diferença no salário entre homems e mulheres, dado os mesmos anos de estudos, experiência e tempo no cargo, e evidentemente o mesmo <span class="math inline">\(u\)</span>.</p>
@@ -1210,8 +1245,8 @@ F-statistic: 62.04 on 5 and 520 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </section>
 </section>
-<section id="o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" class="level3" data-number="10.8.5">
-<h3 data-number="10.8.5" class="anchored" data-anchor-id="o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente"><span class="header-section-number">10.8.5</span> O uso de Dummies para categorias multiplas e Interação entre a dummy e a variável dependente</h3>
+<section id="o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente" class="level3" data-number="13.8.5">
+<h3 data-number="13.8.5" class="anchored" data-anchor-id="o-uso-de-dummies-para-categorias-multiplas-e-interação-entre-a-dummy-e-a-variável-dependente"><span class="header-section-number">13.8.5</span> O uso de Dummies para categorias multiplas e Interação entre a dummy e a variável dependente</h3>
 <p>Considere a equação abaixo considerando o mesmo banco de dados anterior:</p>
 <p><span class="math display">\[log(salarioh) = \beta_0 + \beta_1  hsolteiro  +  \beta_2 mcasadas  + \beta_3 msolteiras + \beta_4educ + \beta_5exper + \beta_6exper^2 + u\]</span> Agora vamos dividir entre homens e mulheres, casadas(os) solteiras(os). Note que definimos uma dummy para cada grupo e o grupo de comparação utilizaremos o grupo de homens casados.</p>
 <p>As estimativas das dummies acima irão captar para cada grupo a diferença proporcional nos salarios-horas relativamente aos homens casados.</p>
@@ -1286,8 +1321,8 @@ F-statistic: 61.86 on 7 and 518 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><span class="math display">\[\frac{\% \Delta y }{1}= 2,97 -0,118 \times 25 = 0,02\% \]</span> Adiciona praticamente zero. E a partir desse ponto a adição será negativa, mais experiência terá menor salário. Assim o ponto de mudança será:</p>
 <p><span class="math display">\[ 2,97 -0,118 \times exper = 0 \implies exper=\frac{2,97}{0,118}=25,16 \]</span> O salário vai aumentando até chegar a experiência de 25 anos, depois desse ponto o mercado tende a penalizar com salários menores quem tem mais experiência.</p>
 </section>
-<section id="incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." class="level3" data-number="10.8.6">
-<h3 data-number="10.8.6" class="anchored" data-anchor-id="incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy."><span class="header-section-number">10.8.6</span> Incorporando Informações Ordinais com o uso de Variáveis Dummy.</h3>
+<section id="incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy." class="level3" data-number="13.8.6">
+<h3 data-number="13.8.6" class="anchored" data-anchor-id="incorporando-informações-ordinais-com-o-uso-de-variáveis-dummy."><span class="header-section-number">13.8.6</span> Incorporando Informações Ordinais com o uso de Variáveis Dummy.</h3>
 <p>Vamos agora entender a criação de binárias para variáveis com várias categorias. Um exemplo clássico de variável com diversas categorias é a região onde mora o indivíduo. Podemos ver isso no nosso banco anterior chamado <code>dados</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dados<span class="sc">$</span>regiao)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1757,12 +1792,12 @@ F-statistic: 49.79 on 7 and 518 DF,  p-value: &lt; 2.2e-16</code></pre>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../cap/cap7_descritiva_v2.html" class="pagination-link" aria-label="Análise Descritiva">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../cap/cap9_outrosmodelos.html" class="pagination-link" aria-label="Modelos Avançados">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

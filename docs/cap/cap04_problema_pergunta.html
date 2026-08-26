@@ -548,17 +548,34 @@ div.csl-indent {
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">quadrantChart
-    title Interesse e viabilidade do problema
-    x-axis Baixa viabilidade --&gt; Alta viabilidade
-    y-axis Baixo interesse --&gt; Alto interesse
-    quadrant-1 Bons candidatos
-    quadrant-2 Interessantes, mas precisam ser ajustados
-    quadrant-3 Pouco promissores
-    quadrant-4 Viáveis, mas pouco motivadores
-    Problema A: [0.78, 0.82]
-    Problema B: [0.32, 0.76]
-    Problema C: [0.72, 0.28]
+<pre class="mermaid mermaid-js">flowchart TB
+    subgraph alto["ALTO INTERESSE"]
+        direction LR
+        A["Baixa viabilidade&lt;br/&gt;&lt;b&gt;Interessantes, mas precisam&lt;br/&gt;ser ajustados&lt;/b&gt;"]
+        B["Alta viabilidade&lt;br/&gt;&lt;b&gt;Bons candidatos&lt;/b&gt;"]
+        A ~~~ B
+    end
+
+    subgraph baixo["BAIXO INTERESSE"]
+        direction LR
+        C["Baixa viabilidade&lt;br/&gt;&lt;b&gt;Pouco promissores&lt;/b&gt;"]
+        D["Alta viabilidade&lt;br/&gt;&lt;b&gt;Viáveis, mas pouco&lt;br/&gt;motivadores&lt;/b&gt;"]
+        C ~~~ D
+    end
+
+    A ~~~ C
+    B ~~~ D
+
+    classDef ajustar fill:#FFF3CD,stroke:#8A6D1D,stroke-width:2px,color:#4A3A0A;
+    classDef candidato fill:#DCEBDC,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef fraco fill:#F2F2F2,stroke:#6C757D,stroke-width:2px,color:#343A40;
+    classDef motivar fill:#E8F1F8,stroke:#3C6478,stroke-width:2px,color:#203A46;
+    class A ajustar;
+    class B candidato;
+    class C fraco;
+    class D motivar;
+    style alto fill:#FAFCFA,stroke:#2F5D3A,stroke-width:1px;
+    style baixo fill:#FAFCFA,stroke:#6C757D,stroke-width:1px;
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -677,7 +694,7 @@ div.csl-indent {
     B --&gt; C["Verificar a viabilidade"]
     C --&gt; D["Reformular"]
     D --&gt; E["Validar a pergunta inicial"]
-    D -. "se necessário" .-&gt; B
+    D -.-&gt;|se necessário| B
 
     classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
     class A,B,C,D,E etapa;

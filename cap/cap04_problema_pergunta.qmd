@@ -94,19 +94,36 @@ O diagrama abaixo resume a relação entre os dois critérios centrais apresenta
 
 ```{mermaid}
 %%| fig-align: center
-%%| fig-alt: "Matriz que relaciona interesse e viabilidade na escolha de um problema de investigação"
+%%| fig-alt: "Matriz dois por dois que relaciona interesse e viabilidade na escolha de um problema de investigação"
 
-quadrantChart
-    title Interesse e viabilidade do problema
-    x-axis Baixa viabilidade --> Alta viabilidade
-    y-axis Baixo interesse --> Alto interesse
-    quadrant-1 Bons candidatos
-    quadrant-2 Interessantes, mas precisam ser ajustados
-    quadrant-3 Pouco promissores
-    quadrant-4 Viáveis, mas pouco motivadores
-    Problema A: [0.78, 0.82]
-    Problema B: [0.32, 0.76]
-    Problema C: [0.72, 0.28]
+flowchart TB
+    subgraph alto["ALTO INTERESSE"]
+        direction LR
+        A["Baixa viabilidade<br/><b>Interessantes, mas precisam<br/>ser ajustados</b>"]
+        B["Alta viabilidade<br/><b>Bons candidatos</b>"]
+        A ~~~ B
+    end
+
+    subgraph baixo["BAIXO INTERESSE"]
+        direction LR
+        C["Baixa viabilidade<br/><b>Pouco promissores</b>"]
+        D["Alta viabilidade<br/><b>Viáveis, mas pouco<br/>motivadores</b>"]
+        C ~~~ D
+    end
+
+    A ~~~ C
+    B ~~~ D
+
+    classDef ajustar fill:#FFF3CD,stroke:#8A6D1D,stroke-width:2px,color:#4A3A0A;
+    classDef candidato fill:#DCEBDC,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
+    classDef fraco fill:#F2F2F2,stroke:#6C757D,stroke-width:2px,color:#343A40;
+    classDef motivar fill:#E8F1F8,stroke:#3C6478,stroke-width:2px,color:#203A46;
+    class A ajustar;
+    class B candidato;
+    class C fraco;
+    class D motivar;
+    style alto fill:#FAFCFA,stroke:#2F5D3A,stroke-width:1px;
+    style baixo fill:#FAFCFA,stroke:#6C757D,stroke-width:1px;
 ```
 
 ### Interesse
@@ -236,7 +253,7 @@ flowchart LR
     B --> C["Verificar a viabilidade"]
     C --> D["Reformular"]
     D --> E["Validar a pergunta inicial"]
-    D -. "se necessário" .-> B
+    D -.->|se necessário| B
 
     classDef etapa fill:#E4F1E6,stroke:#2F5D3A,stroke-width:2px,color:#183A22;
     class A,B,C,D,E etapa;

@@ -1,0 +1,451 @@
+---
+title: "Data frames e importação"
+subtitle: "Da miniatura didática à base wage1 completa"
+author:
+  - Alexandre Nicolella
+date: "09/01/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+No capítulo anterior, construímos manualmente um pequeno banco com 12 trabalhadores. Criamos cada vetor separadamente e os reunimos no objeto `salarios_12`. Esse procedimento tornou visível a relação entre posições, linhas, colunas e variáveis.
+
+Na prática, porém, raramente digitaremos uma base inteira. Os dados chegarão por meio de um pacote, de um arquivo ou de uma fonte externa. Neste capítulo, passaremos da miniatura para as 526 observações da base `wage1` e aprenderemos diferentes formas de colocar esses dados dentro do R.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- interpretar linhas e colunas de um *data frame*;
+- distinguir unidade de observação, variável e valor;
+- carregar uma base disponibilizada por um pacote do R;
+- examinar dimensões, nomes, classes e primeiras linhas;
+- selecionar um núcleo de variáveis para iniciar uma análise;
+- importar arquivos CSV, Excel e RDS utilizando caminhos relativos;
+- reconhecer o papel de cabeçalhos, separadores, decimais e codificação;
+- consultar um dicionário de variáveis;
+- verificar se diferentes formas de importação reproduzem os mesmos dados.
+:::
+
+## Retomando nossa pergunta
+
+Continuaremos orientados pela pergunta:
+
+> Como os salários diferem entre homens e mulheres, e que outras características devem ser consideradas nessa comparação?
+
+As 12 observações do capítulo anterior ajudaram a compreender os objetos do R, mas não oferecem evidência suficiente para responder à pergunta. Agora utilizaremos a base `wage1` completa, formada por trabalhadores da *Current Population Survey* dos Estados Unidos em 1976 [@wooldridge2020].
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Fluxo que parte da miniatura de 12 trabalhadores, passa pela base completa e chega às diferentes formas de importação"
+
+flowchart LR
+    A["12 observações<br/>digitadas manualmente"] --> B["526 observações<br/>da wage1"]
+    B --> C["Pacote<br/>wooldridge"]
+    B --> D["Arquivo<br/>CSV"]
+    B --> E["Arquivo<br/>Excel"]
+    B --> F["Arquivo<br/>RDS"]
+    C --> G["data frame<br/>no R"]
+    D --> G
+    E --> G
+    F --> G
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+## O que é um data frame?
+
+Um *data frame* organiza informações em uma estrutura retangular. Ele se parece com uma planilha, mas existe como um objeto dentro do R.
+
+- cada **linha** corresponde a uma unidade de observação;
+- cada **coluna** corresponde a uma variável;
+- cada **célula** contém o valor de uma variável para uma observação.
+
+Na `wage1`, nossa unidade de observação é o **trabalhador**. Salário, sexo, educação, experiência e tempo no emprego atual são características observadas para cada trabalhador.
+
+| Elemento | Na base `wage1` |
+|---|---|
+| Unidade de observação | trabalhador |
+| Linha | um trabalhador |
+| Coluna | uma característica do trabalhador |
+| Valor | a informação registrada naquela linha e coluna |
+
+::: {.callout-important title="A unidade de observação orienta a leitura da base"}
+Antes de executar qualquer comando, complete a frase: **cada linha representa...**
+
+Se não conseguimos responder, ainda não compreendemos suficientemente a estrutura dos dados. Em outras bases, uma linha poderá representar um domicílio, uma empresa, um município, um ativo financeiro ou um período.
+:::
+
+## Carregando uma base de um pacote
+
+Um pacote reúne funções, documentação e, em alguns casos, bases de dados. O pacote `wooldridge` disponibiliza bases utilizadas no livro *Introductory Econometrics: A Modern Approach*.
+
+A instalação é necessária apenas uma vez em cada computador. Por isso, o comando abaixo aparece para consulta, mas não é executado durante a renderização da apostila.
+
+```{r}
+#| eval: false
+install.packages("wooldridge")
+```
+
+Depois de instalado o pacote, a função `data()` carrega a base no ambiente. O argumento `package` informa onde o R deverá procurá-la.
+
+```{r}
+data("wage1", package = "wooldridge")
+```
+
+Vamos confirmar que o objeto foi criado e descobrir sua classe:
+
+```{r}
+class(wage1)
+```
+
+## Primeira inspeção da base
+
+Não devemos começar uma análise supondo que a base possui a estrutura esperada. A primeira tarefa é inspecioná-la.
+
+### Dimensões
+
+A função `dim()` informa o número de linhas e colunas:
+
+```{r}
+dim(wage1)
+```
+
+Também podemos consultar cada dimensão separadamente:
+
+```{r}
+nrow(wage1)
+ncol(wage1)
+```
+
+O resultado confirma 526 trabalhadores e 24 variáveis.
+
+### Nomes das variáveis
+
+```{r}
+names(wage1)
+```
+
+Os nomes são curtos porque serão utilizados repetidamente no código. Eles só se tornam compreensíveis quando acompanhados pela documentação.
+
+### Primeiras e últimas linhas
+
+```{r}
+head(wage1)
+```
+
+Por padrão, `head()` apresenta as seis primeiras linhas. Podemos solicitar outra quantidade utilizando o argumento `n`:
+
+```{r}
+head(wage1, n = 3)
+tail(wage1, n = 3)
+```
+
+### Estrutura e resumo
+
+```{r}
+str(wage1)
+```
+
+`str()` combina várias informações: classe do objeto, dimensões, nomes, tipos e alguns valores de cada variável.
+
+```{r}
+summary(wage1[c("wage", "female", "educ", "exper", "tenure")])
+```
+
+`summary()` produz um resumo adequado ao tipo de cada variável. Ainda não interpretaremos essas medidas como resultado econômico; nosso objetivo, por enquanto, é conhecer a base.
+
+::: {.callout-tip title="Uma rotina inicial de inspeção"}
+Ao receber uma nova base, comece por:
+
+```r
+class(dados)
+dim(dados)
+names(dados)
+head(dados)
+str(dados)
+```
+
+Essa rotina simples evita muitos erros de interpretação e de programação.
+:::
+
+## Construindo o núcleo da análise
+
+A base possui 24 variáveis, mas não precisamos utilizar todas imediatamente. Começaremos com aquelas que já apareceram na miniatura didática.
+
+```{r}
+wage1_core <- data.frame(
+  id = seq_len(nrow(wage1)),
+  wage = wage1$wage,
+  female = wage1$female,
+  educ = wage1$educ,
+  exper = wage1$exper,
+  tenure = wage1$tenure
+)
+```
+
+Agora inspecionamos o novo objeto:
+
+```{r}
+dim(wage1_core)
+names(wage1_core)
+head(wage1_core)
+```
+
+Mantivemos todas as 526 observações e reduzimos a base para seis colunas. A variável `id` registra a posição de cada trabalhador na base original.
+
+::: {.callout-warning title="Selecionar variáveis não significa descartar definitivamente"}
+`wage1_core` é um novo objeto. A base `wage1` continua disponível com suas 24 variáveis. Trabalhar com uma cópia reduzida facilita a aprendizagem sem destruir a fonte original.
+:::
+
+### Localizando as observações do capítulo anterior
+
+As 12 observações digitadas manualmente vieram das linhas indicadas abaixo:
+
+```{r}
+ids_miniatura <- c(3, 4, 5, 6, 7, 10, 1, 2, 8, 9, 11, 12)
+wage1_core[ids_miniatura, ]
+```
+
+Agora conseguimos enxergar a relação entre a miniatura e a base completa: os valores são os mesmos, mas a seleção das linhas foi organizada para apresentar primeiro seis homens e depois seis mulheres.
+
+## Caminhos relativos antes da importação
+
+Os arquivos deste capítulo estão na pasta `dados/` do projeto. Como o arquivo `.qmd` está dentro da pasta `cap/`, precisamos subir um nível com `..` e depois entrar em `dados/`:
+
+```text
+IntroducaoR/
+├── cap/
+│   └── cap11_dataframes_importacao.qmd
+└── dados/
+    ├── wage1_core.csv
+    ├── wage1_core.xlsx
+    └── wage1_core.rds
+```
+
+Assim, o caminho relativo utilizado pelo capítulo será:
+
+```text
+../dados/nome_do_arquivo
+```
+
+::: {.callout-warning title="Não use setwd() para corrigir caminhos"}
+Comandos como `setwd("C:/Users/.../Downloads")` fazem o código depender de um computador específico. O projeto e os caminhos relativos permitem que a mesma rotina funcione depois de clonada ou transferida para outra máquina.
+:::
+
+## Importando um arquivo CSV
+
+CSV é um formato de texto em que as colunas são separadas por um caractere. Como pode ser aberto por diferentes programas, é uma opção comum para compartilhar dados tabulares.
+
+Nosso arquivo utiliza vírgula como separador de colunas, ponto como marcador decimal e possui nomes na primeira linha. A função `read.csv()` já adota essas definições como padrão.
+
+```{r}
+wage1_csv <- read.csv(
+  "../dados/wage1_core.csv",
+  header = TRUE,
+  fileEncoding = "UTF-8"
+)
+```
+
+Verificamos imediatamente o resultado:
+
+```{r}
+class(wage1_csv)
+dim(wage1_csv)
+head(wage1_csv)
+```
+
+### Separador de colunas e marcador decimal
+
+Arquivos CSV não são todos iguais. Duas configurações são frequentes:
+
+| Configuração | Separador de colunas | Decimal | Função usual |
+|---|:---:|:---:|---|
+| padrão internacional | vírgula `,` | ponto `.` | `read.csv()` |
+| padrão comum no Brasil | ponto e vírgula `;` | vírgula `,` | `read.csv2()` |
+
+Também podemos informar explicitamente os argumentos:
+
+```{r}
+#| eval: false
+dados <- read.table(
+  "../dados/arquivo.csv",
+  header = TRUE,
+  sep = ";",
+  dec = ",",
+  fileEncoding = "UTF-8"
+)
+```
+
+Esse exemplo não é executado porque `arquivo.csv` representa um arquivo genérico. O código fica visível para ser adaptado quando encontrarmos essa configuração.
+
+::: {.callout-warning title="Observe o arquivo, não apenas sua extensão"}
+Se o separador ou o marcador decimal forem informados incorretamente, todas as colunas poderão aparecer juntas ou números poderão ser importados como texto. Abra o arquivo em um editor de texto e examine as primeiras linhas quando houver dúvida.
+:::
+
+## Importando um arquivo Excel
+
+Arquivos Excel podem conter várias planilhas. Para lê-los, utilizaremos o pacote `readxl`.
+
+Sua instalação também é necessária apenas uma vez:
+
+```{r}
+#| eval: false
+install.packages("readxl")
+```
+
+Podemos verificar os nomes das planilhas antes de escolher uma:
+
+```{r}
+readxl::excel_sheets("../dados/wage1_core.xlsx")
+```
+
+O operador `::` solicita uma função de um pacote sem carregar todas as suas funções no ambiente.
+
+Agora importamos a planilha `wage1_core`:
+
+```{r}
+wage1_excel <- readxl::read_excel(
+  "../dados/wage1_core.xlsx",
+  sheet = "wage1_core"
+)
+```
+
+```{r}
+class(wage1_excel)
+dim(wage1_excel)
+head(wage1_excel)
+```
+
+O `readxl` retorna uma **tibble**, uma versão moderna de *data frame*. Ela pode ser utilizada nas operações que aprenderemos com o `dplyr`.
+
+### Lendo o dicionário
+
+O arquivo Excel também possui uma planilha chamada `dicionario`:
+
+```{r}
+dicionario_wage1 <- readxl::read_excel(
+  "../dados/wage1_core.xlsx",
+  sheet = "dicionario"
+)
+
+dicionario_wage1
+```
+
+O dicionário explica o significado, a unidade e a codificação das variáveis. Por exemplo, `female = 1` indica mulher e `female = 0` indica homem.
+
+::: {.callout-important title="O nome da variável não substitui o dicionário"}
+Um nome como `exper` sugere experiência, mas não revela que a base utiliza **experiência potencial**. Antes de interpretar uma variável, consulte sua definição e registre a fonte.
+:::
+
+## Importando um arquivo RDS
+
+RDS é um formato próprio do R. Ele preserva a estrutura e as classes do objeto sem depender de separadores ou da interpretação de uma planilha.
+
+```{r}
+wage1_rds <- readRDS("../dados/wage1_core.rds")
+```
+
+```{r}
+class(wage1_rds)
+dim(wage1_rds)
+head(wage1_rds)
+```
+
+CSV e Excel favorecem a troca com outros programas. RDS é especialmente útil quando salvamos um objeto que será utilizado novamente no R.
+
+| Formato | Vantagem principal | Atenção principal |
+|---|---|---|
+| CSV | aberto e fácil de compartilhar | separador, decimal, codificação e classes |
+| Excel | familiar e permite várias planilhas | tipos podem ser inferidos incorretamente |
+| RDS | preserva o objeto do R | não é destinado à edição em planilhas |
+
+## Conferindo as importações
+
+Importar sem erro não garante que os dados chegaram corretamente. Devemos comparar dimensões, nomes e conteúdo.
+
+```{r}
+dim(wage1_csv)
+dim(wage1_excel)
+dim(wage1_rds)
+```
+
+```{r}
+identical(names(wage1_core), names(wage1_csv))
+identical(names(wage1_core), names(wage1_excel))
+identical(names(wage1_core), names(wage1_rds))
+```
+
+Como o Excel foi importado como tibble e alguns programas podem representar números internamente com pequenas diferenças de precisão, utilizaremos `all.equal()` para comparar os valores:
+
+```{r}
+isTRUE(all.equal(
+  wage1_core,
+  wage1_csv,
+  check.attributes = FALSE
+))
+
+isTRUE(all.equal(
+  wage1_core,
+  as.data.frame(wage1_excel),
+  check.attributes = FALSE
+))
+
+isTRUE(all.equal(
+  wage1_core,
+  wage1_rds,
+  check.attributes = FALSE
+))
+```
+
+Os resultados `TRUE` confirmam que as três importações reproduziram o núcleo construído a partir da base do pacote.
+
+## Salvando um objeto para uso posterior
+
+As funções de escrita fazem o caminho inverso: levam um objeto do R para um arquivo.
+
+```{r}
+#| eval: false
+write.csv(
+  wage1_core,
+  "../dados/wage1_core.csv",
+  row.names = FALSE
+)
+
+saveRDS(
+  wage1_core,
+  "../dados/wage1_core.rds"
+)
+```
+
+Esses comandos não são executados durante a renderização para evitar sobrescrever os arquivos fornecidos com a apostila. Ao utilizá-los em seu projeto, escolha nomes que indiquem claramente o conteúdo produzido.
+
+::: {.callout-tip title="Um objeto por arquivo RDS"}
+`saveRDS()` salva um objeto, e `readRDS()` permite escolher o nome que ele receberá ao ser importado. O formato `.RData`, por sua vez, pode reunir vários objetos e restaurar seus nomes diretamente no ambiente. Para trabalhos reproduzíveis, a relação explícita entre um arquivo e um objeto torna o RDS mais fácil de controlar.
+:::
+
+## O que aprendemos com cada material
+
+A sequência deste capítulo mantém a progressão do material original da disciplina: compreender o banco, ler arquivos e prestar atenção ao cabeçalho, ao separador e ao decimal. Do material complementar, incorporamos a comparação entre formas de leitura e o cuidado com arquivos que chegam em configurações diferentes.
+
+Ao mesmo tempo, substituímos caminhos absolutos e mudanças manuais de diretório por caminhos relativos ao projeto. Também mantivemos um único exemplo econômico do início ao fim, em vez de trocar de base a cada novo formato.
+
+## Pratique
+
+1. Use `nrow()` e `ncol()` para registrar as dimensões da base `wage1` completa e de `wage1_core`.
+2. Consulte `names(wage1)` e identifique duas variáveis que poderiam ser adicionadas posteriormente à análise.
+3. Importe novamente o CSV com o nome `salarios_csv` e confirme suas dimensões.
+4. Leia apenas a planilha `dicionario` do arquivo Excel e explique a codificação de `female`.
+5. Utilize `str()` para comparar `wage1_csv`, `wage1_excel` e `wage1_rds`.
+6. Explique por que `setwd()` não é necessário nos códigos deste capítulo.
+
+::: {.callout-note title="Para guardar"}
+Uma importação só está concluída depois que verificamos a unidade de observação, as dimensões, os nomes, os tipos e alguns valores. Ler o arquivo é apenas o primeiro passo; compreender o objeto criado é parte da análise.
+:::
+
+No próximo capítulo, investigaremos valores ausentes, duplicatas, valores inválidos e incoerências entre variáveis. A pergunta deixará de ser apenas “conseguimos abrir a base?” e passará a ser “podemos confiar na forma como ela está representada?”.

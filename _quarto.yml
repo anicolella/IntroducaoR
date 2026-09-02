@@ -47,6 +47,7 @@ book:
         - cap/cap08_ambiente_r.qmd
         - cap/cap09_projetos_reprodutiveis.qmd
         - cap/cap10_objetos_operacoes.qmd
+        - cap/cap11_dataframes_importacao.qmd
 
     - part: "Manipulando os Dados"
       chapters:

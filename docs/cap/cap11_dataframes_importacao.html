@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="dcterms.date" content="2026-09-01">
+
+<title>11&nbsp; Data frames e importação – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap3_int_R.html" rel="next">
+<link href="../cap/cap10_objetos_operacoes.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html">Ambiente e fundamentos de R</a></li><li class="breadcrumb-item"><a href="../cap/cap11_dataframes_importacao.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data frames e importação</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Do problema econômico à investigação com dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap05_pergunta_dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap06_evidencia_conclusao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Da evidência à conclusão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap07_planejamento_investigacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Ambiente e fundamentos de R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap08_ambiente_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap09_projetos_reprodutiveis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Projetos e organização reproduzível</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap10_objetos_operacoes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Objetos e operações fundamentais</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap11_dataframes_importacao.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data frames e importação</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Manipulando os Dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap3_int_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Motivando e Relembrando</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Gerando Informação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tópicos Extras</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#retomando-nossa-pergunta" id="toc-retomando-nossa-pergunta" class="nav-link active" data-scroll-target="#retomando-nossa-pergunta"><span class="header-section-number">11.1</span> Retomando nossa pergunta</a></li>
+  <li><a href="#o-que-é-um-data-frame" id="toc-o-que-é-um-data-frame" class="nav-link" data-scroll-target="#o-que-é-um-data-frame"><span class="header-section-number">11.2</span> O que é um data frame?</a></li>
+  <li><a href="#carregando-uma-base-de-um-pacote" id="toc-carregando-uma-base-de-um-pacote" class="nav-link" data-scroll-target="#carregando-uma-base-de-um-pacote"><span class="header-section-number">11.3</span> Carregando uma base de um pacote</a></li>
+  <li><a href="#primeira-inspeção-da-base" id="toc-primeira-inspeção-da-base" class="nav-link" data-scroll-target="#primeira-inspeção-da-base"><span class="header-section-number">11.4</span> Primeira inspeção da base</a>
+  <ul class="collapse">
+  <li><a href="#dimensões" id="toc-dimensões" class="nav-link" data-scroll-target="#dimensões"><span class="header-section-number">11.4.1</span> Dimensões</a></li>
+  <li><a href="#nomes-das-variáveis" id="toc-nomes-das-variáveis" class="nav-link" data-scroll-target="#nomes-das-variáveis"><span class="header-section-number">11.4.2</span> Nomes das variáveis</a></li>
+  <li><a href="#primeiras-e-últimas-linhas" id="toc-primeiras-e-últimas-linhas" class="nav-link" data-scroll-target="#primeiras-e-últimas-linhas"><span class="header-section-number">11.4.3</span> Primeiras e últimas linhas</a></li>
+  <li><a href="#estrutura-e-resumo" id="toc-estrutura-e-resumo" class="nav-link" data-scroll-target="#estrutura-e-resumo"><span class="header-section-number">11.4.4</span> Estrutura e resumo</a></li>
+  </ul></li>
+  <li><a href="#construindo-o-núcleo-da-análise" id="toc-construindo-o-núcleo-da-análise" class="nav-link" data-scroll-target="#construindo-o-núcleo-da-análise"><span class="header-section-number">11.5</span> Construindo o núcleo da análise</a>
+  <ul class="collapse">
+  <li><a href="#localizando-as-observações-do-capítulo-anterior" id="toc-localizando-as-observações-do-capítulo-anterior" class="nav-link" data-scroll-target="#localizando-as-observações-do-capítulo-anterior"><span class="header-section-number">11.5.1</span> Localizando as observações do capítulo anterior</a></li>
+  </ul></li>
+  <li><a href="#caminhos-relativos-antes-da-importação" id="toc-caminhos-relativos-antes-da-importação" class="nav-link" data-scroll-target="#caminhos-relativos-antes-da-importação"><span class="header-section-number">11.6</span> Caminhos relativos antes da importação</a></li>
+  <li><a href="#importando-um-arquivo-csv" id="toc-importando-um-arquivo-csv" class="nav-link" data-scroll-target="#importando-um-arquivo-csv"><span class="header-section-number">11.7</span> Importando um arquivo CSV</a>
+  <ul class="collapse">
+  <li><a href="#separador-de-colunas-e-marcador-decimal" id="toc-separador-de-colunas-e-marcador-decimal" class="nav-link" data-scroll-target="#separador-de-colunas-e-marcador-decimal"><span class="header-section-number">11.7.1</span> Separador de colunas e marcador decimal</a></li>
+  </ul></li>
+  <li><a href="#importando-um-arquivo-excel" id="toc-importando-um-arquivo-excel" class="nav-link" data-scroll-target="#importando-um-arquivo-excel"><span class="header-section-number">11.8</span> Importando um arquivo Excel</a>
+  <ul class="collapse">
+  <li><a href="#lendo-o-dicionário" id="toc-lendo-o-dicionário" class="nav-link" data-scroll-target="#lendo-o-dicionário"><span class="header-section-number">11.8.1</span> Lendo o dicionário</a></li>
+  </ul></li>
+  <li><a href="#importando-um-arquivo-rds" id="toc-importando-um-arquivo-rds" class="nav-link" data-scroll-target="#importando-um-arquivo-rds"><span class="header-section-number">11.9</span> Importando um arquivo RDS</a></li>
+  <li><a href="#conferindo-as-importações" id="toc-conferindo-as-importações" class="nav-link" data-scroll-target="#conferindo-as-importações"><span class="header-section-number">11.10</span> Conferindo as importações</a></li>
+  <li><a href="#salvando-um-objeto-para-uso-posterior" id="toc-salvando-um-objeto-para-uso-posterior" class="nav-link" data-scroll-target="#salvando-um-objeto-para-uso-posterior"><span class="header-section-number">11.11</span> Salvando um objeto para uso posterior</a></li>
+  <li><a href="#o-que-aprendemos-com-cada-material" id="toc-o-que-aprendemos-com-cada-material" class="nav-link" data-scroll-target="#o-que-aprendemos-com-cada-material"><span class="header-section-number">11.12</span> O que aprendemos com cada material</a></li>
+  <li><a href="#pratique" id="toc-pratique" class="nav-link" data-scroll-target="#pratique"><span class="header-section-number">11.13</span> Pratique</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html">Ambiente e fundamentos de R</a></li><li class="breadcrumb-item"><a href="../cap/cap11_dataframes_importacao.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data frames e importação</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data frames e importação</span></h1>
+<p class="subtitle lead">Da miniatura didática à base wage1 completa</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 1, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>No capítulo anterior, construímos manualmente um pequeno banco com 12 trabalhadores. Criamos cada vetor separadamente e os reunimos no objeto <code>salarios_12</code>. Esse procedimento tornou visível a relação entre posições, linhas, colunas e variáveis.</p>
+<p>Na prática, porém, raramente digitaremos uma base inteira. Os dados chegarão por meio de um pacote, de um arquivo ou de uma fonte externa. Neste capítulo, passaremos da miniatura para as 526 observações da base <code>wage1</code> e aprenderemos diferentes formas de colocar esses dados dentro do R.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, você deverá ser capaz de:</p>
+<ul>
+<li>interpretar linhas e colunas de um <em>data frame</em>;</li>
+<li>distinguir unidade de observação, variável e valor;</li>
+<li>carregar uma base disponibilizada por um pacote do R;</li>
+<li>examinar dimensões, nomes, classes e primeiras linhas;</li>
+<li>selecionar um núcleo de variáveis para iniciar uma análise;</li>
+<li>importar arquivos CSV, Excel e RDS utilizando caminhos relativos;</li>
+<li>reconhecer o papel de cabeçalhos, separadores, decimais e codificação;</li>
+<li>consultar um dicionário de variáveis;</li>
+<li>verificar se diferentes formas de importação reproduzem os mesmos dados.</li>
+</ul>
+</div>
+</div>
+<section id="retomando-nossa-pergunta" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="retomando-nossa-pergunta"><span class="header-section-number">11.1</span> Retomando nossa pergunta</h2>
+<p>Continuaremos orientados pela pergunta:</p>
+<blockquote class="blockquote">
+<p>Como os salários diferem entre homens e mulheres, e que outras características devem ser consideradas nessa comparação?</p>
+</blockquote>
+<p>As 12 observações do capítulo anterior ajudaram a compreender os objetos do R, mas não oferecem evidência suficiente para responder à pergunta. Agora utilizaremos a base <code>wage1</code> completa, formada por trabalhadores da <em>Current Population Survey</em> dos Estados Unidos em 1976 <span class="citation" data-cites="wooldridge2020">(<a href="#ref-wooldridge2020" role="doc-biblioref">Wooldridge 2020</a>)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>flowchart LR</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    A["12 observações&lt;br/&gt;digitadas manualmente"] --&gt; B["526 observações&lt;br/&gt;da wage1"]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    B --&gt; C["Pacote&lt;br/&gt;wooldridge"]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    B --&gt; D["Arquivo&lt;br/&gt;CSV"]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    B --&gt; E["Arquivo&lt;br/&gt;Excel"]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    B --&gt; F["Arquivo&lt;br/&gt;RDS"]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    C --&gt; G["data frame&lt;br/&gt;no R"]</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    D --&gt; G</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    E --&gt; G</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    F --&gt; G</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    class A,B,C,D,E,F,G etapa;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    linkStyle default stroke:#355E3B,stroke-width:1.5px;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["12 observações&lt;br/&gt;digitadas manualmente"] --&gt; B["526 observações&lt;br/&gt;da wage1"]
+    B --&gt; C["Pacote&lt;br/&gt;wooldridge"]
+    B --&gt; D["Arquivo&lt;br/&gt;CSV"]
+    B --&gt; E["Arquivo&lt;br/&gt;Excel"]
+    B --&gt; F["Arquivo&lt;br/&gt;RDS"]
+    C --&gt; G["data frame&lt;br/&gt;no R"]
+    D --&gt; G
+    E --&gt; G
+    F --&gt; G
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="o-que-é-um-data-frame" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="o-que-é-um-data-frame"><span class="header-section-number">11.2</span> O que é um data frame?</h2>
+<p>Um <em>data frame</em> organiza informações em uma estrutura retangular. Ele se parece com uma planilha, mas existe como um objeto dentro do R.</p>
+<ul>
+<li>cada <strong>linha</strong> corresponde a uma unidade de observação;</li>
+<li>cada <strong>coluna</strong> corresponde a uma variável;</li>
+<li>cada <strong>célula</strong> contém o valor de uma variável para uma observação.</li>
+</ul>
+<p>Na <code>wage1</code>, nossa unidade de observação é o <strong>trabalhador</strong>. Salário, sexo, educação, experiência e tempo no emprego atual são características observadas para cada trabalhador.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th>Na base <code>wage1</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Unidade de observação</td>
+<td>trabalhador</td>
+</tr>
+<tr class="even">
+<td>Linha</td>
+<td>um trabalhador</td>
+</tr>
+<tr class="odd">
+<td>Coluna</td>
+<td>uma característica do trabalhador</td>
+</tr>
+<tr class="even">
+<td>Valor</td>
+<td>a informação registrada naquela linha e coluna</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-important callout-titled" title="A unidade de observação orienta a leitura da base">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>A unidade de observação orienta a leitura da base
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Antes de executar qualquer comando, complete a frase: <strong>cada linha representa…</strong></p>
+<p>Se não conseguimos responder, ainda não compreendemos suficientemente a estrutura dos dados. Em outras bases, uma linha poderá representar um domicílio, uma empresa, um município, um ativo financeiro ou um período.</p>
+</div>
+</div>
+</section>
+<section id="carregando-uma-base-de-um-pacote" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="carregando-uma-base-de-um-pacote"><span class="header-section-number">11.3</span> Carregando uma base de um pacote</h2>
+<p>Um pacote reúne funções, documentação e, em alguns casos, bases de dados. O pacote <code>wooldridge</code> disponibiliza bases utilizadas no livro <em>Introductory Econometrics: A Modern Approach</em>.</p>
+<p>A instalação é necessária apenas uma vez em cada computador. Por isso, o comando abaixo aparece para consulta, mas não é executado durante a renderização da apostila.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"wooldridge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Depois de instalado o pacote, a função <code>data()</code> carrega a base no ambiente. O argumento <code>package</code> informa onde o R deverá procurá-la.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"wage1"</span>, <span class="at">package =</span> <span class="st">"wooldridge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Vamos confirmar que o objeto foi criado e descobrir sua classe:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wage1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+</div>
+</section>
+<section id="primeira-inspeção-da-base" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="primeira-inspeção-da-base"><span class="header-section-number">11.4</span> Primeira inspeção da base</h2>
+<p>Não devemos começar uma análise supondo que a base possui a estrutura esperada. A primeira tarefa é inspecioná-la.</p>
+<section id="dimensões" class="level3" data-number="11.4.1">
+<h3 data-number="11.4.1" class="anchored" data-anchor-id="dimensões"><span class="header-section-number">11.4.1</span> Dimensões</h3>
+<p>A função <code>dim()</code> informa o número de linhas e colunas:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526  24</code></pre>
+</div>
+</div>
+<p>Também podemos consultar cada dimensão separadamente:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(wage1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(wage1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+</div>
+<p>O resultado confirma 526 trabalhadores e 24 variáveis.</p>
+</section>
+<section id="nomes-das-variáveis" class="level3" data-number="11.4.2">
+<h3 data-number="11.4.2" class="anchored" data-anchor-id="nomes-das-variáveis"><span class="header-section-number">11.4.2</span> Nomes das variáveis</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(wage1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "wage"     "educ"     "exper"    "tenure"   "nonwhite" "female"  
+ [7] "married"  "numdep"   "smsa"     "northcen" "south"    "west"    
+[13] "construc" "ndurman"  "trcommpu" "trade"    "services" "profserv"
+[19] "profocc"  "clerocc"  "servocc"  "lwage"    "expersq"  "tenursq" </code></pre>
+</div>
+</div>
+<p>Os nomes são curtos porque serão utilizados repetidamente no código. Eles só se tornam compreensíveis quando acompanhados pela documentação.</p>
+</section>
+<section id="primeiras-e-últimas-linhas" class="level3" data-number="11.4.3">
+<h3 data-number="11.4.3" class="anchored" data-anchor-id="primeiras-e-últimas-linhas"><span class="header-section-number">11.4.3</span> Primeiras e últimas linhas</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wage1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  wage educ exper tenure nonwhite female married numdep smsa northcen south
+1 3.10   11     2      0        0      1       0      2    1        0     0
+2 3.24   12    22      2        0      1       1      3    1        0     0
+3 3.00   11     2      0        0      0       0      2    0        0     0
+4 6.00    8    44     28        0      0       1      0    1        0     0
+5 5.30   12     7      2        0      0       1      1    0        0     0
+6 8.75   16     9      8        0      0       1      0    1        0     0
+  west construc ndurman trcommpu trade services profserv profocc clerocc
+1    1        0       0        0     0        0        0       0       0
+2    1        0       0        0     0        1        0       0       0
+3    1        0       0        0     1        0        0       0       0
+4    1        0       0        0     0        0        0       0       1
+5    1        0       0        0     0        0        0       0       0
+6    1        0       0        0     0        0        1       1       0
+  servocc    lwage expersq tenursq
+1       0 1.131402       4       0
+2       1 1.175573     484       4
+3       0 1.098612       4       0
+4       0 1.791759    1936     784
+5       0 1.667707      49       4
+6       0 2.169054      81      64</code></pre>
+</div>
+</div>
+<p>Por padrão, <code>head()</code> apresenta as seis primeiras linhas. Podemos solicitar outra quantidade utilizando o argumento <code>n</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wage1, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  wage educ exper tenure nonwhite female married numdep smsa northcen south
+1 3.10   11     2      0        0      1       0      2    1        0     0
+2 3.24   12    22      2        0      1       1      3    1        0     0
+3 3.00   11     2      0        0      0       0      2    0        0     0
+  west construc ndurman trcommpu trade services profserv profocc clerocc
+1    1        0       0        0     0        0        0       0       0
+2    1        0       0        0     0        1        0       0       0
+3    1        0       0        0     1        0        0       0       0
+  servocc    lwage expersq tenursq
+1       0 1.131402       4       0
+2       1 1.175573     484       4
+3       0 1.098612       4       0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(wage1, <span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     wage educ exper tenure nonwhite female married numdep smsa northcen south
+524  4.67   15    13     18        0      0       1      3    0        0     0
+525 11.56   16     5      1        0      0       1      0    0        0     0
+526  3.50   14     5      4        1      1       0      2    0        0     0
+    west construc ndurman trcommpu trade services profserv profocc clerocc
+524    1        1       0        0     0        0        0       1       0
+525    1        0       1        0     0        0        0       0       0
+526    1        0       0        0     0        0        1       0       1
+    servocc    lwage expersq tenursq
+524       0 1.541159     169     324
+525       0 2.447551      25       1
+526       0 1.252763      25      16</code></pre>
+</div>
+</div>
+</section>
+<section id="estrutura-e-resumo" class="level3" data-number="11.4.4">
+<h3 data-number="11.4.4" class="anchored" data-anchor-id="estrutura-e-resumo"><span class="header-section-number">11.4.4</span> Estrutura e resumo</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(wage1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   526 obs. of  24 variables:
+ $ wage    : num  3.1 3.24 3 6 5.3 ...
+ $ educ    : int  11 12 11 8 12 16 18 12 12 17 ...
+ $ exper   : int  2 22 2 44 7 9 15 5 26 22 ...
+ $ tenure  : int  0 2 0 28 2 8 7 3 4 21 ...
+ $ nonwhite: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ female  : int  1 1 0 0 0 0 0 1 1 0 ...
+ $ married : int  0 1 0 1 1 1 0 0 0 1 ...
+ $ numdep  : int  2 3 2 0 1 0 0 0 2 0 ...
+ $ smsa    : int  1 1 0 1 0 1 1 1 1 1 ...
+ $ northcen: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ south   : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ west    : int  1 1 1 1 1 1 1 1 1 1 ...
+ $ construc: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ ndurman : int  0 0 0 0 0 0 0 0 0 0 ...
+ $ trcommpu: int  0 0 0 0 0 0 0 0 0 0 ...
+ $ trade   : int  0 0 1 0 0 0 1 0 1 0 ...
+ $ services: int  0 1 0 0 0 0 0 0 0 0 ...
+ $ profserv: int  0 0 0 0 0 1 0 0 0 0 ...
+ $ profocc : int  0 0 0 0 0 1 1 1 1 1 ...
+ $ clerocc : int  0 0 0 1 0 0 0 0 0 0 ...
+ $ servocc : int  0 1 0 0 0 0 0 0 0 0 ...
+ $ lwage   : num  1.13 1.18 1.1 1.79 1.67 ...
+ $ expersq : int  4 484 4 1936 49 81 225 25 676 484 ...
+ $ tenursq : int  0 4 0 784 4 64 49 9 16 441 ...
+ - attr(*, "time.stamp")= chr "25 Jun 2011 23:03"</code></pre>
+</div>
+</div>
+<p><code>str()</code> combina várias informações: classe do objeto, dimensões, nomes, tipos e alguns valores de cada variável.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(wage1[<span class="fu">c</span>(<span class="st">"wage"</span>, <span class="st">"female"</span>, <span class="st">"educ"</span>, <span class="st">"exper"</span>, <span class="st">"tenure"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      wage            female            educ           exper      
+ Min.   : 0.530   Min.   :0.0000   Min.   : 0.00   Min.   : 1.00  
+ 1st Qu.: 3.330   1st Qu.:0.0000   1st Qu.:12.00   1st Qu.: 5.00  
+ Median : 4.650   Median :0.0000   Median :12.00   Median :13.50  
+ Mean   : 5.896   Mean   :0.4791   Mean   :12.56   Mean   :17.02  
+ 3rd Qu.: 6.880   3rd Qu.:1.0000   3rd Qu.:14.00   3rd Qu.:26.00  
+ Max.   :24.980   Max.   :1.0000   Max.   :18.00   Max.   :51.00  
+     tenure      
+ Min.   : 0.000  
+ 1st Qu.: 0.000  
+ Median : 2.000  
+ Mean   : 5.105  
+ 3rd Qu.: 7.000  
+ Max.   :44.000  </code></pre>
+</div>
+</div>
+<p><code>summary()</code> produz um resumo adequado ao tipo de cada variável. Ainda não interpretaremos essas medidas como resultado econômico; nosso objetivo, por enquanto, é conhecer a base.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Uma rotina inicial de inspeção">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Uma rotina inicial de inspeção
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao receber uma nova base, comece por:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dados)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dados)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dados)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dados)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dados)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Essa rotina simples evita muitos erros de interpretação e de programação.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="construindo-o-núcleo-da-análise" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="construindo-o-núcleo-da-análise"><span class="header-section-number">11.5</span> Construindo o núcleo da análise</h2>
+<p>A base possui 24 variáveis, mas não precisamos utilizar todas imediatamente. Começaremos com aquelas que já apareceram na miniatura didática.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>wage1_core <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(wage1)),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">wage =</span> wage1<span class="sc">$</span>wage,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">female =</span> wage1<span class="sc">$</span>female,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">educ =</span> wage1<span class="sc">$</span>educ,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">exper =</span> wage1<span class="sc">$</span>exper,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tenure =</span> wage1<span class="sc">$</span>tenure</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Agora inspecionamos o novo objeto:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1_core)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526   6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(wage1_core)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "id"     "wage"   "female" "educ"   "exper"  "tenure"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wage1_core)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id wage female educ exper tenure
+1  1 3.10      1   11     2      0
+2  2 3.24      1   12    22      2
+3  3 3.00      0   11     2      0
+4  4 6.00      0    8    44     28
+5  5 5.30      0   12     7      2
+6  6 8.75      0   16     9      8</code></pre>
+</div>
+</div>
+<p>Mantivemos todas as 526 observações e reduzimos a base para seis colunas. A variável <code>id</code> registra a posição de cada trabalhador na base original.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Selecionar variáveis não significa descartar definitivamente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Selecionar variáveis não significa descartar definitivamente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>wage1_core</code> é um novo objeto. A base <code>wage1</code> continua disponível com suas 24 variáveis. Trabalhar com uma cópia reduzida facilita a aprendizagem sem destruir a fonte original.</p>
+</div>
+</div>
+<section id="localizando-as-observações-do-capítulo-anterior" class="level3" data-number="11.5.1">
+<h3 data-number="11.5.1" class="anchored" data-anchor-id="localizando-as-observações-do-capítulo-anterior"><span class="header-section-number">11.5.1</span> Localizando as observações do capítulo anterior</h3>
+<p>As 12 observações digitadas manualmente vieram das linhas indicadas abaixo:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>ids_miniatura <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">11</span>, <span class="dv">12</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>wage1_core[ids_miniatura, ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   id  wage female educ exper tenure
+3   3  3.00      0   11     2      0
+4   4  6.00      0    8    44     28
+5   5  5.30      0   12     7      2
+6   6  8.75      0   16     9      8
+7   7 11.25      0   18    15      7
+10 10 18.18      0   17    22     21
+1   1  3.10      1   11     2      0
+2   2  3.24      1   12    22      2
+8   8  5.00      1   12     5      3
+9   9  3.60      1   12    26      4
+11 11  6.25      1   16     8      2
+12 12  8.13      1   13     3      0</code></pre>
+</div>
+</div>
+<p>Agora conseguimos enxergar a relação entre a miniatura e a base completa: os valores são os mesmos, mas a seleção das linhas foi organizada para apresentar primeiro seis homens e depois seis mulheres.</p>
+</section>
+</section>
+<section id="caminhos-relativos-antes-da-importação" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="caminhos-relativos-antes-da-importação"><span class="header-section-number">11.6</span> Caminhos relativos antes da importação</h2>
+<p>Os arquivos deste capítulo estão na pasta <code>dados/</code> do projeto. Como o arquivo <code>.qmd</code> está dentro da pasta <code>cap/</code>, precisamos subir um nível com <code>..</code> e depois entrar em <code>dados/</code>:</p>
+<pre class="text"><code>IntroducaoR/
+├── cap/
+│   └── cap11_dataframes_importacao.qmd
+└── dados/
+    ├── wage1_core.csv
+    ├── wage1_core.xlsx
+    └── wage1_core.rds</code></pre>
+<p>Assim, o caminho relativo utilizado pelo capítulo será:</p>
+<pre class="text"><code>../dados/nome_do_arquivo</code></pre>
+<div class="callout callout-style-default callout-warning callout-titled" title="Não use setwd() para corrigir caminhos">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Não use setwd() para corrigir caminhos
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Comandos como <code>setwd("C:/Users/.../Downloads")</code> fazem o código depender de um computador específico. O projeto e os caminhos relativos permitem que a mesma rotina funcione depois de clonada ou transferida para outra máquina.</p>
+</div>
+</div>
+</section>
+<section id="importando-um-arquivo-csv" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="importando-um-arquivo-csv"><span class="header-section-number">11.7</span> Importando um arquivo CSV</h2>
+<p>CSV é um formato de texto em que as colunas são separadas por um caractere. Como pode ser aberto por diferentes programas, é uma opção comum para compartilhar dados tabulares.</p>
+<p>Nosso arquivo utiliza vírgula como separador de colunas, ponto como marcador decimal e possui nomes na primeira linha. A função <code>read.csv()</code> já adota essas definições como padrão.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>wage1_csv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"../dados/wage1_core.csv"</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Verificamos imediatamente o resultado:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wage1_csv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1_csv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526   6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wage1_csv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id wage female educ exper tenure
+1  1 3.10      1   11     2      0
+2  2 3.24      1   12    22      2
+3  3 3.00      0   11     2      0
+4  4 6.00      0    8    44     28
+5  5 5.30      0   12     7      2
+6  6 8.75      0   16     9      8</code></pre>
+</div>
+</div>
+<section id="separador-de-colunas-e-marcador-decimal" class="level3" data-number="11.7.1">
+<h3 data-number="11.7.1" class="anchored" data-anchor-id="separador-de-colunas-e-marcador-decimal"><span class="header-section-number">11.7.1</span> Separador de colunas e marcador decimal</h3>
+<p>Arquivos CSV não são todos iguais. Duas configurações são frequentes:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 31%">
+<col style="width: 31%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Configuração</th>
+<th style="text-align: center;">Separador de colunas</th>
+<th style="text-align: center;">Decimal</th>
+<th>Função usual</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>padrão internacional</td>
+<td style="text-align: center;">vírgula <code>,</code></td>
+<td style="text-align: center;">ponto <code>.</code></td>
+<td><code>read.csv()</code></td>
+</tr>
+<tr class="even">
+<td>padrão comum no Brasil</td>
+<td style="text-align: center;">ponto e vírgula <code>;</code></td>
+<td style="text-align: center;">vírgula <code>,</code></td>
+<td><code>read.csv2()</code></td>
+</tr>
+</tbody>
+</table>
+<p>Também podemos informar explicitamente os argumentos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dados <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"../dados/arquivo.csv"</span>,</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep =</span> <span class="st">";"</span>,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dec =</span> <span class="st">","</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Esse exemplo não é executado porque <code>arquivo.csv</code> representa um arquivo genérico. O código fica visível para ser adaptado quando encontrarmos essa configuração.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Observe o arquivo, não apenas sua extensão">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Observe o arquivo, não apenas sua extensão
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Se o separador ou o marcador decimal forem informados incorretamente, todas as colunas poderão aparecer juntas ou números poderão ser importados como texto. Abra o arquivo em um editor de texto e examine as primeiras linhas quando houver dúvida.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="importando-um-arquivo-excel" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="importando-um-arquivo-excel"><span class="header-section-number">11.8</span> Importando um arquivo Excel</h2>
+<p>Arquivos Excel podem conter várias planilhas. Para lê-los, utilizaremos o pacote <code>readxl</code>.</p>
+<p>Sua instalação também é necessária apenas uma vez:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"readxl"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Podemos verificar os nomes das planilhas antes de escolher uma:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>readxl<span class="sc">::</span><span class="fu">excel_sheets</span>(<span class="st">"../dados/wage1_core.xlsx"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "wage1_core" "dicionario"</code></pre>
+</div>
+</div>
+<p>O operador <code>::</code> solicita uma função de um pacote sem carregar todas as suas funções no ambiente.</p>
+<p>Agora importamos a planilha <code>wage1_core</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>wage1_excel <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"../dados/wage1_core.xlsx"</span>,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"wage1_core"</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wage1_excel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "tbl_df"     "tbl"        "data.frame"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1_excel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526   6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wage1_excel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 6
+     id  wage female  educ exper tenure
+  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
+1     1  3.10      1    11     2      0
+2     2  3.24      1    12    22      2
+3     3  3         0    11     2      0
+4     4  6         0     8    44     28
+5     5  5.30      0    12     7      2
+6     6  8.75      0    16     9      8</code></pre>
+</div>
+</div>
+<p>O <code>readxl</code> retorna uma <strong>tibble</strong>, uma versão moderna de <em>data frame</em>. Ela pode ser utilizada nas operações que aprenderemos com o <code>dplyr</code>.</p>
+<section id="lendo-o-dicionário" class="level3" data-number="11.8.1">
+<h3 data-number="11.8.1" class="anchored" data-anchor-id="lendo-o-dicionário"><span class="header-section-number">11.8.1</span> Lendo o dicionário</h3>
+<p>O arquivo Excel também possui uma planilha chamada <code>dicionario</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>dicionario_wage1 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"../dados/wage1_core.xlsx"</span>,</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sheet =</span> <span class="st">"dicionario"</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>dicionario_wage1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 x 3
+  variavel descricao                                       `unidade/codificacao`
+  &lt;chr&gt;    &lt;chr&gt;                                           &lt;chr&gt;                
+1 id       "linha da observa\u00e7\u00e3o na base wage1 o~ "n\u00famero inteiro"
+2 wage     "rendimento m\u00e9dio por hora"                "d\u00f3lares de 197~
+3 female   "indicador de mulher"                           "1 = mulher; 0 = hom~
+4 educ     "educa\u00e7\u00e3o formal"                     "anos"               
+5 exper    "experi\u00eancia potencial"                    "anos"               
+6 tenure   "tempo no emprego atual"                        "anos"               </code></pre>
+</div>
+</div>
+<p>O dicionário explica o significado, a unidade e a codificação das variáveis. Por exemplo, <code>female = 1</code> indica mulher e <code>female = 0</code> indica homem.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="O nome da variável não substitui o dicionário">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>O nome da variável não substitui o dicionário
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um nome como <code>exper</code> sugere experiência, mas não revela que a base utiliza <strong>experiência potencial</strong>. Antes de interpretar uma variável, consulte sua definição e registre a fonte.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="importando-um-arquivo-rds" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="importando-um-arquivo-rds"><span class="header-section-number">11.9</span> Importando um arquivo RDS</h2>
+<p>RDS é um formato próprio do R. Ele preserva a estrutura e as classes do objeto sem depender de separadores ou da interpretação de uma planilha.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>wage1_rds <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"../dados/wage1_core.rds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(wage1_rds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "data.frame"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1_rds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526   6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wage1_rds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  id wage female educ exper tenure
+1  1 3.10      1   11     2      0
+2  2 3.24      1   12    22      2
+3  3 3.00      0   11     2      0
+4  4 6.00      0    8    44     28
+5  5 5.30      0   12     7      2
+6  6 8.75      0   16     9      8</code></pre>
+</div>
+</div>
+<p>CSV e Excel favorecem a troca com outros programas. RDS é especialmente útil quando salvamos um objeto que será utilizado novamente no R.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formato</th>
+<th>Vantagem principal</th>
+<th>Atenção principal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CSV</td>
+<td>aberto e fácil de compartilhar</td>
+<td>separador, decimal, codificação e classes</td>
+</tr>
+<tr class="even">
+<td>Excel</td>
+<td>familiar e permite várias planilhas</td>
+<td>tipos podem ser inferidos incorretamente</td>
+</tr>
+<tr class="odd">
+<td>RDS</td>
+<td>preserva o objeto do R</td>
+<td>não é destinado à edição em planilhas</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="conferindo-as-importações" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="conferindo-as-importações"><span class="header-section-number">11.10</span> Conferindo as importações</h2>
+<p>Importar sem erro não garante que os dados chegaram corretamente. Devemos comparar dimensões, nomes e conteúdo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1_csv)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526   6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1_excel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526   6</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(wage1_rds)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 526   6</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">names</span>(wage1_core), <span class="fu">names</span>(wage1_csv))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">names</span>(wage1_core), <span class="fu">names</span>(wage1_excel))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(<span class="fu">names</span>(wage1_core), <span class="fu">names</span>(wage1_rds))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Como o Excel foi importado como tibble e alguns programas podem representar números internamente com pequenas diferenças de precisão, utilizaremos <code>all.equal()</code> para comparar os valores:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  wage1_core,</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  wage1_csv,</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.attributes =</span> <span class="cn">FALSE</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>  wage1_core,</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(wage1_excel),</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.attributes =</span> <span class="cn">FALSE</span></span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  wage1_core,</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>  wage1_rds,</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.attributes =</span> <span class="cn">FALSE</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+<p>Os resultados <code>TRUE</code> confirmam que as três importações reproduziram o núcleo construído a partir da base do pacote.</p>
+</section>
+<section id="salvando-um-objeto-para-uso-posterior" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="salvando-um-objeto-para-uso-posterior"><span class="header-section-number">11.11</span> Salvando um objeto para uso posterior</h2>
+<p>As funções de escrita fazem o caminho inverso: levam um objeto do R para um arquivo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  wage1_core,</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"../dados/wage1_core.csv"</span>,</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(</span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>  wage1_core,</span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"../dados/wage1_core.rds"</span></span>
+<span id="cb81-10"><a href="#cb81-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Esses comandos não são executados durante a renderização para evitar sobrescrever os arquivos fornecidos com a apostila. Ao utilizá-los em seu projeto, escolha nomes que indiquem claramente o conteúdo produzido.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Um objeto por arquivo RDS">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Um objeto por arquivo RDS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>saveRDS()</code> salva um objeto, e <code>readRDS()</code> permite escolher o nome que ele receberá ao ser importado. O formato <code>.RData</code>, por sua vez, pode reunir vários objetos e restaurar seus nomes diretamente no ambiente. Para trabalhos reproduzíveis, a relação explícita entre um arquivo e um objeto torna o RDS mais fácil de controlar.</p>
+</div>
+</div>
+</section>
+<section id="o-que-aprendemos-com-cada-material" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="o-que-aprendemos-com-cada-material"><span class="header-section-number">11.12</span> O que aprendemos com cada material</h2>
+<p>A sequência deste capítulo mantém a progressão do material original da disciplina: compreender o banco, ler arquivos e prestar atenção ao cabeçalho, ao separador e ao decimal. Do material complementar, incorporamos a comparação entre formas de leitura e o cuidado com arquivos que chegam em configurações diferentes.</p>
+<p>Ao mesmo tempo, substituímos caminhos absolutos e mudanças manuais de diretório por caminhos relativos ao projeto. Também mantivemos um único exemplo econômico do início ao fim, em vez de trocar de base a cada novo formato.</p>
+</section>
+<section id="pratique" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="pratique"><span class="header-section-number">11.13</span> Pratique</h2>
+<ol type="1">
+<li>Use <code>nrow()</code> e <code>ncol()</code> para registrar as dimensões da base <code>wage1</code> completa e de <code>wage1_core</code>.</li>
+<li>Consulte <code>names(wage1)</code> e identifique duas variáveis que poderiam ser adicionadas posteriormente à análise.</li>
+<li>Importe novamente o CSV com o nome <code>salarios_csv</code> e confirme suas dimensões.</li>
+<li>Leia apenas a planilha <code>dicionario</code> do arquivo Excel e explique a codificação de <code>female</code>.</li>
+<li>Utilize <code>str()</code> para comparar <code>wage1_csv</code>, <code>wage1_excel</code> e <code>wage1_rds</code>.</li>
+<li>Explique por que <code>setwd()</code> não é necessário nos códigos deste capítulo.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Para guardar">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Para guardar
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Uma importação só está concluída depois que verificamos a unidade de observação, as dimensões, os nomes, os tipos e alguns valores. Ler o arquivo é apenas o primeiro passo; compreender o objeto criado é parte da análise.</p>
+</div>
+</div>
+<p>No próximo capítulo, investigaremos valores ausentes, duplicatas, valores inválidos e incoerências entre variáveis. A pergunta deixará de ser apenas “conseguimos abrir a base?” e passará a ser “podemos confiar na forma como ela está representada?”.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-wooldridge2020" class="csl-entry" role="listitem">
+Wooldridge, Jeffrey M. 2020. <em>Introductory Econometrics: A Modern Approach</em>. 7th ed. Cengage.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap10_objetos_operacoes.html" class="pagination-link" aria-label="Objetos e operações fundamentais">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Objetos e operações fundamentais</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap3_int_R.html" class="pagination-link" aria-label="Maipulando os Dados">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Maipulando os Dados</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,404 @@
+---
+title: "Valores ausentes e qualidade dos dados"
+subtitle: "Verificando antes de analisar"
+author:
+  - Alexandre Nicolella
+date: "09/01/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+No capítulo anterior, carregamos a base `wage1`, selecionamos um núcleo de variáveis e importamos os mesmos dados em CSV, Excel e RDS. Conseguir abrir um arquivo, entretanto, não significa que a base esteja pronta para análise.
+
+Antes de calcular médias, construir gráficos ou estimar modelos, precisamos perguntar se os dados representam adequadamente aquilo que imaginamos. Valores ausentes, códigos inválidos, linhas duplicadas e relações incoerentes podem alterar os resultados ou revelar que ainda não compreendemos a base.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- distinguir ausência de informação e valor zero;
+- localizar e contar valores `NA`;
+- utilizar `na.rm` conscientemente;
+- identificar valores fora de regras plausíveis;
+- localizar linhas duplicadas;
+- verificar coerência entre variáveis relacionadas;
+- evitar correções automáticas sem justificativa;
+- registrar as decisões tomadas durante a limpeza;
+- formular verificações que possam ser executadas novamente.
+:::
+
+## Qualidade depende do problema
+
+Uma base não é simplesmente “boa” ou “ruim”. Sua qualidade precisa ser avaliada em relação à pergunta, à unidade de observação e ao uso pretendido.
+
+Para investigar diferenças salariais, por exemplo, precisamos verificar pelo menos:
+
+- se salário foi registrado para os trabalhadores analisados;
+- se os valores de salário são plausíveis;
+- se a codificação de sexo segue o dicionário;
+- se educação, experiência e permanência têm unidades compreendidas;
+- se cada trabalhador aparece como deveria;
+- se existem relações entre variáveis que merecem investigação.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Ciclo de verificação da qualidade dos dados"
+
+flowchart LR
+    A["Compreender<br/>a variável"] --> B["Definir uma<br/>regra de verificação"]
+    B --> C["Localizar<br/>ocorrências"]
+    C --> D["Investigar<br/>a origem"]
+    D --> E["Decidir e<br/>documentar"]
+    E --> F["Executar novamente<br/>as verificações"]
+    F -.->|novos problemas| B
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-important title="Limpar não é apagar o que parece estranho"}
+Uma ocorrência incomum pode ser erro, característica legítima, consequência da definição da variável ou informação importante para a investigação. Primeiro identificamos; depois investigamos; somente então decidimos.
+:::
+
+## Carregando o núcleo de dados
+
+Utilizaremos o arquivo RDS produzido para o capítulo anterior. Como ele preserva a estrutura do objeto do R, podemos retomar diretamente o *data frame*.
+
+```{r}
+wage1_core <- readRDS("../dados/wage1_core.rds")
+```
+
+Começamos por uma inspeção geral:
+
+```{r}
+dim(wage1_core)
+names(wage1_core)
+str(wage1_core)
+summary(wage1_core)
+```
+
+Essa inspeção não substitui verificações específicas, mas ajuda a descobrir dimensões inesperadas, nomes incorretos, classes inadequadas e valores extremos.
+
+## Valores ausentes
+
+No R, a ausência de informação é representada por `NA`. A função `is.na()` verifica cada valor e retorna `TRUE` quando encontra uma ausência.
+
+```{r}
+is.na(head(wage1_core))
+```
+
+Podemos contar o total de valores ausentes:
+
+```{r}
+sum(is.na(wage1_core))
+```
+
+E contar separadamente em cada variável:
+
+```{r}
+colSums(is.na(wage1_core))
+```
+
+Na versão de `wage1_core` utilizada aqui, nenhuma das seis variáveis possui `NA`. Isso é um resultado da verificação, não uma propriedade que devemos presumir para qualquer base.
+
+### Ausência não é zero
+
+O valor zero é uma informação. Em `tenure`, ele indica que a permanência no emprego atual é inferior a um ano na forma como a variável foi registrada. Não significa que o valor esteja ausente.
+
+```{r}
+sum(wage1_core$tenure == 0)
+```
+
+```{r}
+head(wage1_core[wage1_core$tenure == 0, ])
+```
+
+Já `NA` significa que não temos um valor disponível naquela célula.
+
+| Registro | Significado possível |
+|:---:|---|
+| `tenure = 0` | valor observado e válido |
+| `tenure = NA` | valor ausente ou desconhecido |
+
+::: {.callout-warning title="Nunca substitua NA por zero automaticamente"}
+Trocar ausência por zero altera o significado da variável e pode modificar médias, totais, gráficos e modelos. Uma substituição só pode ser feita quando a fonte e a definição da variável justificarem essa decisão.
+:::
+
+## Criando uma cópia para aprender a diagnosticar
+
+Como a base original não possui `NA` nessas variáveis nem linhas exatamente duplicadas, criaremos uma **cópia de treinamento** com três problemas deliberados:
+
+1. um salário ausente;
+2. um valor impossível de educação para esta aplicação;
+3. uma linha duplicada.
+
+```{r}
+wage1_treino <- wage1_core
+
+wage1_treino$wage[2] <- NA
+wage1_treino$educ[3] <- 99
+wage1_treino <- rbind(
+  wage1_treino,
+  wage1_treino[1, ]
+)
+```
+
+```{r}
+dim(wage1_treino)
+tail(wage1_treino, n = 3)
+```
+
+::: {.callout-caution title="Problemas simulados"}
+O `NA`, o valor `99` e a duplicata foram introduzidos por nós somente para fins didáticos. Eles não devem ser atribuídos à base `wage1` original.
+:::
+
+Trabalhar em uma cópia preserva a fonte:
+
+```{r}
+dim(wage1_core)
+sum(is.na(wage1_core))
+sum(duplicated(wage1_core))
+```
+
+## Localizando valores ausentes
+
+Agora a verificação encontra uma ausência:
+
+```{r}
+colSums(is.na(wage1_treino))
+```
+
+Para descobrir em quais linhas o salário está ausente:
+
+```{r}
+which(is.na(wage1_treino$wage))
+wage1_treino[is.na(wage1_treino$wage), ]
+```
+
+### NA em cálculos
+
+Se uma variável contém `NA`, a média também será `NA` por padrão:
+
+```{r}
+mean(wage1_treino$wage)
+```
+
+O argumento `na.rm = TRUE` solicita que os valores ausentes sejam retirados **daquele cálculo**:
+
+```{r}
+mean(wage1_treino$wage, na.rm = TRUE)
+```
+
+::: {.callout-tip title="na.rm não limpa a base"}
+`na.rm = TRUE` não apaga linhas nem modifica o objeto. Ele apenas desconsidera os `NA` durante a execução daquela função. A ausência continua registrada em `wage1_treino`.
+:::
+
+Podemos conferir:
+
+```{r}
+sum(is.na(wage1_treino$wage))
+```
+
+### Excluir ou manter?
+
+`na.omit()` produz uma base contendo apenas linhas completas:
+
+```{r}
+wage1_completos <- na.omit(wage1_treino)
+
+nrow(wage1_treino)
+nrow(wage1_completos)
+```
+
+Isso não significa que excluir seja sempre a decisão correta. A quantidade e o motivo das ausências, as variáveis utilizadas e o objetivo da análise devem orientar a escolha.
+
+## Valores inválidos ou implausíveis
+
+Um valor pode não estar ausente e ainda assim exigir atenção. Para esta aplicação, definiremos provisoriamente que educação deve estar entre 0 e 30 anos.
+
+```{r}
+educ_invalida <- wage1_treino$educ < 0 |
+  wage1_treino$educ > 30
+
+sum(educ_invalida)
+wage1_treino[educ_invalida, ]
+```
+
+O valor `99` passa por `is.na()` porque é um número, mas viola a regra definida.
+
+::: {.callout-warning title="Os limites precisam de justificativa"}
+O intervalo de 0 a 30 anos é uma regra didática adequada a esta variável e a esta aplicação. Não copie o mesmo limite para outra base sem consultar o dicionário, o questionário e o contexto.
+:::
+
+Outras verificações simples podem ser formuladas:
+
+```{r}
+sum(wage1_treino$wage <= 0, na.rm = TRUE)
+sum(!wage1_treino$female %in% c(0, 1))
+sum(wage1_treino$exper < 0)
+sum(wage1_treino$tenure < 0)
+```
+
+Cada expressão representa uma regra explícita. Isso é preferível a percorrer visualmente centenas de linhas procurando algo estranho.
+
+## Duplicatas
+
+A função `duplicated()` identifica linhas que repetem integralmente uma linha anterior.
+
+```{r}
+sum(duplicated(wage1_treino))
+```
+
+```{r}
+wage1_treino[duplicated(wage1_treino), ]
+```
+
+Também podemos verificar especificamente se o identificador se repete:
+
+```{r}
+sum(duplicated(wage1_treino$id))
+wage1_treino[duplicated(wage1_treino$id), ]
+```
+
+::: {.callout-important title="Valores repetidos não são necessariamente duplicatas"}
+Dois trabalhadores podem legitimamente possuir o mesmo salário, escolaridade e experiência. Uma duplicata depende da unidade de observação e das variáveis que identificam cada linha. Por isso, precisamos compreender o papel de `id` antes de remover qualquer registro.
+:::
+
+## Coerência entre variáveis
+
+Algumas verificações dependem da relação entre duas ou mais variáveis. Seria natural esperar que o tempo no emprego atual (`tenure`) não ultrapassasse a experiência total (`exper`).
+
+Vamos testar essa relação na base original, sem os problemas simulados:
+
+```{r}
+conflito_tempo <- wage1_core$tenure > wage1_core$exper
+
+sum(conflito_tempo)
+```
+
+```{r}
+wage1_core[conflito_tempo, ]
+```
+
+Encontramos 16 ocorrências. A documentação da `wage1` informa que `exper` representa **experiência potencial**, não necessariamente a experiência efetivamente declarada. Ela também reconhece que alguns conflitos podem continuar sem explicação completa.
+
+::: {.callout-caution title="Uma inconsistência aparente não autoriza uma correção automática"}
+Não devemos substituir valores ou excluir as 16 linhas apenas porque `tenure > exper`. Primeiro precisamos compreender como cada variável foi construída e decidir se a relação afeta a análise pretendida. A ocorrência deve ser registrada e, se necessário, examinada em uma análise de sensibilidade.
+:::
+
+Esse exemplo mostra a diferença entre três situações:
+
+- **erro criado e conhecido:** o valor `educ = 99` que inserimos para treinamento;
+- **duplicação conhecida:** a última linha adicionada deliberadamente;
+- **incoerência a investigar:** casos existentes em que `tenure > exper`.
+
+## Tomando decisões rastreáveis
+
+Criaremos uma nova cópia para aplicar apenas decisões justificadas sobre os problemas simulados.
+
+```{r}
+wage1_limpa <- wage1_treino
+```
+
+O valor `99` será recodificado como ausente porque sabemos que ele foi introduzido como código inválido:
+
+```{r}
+wage1_limpa$educ[
+  wage1_limpa$educ < 0 | wage1_limpa$educ > 30
+] <- NA
+```
+
+A linha integralmente duplicada será retirada porque conhecemos sua origem:
+
+```{r}
+wage1_limpa <- wage1_limpa[!duplicated(wage1_limpa), ]
+```
+
+Não substituiremos o salário ausente por zero nem eliminaremos os casos em que `tenure > exper`.
+
+```{r}
+dim(wage1_limpa)
+colSums(is.na(wage1_limpa))
+sum(duplicated(wage1_limpa))
+sum(wage1_limpa$tenure > wage1_limpa$exper)
+```
+
+## Registrando as decisões
+
+Uma limpeza reproduzível precisa explicar o que foi encontrado e o que foi feito.
+
+```{r}
+registro_qualidade <- data.frame(
+  problema = c(
+    "salário ausente",
+    "educação igual a 99",
+    "linha integralmente duplicada",
+    "permanência maior que experiência"
+  ),
+  origem = c(
+    "simulada para aprendizagem",
+    "simulada para aprendizagem",
+    "simulada para aprendizagem",
+    "presente na base original"
+  ),
+  decisao = c(
+    "manter como NA",
+    "recodificar como NA",
+    "remover a cópia",
+    "manter e documentar"
+  )
+)
+
+registro_qualidade
+```
+
+Na investigação do grupo, esse registro poderá incluir data, responsável, regra utilizada, número de ocorrências e justificativa da decisão.
+
+## Transformando expectativas em validações
+
+Podemos guardar algumas verificações em um vetor lógico:
+
+```{r}
+validacoes <- c(
+  linhas_esperadas = nrow(wage1_limpa) == 526,
+  seis_colunas = ncol(wage1_limpa) == 6,
+  id_sem_repeticao = !anyDuplicated(wage1_limpa$id),
+  female_binaria = all(wage1_limpa$female %in% c(0, 1)),
+  salario_positivo = all(wage1_limpa$wage > 0, na.rm = TRUE),
+  educacao_valida = all(
+    wage1_limpa$educ >= 0 & wage1_limpa$educ <= 30,
+    na.rm = TRUE
+  )
+)
+
+validacoes
+```
+
+```{r}
+all(validacoes)
+```
+
+Quando uma nova versão dos dados for recebida, as mesmas regras poderão ser executadas novamente.
+
+::: {.callout-tip title="Verificações são parte do código"}
+Não deixe os critérios apenas na memória ou em anotações separadas. Transformá-los em expressões executáveis permite descobrir rapidamente quando os dados mudam ou quando uma etapa anterior produziu um resultado inesperado.
+:::
+
+## Pratique
+
+1. Conte quantos valores iguais a zero existem em `educ`, `exper` e `tenure`. Explique por que esses zeros não devem ser automaticamente transformados em `NA`.
+2. Crie uma regra que identifique salários superiores a 25. Verifique se ela encontra ocorrências e discuta se o limite indica erro ou apenas um valor elevado.
+3. Utilize `duplicated()` apenas sobre as colunas `wage`, `female`, `educ`, `exper` e `tenure`. Compare o resultado com a verificação que inclui `id`.
+4. Acrescente ao `registro_qualidade` uma linha descrevendo uma nova verificação.
+5. Explique por que os casos com `tenure > exper` foram mantidos.
+6. Execute novamente `validacoes` depois de alterar propositalmente um valor de `female` para `2`.
+
+::: {.callout-note title="Para guardar"}
+Qualidade dos dados não é uma etapa mecânica anterior à análise. Ela exige compreender conceitos, definições e processos de coleta. Uma decisão de limpeza deve ser explícita, justificável, reproduzível e preservada no código.
+:::
+
+Com este capítulo, completamos o primeiro bloco de fundamentos: construímos objetos, passamos para *data frames*, importamos arquivos e verificamos a qualidade das informações. O próximo passo será revisar conjuntamente os capítulos 10, 11 e 12 e compará-los com o material anterior da disciplina e com o material complementar.

@@ -48,10 +48,10 @@ book:
         - cap/cap09_projetos_reprodutiveis.qmd
         - cap/cap10_objetos_operacoes.qmd
         - cap/cap11_dataframes_importacao.qmd
+        - cap/cap12_qualidade_dados.qmd
 
     - part: "Manipulando os Dados"
       chapters:
-        - cap/cap3_int_R.qmd
         - cap/cap4_dplyr.qmd
         - cap/cap5_googledrive.qmd
 

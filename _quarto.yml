@@ -1,6 +1,10 @@
 project:
   type: book
   output-dir: docs
+  resources:
+    - dados/wage1_core.csv
+    - dados/wage1_core.xlsx
+    - dados/wage1_core.rds
 
 book:
   title: "Introdução ao R"
@@ -50,10 +54,13 @@ book:
         - cap/cap11_dataframes_importacao.qmd
         - cap/cap12_qualidade_dados.qmd
 
-    - part: "Manipulando os Dados"
+    - part: "Transformação e organização"
       chapters:
-        - cap/cap4_dplyr.qmd
-        - cap/cap5_googledrive.qmd
+        - cap/cap13_tidyverse_pipe.qmd
+        - cap/cap14_manipulacao_dplyr.qmd
+        - cap/cap15_dados_tidy_tidyr.qmd
+        - cap/cap16_combinacao_bases.qmd
+        - cap/cap17_textos_datas_categorias.qmd
 
     - part: "Motivando e Relembrando"
       chapters:
@@ -68,6 +75,7 @@ book:
 
     - part: "Tópicos Extras"
       chapters:
+        - cap/cap5_googledrive.qmd
         - cap/capextra_github.qmd
 
 

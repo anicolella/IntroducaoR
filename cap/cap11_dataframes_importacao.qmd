@@ -12,6 +12,11 @@ execute:
   message: false
 ---
 
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
 No capítulo anterior, construímos manualmente um pequeno banco com 12 trabalhadores. Criamos cada vetor separadamente e os reunimos no objeto `salarios_12`. Esse procedimento tornou visível a relação entre posições, linhas, colunas e variáveis.
 
 Na prática, porém, raramente digitaremos uma base inteira. Os dados chegarão por meio de um pacote, de um arquivo ou de uma fonte externa. Neste capítulo, passaremos da miniatura para as 526 observações da base `wage1` e aprenderemos diferentes formas de colocar esses dados dentro do R.
@@ -136,14 +141,14 @@ Os nomes são curtos porque serão utilizados repetidamente no código. Eles só
 ### Primeiras e últimas linhas
 
 ```{r}
-head(wage1)
+head(wage1[c("wage", "educ", "exper", "tenure", "female", "married")])
 ```
 
 Por padrão, `head()` apresenta as seis primeiras linhas. Podemos solicitar outra quantidade utilizando o argumento `n`:
 
 ```{r}
-head(wage1, n = 3)
-tail(wage1, n = 3)
+head(wage1[c("wage", "educ", "exper", "tenure")], n = 3)
+tail(wage1[c("wage", "educ", "exper", "tenure")], n = 3)
 ```
 
 ### Estrutura e resumo
@@ -176,7 +181,7 @@ Essa rotina simples evita muitos erros de interpretação e de programação.
 
 ## Construindo o núcleo da análise
 
-A base possui 24 variáveis, mas não precisamos utilizar todas imediatamente. Começaremos com aquelas que já apareceram na miniatura didática.
+A base possui 24 variáveis, mas não precisamos utilizar todas imediatamente. Começaremos com aquelas que já apareceram na miniatura didática. A função `seq_len(n)` produz a sequência de números inteiros de `1` até `n`; nós a utilizaremos para criar um identificador para todas as linhas.
 
 ```{r}
 wage1_core <- data.frame(
@@ -212,30 +217,41 @@ ids_miniatura <- c(3, 4, 5, 6, 7, 10, 1, 2, 8, 9, 11, 12)
 wage1_core[ids_miniatura, ]
 ```
 
+Em um *data frame*, os colchetes seguem a forma `dados[linhas, colunas]`. Antes da vírgula, indicamos as linhas; depois dela, as colunas. Como não escrevemos nada depois da vírgula, o R mantém todas as colunas das linhas selecionadas.
+
 Agora conseguimos enxergar a relação entre a miniatura e a base completa: os valores são os mesmos, mas a seleção das linhas foi organizada para apresentar primeiro seis homens e depois seis mulheres.
 
-## Caminhos relativos antes da importação
+## Preparando sua pasta de trabalho
 
-Os arquivos deste capítulo estão na pasta `dados/` do projeto. Como o arquivo `.qmd` está dentro da pasta `cap/`, precisamos subir um nível com `..` e depois entrar em `dados/`:
+Você não precisa baixar toda a estrutura desta apostila nem utilizar o Quarto. Antes da aula, prepare sua própria pasta no Positron ou RStudio:
+
+1. crie uma pasta ou um projeto para as atividades da disciplina;
+2. defina essa pasta como sua raiz de trabalho;
+3. crie dentro dela uma subpasta chamada `dados`;
+4. baixe os três arquivos abaixo e salve-os em `dados/`.
+
+- [Baixar a base em CSV](../dados/wage1_core.csv){download="wage1_core.csv"}
+- [Baixar a base em Excel](../dados/wage1_core.xlsx){download="wage1_core.xlsx"}
+- [Baixar a base em RDS](../dados/wage1_core.rds){download="wage1_core.rds"}
+
+Ao final, sua organização deverá ser semelhante a esta:
 
 ```text
-IntroducaoR/
-├── cap/
-│   └── cap11_dataframes_importacao.qmd
+meu_projeto/
 └── dados/
     ├── wage1_core.csv
     ├── wage1_core.xlsx
     └── wage1_core.rds
 ```
 
-Assim, o caminho relativo utilizado pelo capítulo será:
+Os comandos da apostila partem da raiz que você definiu. Assim, o caminho relativo será:
 
 ```text
-../dados/nome_do_arquivo
+dados/nome_do_arquivo
 ```
 
 ::: {.callout-warning title="Não use setwd() para corrigir caminhos"}
-Comandos como `setwd("C:/Users/.../Downloads")` fazem o código depender de um computador específico. O projeto e os caminhos relativos permitem que a mesma rotina funcione depois de clonada ou transferida para outra máquina.
+Comandos como `setwd("C:/Users/.../Downloads")` fazem o código depender de um computador específico. Defina sua raiz uma vez no Positron ou RStudio, organize os arquivos dentro dela e utilize caminhos relativos. Você pode executar `getwd()` no console para conferir qual é a raiz atual.
 :::
 
 ## Importando um arquivo CSV
@@ -246,7 +262,7 @@ Nosso arquivo utiliza vírgula como separador de colunas, ponto como marcador de
 
 ```{r}
 wage1_csv <- read.csv(
-  "../dados/wage1_core.csv",
+  "dados/wage1_core.csv",
   header = TRUE,
   fileEncoding = "UTF-8"
 )
@@ -274,7 +290,7 @@ Também podemos informar explicitamente os argumentos:
 ```{r}
 #| eval: false
 dados <- read.table(
-  "../dados/arquivo.csv",
+  "dados/arquivo.csv",
   header = TRUE,
   sep = ";",
   dec = ",",
@@ -302,7 +318,7 @@ install.packages("readxl")
 Podemos verificar os nomes das planilhas antes de escolher uma:
 
 ```{r}
-readxl::excel_sheets("../dados/wage1_core.xlsx")
+readxl::excel_sheets("dados/wage1_core.xlsx")
 ```
 
 O operador `::` solicita uma função de um pacote sem carregar todas as suas funções no ambiente.
@@ -311,7 +327,7 @@ Agora importamos a planilha `wage1_core`:
 
 ```{r}
 wage1_excel <- readxl::read_excel(
-  "../dados/wage1_core.xlsx",
+  "dados/wage1_core.xlsx",
   sheet = "wage1_core"
 )
 ```
@@ -330,7 +346,7 @@ O arquivo Excel também possui uma planilha chamada `dicionario`:
 
 ```{r}
 dicionario_wage1 <- readxl::read_excel(
-  "../dados/wage1_core.xlsx",
+  "dados/wage1_core.xlsx",
   sheet = "dicionario"
 )
 
@@ -348,7 +364,7 @@ Um nome como `exper` sugere experiência, mas não revela que a base utiliza **e
 RDS é um formato próprio do R. Ele preserva a estrutura e as classes do objeto sem depender de separadores ou da interpretação de uma planilha.
 
 ```{r}
-wage1_rds <- readRDS("../dados/wage1_core.rds")
+wage1_rds <- readRDS("dados/wage1_core.rds")
 ```
 
 ```{r}
@@ -381,7 +397,11 @@ identical(names(wage1_core), names(wage1_excel))
 identical(names(wage1_core), names(wage1_rds))
 ```
 
-Como o Excel foi importado como tibble e alguns programas podem representar números internamente com pequenas diferenças de precisão, utilizaremos `all.equal()` para comparar os valores:
+Dimensões e nomes iguais são a verificação essencial neste momento. A comparação mais rigorosa abaixo é um aprofundamento: `all.equal()` verifica os valores tolerando pequenas diferenças de precisão numérica, enquanto `isTRUE()` transforma seu resultado em uma confirmação lógica.
+
+::: {.callout-tip title="Aprofundamento: comparando o conteúdo importado" collapse="true"}
+
+Como o Excel foi importado como tibble, utilizamos `as.data.frame()` apenas durante a comparação.
 
 ```{r}
 isTRUE(all.equal(
@@ -405,6 +425,8 @@ isTRUE(all.equal(
 
 Os resultados `TRUE` confirmam que as três importações reproduziram o núcleo construído a partir da base do pacote.
 
+:::
+
 ## Salvando um objeto para uso posterior
 
 As funções de escrita fazem o caminho inverso: levam um objeto do R para um arquivo.
@@ -413,13 +435,13 @@ As funções de escrita fazem o caminho inverso: levam um objeto do R para um ar
 #| eval: false
 write.csv(
   wage1_core,
-  "../dados/wage1_core.csv",
+  "dados/wage1_core.csv",
   row.names = FALSE
 )
 
 saveRDS(
   wage1_core,
-  "../dados/wage1_core.rds"
+  "dados/wage1_core.rds"
 )
 ```
 

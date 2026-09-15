@@ -9,7 +9,7 @@
 <meta name="author" content="Alexandre Nicolella">
 <meta name="dcterms.date" content="2026-03-03">
 
-<title>14&nbsp; Google Drive – Introdução ao R</title>
+<title>22&nbsp; Google Drive – Introdução ao R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -73,8 +73,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../cap/cap6_estatistica.html" rel="next">
-<link href="../cap/cap4_dplyr.html" rel="prev">
+<link href="../cap/capextra_github.html" rel="next">
+<link href="../cap/cap9_outrosmodelos.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -160,7 +160,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap4_dplyr.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap5_googledrive.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Google Drive</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap5_googledrive.html">Tópicos Extras</a></li><li class="breadcrumb-item"><a href="../cap/cap5_googledrive.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Google Drive</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -283,7 +283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Manipulando os Dados</span></a>
+ <span class="menu-text">Transformação e organização</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -291,14 +291,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  <a href="../cap/cap13_tidyverse_pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introdução ao tidyverse e ao pipe</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  <a href="../cap/cap14_manipulacao_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Manipulação de dados com dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap15_dados_tidy_tidyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dados tidy e transformação com tidyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap16_combinacao_bases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Combinação de bases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap17_textos_datas_categorias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Textos, datas e categorias</span></span></a>
   </div>
 </li>
       </ul>
@@ -315,7 +333,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
   </div>
 </li>
       </ul>
@@ -332,19 +350,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,8 +378,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
   </div>
 </li>
       </ul>
@@ -376,10 +400,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">14.1</span> Introdução</a>
+  <li><a href="#introdução" id="toc-introdução" class="nav-link active" data-scroll-target="#introdução"><span class="header-section-number">22.1</span> Introdução</a>
   <ul class="collapse">
-  <li><a href="#encontrando-o-id" id="toc-encontrando-o-id" class="nav-link" data-scroll-target="#encontrando-o-id"><span class="header-section-number">14.1.1</span> Encontrando o ID</a></li>
-  <li><a href="#fazendo-o-download" id="toc-fazendo-o-download" class="nav-link" data-scroll-target="#fazendo-o-download"><span class="header-section-number">14.1.2</span> Fazendo o download</a></li>
+  <li><a href="#encontrando-o-id" id="toc-encontrando-o-id" class="nav-link" data-scroll-target="#encontrando-o-id"><span class="header-section-number">22.1.1</span> Encontrando o ID</a></li>
+  <li><a href="#fazendo-o-download" id="toc-fazendo-o-download" class="nav-link" data-scroll-target="#fazendo-o-download"><span class="header-section-number">22.1.2</span> Fazendo o download</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -387,9 +411,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap4_dplyr.html">Manipulando os Dados</a></li><li class="breadcrumb-item"><a href="../cap/cap5_googledrive.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Google Drive</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap5_googledrive.html">Tópicos Extras</a></li><li class="breadcrumb-item"><a href="../cap/cap5_googledrive.html"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Google Drive</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Google Drive</span></h1>
+<h1 class="title"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Google Drive</span></h1>
 <p class="subtitle lead">Importanto os dados</p>
 </div>
 
@@ -419,18 +443,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introdução" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">14.1</span> Introdução</h2>
+<section id="introdução" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="introdução"><span class="header-section-number">22.1</span> Introdução</h2>
 <p>Vamos aqui importar os dados de arquivos compartilhados o Google Drive. Vamos usar arquivos que não precisam de autenticação. São aqueles que <em>” qualquer um com o link”</em> podem acessar. Para isso terá que utilizar o pacote <code>googledrive</code>.</p>
-<section id="encontrando-o-id" class="level3" data-number="14.1.1">
-<h3 data-number="14.1.1" class="anchored" data-anchor-id="encontrando-o-id"><span class="header-section-number">14.1.1</span> Encontrando o ID</h3>
+<section id="encontrando-o-id" class="level3" data-number="22.1.1">
+<h3 data-number="22.1.1" class="anchored" data-anchor-id="encontrando-o-id"><span class="header-section-number">22.1.1</span> Encontrando o ID</h3>
 <p>Primeiramente precisa ter acesso ao link de compartilhamento. Vejamos o link de compartilhamento do arquivo <code>cjpg.rds</code></p>
 <p><code>https://drive.google.com/file/d/1kHMnLjY8siz0vUbiO-G0oQg5RIF8Z4xf/view?usp=sharing</code></p>
 <p>O <strong>ID</strong> é a seguinte parte do endereço: <code>1kHMnLjY8siz0vUbiO-G0oQg5RIF8Z4xf</code></p>
 <p>Com esse string podemos fazer o download do arquivo</p>
 </section>
-<section id="fazendo-o-download" class="level3" data-number="14.1.2">
-<h3 data-number="14.1.2" class="anchored" data-anchor-id="fazendo-o-download"><span class="header-section-number">14.1.2</span> Fazendo o download</h3>
+<section id="fazendo-o-download" class="level3" data-number="22.1.2">
+<h3 data-number="22.1.2" class="anchored" data-anchor-id="fazendo-o-download"><span class="header-section-number">22.1.2</span> Fazendo o download</h3>
 <p>Primeiramente vamos excluir a autenticação com o comando <code>drive_deauth()</code>. Poderá checar a exclusão com o comando <code>drive_user()</code>, ele mostrará que não existe usuário logado ou autenticado.</p>
 <p>Depois indicaremos o caminho do arquivo no google drive e com o caminho indicado ele fará o download na pasta do seu computador indicada na parte superior da aba <em>Console</em>. Depois é só fazer a leitura para transformar o arquivo em <code>.Rdata</code>. Vejamos:</p>
 <div class="cell">
@@ -862,13 +886,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../cap/cap4_dplyr.html" class="pagination-link" aria-label="O Dplyr">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">O Dplyr</span></span>
+      <a href="../cap/cap9_outrosmodelos.html" class="pagination-link" aria-label="Modelos Avançados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../cap/cap6_estatistica.html" class="pagination-link" aria-label="Uma Introdução à Estatística">
-        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../cap/capextra_github.html" class="pagination-link" aria-label="Usando o GitHub">
+        <span class="nav-page-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,0 +1,417 @@
+---
+title: "Textos, datas e categorias"
+subtitle: "Preparando variáveis para análise econômica"
+author:
+  - Alexandre Nicolella
+date: "09/15/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+Muitas variáveis chegam ao R como texto: nomes de estados, setores de atividade, códigos, datas e números acompanhados de símbolos. Antes de analisar esses dados, precisamos padronizar sua escrita e atribuir o tipo adequado a cada variável.
+
+Nossa pergunta orientadora será:
+
+> Como preparar nomes de séries, áreas de aplicação, períodos e valores para produzir uma análise consistente ao longo do tempo?
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- inspecionar o tipo de uma variável;
+- padronizar espaços, maiúsculas e minúsculas em textos;
+- localizar e substituir padrões;
+- converter números armazenados como texto;
+- criar e ordenar fatores;
+- converter textos em datas;
+- extrair ano, mês e trimestre;
+- ordenar observações cronologicamente;
+- documentar decisões de padronização.
+:::
+
+## Uma pequena base com problemas comuns
+
+Construiremos uma tabela fictícia inspirada em séries macroeconômicas e financeiras. Ela contém inconsistências intencionais para fins didáticos.
+
+```{r}
+library(tidyverse)
+
+series_brutas <- tibble(
+  serie = c(
+    "  Selic", "SELIC ", "selic",
+    " IPCA", "ipca ", "Ipca",
+    " Ibovespa", "IBOVESPA ", "ibovespa"
+  ),
+  area = c(
+    "macro", "Macroeconomia", " MACRO ",
+    "macro", "Macroeconomia", " MACRO ",
+    "financas", "Finanças ", "FINANCAS"
+  ),
+  data = c(
+    "2024-01-31", "2024-02-29", "2024-03-31",
+    "2024-01-31", "2024-02-29", "2024-03-31",
+    "2024-01-31", "2024-02-29", "2024-03-31"
+  ),
+  valor = c(
+    "11,75%", "11,25%", "10,75%",
+    "0,42%", "0,83%", "0,16%",
+    "127752", "129020", "127990"
+  )
+)
+
+series_brutas
+glimpse(series_brutas)
+```
+
+Embora alguns valores pareçam números e datas, todas as quatro variáveis foram armazenadas como texto (`character`). Além disso, diferenças de espaços, acentos e letras maiúsculas criam categorias que deveriam representar a mesma coisa.
+
+## Um fluxo de preparação
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Fluxo de preparação de textos, categorias e datas"
+%%| echo: false
+
+flowchart LR
+    A["Inspecionar"] --> B["Padronizar<br/>textos"]
+    B --> C["Converter<br/>tipos"]
+    C --> D["Definir<br/>categorias"]
+    D --> E["Ordenar e<br/>validar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Inspecionar"] --> B["Padronizar<br/>textos"]
+    B --> C["Converter<br/>tipos"]
+    C --> D["Definir<br/>categorias"]
+    D --> E["Ordenar e<br/>validar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+É recomendável preservar a base original e produzir um novo objeto com as transformações.
+
+## Removendo espaços excedentes
+
+`str_squish()` remove espaços no início e no final e reduz espaços internos repetidos:
+
+```{r}
+series_limpas <- series_brutas |>
+  mutate(
+    serie = str_squish(serie),
+    area = str_squish(area)
+  )
+
+series_limpas |>
+  distinct(serie, area)
+```
+
+`distinct()` mostra as combinações diferentes e ajuda a verificar a padronização.
+
+## Padronizando maiúsculas e minúsculas
+
+Podemos transformar nomes de séries em letras maiúsculas:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    serie = str_to_upper(serie)
+  )
+
+series_limpas |>
+  count(serie)
+```
+
+Outras opções são `str_to_lower()` e `str_to_title()`. A escolha depende da convenção adotada no projeto.
+
+## Localizando e substituindo textos
+
+A variável `area` utiliza diferentes nomes para os mesmos grupos. Primeiro podemos observar os valores existentes:
+
+```{r}
+series_limpas |>
+  count(area)
+```
+
+Em seguida, criamos uma regra explícita de padronização:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    area = str_to_lower(area),
+    area = str_replace_all(area, "finanças", "financas"),
+    area = case_when(
+      area %in% c("macro", "macroeconomia") ~ "Macroeconomia",
+      area == "financas" ~ "Finanças",
+      .default = NA_character_
+    )
+  )
+
+series_limpas |>
+  count(area)
+```
+
+O uso de `.default = NA_character_` torna visíveis categorias não contempladas pelas regras, em vez de mantê-las silenciosamente.
+
+::: {.callout-important title="Padronizar exige conhecer o significado"}
+Duas grafias parecidas não são necessariamente equivalentes. Antes de substituir textos, consulte o dicionário e verifique casos concretos. Automatizar uma regra errada apenas torna o erro reproduzível.
+:::
+
+## Procurando padrões
+
+`str_detect()` verifica se um texto contém determinado padrão. Podemos localizar séries relacionadas a preços:
+
+```{r}
+series_limpas |>
+  filter(str_detect(serie, "IPCA"))
+```
+
+Também podemos criar indicadores lógicos:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    serie_de_precos = str_detect(serie, "IPCA")
+  )
+
+series_limpas |>
+  count(serie, serie_de_precos)
+```
+
+## Convertendo números armazenados como texto
+
+Os valores utilizam vírgula decimal e alguns incluem `%`. `parse_number()` permite informar a convenção decimal e ignora símbolos que não fazem parte do número:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    valor_numerico = parse_number(
+      valor,
+      locale = locale(decimal_mark = ",")
+    )
+  )
+
+series_limpas |>
+  select(serie, valor, valor_numerico)
+```
+
+::: {.callout-warning title="Percentual e proporção são unidades diferentes"}
+O número `11,75%` foi convertido em `11.75`, mantendo a unidade percentual. Se uma fórmula exigir proporção, será necessário dividir por 100. Essa decisão não deve ser feita automaticamente sem conhecer o uso da variável.
+:::
+
+Depois da conversão, confira valores que não puderam ser interpretados:
+
+```{r}
+series_limpas |>
+  filter(is.na(valor_numerico))
+```
+
+## Categorias e fatores
+
+Uma variável de texto não possui ordem definida. Um **fator** representa categorias e pode registrar uma ordem relevante para tabelas e gráficos.
+
+Vamos criar uma ordem didática para as áreas:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    area = factor(
+      area,
+      levels = c("Macroeconomia", "Finanças")
+    )
+  )
+
+levels(series_limpas$area)
+```
+
+Para reorganizar níveis de um fator existente, o pacote `forcats` oferece funções como `fct_relevel()`:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    area = fct_relevel(area, "Finanças")
+  )
+
+levels(series_limpas$area)
+```
+
+Alterar a ordem dos níveis não muda os valores das observações; muda a ordem utilizada em apresentações e análises.
+
+### Cuidado ao converter fatores em números
+
+Os números internos de um fator representam posições dos níveis, não necessariamente os valores exibidos. Por isso, não use diretamente `as.numeric()` em um fator que contém números como rótulos.
+
+```{r}
+exemplo_fator <- factor(c("10", "20", "10"))
+
+as.numeric(exemplo_fator)
+as.numeric(as.character(exemplo_fator))
+```
+
+## Convertendo textos em datas
+
+Datas precisam ser reconhecidas pelo R para que seja possível ordenar períodos e calcular intervalos. Como a base utiliza o padrão ano-mês-dia, empregamos `ymd()`:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    data = ymd(data)
+  )
+
+class(series_limpas$data)
+head(series_limpas$data)
+```
+
+Para datas no formato dia/mês/ano, utilizaríamos `dmy()`. Para mês/dia/ano, `mdy()`. Devemos escolher a função de acordo com a convenção real dos dados.
+
+## Extraindo períodos
+
+Depois da conversão, podemos extrair componentes da data:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    ano = year(data),
+    mes = month(data),
+    trimestre = quarter(data)
+  )
+
+series_limpas |>
+  select(serie, data, ano, mes, trimestre) |>
+  head()
+```
+
+Também podemos representar o início do mês com `floor_date()`:
+
+```{r}
+series_limpas <- series_limpas |>
+  mutate(
+    mes_referencia = floor_date(data, unit = "month")
+  )
+
+series_limpas |>
+  select(data, mes_referencia) |>
+  distinct()
+```
+
+Essa padronização é útil quando arquivos diferentes registram dias distintos para representar o mesmo mês.
+
+## Ordenando cronologicamente
+
+Datas armazenadas corretamente podem ser ordenadas sem depender da ordem original do arquivo:
+
+```{r}
+series_ordenadas <- series_limpas |>
+  arrange(serie, data) |>
+  select(serie, area, data, valor_numerico)
+
+series_ordenadas
+```
+
+Podemos verificar se cada série possui uma única observação por data:
+
+```{r}
+series_ordenadas |>
+  count(serie, data) |>
+  filter(n != 1)
+```
+
+## Do texto bruto à variável analisável
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Transformações aplicadas às variáveis da base"
+%%| echo: false
+
+flowchart TB
+    A["serie: texto irregular"] --> B["remover espaços<br/>padronizar letras"]
+    C["area: rótulos diferentes"] --> D["recodificar<br/>definir fator"]
+    E["valor: número como texto"] --> F["parse_number<br/>verificar unidade"]
+    G["data: texto"] --> H["ymd<br/>extrair períodos"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart TB
+    A["serie: texto irregular"] --> B["remover espaços<br/>padronizar letras"]
+    C["area: rótulos diferentes"] --> D["recodificar<br/>definir fator"]
+    E["valor: número como texto"] --> F["parse_number<br/>verificar unidade"]
+    G["data: texto"] --> H["ymd<br/>extrair períodos"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+## Registrando as decisões
+
+Uma análise reproduzível deve documentar:
+
+- quais espaços e caracteres foram removidos;
+- quais grafias foram consideradas equivalentes;
+- como números e percentuais foram interpretados;
+- qual formato de data foi utilizado;
+- como categorias e sua ordem foram definidas;
+- quais valores não puderam ser convertidos.
+
+O código registra a operação, mas comentários e texto precisam registrar sua justificativa.
+
+## Pratique
+
+Considere a pequena tabela abaixo:
+
+```{r}
+cotacoes_brutas <- tibble(
+  ativo = c(" petr4 ", "PETR4", " vale3", "VALE3 "),
+  data = c("15/01/2024", "15/02/2024", "15/01/2024", "15/02/2024"),
+  preco = c("R$ 38,10", "R$ 42,90", "R$ 69,50", "R$ 67,20")
+)
+
+cotacoes_brutas
+```
+
+Prepare uma nova tabela que:
+
+1. remova espaços e converta `ativo` para maiúsculas;
+2. converta `data` para o tipo data;
+3. converta `preco` para número utilizando vírgula decimal;
+4. ordene as observações por ativo e data;
+5. mantenha somente `ativo`, `data` e `preco`.
+
+::: {.callout-tip collapse="true" title="Uma solução possível"}
+```{r}
+cotacoes_limpas <- cotacoes_brutas |>
+  transmute(
+    ativo = str_to_upper(str_squish(ativo)),
+    data = dmy(data),
+    preco = parse_number(
+      preco,
+      locale = locale(decimal_mark = ",")
+    )
+  ) |>
+  arrange(ativo, data)
+
+cotacoes_limpas
+```
+:::

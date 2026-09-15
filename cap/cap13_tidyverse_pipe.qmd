@@ -1,0 +1,378 @@
+---
+title: "Introdução ao tidyverse e ao pipe"
+subtitle: "Organizando uma sequência de transformações"
+author:
+  - Alexandre Nicolella
+date: "09/15/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+Nos capítulos anteriores, construímos objetos, importamos um *data frame* e verificamos a qualidade dos dados. Agora começaremos a organizar sequências de transformações que nos ajudem a responder perguntas econômicas.
+
+Continuaremos utilizando `wage1_core`. Nossa pergunta orientadora será:
+
+> Como organizar uma sequência de operações para investigar diferenças salariais entre homens e mulheres?
+
+O objetivo deste capítulo ainda não é explorar todas as funções de manipulação. Primeiro compreenderemos a lógica do **tidyverse**, a organização de **dados tidy** e o uso do **pipe** para expressar um fluxo de trabalho.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- reconhecer o tidyverse como um conjunto integrado de pacotes;
+- distinguir a instalação do carregamento de um pacote;
+- identificar os três princípios básicos de uma base tidy;
+- encadear operações com o pipe nativo `|>`;
+- ler um fluxo de transformações de cima para baixo;
+- construir e verificar uma sequência de operações passo a passo;
+- explicar, em palavras, o que um pequeno fluxo de código realiza.
+:::
+
+## Da base à resposta
+
+Uma base importada não responde sozinha a uma pergunta. Para investigar diferenças salariais, talvez precisemos selecionar grupos, manter determinadas variáveis, criar medidas e resumir as informações.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Fluxo que parte de uma base e chega a uma informação"
+%%| echo: false
+
+flowchart LR
+    A["Base de<br/>dados"] --> B["Selecionar<br/>observações"]
+    B --> C["Escolher<br/>variáveis"]
+    C --> D["Transformar e<br/>organizar"]
+    D --> E["Produzir<br/>informação"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Base de<br/>dados"] --> B["Selecionar<br/>observações"]
+    B --> C["Escolher<br/>variáveis"]
+    C --> D["Transformar e<br/>organizar"]
+    D --> E["Produzir<br/>informação"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+O R oferece diferentes maneiras de realizar essas tarefas. Nesta parte da apostila, utilizaremos principalmente ferramentas do tidyverse.
+
+## O mundo tidyverse
+
+O **tidyverse** é uma coleção de pacotes desenvolvidos para trabalhar com dados de forma consistente. Eles compartilham princípios, convenções e uma maneira semelhante de organizar comandos.
+
+Entre os pacotes que utilizaremos ao longo da apostila estão:
+
+- `dplyr`, para manipular dados;
+- `tidyr`, para reorganizar a estrutura das bases;
+- `ggplot2`, para construir gráficos;
+- `readr`, para importar arquivos de texto, como CSV;
+- `stringr`, para trabalhar com textos;
+- `forcats`, para trabalhar com fatores e categorias;
+- `lubridate`, para trabalhar com datas.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Alguns pacotes do tidyverse organizados por finalidade"
+%%| echo: false
+
+flowchart TB
+    T["tidyverse"] --> D["dplyr<br/>manipulação"]
+    T --> R["tidyr<br/>organização"]
+    T --> G["ggplot2<br/>visualização"]
+    T --> I["readr<br/>importação"]
+    T --> X["stringr e forcats<br/>textos e categorias"]
+    T --> L["lubridate<br/>datas"]
+
+    classDef principal fill:#C7DFC5,stroke:#355E3B,color:#1F3323,stroke-width:2px;
+    classDef pacote fill:#EAF3E8,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class T principal;
+    class D,R,G,I,X,L pacote;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart TB
+    T["tidyverse"] --> D["dplyr<br/>manipulação"]
+    T --> R["tidyr<br/>organização"]
+    T --> G["ggplot2<br/>visualização"]
+    T --> I["readr<br/>importação"]
+    T --> X["stringr e forcats<br/>textos e categorias"]
+    T --> L["lubridate<br/>datas"]
+
+    classDef principal fill:#C7DFC5,stroke:#355E3B,color:#1F3323,stroke-width:2px;
+    classDef pacote fill:#EAF3E8,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class T principal;
+    class D,R,G,I,X,L pacote;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Não precisamos aprender todos esses pacotes de uma vez. Cada um será introduzido quando surgir uma necessidade concreta.
+
+## Instalando e carregando o tidyverse
+
+Um pacote precisa ser **instalado** no computador antes de ser utilizado. A instalação normalmente é realizada uma única vez:
+
+```{r}
+#| eval: false
+install.packages("tidyverse")
+```
+
+Depois de instalado, o tidyverse precisa ser **carregado** a cada nova sessão do R em que seus pacotes forem utilizados:
+
+```{r}
+library(tidyverse)
+```
+
+::: {.callout-tip title="Instalar uma vez, carregar em cada sessão"}
+`install.packages("tidyverse")` baixa e instala a coleção no computador. Não coloque essa instrução em todo script.
+
+`library(tidyverse)` torna os principais pacotes disponíveis na sessão atual e deve aparecer no início do script que depende deles.
+:::
+
+Ao carregar `tidyverse`, o R informa quais pacotes principais foram anexados. Outros pacotes do ecossistema poderão ser carregados separadamente quando forem necessários.
+
+## O que significa uma base tidy?
+
+A palavra *tidy* pode ser traduzida, neste contexto, como **organizado**. Uma base tidy segue três princípios:
+
+1. cada **variável** ocupa uma coluna;
+2. cada **observação** ocupa uma linha;
+3. cada **valor** ocupa uma célula.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Princípios de organização de uma base tidy"
+%%| echo: false
+
+flowchart LR
+    V["Uma variável<br/>em cada coluna"] --> T["Base<br/>tidy"]
+    O["Uma observação<br/>em cada linha"] --> T
+    C["Um valor<br/>em cada célula"] --> T
+
+    classDef regra fill:#EAF3E8,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    classDef centro fill:#C7DFC5,stroke:#355E3B,color:#1F3323,stroke-width:2px;
+    class V,O,C regra;
+    class T centro;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    V["Uma variável<br/>em cada coluna"] --> T["Base<br/>tidy"]
+    O["Uma observação<br/>em cada linha"] --> T
+    C["Um valor<br/>em cada célula"] --> T
+
+    classDef regra fill:#EAF3E8,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    classDef centro fill:#C7DFC5,stroke:#355E3B,color:#1F3323,stroke-width:2px;
+    class V,O,C regra;
+    class T centro;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Esses princípios somente fazem sentido quando compreendemos o que a base representa. Em `wage1_core`:
+
+- cada linha corresponde a uma pessoa;
+- `wage`, `female`, `educ`, `exper` e `tenure` são variáveis;
+- uma célula contém o valor de uma variável para determinada pessoa.
+
+Vamos carregar a base e observar suas primeiras linhas:
+
+```{r}
+wage1_core <- readRDS("dados/wage1_core.rds")
+
+head(wage1_core)
+```
+
+::: {.callout-important title="Tidy não significa correto"}
+Uma base pode estar organizada no formato tidy e ainda conter valores ausentes, duplicatas ou erros. Estrutura e qualidade são questões relacionadas, mas diferentes.
+:::
+
+No Capítulo 15, estudaremos situações em que os dados não chegam nesse formato e aprenderemos a transformar bases largas e longas.
+
+## Uma tarefa realizada em etapas
+
+Suponha que desejemos observar as mulheres da amostra, manter salário, escolaridade e experiência e ordenar o resultado pelo salário.
+
+Podemos realizar a tarefa criando um objeto após cada operação:
+
+```{r}
+mulheres <- filter(wage1_core, female == 1)
+
+mulheres_selecionadas <- select(
+  mulheres,
+  wage,
+  educ,
+  exper
+)
+
+mulheres_ordenadas <- arrange(
+  mulheres_selecionadas,
+  wage
+)
+
+head(mulheres_ordenadas)
+```
+
+Essa forma é válida e pode ser útil para inspecionar cada etapa. Entretanto, quando as operações pertencem a um único raciocínio, podemos expressá-las como um fluxo.
+
+## O pipe como fluxo de trabalho
+
+O operador `|>` é chamado de **pipe**. Ele recebe o resultado à sua esquerda e o encaminha para a próxima operação.
+
+A mesma tarefa pode ser escrita assim:
+
+```{r}
+mulheres_ordenadas_pipe <- wage1_core |>
+  filter(female == 1) |>
+  select(wage, educ, exper) |>
+  arrange(wage)
+
+head(mulheres_ordenadas_pipe)
+```
+
+Podemos ler esse código de cima para baixo:
+
+1. parta de `wage1_core`;
+2. mantenha as observações em que `female` é igual a 1;
+3. mantenha as variáveis `wage`, `educ` e `exper`;
+4. ordene as linhas por `wage`;
+5. guarde o resultado em `mulheres_ordenadas_pipe`.
+
+O pipe não altera automaticamente `wage1_core`. O resultado somente é guardado porque utilizamos a atribuição `<-`.
+
+::: {.callout-note title="O pipe `%>%`"}
+Você também encontrará `%>%` em livros, sites e códigos escritos com versões anteriores do tidyverse. Nesta apostila, adotaremos o pipe nativo do R, `|>`, como padrão. O importante é reconhecer que ambos são utilizados para encadear operações, embora não sejam idênticos em todos os usos.
+:::
+
+## R base e tidyverse são complementares
+
+Nos capítulos anteriores, utilizamos recursos da linguagem R para criar objetos, selecionar elementos e executar funções. Esse conhecimento continua necessário.
+
+Compare duas formas de selecionar os salários das mulheres:
+
+```{r}
+# R base
+salarios_base <- wage1_core$wage[wage1_core$female == 1]
+
+# dplyr
+salarios_dplyr <- wage1_core |>
+  filter(female == 1) |>
+  select(wage)
+```
+
+Os resultados têm estruturas diferentes: o primeiro é um vetor; o segundo permanece um *data frame*. Portanto, escolher uma forma de escrever também envolve compreender qual objeto desejamos produzir.
+
+## Construindo o fluxo passo a passo
+
+Um pipe não precisa ser escrito inteiro antes de ser executado. Para construir um fluxo com segurança, teste cada etapa.
+
+Primeiro, faça o filtro e examine algumas linhas:
+
+```{r}
+wage1_core |>
+  filter(female == 1) |>
+  head()
+```
+
+Depois, acrescente a seleção:
+
+```{r}
+wage1_core |>
+  filter(female == 1) |>
+  select(wage, educ, exper) |>
+  head()
+```
+
+Finalmente, acrescente a ordenação:
+
+```{r}
+wage1_core |>
+  filter(female == 1) |>
+  select(wage, educ, exper) |>
+  arrange(wage) |>
+  head()
+```
+
+Esse procedimento ajuda a descobrir em qual etapa surgiu um resultado inesperado ou uma mensagem de erro.
+
+::: {.callout-warning title="Código sugerido por inteligência artificial também precisa ser verificado"}
+Quando uma ferramenta de IA sugerir um fluxo, execute uma etapa por vez. Confira se as funções existem, se os nomes das variáveis estão corretos e se o resultado representa a pergunta que você pretende responder. Um código que executa sem erro não é necessariamente uma análise correta.
+:::
+
+## O caminho percorrido
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Caminho de aprendizagem do capítulo"
+%%| echo: false
+
+flowchart LR
+    A["Pergunta<br/>econômica"] --> B["Base em formato<br/>tidy"]
+    B --> C["Operações<br/>encadeadas"]
+    C --> D["Verificação<br/>passo a passo"]
+    D --> E["Resultado<br/>interpretável"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Pergunta<br/>econômica"] --> B["Base em formato<br/>tidy"]
+    B --> C["Operações<br/>encadeadas"]
+    C --> D["Verificação<br/>passo a passo"]
+    D --> E["Resultado<br/>interpretável"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Neste capítulo, usamos poucas funções para compreender uma ideia central: uma análise pode ser organizada como uma sequência legível de transformações. No próximo capítulo, estudaremos com mais detalhe os principais verbos do `dplyr`.
+
+## Pratique
+
+Utilize `wage1_core` para construir um fluxo que:
+
+1. mantenha somente os homens (`female == 0`);
+2. selecione `wage`, `educ`, `exper` e `tenure`;
+3. ordene o resultado do maior para o menor salário com `arrange(desc(wage))`;
+4. mostre as seis primeiras linhas com `head()`.
+
+Depois, escreva uma frase para explicar o que cada linha do fluxo realiza.
+
+::: {.callout-tip title="Antes de consultar a resposta" collapse="true"}
+Construa o fluxo uma etapa por vez e examine o resultado após cada modificação.
+
+```{r}
+wage1_core |>
+  filter(female == 0) |>
+  select(wage, educ, exper, tenure) |>
+  arrange(desc(wage)) |>
+  head()
+```
+:::

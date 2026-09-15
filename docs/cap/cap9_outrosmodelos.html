@@ -9,7 +9,7 @@
 <meta name="author" content="Alexandre Nicolella e Felipe Bauer">
 <meta name="dcterms.date" content="2024-03-12">
 
-<title>18&nbsp; Modelos Avançados – Introdução ao R</title>
+<title>21&nbsp; Modelos Avançados – Introdução ao R</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../cap/capextra_github.html" rel="next">
+<link href="../cap/cap5_googledrive.html" rel="next">
 <link href="../cap/cap8_lineares.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -189,7 +189,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap9_outrosmodelos.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap9_outrosmodelos.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -312,7 +312,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Manipulando os Dados</span></a>
+ <span class="menu-text">Transformação e organização</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -320,14 +320,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap4_dplyr.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">O Dplyr</span></span></a>
+  <a href="../cap/cap13_tidyverse_pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introdução ao tidyverse e ao pipe</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  <a href="../cap/cap14_manipulacao_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Manipulação de dados com dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap15_dados_tidy_tidyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dados tidy e transformação com tidyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap16_combinacao_bases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Combinação de bases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap17_textos_datas_categorias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Textos, datas e categorias</span></span></a>
   </div>
 </li>
       </ul>
@@ -344,7 +362,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap6_estatistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Uma Introdução à Estatística</span></span></a>
   </div>
 </li>
       </ul>
@@ -361,19 +379,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap7_descritiva_v2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Análise Descritiva</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap8_lineares.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap9_outrosmodelos.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></span></a>
   </div>
 </li>
       </ul>
@@ -389,8 +407,14 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
   </div>
 </li>
       </ul>
@@ -405,26 +429,26 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#modelos-com-variáveis-dependentes-qualitativas" id="toc-modelos-com-variáveis-dependentes-qualitativas" class="nav-link active" data-scroll-target="#modelos-com-variáveis-dependentes-qualitativas"><span class="header-section-number">18.1</span> Modelos com Variáveis Dependentes Qualitativas</a>
+  <li><a href="#modelos-com-variáveis-dependentes-qualitativas" id="toc-modelos-com-variáveis-dependentes-qualitativas" class="nav-link active" data-scroll-target="#modelos-com-variáveis-dependentes-qualitativas"><span class="header-section-number">21.1</span> Modelos com Variáveis Dependentes Qualitativas</a>
   <ul class="collapse">
-  <li><a href="#variáveis-dependentes-binárias" id="toc-variáveis-dependentes-binárias" class="nav-link" data-scroll-target="#variáveis-dependentes-binárias"><span class="header-section-number">18.1.1</span> Variáveis Dependentes Binárias</a></li>
-  <li><a href="#o-modelo-de-probabilidade-linear" id="toc-o-modelo-de-probabilidade-linear" class="nav-link" data-scroll-target="#o-modelo-de-probabilidade-linear"><span class="header-section-number">18.1.2</span> O Modelo de Probabilidade Linear</a></li>
-  <li><a href="#modelo-de-regressão-logistica-logit" id="toc-modelo-de-regressão-logistica-logit" class="nav-link" data-scroll-target="#modelo-de-regressão-logistica-logit"><span class="header-section-number">18.1.3</span> Modelo de Regressão Logistica: Logit</a></li>
+  <li><a href="#variáveis-dependentes-binárias" id="toc-variáveis-dependentes-binárias" class="nav-link" data-scroll-target="#variáveis-dependentes-binárias"><span class="header-section-number">21.1.1</span> Variáveis Dependentes Binárias</a></li>
+  <li><a href="#o-modelo-de-probabilidade-linear" id="toc-o-modelo-de-probabilidade-linear" class="nav-link" data-scroll-target="#o-modelo-de-probabilidade-linear"><span class="header-section-number">21.1.2</span> O Modelo de Probabilidade Linear</a></li>
+  <li><a href="#modelo-de-regressão-logistica-logit" id="toc-modelo-de-regressão-logistica-logit" class="nav-link" data-scroll-target="#modelo-de-regressão-logistica-logit"><span class="header-section-number">21.1.3</span> Modelo de Regressão Logistica: Logit</a></li>
   </ul></li>
-  <li><a href="#dados-de-contagem-modelo-de-regressão-de-poisson" id="toc-dados-de-contagem-modelo-de-regressão-de-poisson" class="nav-link" data-scroll-target="#dados-de-contagem-modelo-de-regressão-de-poisson"><span class="header-section-number">18.2</span> Dados de Contagem: Modelo de Regressão de Poisson</a>
+  <li><a href="#dados-de-contagem-modelo-de-regressão-de-poisson" id="toc-dados-de-contagem-modelo-de-regressão-de-poisson" class="nav-link" data-scroll-target="#dados-de-contagem-modelo-de-regressão-de-poisson"><span class="header-section-number">21.2</span> Dados de Contagem: Modelo de Regressão de Poisson</a>
   <ul class="collapse">
-  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">18.2.1</span> Exemplo:</a></li>
+  <li><a href="#exemplo" id="toc-exemplo" class="nav-link" data-scroll-target="#exemplo"><span class="header-section-number">21.2.1</span> Exemplo:</a></li>
   </ul></li>
-  <li><a href="#modelo-com-dados-em-painel-modelos-de-efeitos-fixos" id="toc-modelo-com-dados-em-painel-modelos-de-efeitos-fixos" class="nav-link" data-scroll-target="#modelo-com-dados-em-painel-modelos-de-efeitos-fixos"><span class="header-section-number">18.3</span> Modelo com Dados em Painel: Modelos de Efeitos Fixos</a></li>
+  <li><a href="#modelo-com-dados-em-painel-modelos-de-efeitos-fixos" id="toc-modelo-com-dados-em-painel-modelos-de-efeitos-fixos" class="nav-link" data-scroll-target="#modelo-com-dados-em-painel-modelos-de-efeitos-fixos"><span class="header-section-number">21.3</span> Modelo com Dados em Painel: Modelos de Efeitos Fixos</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap9_outrosmodelos.html"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap7_descritiva_v2.html">Gerando Informação</a></li><li class="breadcrumb-item"><a href="../cap/cap9_outrosmodelos.html"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></h1>
+<h1 class="title"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Modelos Avançados</span></h1>
 <p class="subtitle lead">Aplicação à Pesquisa em Direito</p>
 </div>
 
@@ -454,10 +478,10 @@ window.Quarto = {
 </header>
 
 
-<section id="modelos-com-variáveis-dependentes-qualitativas" class="level2" data-number="18.1">
-<h2 data-number="18.1" class="anchored" data-anchor-id="modelos-com-variáveis-dependentes-qualitativas"><span class="header-section-number">18.1</span> Modelos com Variáveis Dependentes Qualitativas</h2>
-<section id="variáveis-dependentes-binárias" class="level3" data-number="18.1.1">
-<h3 data-number="18.1.1" class="anchored" data-anchor-id="variáveis-dependentes-binárias"><span class="header-section-number">18.1.1</span> Variáveis Dependentes Binárias</h3>
+<section id="modelos-com-variáveis-dependentes-qualitativas" class="level2" data-number="21.1">
+<h2 data-number="21.1" class="anchored" data-anchor-id="modelos-com-variáveis-dependentes-qualitativas"><span class="header-section-number">21.1</span> Modelos com Variáveis Dependentes Qualitativas</h2>
+<section id="variáveis-dependentes-binárias" class="level3" data-number="21.1.1">
+<h3 data-number="21.1.1" class="anchored" data-anchor-id="variáveis-dependentes-binárias"><span class="header-section-number">21.1.1</span> Variáveis Dependentes Binárias</h3>
 <p><strong>Exemplos de resultados binários:</strong></p>
 <ol type="1">
 <li>Um consumidor compra ou não compra um produto.</li>
@@ -468,8 +492,8 @@ window.Quarto = {
 <p><strong>Variável dependente binária</strong>:</p>
 <p>A variável de resultado será, <span class="math inline">\(y = 1\)</span>, se o evento de interesse ocorre, caso o contrario <span class="math inline">\(y=0\)</span>. Os modelos de Variáveis Dependentes Limitadas são bastante difundidos nas análises empíricas nas ciências sociais.</p>
 </section>
-<section id="o-modelo-de-probabilidade-linear" class="level3" data-number="18.1.2">
-<h3 data-number="18.1.2" class="anchored" data-anchor-id="o-modelo-de-probabilidade-linear"><span class="header-section-number">18.1.2</span> O Modelo de Probabilidade Linear</h3>
+<section id="o-modelo-de-probabilidade-linear" class="level3" data-number="21.1.2">
+<h3 data-number="21.1.2" class="anchored" data-anchor-id="o-modelo-de-probabilidade-linear"><span class="header-section-number">21.1.2</span> O Modelo de Probabilidade Linear</h3>
 <p>O modelo será especificado como:</p>
 <p><span class="math display">\[y= \beta_0 + \beta_1 x_1 + ... +\beta_kx_k +u\]</span></p>
 <p>O modelo acima estima a <strong>probabilidade do evento de interesse ocorrer</strong> dado as variáveis explicativas. Em notação matemática pode ser representado da seguinte maneira:</p>
@@ -577,8 +601,8 @@ F-statistic: 38.22 on 7 and 745 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 </section>
-<section id="modelo-de-regressão-logistica-logit" class="level3" data-number="18.1.3">
-<h3 data-number="18.1.3" class="anchored" data-anchor-id="modelo-de-regressão-logistica-logit"><span class="header-section-number">18.1.3</span> Modelo de Regressão Logistica: Logit</h3>
+<section id="modelo-de-regressão-logistica-logit" class="level3" data-number="21.1.3">
+<h3 data-number="21.1.3" class="anchored" data-anchor-id="modelo-de-regressão-logistica-logit"><span class="header-section-number">21.1.3</span> Modelo de Regressão Logistica: Logit</h3>
 <p>No modelo Logit a função linear é substituida pela função de distribuição acumulada logistica:</p>
 <p><span class="math display">\[ Pr(Y_i=1)=F(\mathbf{x}'\boldsymbol{\beta})=\text{Logit}^{-1}(\mathbf{x}'\boldsymbol{\beta})\]</span></p>
 <p>Ou</p>
@@ -597,8 +621,8 @@ F-statistic: 38.22 on 7 and 745 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><span class="math display">\[\frac{p}{1 - p} = \exp(\mathbf{x}' \boldsymbol{\beta})\]</span></p>
 <p><strong>Efeito Marginal:</strong></p>
 <p>Outra maneira é encontrar o efeito marginal do estimador, que irá fornecer a seguinte interpretação, um aumento em <span class="math inline">\(X\)</span> aumenta(diminui) em <span class="math inline">\(\beta\)</span> pontos percentuais a probabilidade de ser <span class="math inline">\(Y=1\)</span>. Vejamos os exemplos abaixo para ficar um pouco mais claro.</p>
-<section id="exemplo-e-interpretação" class="level4" data-number="18.1.3.1">
-<h4 data-number="18.1.3.1" class="anchored" data-anchor-id="exemplo-e-interpretação"><span class="header-section-number">18.1.3.1</span> Exemplo e interpretação</h4>
+<section id="exemplo-e-interpretação" class="level4" data-number="21.1.3.1">
+<h4 data-number="21.1.3.1" class="anchored" data-anchor-id="exemplo-e-interpretação"><span class="header-section-number">21.1.3.1</span> Exemplo e interpretação</h4>
 <p>Primeiramente vamos estimar o modelo logit. Usamos a mesma base que indica se a mulher está na força de trabalho <span class="math inline">\((Y=1)\)</span> ou se a mulher está fora da força de trabalho <span class="math inline">\((Y=0)\)</span>, variável <em>inlf</em>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mroz, <span class="at">package=</span><span class="st">"wooldridge"</span>)</span>
@@ -809,8 +833,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </section>
-<section id="probit" class="level4" data-number="18.1.3.2">
-<h4 data-number="18.1.3.2" class="anchored" data-anchor-id="probit"><span class="header-section-number">18.1.3.2</span> Probit</h4>
+<section id="probit" class="level4" data-number="21.1.3.2">
+<h4 data-number="21.1.3.2" class="anchored" data-anchor-id="probit"><span class="header-section-number">21.1.3.2</span> Probit</h4>
 <p>Uma alternativa ao modelo logit seria o uso do modelo probit. Que ao invés da função logística utiliza-se a função distribuição normal padrão. Vejamos os resultados:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mroz, <span class="at">package=</span><span class="st">"wooldridge"</span>)</span>
@@ -911,8 +935,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 </section>
 </section>
-<section id="dados-de-contagem-modelo-de-regressão-de-poisson" class="level2" data-number="18.2">
-<h2 data-number="18.2" class="anchored" data-anchor-id="dados-de-contagem-modelo-de-regressão-de-poisson"><span class="header-section-number">18.2</span> Dados de Contagem: Modelo de Regressão de Poisson</h2>
+<section id="dados-de-contagem-modelo-de-regressão-de-poisson" class="level2" data-number="21.2">
+<h2 data-number="21.2" class="anchored" data-anchor-id="dados-de-contagem-modelo-de-regressão-de-poisson"><span class="header-section-number">21.2</span> Dados de Contagem: Modelo de Regressão de Poisson</h2>
 <p>Em vez de apenas dados binários codificados em <span class="math inline">\(0/1\)</span>, os dados de contagem podem assumir qualquer número inteiro não negativo $0,1,2,. . $.</p>
 <p>Se considerarem números muito grandes (como o número de alunos numa escola, número de dias de duração de um processo), podem ser aproximados por variáveis contínuas em modelos lineares e estimados utilizando MQO. Se os números forem relativamente pequenos (como o número de filhos de uma mãe), esta aproximação pode não funcionar bem. Por exemplo, os valores previstos podem tornar-se negativos.</p>
 <p>O modelo de regressão de Poisson é o modelo mais básico e conveniente projetado explicitamente para dados de contagem. A probabilidade de y assumir qualquer valor <span class="math inline">\(h \in \{0,1,2,..\}\)</span> e o modelo pode ser escrito da seguinte maneira:</p>
@@ -925,8 +949,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p><span class="math display">\[\beta_j = \frac{1}{E(y \mid x)} \cdot \frac{\partial E(y \mid x)}{\partial x_j}\]</span></p>
 <p><span class="math display">\[\beta_j \Delta{X}= \frac{\Delta E(y \mid x)}{E(y \mid x)}=E(y \mid x)\%\]</span> <strong>Interpretação</strong></p>
 <p>Se <span class="math inline">\(x_j\)</span> aumentar em uma unidade (tudo mais constante), <span class="math inline">\(E(y|x)\)</span> aumentará aproximadamente em <span class="math inline">\(100 \cdot \beta_j\)</span> por cento (o valor exato é novamente <span class="math inline">\(100 \cdot (e^{\beta_j} - 1)\)</span>).</p>
-<section id="exemplo" class="level3" data-number="18.2.1">
-<h3 data-number="18.2.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">18.2.1</span> Exemplo:</h3>
+<section id="exemplo" class="level3" data-number="21.2.1">
+<h3 data-number="21.2.1" class="anchored" data-anchor-id="exemplo"><span class="header-section-number">21.2.1</span> Exemplo:</h3>
 <p>Estimar modelos de regressão de Poisson em R é simples. Eles também pertencem à classe dos modelos lineares generalizados (GLM) e podem ser estimados usando <code>glm</code>. A opção para especificar um modelo de Poisson é <code>family=poisson</code>.</p>
 <p>Vejamos um exemplo que analisa o número de prisões masculinas em 1986. Estamos estudando o número de vezes que um homem foi preso no ano de 1986 - <em>narr86</em>. As variáveis independentes são:</p>
 <ul>
@@ -1007,8 +1031,8 @@ Note:         *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
 <p>{No modelo de Poisson}{.underline} um aumento de 0.10 na proporção de condenação reduz em <span class="math inline">\(0,402 \cdot 0,1 \cdot 100=4,02\%\)</span>. Considerando a cor da pele, aquelas que declaram ter pele preta possuem 66% mais chance de serem presas.</p>
 </section>
 </section>
-<section id="modelo-com-dados-em-painel-modelos-de-efeitos-fixos" class="level2" data-number="18.3">
-<h2 data-number="18.3" class="anchored" data-anchor-id="modelo-com-dados-em-painel-modelos-de-efeitos-fixos"><span class="header-section-number">18.3</span> Modelo com Dados em Painel: Modelos de Efeitos Fixos</h2>
+<section id="modelo-com-dados-em-painel-modelos-de-efeitos-fixos" class="level2" data-number="21.3">
+<h2 data-number="21.3" class="anchored" data-anchor-id="modelo-com-dados-em-painel-modelos-de-efeitos-fixos"><span class="header-section-number">21.3</span> Modelo com Dados em Painel: Modelos de Efeitos Fixos</h2>
 <p>Dados em painel são extremamente importantes na análise econométrica porque permitem o estudo de variáveis ao longo do tempo e entre diferentes indivíduos ou entidades, como empresas, países ou varas. Esse tipo de dados oferece mais informações, variabilidade e eficiência do que séries temporais ou dados cross-section isoladamente, permitindo uma melhor compreensão das dinâmicas subjacentes e das relações causais.</p>
 <p>O estimador de efeitos fixos é uma técnica crucial para lidar com o viés de heterogeneidade, que surge quando características não observáveis e invariantes no tempo influenciam as variáveis de interesse. Ao considerar apenas as variações dentro de cada indivíduo ao longo do tempo, o estimador de efeitos fixos controla essas características não observáveis, eliminando seu impacto sobre os estimadores dos coeficientes. Dessa forma, permite uma estimativa não enviesada dos efeitos das variáveis explicativas, proporcionando resultados mais robustos e confiáveis.</p>
 <p>Considere o modelo mais simples de T períodos.</p>
@@ -1499,12 +1523,12 @@ F-statistic: 3.61129 on 2 and 44 DF, p-value: 0.035303</code></pre>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../cap/cap8_lineares.html" class="pagination-link" aria-label="Modelos Lineares">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Modelos Lineares</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../cap/capextra_github.html" class="pagination-link" aria-label="Usando o GitHub">
-        <span class="nav-page-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../cap/cap5_googledrive.html" class="pagination-link" aria-label="Google Drive">
+        <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Google Drive</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,0 +1,371 @@
+---
+title: "Combinação de bases"
+subtitle: "Chaves, relações e granularidade"
+author:
+  - Alexandre Nicolella
+date: "09/15/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+Informações necessárias para uma análise nem sempre estão reunidas na mesma tabela. Salários podem estar em uma base, características individuais em outra e informações do domicílio em uma terceira.
+
+Nossa pergunta orientadora será:
+
+> Como combinar informações sem perder observações nem criar duplicações indevidas?
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- identificar uma chave de combinação;
+- verificar se uma chave é única;
+- distinguir relações um para um, um para muitos e muitos para muitos;
+- utilizar `left_join()`, `inner_join()` e `full_join()`;
+- localizar correspondências ausentes com `anti_join()`;
+- reconhecer duplicações produzidas por chaves inadequadas;
+- combinar informações de indivíduos e domicílios respeitando sua granularidade.
+:::
+
+## Uma base dividida em duas tabelas
+
+Começaremos com uma situação controlada. Vamos dividir `wage1_core` em duas tabelas:
+
+- `pessoas`, com características individuais;
+- `trabalho`, com informações sobre a trajetória profissional e o salário.
+
+```{r}
+library(tidyverse)
+
+wage1_core <- readRDS("dados/wage1_core.rds")
+
+pessoas <- wage1_core |>
+  select(id, female, educ)
+
+trabalho <- wage1_core |>
+  select(id, wage, exper, tenure)
+
+head(pessoas)
+head(trabalho)
+```
+
+As duas tabelas compartilham `id`. Essa variável permitirá reconhecer a mesma pessoa em ambas.
+
+## O que é uma chave?
+
+Uma **chave** é uma variável — ou combinação de variáveis — utilizada para identificar e relacionar observações.
+
+Antes da combinação, precisamos perguntar:
+
+1. a chave existe nas duas tabelas?
+2. possui o mesmo tipo e significado?
+3. identifica cada observação de forma única?
+4. qual relação esperamos entre as tabelas?
+
+```{r}
+pessoas |>
+  count(id) |>
+  filter(n > 1)
+
+trabalho |>
+  count(id) |>
+  filter(n > 1)
+```
+
+Os resultados vazios indicam que nenhum `id` aparece mais de uma vez em cada tabela.
+
+::: {.callout-important title="O nome igual não garante o significado igual"}
+Duas colunas chamadas `id` podem representar unidades diferentes. Uma pode identificar a pessoa e outra o domicílio. A combinação depende do dicionário e da estrutura dos dados, não apenas do nome das colunas.
+:::
+
+## Relações entre tabelas
+
+A quantidade de vezes que a chave aparece em cada tabela define a relação:
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Relações um para um, um para muitos e muitos para muitos"
+%%| echo: false
+
+flowchart LR
+    A["Um para um<br/>uma linha em cada tabela"]
+    B["Um para muitos<br/>uma linha ligada a várias"]
+    C["Muitos para muitos<br/>várias linhas nos dois lados"]
+
+    classDef relacao fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C relacao;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Um para um<br/>uma linha em cada tabela"]
+    B["Um para muitos<br/>uma linha ligada a várias"]
+    C["Muitos para muitos<br/>várias linhas nos dois lados"]
+
+    classDef relacao fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C relacao;
+```
+:::
+
+Em nosso primeiro exemplo, esperamos uma relação **um para um**: cada pessoa possui uma linha em `pessoas` e uma linha em `trabalho`.
+
+## Mantendo todas as linhas da tabela principal
+
+`left_join()` mantém todas as linhas da tabela à esquerda e procura as informações correspondentes na tabela à direita:
+
+```{r}
+wage1_reconstruida <- pessoas |>
+  left_join(trabalho, by = "id")
+
+dim(wage1_reconstruida)
+head(wage1_reconstruida)
+```
+
+O argumento `by = "id"` torna explícita a chave. Depois da combinação, devemos conferir o resultado:
+
+```{r}
+nrow(pessoas)
+nrow(wage1_reconstruida)
+
+wage1_reconstruida |>
+  summarise(across(everything(), ~ sum(is.na(.x))))
+```
+
+Como construímos as duas tabelas a partir da mesma base, todas as pessoas possuem correspondência.
+
+## Quando faltam correspondências
+
+Na prática, uma tabela pode não conter todos os identificadores. Vamos retirar duas pessoas da tabela de trabalho para observar o que acontece:
+
+```{r}
+trabalho_incompleto <- trabalho |>
+  filter(!id %in% c(1, 2))
+
+combinacao_incompleta <- pessoas |>
+  left_join(trabalho_incompleto, by = "id")
+
+combinacao_incompleta |>
+  filter(is.na(wage)) |>
+  head()
+```
+
+As pessoas permanecem no resultado, mas recebem `NA` nas colunas sem correspondência.
+
+`anti_join()` identifica diretamente as linhas da primeira tabela que não encontraram par na segunda:
+
+```{r}
+pessoas |>
+  anti_join(trabalho_incompleto, by = "id")
+```
+
+Essa é uma verificação importante antes e depois de qualquer combinação.
+
+## Mantendo somente as correspondências
+
+`inner_join()` mantém apenas os identificadores presentes nas duas tabelas:
+
+```{r}
+somente_correspondencias <- pessoas |>
+  inner_join(trabalho_incompleto, by = "id")
+
+nrow(somente_correspondencias)
+```
+
+Esse comportamento pode ser desejado, mas também pode eliminar silenciosamente observações relevantes. A escolha precisa ser justificada pelo problema.
+
+## Mantendo tudo dos dois lados
+
+`full_join()` preserva todas as chaves encontradas nas duas tabelas. Para tornar o comportamento visível, acrescentaremos um registro de trabalho que não existe em `pessoas`:
+
+```{r}
+trabalho_extra <- trabalho_incompleto |>
+  add_row(id = 999, wage = 20, exper = 5, tenure = 2)
+
+combinacao_completa <- pessoas |>
+  full_join(trabalho_extra, by = "id")
+
+combinacao_completa |>
+  filter(id %in% c(1, 2, 999))
+```
+
+Agora aparecem tanto as pessoas sem informação de trabalho quanto o registro de trabalho sem características pessoais.
+
+## Como escolher o tipo de combinação
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Escolha do tipo de combinação segundo as observações que devem permanecer"
+%%| echo: false
+
+flowchart TD
+    A["Quais observações<br/>devem permanecer?"] --> B["Todas da tabela principal<br/>left_join"]
+    A --> C["Somente correspondências<br/>inner_join"]
+    A --> D["Todas das duas tabelas<br/>full_join"]
+    A --> E["Sem correspondência<br/>anti_join para diagnosticar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart TD
+    A["Quais observações<br/>devem permanecer?"] --> B["Todas da tabela principal<br/>left_join"]
+    A --> C["Somente correspondências<br/>inner_join"]
+    A --> D["Todas das duas tabelas<br/>full_join"]
+    A --> E["Sem correspondência<br/>anti_join para diagnosticar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Não escolhemos um *join* apenas pelo comando mais familiar. A escolha expressa quais observações fazem parte da análise.
+
+## O risco das duplicações
+
+Considere uma tabela em que o mesmo `id` aparece duas vezes:
+
+```{r}
+trabalho_duplicado <- trabalho |>
+  slice(1:3) |>
+  bind_rows(trabalho |> slice(1))
+
+trabalho_duplicado
+```
+
+Ao combinar, a pessoa repetida produzirá mais de uma linha:
+
+```{r}
+pessoas |>
+  filter(id %in% trabalho_duplicado$id) |>
+  left_join(trabalho_duplicado, by = "id")
+```
+
+Isso não é um defeito do `left_join()`. O resultado reflete a relação entre as tabelas. Precisamos descobrir se a repetição representa erro ou várias observações legítimas, como empregos diferentes para a mesma pessoa.
+
+::: {.callout-warning title="Nunca remova duplicações automaticamente antes de compreender a base"}
+Uma chave repetida pode indicar erro, mas também pode representar períodos, vínculos de trabalho, produtos ou moradores diferentes. Primeiro identifique a granularidade; depois decida como tratar as linhas.
+:::
+
+## Indivíduos e domicílios
+
+Agora construiremos um exemplo pequeno que se aproxima da lógica de microdados domiciliares. Os valores são fictícios e servem para compreender a estrutura.
+
+```{r}
+domicilios <- tibble(
+  id_dom = c(101, 102, 103),
+  uf = c("SP", "MG", "BA"),
+  renda_nao_trabalho = c(500, 0, 300)
+)
+
+moradores <- tibble(
+  id_pessoa = 1:7,
+  id_dom = c(101, 101, 102, 102, 102, 103, 103),
+  parentesco = c(
+    "Responsável", "Cônjuge",
+    "Responsável", "Filho", "Filha",
+    "Responsável", "Mãe"
+  ),
+  trabalha = c(1, 1, 1, 0, 0, 1, 0),
+  renda_trabalho = c(3000, 2200, 1800, 0, 0, 1500, 0)
+)
+
+domicilios
+moradores
+```
+
+Em `domicilios`, cada linha representa um domicílio. Em `moradores`, cada linha representa uma pessoa. `id_dom` é único na primeira tabela e se repete na segunda: temos uma relação **um para muitos**.
+
+```{r}
+moradores_com_domicilio <- moradores |>
+  left_join(domicilios, by = "id_dom", relationship = "many-to-one")
+
+moradores_com_domicilio
+```
+
+O argumento `relationship = "many-to-one"` documenta a relação esperada: muitas linhas de moradores podem corresponder a uma linha de domicílio. Se essa expectativa for violada, o `dplyr` produzirá um erro.
+
+Observe que as informações do domicílio se repetem para todos os seus moradores. Isso é esperado após a combinação, mas exige cuidado para não somar várias vezes uma variável domiciliar.
+
+## Construindo informações do domicílio
+
+Podemos resumir os moradores para criar uma tabela com uma linha por domicílio:
+
+```{r}
+resumo_moradores <- moradores |>
+  group_by(id_dom) |>
+  summarise(
+    moradores = n(),
+    pessoas_que_trabalham = sum(trabalha),
+    renda_total_trabalho = sum(renda_trabalho),
+    .groups = "drop"
+  )
+
+resumo_moradores
+```
+
+Agora as duas tabelas possuem uma linha por domicílio e podem ser combinadas em uma relação um para um:
+
+```{r}
+base_domiciliar <- domicilios |>
+  left_join(
+    resumo_moradores,
+    by = "id_dom",
+    relationship = "one-to-one"
+  ) |>
+  mutate(
+    renda_total = renda_total_trabalho + renda_nao_trabalho,
+    renda_per_capita = renda_total / moradores
+  )
+
+base_domiciliar
+```
+
+Esse encadeamento ilustra um problema econômico real: para construir renda domiciliar per capita, precisamos compreender simultaneamente pessoas, domicílios, fontes de renda e chaves de combinação.
+
+## Roteiro de validação
+
+Antes de considerar uma combinação concluída:
+
+1. defina a unidade de observação de cada tabela;
+2. declare a chave e a relação esperada;
+3. procure chaves duplicadas;
+4. identifique linhas sem correspondência;
+5. compare o número de linhas antes e depois;
+6. examine casos concretos;
+7. registre as decisões tomadas.
+
+## Pratique
+
+Utilize `domicilios` e `moradores` para produzir uma tabela com uma linha por estado contendo:
+
+- número de domicílios;
+- número total de moradores;
+- renda total média dos domicílios;
+- renda per capita média.
+
+::: {.callout-tip collapse="true" title="Uma solução possível"}
+```{r}
+base_domiciliar |>
+  group_by(uf) |>
+  summarise(
+    domicilios = n(),
+    moradores = sum(moradores),
+    renda_total_media = mean(renda_total),
+    renda_per_capita_media = mean(renda_per_capita),
+    .groups = "drop"
+  )
+```
+:::

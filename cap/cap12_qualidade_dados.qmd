@@ -12,6 +12,11 @@ execute:
   message: false
 ---
 
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
 No capítulo anterior, carregamos a base `wage1`, selecionamos um núcleo de variáveis e importamos os mesmos dados em CSV, Excel e RDS. Conseguir abrir um arquivo, entretanto, não significa que a base esteja pronta para análise.
 
 Antes de calcular médias, construir gráficos ou estimar modelos, precisamos perguntar se os dados representam adequadamente aquilo que imaginamos. Valores ausentes, códigos inválidos, linhas duplicadas e relações incoerentes podem alterar os resultados ou revelar que ainda não compreendemos a base.
@@ -66,10 +71,10 @@ Uma ocorrência incomum pode ser erro, característica legítima, consequência 
 
 ## Carregando o núcleo de dados
 
-Utilizaremos o arquivo RDS produzido para o capítulo anterior. Como ele preserva a estrutura do objeto do R, podemos retomar diretamente o *data frame*.
+Utilizaremos o arquivo RDS disponibilizado no capítulo anterior. Como ele preserva a estrutura do objeto do R, podemos retomar diretamente o *data frame*.
 
 ```{r}
-wage1_core <- readRDS("../dados/wage1_core.rds")
+wage1_core <- readRDS("dados/wage1_core.rds")
 ```
 
 Começamos por uma inspeção geral:
@@ -270,6 +275,10 @@ Dois trabalhadores podem legitimamente possuir o mesmo salário, escolaridade e 
 
 ## Coerência entre variáveis
 
+::: {.callout-note title="Aprofundamento"}
+As verificações anteriores tratavam cada variável ou identificador separadamente. Agora combinaremos conhecimentos sobre duas variáveis para avaliar se a relação entre elas é coerente. Este raciocínio é importante, mas pode ser retomado depois do núcleo do capítulo.
+:::
+
 Algumas verificações dependem da relação entre duas ou mais variáveis. Seria natural esperar que o tempo no emprego atual (`tenure`) não ultrapassasse a experiência total (`exper`).
 
 Vamos testar essa relação na base original, sem os problemas simulados:
@@ -284,7 +293,7 @@ sum(conflito_tempo)
 wage1_core[conflito_tempo, ]
 ```
 
-Encontramos 16 ocorrências. A documentação da `wage1` informa que `exper` representa **experiência potencial**, não necessariamente a experiência efetivamente declarada. Ela também reconhece que alguns conflitos podem continuar sem explicação completa.
+Encontramos 16 ocorrências. A documentação da `wage1` informa que `exper` representa **experiência potencial**, não necessariamente a experiência efetivamente declarada. Ela também reconhece que alguns conflitos podem continuar sem explicação completa [@wooldridgewage1].
 
 ::: {.callout-caution title="Uma inconsistência aparente não autoriza uma correção automática"}
 Não devemos substituir valores ou excluir as 16 linhas apenas porque `tenure > exper`. Primeiro precisamos compreender como cada variável foi construída e decidir se a relação afeta a análise pretendida. A ocorrência deve ser registrada e, se necessário, examinada em uma análise de sensibilidade.
@@ -358,7 +367,9 @@ registro_qualidade
 
 Na investigação do grupo, esse registro poderá incluir data, responsável, regra utilizada, número de ocorrências e justificativa da decisão.
 
-## Transformando expectativas em validações
+## Aprofundamento: transformando expectativas em validações
+
+O operador `%in%`, apresentado no Capítulo 10, verifica se cada valor pertence ao conjunto de códigos permitidos. A função `anyDuplicated()` procura duplicações e retorna `0` quando não encontra nenhuma; por isso, `!anyDuplicated(wage1_limpa$id)` será `TRUE` quando todos os identificadores forem únicos.
 
 Podemos guardar algumas verificações em um vetor lógico:
 

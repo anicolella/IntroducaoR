@@ -71,12 +71,12 @@ O R guardou o número `3` no objeto chamado `salario_1`. Para consultar seu cont
 Também podemos substituir o valor armazenado:
 
 ```{r}
-salario_1 <- 3.10
+salario_1 <- 3.50
 salario_1
 ```
 
 ::: {.callout-warning title="A atribuição substitui o conteúdo anterior"}
-Depois do segundo comando, `salario_1` contém apenas `3.10`. O valor anterior não permanece guardado automaticamente. Por isso, é importante manter os comandos em um script e utilizar controle de versão.
+Este é apenas um objeto didático, ainda não ligado a um trabalhador da base. Depois do segundo comando, `salario_1` contém apenas `3.50`. O valor anterior não permanece guardado automaticamente. Por isso, é importante manter os comandos em um script e utilizar controle de versão.
 :::
 
 ### Nomes claros e consistentes
@@ -102,6 +102,21 @@ Prefira nomes curtos, mas informativos. Nesta apostila, adotaremos letras minús
 ::: {.callout-tip title="Uma regra prática"}
 Use nomes que revelem o conteúdo do objeto. Evite espaços, acentos e nomes iniciados por números. Escolha um padrão e mantenha-o ao longo do projeto.
 :::
+
+### Identação e legibilidade
+
+Quando um comando ocupa várias linhas, utilizamos recuos para deixar visível quais elementos pertencem à mesma operação. Compare:
+
+```{r}
+salarios_exemplo <- c(
+  3.00, 6.00, 5.30,
+  8.75, 11.25, 18.18
+)
+
+salarios_exemplo
+```
+
+O recuo não altera o resultado nesse caso, mas torna o código mais fácil de ler, revisar e corrigir. Ao longo da apostila, manteremos os argumentos e elementos relacionados alinhados.
 
 ## Tipos básicos de valores
 
@@ -178,6 +193,8 @@ educacao
 experiencia
 permanencia
 ```
+
+`id` é um **identificador**: sua função é distinguir as observações e permitir que elas sejam localizadas novamente. Ele não representa uma característica econômica, como salário ou educação. Nesta miniatura, os valores de `id` correspondem às linhas ocupadas pelos trabalhadores na base `wage1` original. Mais adiante, também utilizaremos identificadores para investigar possíveis duplicatas.
 
 ::: {.callout-warning title="A posição conecta as informações"}
 Nos vetores acima, o primeiro salário, o primeiro sexo e o primeiro valor de educação pertencem à mesma pessoa. Se as ordens forem diferentes ou os vetores tiverem tamanhos incompatíveis, construiremos um banco incorreto.
@@ -282,6 +299,14 @@ salario > 5
 educacao >= 12
 sexo == "mulher"
 ```
+
+O operador `%in%` verifica se cada elemento pertence a um conjunto de valores possíveis:
+
+```{r}
+sexo %in% c("homem", "mulher")
+```
+
+Esse operador será útil para conferir, por exemplo, se uma variável categórica contém somente códigos previstos no dicionário.
 
 Observe a diferença entre os operadores:
 

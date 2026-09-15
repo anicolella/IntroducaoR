@@ -1,0 +1,320 @@
+---
+title: "Dados tidy e transformação com tidyr"
+subtitle: "Organizando linhas, colunas e unidades de observação"
+author:
+  - Alexandre Nicolella
+date: "09/15/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+No Capítulo 13, apresentamos os princípios de uma base tidy: uma variável em cada coluna, uma observação em cada linha e um valor em cada célula. Agora aprenderemos a reconhecer quando uma tabela não segue esses princípios e a reorganizá-la com o `tidyr`.
+
+Nossa pergunta orientadora será:
+
+> Como organizar séries de indicadores econômicos para comparar sua evolução no tempo?
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- definir a unidade de observação de uma tabela;
+- distinguir apresentação visual e organização para análise;
+- reconhecer dados em formatos largo e longo;
+- utilizar `pivot_longer()` e `pivot_wider()`;
+- separar informações reunidas em uma coluna;
+- unir colunas quando isso for necessário;
+- verificar se a transformação preservou as observações.
+:::
+
+## Começar pela unidade de observação
+
+Antes de reorganizar uma tabela, precisamos completar a frase:
+
+> Cada linha representa __________.
+
+Em `wage1_core`, cada linha representa uma pessoa. Em uma série econômica, cada linha pode representar um indicador em um período. Em uma base de domicílios, cada linha pode representar um domicílio ou um morador — e essa diferença altera toda a análise.
+
+::: {.callout-important title="Tidy depende do que está sendo observado"}
+Não existe organização correta sem definir a unidade de observação. Uma linha por pessoa, uma linha por domicílio e uma linha por mês descrevem estruturas diferentes.
+:::
+
+## Uma tabela feita para leitura
+
+Vamos construir uma tabela pequena com valores anuais fictícios de três indicadores. Os números servem apenas para aprender a reorganização dos dados.
+
+```{r}
+library(tidyverse)
+
+indicadores_largos <- tibble(
+  serie = c("inflacao_pct", "selic_pct", "pib_indice"),
+  `2022` = c(5.8, 13.75, 100.0),
+  `2023` = c(4.6, 11.75, 102.9),
+  `2024` = c(4.8, 12.25, 106.3)
+)
+
+indicadores_largos
+```
+
+Essa tabela é fácil de ler: cada série ocupa uma linha e cada ano aparece em uma coluna. Para várias tarefas analíticas, porém, ela apresenta um problema: os nomes das colunas `2022`, `2023` e `2024` são valores da variável **ano**, não três variáveis diferentes.
+
+## Formato largo e formato longo
+
+No formato **largo**, uma mesma informação se espalha por várias colunas. No formato **longo**, os nomes dessas colunas tornam-se valores de uma variável.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Transformação entre dados largos e longos"
+%%| echo: false
+
+flowchart LR
+    A["Formato largo<br/>uma coluna por ano"] -->|pivot_longer| B["Formato longo<br/>colunas ano e valor"]
+    B -->|pivot_wider| A
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Formato largo<br/>uma coluna por ano"] -->|pivot_longer| B["Formato longo<br/>colunas ano e valor"]
+    B -->|pivot_wider| A
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Nenhum dos formatos é universalmente melhor. O formato adequado depende da tarefa. O formato longo costuma facilitar agrupamentos, gráficos e operações aplicadas a vários períodos.
+
+## Transformando colunas em linhas
+
+`pivot_longer()` reúne as colunas dos anos em duas novas variáveis:
+
+- `ano`, contendo o nome da coluna original;
+- `valor`, contendo o número que estava na célula.
+
+```{r}
+indicadores_longos <- indicadores_largos |>
+  pivot_longer(
+    cols = `2022`:`2024`,
+    names_to = "ano",
+    values_to = "valor"
+  )
+
+indicadores_longos
+```
+
+Agora cada linha representa uma combinação de **série e ano**. A unidade de observação ficou explícita.
+
+Os nomes das colunas originais tornam-se texto por padrão. Como o ano será utilizado como número, podemos convertê-lo durante a própria transformação:
+
+```{r}
+indicadores_longos <- indicadores_largos |>
+  pivot_longer(
+    cols = `2022`:`2024`,
+    names_to = "ano",
+    values_to = "valor",
+    names_transform = list(ano = as.integer)
+  )
+
+glimpse(indicadores_longos)
+```
+
+::: {.callout-tip title="Como ler os argumentos"}
+Em `pivot_longer()`, perguntamos:
+
+- quais colunas serão reunidas (`cols`)?
+- qual será o nome da coluna que receberá seus nomes (`names_to`)?
+- qual será o nome da coluna que receberá seus valores (`values_to`)?
+:::
+
+## Conferindo a transformação
+
+A tabela larga tinha três séries e três anos. Portanto, esperamos obter (3 \times 3 = 9) combinações:
+
+```{r}
+nrow(indicadores_largos)
+nrow(indicadores_longos)
+
+indicadores_longos |>
+  count(serie, ano) |>
+  filter(n != 1)
+```
+
+O último resultado deve ter zero linhas: cada combinação de série e ano aparece exatamente uma vez.
+
+## Transformando linhas em colunas
+
+Podemos retornar ao formato largo com `pivot_wider()`:
+
+```{r}
+indicadores_largos_novamente <- indicadores_longos |>
+  pivot_wider(
+    names_from = ano,
+    values_from = valor
+  )
+
+indicadores_largos_novamente
+```
+
+Em `pivot_wider()`, indicamos:
+
+- qual coluna fornecerá os novos nomes (`names_from`);
+- qual coluna fornecerá os valores (`values_from`).
+
+Se mais de uma linha corresponder à mesma célula futura, o R não saberá qual valor utilizar. Isso geralmente revela duplicações ou uma unidade de observação ainda incompleta.
+
+::: {.callout-warning title="Não use `pivot_wider()` para esconder duplicações"}
+Antes de alargar uma base, verifique se a combinação que identificará cada linha é única. Se houver várias observações para a mesma série e ano, investigue o motivo antes de agregá-las.
+:::
+
+## Quando várias informações ocupam uma coluna
+
+Bases também podem reunir duas informações em um único texto. Considere códigos que combinam indicador e unidade:
+
+```{r}
+series_codificadas <- tibble(
+  codigo = c("inflacao_pct", "selic_pct", "pib_indice"),
+  valor_2024 = c(4.8, 12.25, 106.3)
+)
+
+series_codificadas
+```
+
+`separate_wider_delim()` divide o texto utilizando um delimitador. Neste exemplo, o sublinhado separa o indicador da unidade:
+
+```{r}
+series_separadas <- series_codificadas |>
+  separate_wider_delim(
+    cols = codigo,
+    delim = "_",
+    names = c("indicador", "unidade")
+  )
+
+series_separadas
+```
+
+Essa operação somente é segura quando o delimitador possui um significado consistente. Se os próprios nomes dos indicadores contiverem sublinhados, precisaremos de outra regra.
+
+## Unindo colunas
+
+Podemos realizar a operação inversa com `unite()`. Ela é útil quando duas ou mais colunas precisam formar um identificador ou rótulo:
+
+```{r}
+series_reunidas <- series_separadas |>
+  unite(
+    col = codigo,
+    indicador,
+    unidade,
+    sep = "_",
+    remove = FALSE
+  )
+
+series_reunidas
+```
+
+Com `remove = FALSE`, preservamos as colunas originais para que seja possível conferir o resultado.
+
+## Uma pequena análise depois da organização
+
+Depois de colocar os indicadores no formato longo, operações que se repetem para cada série ficam mais simples. Podemos calcular a variação entre o primeiro e o último valor disponível:
+
+```{r}
+variacao_periodo <- indicadores_longos |>
+  arrange(serie, ano) |>
+  group_by(serie) |>
+  summarise(
+    primeiro_ano = first(ano),
+    ultimo_ano = last(ano),
+    primeiro_valor = first(valor),
+    ultimo_valor = last(valor),
+    variacao = ultimo_valor - primeiro_valor,
+    .groups = "drop"
+  )
+
+variacao_periodo
+```
+
+Os indicadores possuem unidades diferentes; por isso, suas variações não devem ser comparadas diretamente como se medissem a mesma coisa. A organização técnica não elimina a necessidade de interpretação econômica.
+
+## O caminho da reorganização
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Caminho para reorganizar uma base"
+%%| echo: false
+
+flowchart LR
+    A["Definir a unidade<br/>de observação"] --> B["Identificar onde estão<br/>variáveis e valores"]
+    B --> C["Escolher a<br/>transformação"]
+    C --> D["Verificar linhas,<br/>tipos e duplicações"]
+    D --> E["Realizar a<br/>análise"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Definir a unidade<br/>de observação"] --> B["Identificar onde estão<br/>variáveis e valores"]
+    B --> C["Escolher a<br/>transformação"]
+    C --> D["Verificar linhas,<br/>tipos e duplicações"]
+    D --> E["Realizar a<br/>análise"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+## Pratique
+
+Considere uma tabela com taxas de desemprego fictícias para três estados:
+
+```{r}
+desemprego_largo <- tibble(
+  uf = c("SP", "MG", "BA"),
+  `2023_1` = c(8.5, 7.2, 13.0),
+  `2023_2` = c(7.8, 6.8, 12.1)
+)
+
+desemprego_largo
+```
+
+Transforme a tabela para que cada linha represente uma combinação de estado e trimestre. Crie as colunas `periodo` e `taxa_desemprego`. Depois, separe `periodo` nas colunas `ano` e `trimestre`.
+
+::: {.callout-tip collapse="true" title="Uma solução possível"}
+```{r}
+desemprego_longo <- desemprego_largo |>
+  pivot_longer(
+    cols = -uf,
+    names_to = "periodo",
+    values_to = "taxa_desemprego"
+  ) |>
+  separate_wider_delim(
+    cols = periodo,
+    delim = "_",
+    names = c("ano", "trimestre")
+  ) |>
+  mutate(
+    ano = as.integer(ano),
+    trimestre = as.integer(trimestre)
+  )
+
+desemprego_longo
+```
+:::

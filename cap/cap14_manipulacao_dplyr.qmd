@@ -1,0 +1,418 @@
+---
+title: "Manipulação de dados com dplyr"
+subtitle: "Selecionar, transformar e resumir informações"
+author:
+  - Alexandre Nicolella
+date: "09/15/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+No capítulo anterior, aprendemos a organizar operações com o pipe. Agora estudaremos os principais verbos do `dplyr` e os utilizaremos para avançar em nossa pergunta econômica:
+
+> O que os dados revelam sobre salários, escolaridade e experiência de homens e mulheres?
+
+Continuaremos com `wage1_core`. Cada função será apresentada porque resolve uma necessidade da investigação, e não apenas como um comando isolado.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- filtrar observações com `filter()`;
+- selecionar, renomear e reposicionar variáveis;
+- ordenar linhas com `arrange()`;
+- criar e transformar variáveis com `mutate()` e `case_when()`;
+- produzir resumos para grupos com `group_by()` e `summarise()`;
+- construir tabelas de frequência com `count()`;
+- conferir se cada transformação corresponde à pergunta proposta.
+:::
+
+## Preparando a análise
+
+Carregamos o tidyverse e a base utilizada nos capítulos anteriores:
+
+```{r}
+library(tidyverse)
+
+wage1_core <- readRDS("dados/wage1_core.rds")
+
+dim(wage1_core)
+head(wage1_core)
+```
+
+Antes de transformar uma base, confirme a unidade de observação e o significado das variáveis. Em `wage1_core`, cada linha representa uma pessoa.
+
+## Uma gramática de manipulação
+
+Os verbos do `dplyr` descrevem ações realizadas sobre uma tabela.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Principais verbos do dplyr organizados por finalidade"
+%%| echo: false
+
+flowchart LR
+    A["Base de dados"] --> L["Linhas<br/>filter e arrange"]
+    A --> C["Colunas<br/>select, rename e relocate"]
+    A --> V["Novas variáveis<br/>mutate e case_when"]
+    A --> R["Resumos<br/>group_by, summarise e count"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,L,C,V,R etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Base de dados"] --> L["Linhas<br/>filter e arrange"]
+    A --> C["Colunas<br/>select, rename e relocate"]
+    A --> V["Novas variáveis<br/>mutate e case_when"]
+    A --> R["Resumos<br/>group_by, summarise e count"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,L,C,V,R etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Em geral, essas funções recebem um *data frame* e devolvem outro *data frame*. Isso permite combiná-las com o pipe.
+
+## Filtrando observações
+
+`filter()` mantém apenas as linhas que satisfazem uma condição. Para selecionar as mulheres:
+
+```{r}
+mulheres <- wage1_core |>
+  filter(female == 1)
+
+nrow(mulheres)
+```
+
+Podemos combinar condições. O código abaixo mantém mulheres com 12 ou mais anos de escolaridade:
+
+```{r}
+mulheres_educ12 <- wage1_core |>
+  filter(female == 1, educ >= 12)
+
+head(mulheres_educ12)
+```
+
+Quando as condições são separadas por vírgula dentro de `filter()`, todas precisam ser verdadeiras. Isso equivale ao operador lógico `&`.
+
+Para manter pessoas que atendam a pelo menos uma de duas condições, utilizamos `|`:
+
+```{r}
+inicio_ou_estavel <- wage1_core |>
+  filter(exper <= 2 | tenure >= 15)
+
+head(inicio_ou_estavel)
+```
+
+::: {.callout-warning title="`=` e `==` não cumprem o mesmo papel"}
+Dentro de uma condição, `==` compara valores. Um único `=` geralmente é utilizado para indicar argumentos ou nomear resultados. Para selecionar mulheres, escrevemos `female == 1`.
+:::
+
+## Selecionando variáveis
+
+`select()` mantém as colunas necessárias para uma tarefa:
+
+```{r}
+salarios_educacao <- wage1_core |>
+  select(id, wage, female, educ)
+
+head(salarios_educacao)
+```
+
+Também podemos excluir colunas com o sinal de menos:
+
+```{r}
+sem_identificador <- wage1_core |>
+  select(-id)
+
+head(sem_identificador)
+```
+
+É preferível selecionar pelo nome, pois a posição de uma coluna pode mudar quando a base é atualizada.
+
+### Seleções auxiliares
+
+Em bases maiores, funções auxiliares ajudam a localizar grupos de colunas:
+
+```{r}
+wage1_core |>
+  select(id, starts_with("e")) |>
+  head()
+```
+
+Outras auxiliares frequentes incluem `ends_with()`, `contains()` e `everything()`.
+
+## Renomeando variáveis
+
+`rename()` altera nomes sem eliminar as demais colunas. O novo nome aparece à esquerda e o antigo à direita:
+
+```{r}
+wage1_portugues <- wage1_core |>
+  rename(
+    salario_hora = wage,
+    mulher = female,
+    escolaridade = educ,
+    experiencia = exper,
+    permanencia = tenure
+  )
+
+names(wage1_portugues)
+```
+
+Nomes claros ajudam a compreender o código, mas devem permanecer consistentes ao longo da análise.
+
+## Reposicionando colunas
+
+`relocate()` muda a posição das colunas sem alterar seus valores. Podemos colocar `female` logo depois de `id`:
+
+```{r}
+wage1_reorganizado <- wage1_core |>
+  relocate(female, .after = id)
+
+head(wage1_reorganizado)
+```
+
+Também podemos utilizar `.before` para indicar a coluna que deverá vir depois da variável reposicionada.
+
+## Ordenando as linhas
+
+`arrange()` ordena as observações em ordem crescente:
+
+```{r}
+menores_salarios <- wage1_core |>
+  arrange(wage) |>
+  head()
+
+menores_salarios
+```
+
+Para utilizar a ordem decrescente, envolvemos a variável em `desc()`:
+
+```{r}
+maiores_salarios <- wage1_core |>
+  arrange(desc(wage)) |>
+  head()
+
+maiores_salarios
+```
+
+Podemos ordenar por mais de uma variável. O código abaixo separa primeiro os grupos e, dentro de cada grupo, ordena os salários do maior para o menor:
+
+```{r}
+wage1_core |>
+  arrange(female, desc(wage)) |>
+  select(id, female, wage) |>
+  head(10)
+```
+
+## Criando novas variáveis
+
+`mutate()` cria ou modifica colunas. Para facilitar a interpretação, podemos transformar a variável binária `female` em uma categoria textual:
+
+```{r}
+wage1_ampliado <- wage1_core |>
+  mutate(
+    sexo = if_else(female == 1, "Mulher", "Homem")
+  )
+
+wage1_ampliado |>
+  select(id, female, sexo) |>
+  head()
+```
+
+Também podemos criar uma medida. Como `wage` é o salário por hora, uma aproximação mensal para uma jornada de 40 horas semanais pode ser calculada com 40 horas por semana e 4,33 semanas por mês:
+
+```{r}
+wage1_ampliado <- wage1_ampliado |>
+  mutate(
+    salario_mensal_aprox = wage * 40 * 4.33
+  )
+
+wage1_ampliado |>
+  select(wage, salario_mensal_aprox) |>
+  head()
+```
+
+::: {.callout-important title="Uma variável criada incorpora uma decisão"}
+O salário mensal acima é apenas uma aproximação e depende da hipótese sobre a jornada. Uma transformação pode estar matematicamente correta e ainda ser inadequada ao problema. Registre sempre as definições utilizadas.
+:::
+
+## Criando categorias com `case_when()`
+
+Quando existem mais de duas condições, `case_when()` permite construir categorias de maneira legível:
+
+```{r}
+wage1_ampliado <- wage1_ampliado |>
+  mutate(
+    faixa_experiencia = case_when(
+      exper < 5 ~ "Até 4 anos",
+      exper < 15 ~ "De 5 a 14 anos",
+      exper >= 15 ~ "15 anos ou mais",
+      .default = NA_character_
+    )
+  )
+
+wage1_ampliado |>
+  select(exper, faixa_experiencia) |>
+  head(10)
+```
+
+As condições são avaliadas de cima para baixo. Por isso, sua ordem importa.
+
+## Agrupando e resumindo
+
+Uma média geral não mostra se os grupos são diferentes. `group_by()` define os grupos e `summarise()` produz um resumo para cada um:
+
+```{r}
+resumo_sexo <- wage1_ampliado |>
+  group_by(sexo) |>
+  summarise(
+    pessoas = n(),
+    salario_medio = mean(wage, na.rm = TRUE),
+    escolaridade_media = mean(educ, na.rm = TRUE),
+    experiencia_media = mean(exper, na.rm = TRUE)
+  )
+
+resumo_sexo
+```
+
+O resultado possui uma linha por grupo. A unidade de observação da tabela de resumo, portanto, deixou de ser a pessoa e passou a ser o grupo de sexo.
+
+Podemos criar mais de um nível de agrupamento:
+
+```{r}
+resumo_sexo_experiencia <- wage1_ampliado |>
+  group_by(sexo, faixa_experiencia) |>
+  summarise(
+    pessoas = n(),
+    salario_medio = mean(wage, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+resumo_sexo_experiencia
+```
+
+O argumento `.groups = "drop"` solicita que o resultado final não permaneça agrupado.
+
+::: {.callout-note title="Média não explica causalidade"}
+Diferenças entre médias descrevem os dados observados, mas não demonstram que sexo, escolaridade ou experiência causaram a diferença salarial. A explicação exige considerar composição dos grupos, outras variáveis e uma estratégia de análise adequada.
+:::
+
+## Contando categorias
+
+`count()` oferece uma forma direta de contar observações em cada categoria:
+
+```{r}
+wage1_ampliado |>
+  count(sexo)
+```
+
+Para calcular as frequências dentro de duas categorias:
+
+```{r}
+wage1_ampliado |>
+  count(sexo, faixa_experiencia) |>
+  group_by(sexo) |>
+  mutate(proporcao = n / sum(n)) |>
+  ungroup()
+```
+
+`ungroup()` remove explicitamente o agrupamento depois que ele cumpriu sua função.
+
+## Reunindo as operações
+
+Agora podemos construir uma sequência completa para responder a uma pergunta específica: qual é o salário médio das pessoas com pelo menos 12 anos de escolaridade, por sexo e faixa de experiência?
+
+```{r}
+resultado <- wage1_core |>
+  filter(educ >= 12) |>
+  mutate(
+    sexo = if_else(female == 1, "Mulher", "Homem"),
+    faixa_experiencia = case_when(
+      exper < 5 ~ "Até 4 anos",
+      exper < 15 ~ "De 5 a 14 anos",
+      exper >= 15 ~ "15 anos ou mais",
+      .default = NA_character_
+    )
+  ) |>
+  group_by(sexo, faixa_experiencia) |>
+  summarise(
+    pessoas = n(),
+    salario_medio = mean(wage, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(faixa_experiencia, sexo)
+
+resultado
+```
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Sequência de manipulação para produzir uma tabela de resumo"
+%%| echo: false
+
+flowchart LR
+    A["wage1_core"] --> B["Filtrar<br/>educação"]
+    B --> C["Criar<br/>categorias"]
+    C --> D["Agrupar"]
+    D --> E["Resumir"]
+    E --> F["Ordenar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["wage1_core"] --> B["Filtrar<br/>educação"]
+    B --> C["Criar<br/>categorias"]
+    C --> D["Agrupar"]
+    D --> E["Resumir"]
+    E --> F["Ordenar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+## Pratique
+
+Utilizando `wage1_core`, construa uma tabela que:
+
+1. mantenha pessoas com pelo menos cinco anos de experiência;
+2. crie a categoria `sexo`;
+3. agrupe as pessoas por sexo;
+4. informe número de pessoas, salário mediano e permanência média no emprego;
+5. ordene o resultado pelo maior salário mediano.
+
+::: {.callout-tip collapse="true" title="Uma solução possível"}
+```{r}
+wage1_core |>
+  filter(exper >= 5) |>
+  mutate(sexo = if_else(female == 1, "Mulher", "Homem")) |>
+  group_by(sexo) |>
+  summarise(
+    pessoas = n(),
+    salario_mediano = median(wage, na.rm = TRUE),
+    permanencia_media = mean(tenure, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(salario_mediano))
+```
+:::

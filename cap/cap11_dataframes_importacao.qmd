@@ -449,6 +449,10 @@ Esses comandos não são executados durante a renderização para evitar sobresc
 
 ::: {.callout-tip title="Um objeto por arquivo RDS"}
 `saveRDS()` salva um objeto, e `readRDS()` permite escolher o nome que ele receberá ao ser importado. O formato `.RData`, por sua vez, pode reunir vários objetos e restaurar seus nomes diretamente no ambiente. Para trabalhos reproduzíveis, a relação explícita entre um arquivo e um objeto torna o RDS mais fácil de controlar.
+
+::: {.callout-note collapse="true" title="Entenda mais: outros formatos de dados"}
+Bases econômicas também podem ser distribuídas em formatos de outros programas, como Stata (`.dta`) e SPSS (`.sav`). Pacotes como `haven` permitem importar esses arquivos no R. Esses formatos não fazem parte do núcleo deste capítulo: primeiro consolidaremos CSV, Excel e RDS e recorreremos a outros formatos quando uma fonte de dados concreta exigir.
+:::
 :::
 
 ## O que aprendemos com cada material

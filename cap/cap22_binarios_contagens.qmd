@@ -1,0 +1,844 @@
+---
+title: "Modelos para resultados binários e contagens"
+subtitle: "Participação no mercado de trabalho e número de ocorrências"
+author:
+  - Alexandre Nicolella
+  - Felipe Bauer
+date: "10/12/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+No capítulo anterior, a variável dependente — o salário por hora — era numérica e contínua. Entretanto, muitas perguntas econômicas envolvem resultados de outra natureza:
+
+- uma pessoa participa ou não do mercado de trabalho;
+- uma família compra ou não determinado produto;
+- uma empresa entra ou não em um mercado;
+- quantos filhos existem em um domicílio;
+- quantas ocorrências são registradas em determinado período.
+
+Neste capítulo, utilizaremos o R para trabalhar com dois tipos de resultado:
+
+1. **binário:** assume os valores 0 e 1;
+2. **contagem:** assume valores inteiros não negativos, como 0, 1, 2, 3 e assim por diante.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- reconhecer variáveis dependentes binárias e de contagem;
+- estimar e interpretar um modelo de probabilidade linear;
+- compreender por que esse modelo pode produzir probabilidades inválidas;
+- estimar modelos logit e probit com `glm()`;
+- calcular probabilidades previstas, razões de chances e efeitos marginais;
+- estimar e interpretar um modelo de Poisson;
+- escolher a família adequada dentro de `glm()`;
+- reconhecer os limites básicos de cada modelo.
+:::
+
+## Preparando o ambiente
+
+Utilizaremos duas bases do pacote `wooldridge`, o pacote `mfx` para automatizar efeitos marginais e o `stargazer` para organizar tabelas de modelos. Caso ainda não estejam instalados, execute uma única vez:
+
+```{r}
+#| eval: false
+install.packages(c("wooldridge", "mfx", "stargazer"))
+```
+
+Agora carregamos o `tidyverse` e as bases:
+
+```{r}
+library(tidyverse)
+library(wooldridge)
+
+data(mroz, package = "wooldridge")
+data(crime1, package = "wooldridge")
+```
+
+## Uma variável dependente binária
+
+Na base `mroz`, cada linha representa uma mulher casada. A variável `inlf` indica sua situação em relação à força de trabalho:
+
+- `inlf = 1`: participa da força de trabalho;
+- `inlf = 0`: não participa da força de trabalho.
+
+Nossa pergunta orientadora será:
+
+> Como renda familiar adicional, escolaridade, experiência, idade e presença de filhos estão associadas à probabilidade de participação feminina no mercado de trabalho?
+
+Vamos selecionar as variáveis utilizadas no material original:
+
+```{r}
+mroz_modelos <- mroz |>
+  select(
+    inlf,
+    nwifeinc,
+    educ,
+    exper,
+    expersq,
+    age,
+    kidslt6,
+    kidsge6
+  )
+
+glimpse(mroz_modelos)
+```
+
+Antes de estimar qualquer modelo, examinamos o resultado:
+
+```{r}
+mroz_modelos |>
+  count(inlf) |>
+  mutate(
+    proporcao = n / sum(n)
+  )
+```
+
+Como `inlf` contém apenas zeros e uns, sua média é a proporção de mulheres que participam da força de trabalho:
+
+```{r}
+mean(mroz_modelos$inlf)
+```
+
+## Modelo de probabilidade linear
+
+Uma primeira possibilidade é utilizar a regressão linear:
+
+$$
+inlf_i=\beta_0+\beta_1nwifeinc_i+\beta_2educ_i
++\beta_3exper_i+\beta_4exper_i^2+\beta_5age_i
++\beta_6kidslt6_i+\beta_7kidsge6_i+u_i.
+$$
+
+Quando a variável dependente assume 0 ou 1, a média condicional corresponde a uma probabilidade:
+
+$$
+E(inlf\mid x)=P(inlf=1\mid x).
+$$
+
+Por isso, essa regressão é chamada de **modelo de probabilidade linear (MPL)**.
+
+```{r}
+modelo_mpl <- lm(
+  inlf ~ nwifeinc + educ + exper + I(exper^2) +
+    age + kidslt6 + kidsge6,
+  data = mroz_modelos
+)
+
+summary(modelo_mpl)
+```
+
+No MPL, o coeficiente de uma variável numérica é interpretado como uma mudança em probabilidade, mantendo as demais constantes. Por exemplo, o coeficiente de `educ` representa a variação, em pontos da escala de 0 a 1, associada a um ano adicional de escolaridade.
+
+```{r}
+coef(modelo_mpl)["educ"]
+```
+
+Para converter essa medida em pontos percentuais, multiplicamos por 100:
+
+```{r}
+100 * coef(modelo_mpl)["educ"]
+```
+
+::: {.callout-important title="Probabilidade e ponto percentual"}
+Uma variação de 0,04 na escala de probabilidade corresponde a 4 pontos percentuais. Isso não é necessariamente igual a um aumento de 4% em relação à probabilidade inicial.
+:::
+
+### O principal limite do MPL
+
+A reta estimada pelo MPL não possui limites. Por isso, algumas combinações das explicativas podem produzir valores menores que 0 ou maiores que 1, que não são probabilidades válidas.
+
+Vamos preservar os dois perfis utilizados no material original:
+
+```{r}
+perfis_mulheres <- tibble(
+  perfil = c("Mulher 1", "Mulher 2"),
+  nwifeinc = c(50, 0),
+  educ = c(7, 17),
+  exper = c(0, 30),
+  age = c(25, 52),
+  kidslt6 = c(2, 0),
+  kidsge6 = c(0, 0)
+)
+
+perfis_mulheres |>
+  mutate(
+    probabilidade_mpl = predict(
+      modelo_mpl,
+      newdata = perfis_mulheres
+    )
+  )
+```
+
+O primeiro perfil pode receber uma previsão negativa e o segundo, uma previsão superior a 1. O cálculo está correto para uma reta, mas o resultado não faz sentido como probabilidade.
+
+Também podemos verificar esse problema em toda a amostra:
+
+```{r}
+previsoes_mpl <- fitted(modelo_mpl)
+
+tibble(
+  menor_previsao = min(previsoes_mpl),
+  maior_previsao = max(previsoes_mpl),
+  abaixo_de_zero = sum(previsoes_mpl < 0),
+  acima_de_um = sum(previsoes_mpl > 1)
+)
+```
+
+::: {.callout-note collapse="true" title="Entenda mais: outros limites do modelo de probabilidade linear"}
+Além de permitir previsões fora do intervalo entre 0 e 1, o MPL possui erros heterocedásticos por construção. Se $y$ é binária e $p(x)=P(y=1\mid x)$, então:
+
+$$
+Var(y\mid x)=p(x)[1-p(x)].
+$$
+
+Essa variância muda com $x$. O MPL ainda pode ser útil como aproximação simples e seus coeficientes são fáceis de interpretar, mas a inferência requer cuidado, frequentemente com erros-padrão robustos.
+:::
+
+## Modelo logit
+
+O modelo logit substitui a reta de probabilidades por uma curva logística. Assim, todas as probabilidades previstas permanecem entre 0 e 1.
+
+Em R, logit pertence à família dos **modelos lineares generalizados**, estimados com `glm()`:
+
+```{r}
+modelo_logit <- glm(
+  inlf ~ nwifeinc + educ + exper + I(exper^2) +
+    age + kidslt6 + kidsge6,
+  family = binomial(link = "logit"),
+  data = mroz_modelos
+)
+
+summary(modelo_logit)
+```
+
+A estrutura da fórmula é semelhante à de `lm()`. A diferença central está no argumento:
+
+```r
+family = binomial(link = "logit")
+```
+
+Ele informa ao R que a variável dependente é binária e que desejamos utilizar a função logística.
+
+### Sinal dos coeficientes
+
+O sinal continua sendo informativo:
+
+- coeficiente positivo: valores maiores da explicativa estão associados a maior probabilidade do evento;
+- coeficiente negativo: valores maiores estão associados a menor probabilidade.
+
+Entretanto, o valor bruto do coeficiente está na escala do **logaritmo das chances**, e não em pontos percentuais.
+
+::: {.callout-note collapse="true" title="Entenda mais: da função logística à probabilidade"}
+O modelo parte de um índice linear:
+
+$$
+\eta_i=\mathbf{x}_i'\boldsymbol{\beta}.
+$$
+
+A função logística transforma qualquer valor real de $\eta_i$ em uma probabilidade entre 0 e 1:
+
+$$
+P(y_i=1\mid\mathbf{x}_i)
+=\frac{\exp(\eta_i)}{1+\exp(\eta_i)}
+=\frac{1}{1+\exp(-\eta_i)}.
+$$
+
+Equivalentemente:
+
+$$
+\log\left(\frac{p_i}{1-p_i}\right)
+=\mathbf{x}_i'\boldsymbol{\beta}.
+$$
+
+O lado esquerdo é o logaritmo das chances do evento.
+:::
+
+## Probabilidades previstas
+
+Para obter probabilidades diretamente, utilizamos `predict()` com `type = "response"`:
+
+```{r}
+perfis_mulheres |>
+  mutate(
+    probabilidade_mpl = predict(
+      modelo_mpl,
+      newdata = perfis_mulheres
+    ),
+    probabilidade_logit = predict(
+      modelo_logit,
+      newdata = perfis_mulheres,
+      type = "response"
+    )
+  )
+```
+
+As previsões do logit permanecem no intervalo permitido.
+
+Também podemos calcular a probabilidade para um perfil com características médias:
+
+```{r}
+perfil_medio <- mroz_modelos |>
+  summarise(
+    across(
+      c(nwifeinc, educ, exper, age, kidslt6, kidsge6),
+      mean
+    )
+  )
+
+predict(
+  modelo_logit,
+  newdata = perfil_medio,
+  type = "response"
+)
+```
+
+::: {.callout-warning title="O perfil médio pode não representar uma pessoa real"}
+A média pode produzir valores como 0,24 criança menor de seis anos. O perfil médio é útil para demonstração, mas previsões para perfis substantivamente possíveis costumam ser mais fáceis de comunicar.
+:::
+
+## Razões de chances
+
+Ao exponenciar os coeficientes do logit, obtemos **razões de chances** (*odds ratios*):
+
+```{r}
+razoes_chances <- exp(coef(modelo_logit))
+
+razoes_chances
+```
+
+Para `educ`, podemos calcular a mudança percentual nas chances associada a um ano adicional de escolaridade:
+
+```{r}
+100 * (razoes_chances["educ"] - 1)
+```
+
+Uma razão de chances maior que 1 indica aumento das chances; menor que 1 indica redução.
+
+::: {.callout-important title="Chance não é o mesmo que probabilidade"}
+Se a probabilidade é $p$, a chance é $p/(1-p)$. Uma razão de chances de 1,20 significa que as chances são 20% maiores, não que a probabilidade aumentou 20 pontos percentuais.
+:::
+
+## Efeitos marginais
+
+Em um modelo não linear, a mudança na probabilidade associada a uma explicativa depende do perfil considerado. Para escolaridade, o efeito marginal individual no logit é:
+
+$$
+\frac{\partial P(y_i=1\mid x_i)}{\partial educ_i}
+=\beta_{educ}\,p_i(1-p_i).
+$$
+
+Podemos calcular o efeito para cada mulher e depois obter o **efeito marginal médio**:
+
+```{r}
+probabilidades_logit <- predict(
+  modelo_logit,
+  type = "response"
+)
+
+efeito_educ_individual <-
+  coef(modelo_logit)["educ"] *
+  probabilidades_logit *
+  (1 - probabilidades_logit)
+
+efeito_marginal_medio_educ <- mean(
+  efeito_educ_individual
+)
+
+efeito_marginal_medio_educ
+```
+
+Em pontos percentuais:
+
+```{r}
+100 * efeito_marginal_medio_educ
+```
+
+Esse resultado resume a variação média estimada na probabilidade associada a um ano adicional de escolaridade, mantendo a estrutura do modelo.
+
+::: {.callout-note collapse="true" title="Entenda mais: por que o efeito marginal varia?"}
+No logit, a inclinação da curva depende de $p_i(1-p_i)$. Ela tende a ser maior em probabilidades intermediárias e menor quando a probabilidade está próxima de 0 ou 1. Por isso, o mesmo aumento em escolaridade não produz exatamente a mesma mudança de probabilidade para todos os perfis.
+:::
+
+## Visualizando probabilidades
+
+Vamos variar a escolaridade entre 5 e 17 anos e manter as demais características em seus valores médios:
+
+```{r}
+perfis_educacao <- tibble(
+  educ = seq(5, 17, by = 0.1),
+  nwifeinc = mean(mroz_modelos$nwifeinc),
+  exper = mean(mroz_modelos$exper),
+  age = mean(mroz_modelos$age),
+  kidslt6 = mean(mroz_modelos$kidslt6),
+  kidsge6 = mean(mroz_modelos$kidsge6)
+) |>
+  mutate(
+    probabilidade = predict(
+      modelo_logit,
+      newdata = pick(everything()),
+      type = "response"
+    )
+  )
+
+ggplot(
+  perfis_educacao,
+  aes(x = educ, y = probabilidade)
+) +
+  geom_line(color = "#3F6B5B", linewidth = 1) +
+  scale_y_continuous(
+    limits = c(0, 1),
+    labels = scales::label_percent()
+  ) +
+  labs(
+    title = "Probabilidade prevista de participação na força de trabalho",
+    subtitle = "Demais características mantidas em seus valores médios",
+    x = "Escolaridade (anos)",
+    y = "Probabilidade prevista"
+  ) +
+  theme_minimal()
+```
+
+O gráfico comunica a probabilidade na escala em que a pergunta foi formulada, evitando interpretar diretamente os coeficientes em log-chances.
+
+## Modelo probit
+
+O probit também mantém as probabilidades entre 0 e 1, mas utiliza a função de distribuição acumulada normal padrão:
+
+```{r}
+modelo_probit <- glm(
+  inlf ~ nwifeinc + educ + exper + I(exper^2) +
+    age + kidslt6 + kidsge6,
+  family = binomial(link = "probit"),
+  data = mroz_modelos
+)
+
+summary(modelo_probit)
+```
+
+Os coeficientes de logit e probit estão em escalas diferentes e não devem ser comparados diretamente. Podemos comparar sinais e, principalmente, probabilidades previstas:
+
+```{r}
+comparacao_binarios <- perfis_educacao |>
+  select(-probabilidade) |>
+  mutate(
+    Logit = predict(
+      modelo_logit,
+      newdata = pick(everything()),
+      type = "response"
+    ),
+    Probit = predict(
+      modelo_probit,
+      newdata = pick(everything()),
+      type = "response"
+    )
+  ) |>
+  pivot_longer(
+    cols = c(Logit, Probit),
+    names_to = "modelo",
+    values_to = "probabilidade"
+  )
+
+ggplot(
+  comparacao_binarios,
+  aes(x = educ, y = probabilidade, color = modelo)
+) +
+  geom_line(linewidth = 1) +
+  scale_y_continuous(
+    limits = c(0, 1),
+    labels = scales::label_percent()
+  ) +
+  scale_color_manual(
+    values = c("Logit" = "#3F6B5B", "Probit" = "#B45F4A")
+  ) +
+  labs(
+    title = "Probabilidades previstas por logit e probit",
+    x = "Escolaridade (anos)",
+    y = "Probabilidade prevista",
+    color = "Modelo"
+  ) +
+  theme_minimal()
+```
+
+Nesta aplicação, as duas curvas tendem a ser próximas. A escolha entre logit e probit deve considerar a tradição da área, a interpretação desejada e a robustez dos resultados.
+
+::: {.callout-note collapse="true" title="Entenda mais: diferença formal entre logit e probit"}
+O logit utiliza a distribuição logística:
+
+$$
+P(y=1\mid x)=\Lambda(x'\beta).
+$$
+
+O probit utiliza a distribuição normal padrão:
+
+$$
+P(y=1\mid x)=\Phi(x'\beta).
+$$
+
+As distribuições possuem formatos semelhantes, mas caudas diferentes. Como a escala dos parâmetros não é a mesma, probabilidades e efeitos marginais são mais apropriados para comparação do que os coeficientes brutos.
+:::
+
+## Automatizando efeitos marginais com `mfx`
+
+Calculamos anteriormente o efeito marginal médio da escolaridade passo a passo. O pacote `mfx` automatiza esse procedimento e também calcula erros-padrão, estatísticas de teste e valores-p.
+
+Para obter **efeitos marginais médios**, usamos `atmean = FALSE`:
+
+```{r}
+efeitos_logit_mfx <- mfx::logitmfx(
+  inlf ~ nwifeinc + educ + exper + I(exper^2) +
+    age + kidslt6 + kidsge6,
+  data = mroz_modelos,
+  atmean = FALSE
+)
+
+efeitos_logit_mfx
+```
+
+Na tabela, a coluna `dF/dx` apresenta os efeitos marginais. O resultado de `educ` deve coincidir com o cálculo manual realizado anteriormente, salvo pequenas diferenças de arredondamento.
+
+Podemos fazer o mesmo para o probit:
+
+```{r}
+efeitos_probit_mfx <- mfx::probitmfx(
+  inlf ~ nwifeinc + educ + exper + I(exper^2) +
+    age + kidslt6 + kidsge6,
+  data = mroz_modelos,
+  atmean = FALSE
+)
+
+efeitos_probit_mfx
+```
+
+Os efeitos marginais de logit e probit são próximos nesta aplicação, embora os coeficientes brutos estejam em escalas diferentes.
+
+::: {.callout-important title="Automatizar depois de compreender"}
+O pacote reduz o trabalho repetitivo, mas não escolhe o modelo, não define a pergunta econômica e não interpreta o resultado. Por isso, primeiro construímos o efeito marginal manualmente e depois utilizamos `mfx`.
+:::
+
+::: {.callout-note collapse="true" title="Entenda mais: efeito na média ou média dos efeitos?"}
+O argumento `atmean` diferencia duas operações:
+
+- `atmean = TRUE`: calcula o efeito marginal para um perfil formado pelas médias das explicativas;
+- `atmean = FALSE`: calcula o efeito para cada observação e depois obtém sua média.
+
+Neste capítulo utilizamos `atmean = FALSE`, correspondente ao efeito marginal médio calculado manualmente. As duas medidas podem produzir resultados diferentes porque logit e probit são modelos não lineares.
+:::
+
+## Comparando logit e probit com `stargazer`
+
+O `stargazer` organiza diferentes modelos em uma tabela lado a lado:
+
+```{r}
+stargazer::stargazer(
+  modelo_logit,
+  modelo_probit,
+  type = "text",
+  column.labels = c("Logit", "Probit"),
+  dep.var.labels = "Participa da força de trabalho",
+  keep.stat = "n",
+  digits = 3
+)
+```
+
+A tabela facilita verificar sinais, incerteza e significância. Entretanto, os coeficientes de logit e probit não possuem a mesma escala. Para comparar magnitudes, devemos utilizar probabilidades previstas ou efeitos marginais.
+
+## Resultados de contagem
+
+Uma variável de contagem assume valores inteiros não negativos. Na base `crime1`, `narr86` registra o número de prisões de cada homem em 1986.
+
+```{r}
+crime1_modelos <- crime1 |>
+  select(
+    narr86,
+    pcnv,
+    avgsen,
+    tottime,
+    ptime86,
+    qemp86,
+    inc86,
+    black,
+    hispan,
+    born60
+  )
+
+glimpse(crime1_modelos)
+```
+
+Examinamos a distribuição antes de modelar:
+
+```{r}
+crime1_modelos |>
+  count(narr86) |>
+  mutate(
+    proporcao = n / sum(n)
+  ) |>
+  slice_head(n = 10)
+```
+
+```{r}
+ggplot(crime1_modelos, aes(x = narr86)) +
+  geom_bar(fill = "#7185CC", color = "white") +
+  labs(
+    title = "Número de prisões em 1986",
+    x = "Número de prisões",
+    y = "Pessoas"
+  ) +
+  theme_minimal()
+```
+
+A distribuição possui muitos zeros e uma cauda à direita. Um modelo linear pode produzir contagens negativas e não foi construído especificamente para essa forma de resultado.
+
+## Modelo de Poisson
+
+O modelo de Poisson representa a média condicional por uma função exponencial:
+
+$$
+E(y\mid x)=\exp(x'\beta).
+$$
+
+Como a função exponencial é sempre positiva, as contagens esperadas também serão positivas.
+
+Em R, usamos novamente `glm()`, agora com `family = poisson()`:
+
+```{r}
+modelo_poisson <- glm(
+  narr86 ~ pcnv + avgsen + tottime + ptime86 +
+    qemp86 + inc86 + black + hispan + born60,
+  family = poisson(link = "log"),
+  data = crime1_modelos
+)
+
+summary(modelo_poisson)
+```
+
+### Interpretando os coeficientes
+
+No Poisson com ligação log, a transformação exata para uma variável que aumenta uma unidade é:
+
+$$
+100[\exp(\beta_j)-1].
+$$
+
+Vamos calcular as mudanças percentuais associadas a cada coeficiente:
+
+```{r}
+efeitos_percentuais_poisson <- tibble(
+  variavel = names(coef(modelo_poisson)),
+  coeficiente = coef(modelo_poisson),
+  mudanca_percentual = 100 * (exp(coeficiente) - 1)
+)
+
+efeitos_percentuais_poisson
+```
+
+Para uma mudança de 0,10 em `pcnv`, a transformação exata utiliza $0{,}10\beta$:
+
+```{r}
+beta_pcnv <- coef(modelo_poisson)["pcnv"]
+
+100 * (exp(0.10 * beta_pcnv) - 1)
+```
+
+O resultado representa a mudança percentual na contagem esperada de prisões associada ao aumento de 0,10 na proporção de condenações, mantendo as demais variáveis constantes.
+
+Para uma variável binária como `black`, calculamos:
+
+```{r}
+beta_black <- coef(modelo_poisson)["black"]
+
+100 * (exp(beta_black) - 1)
+```
+
+Esse coeficiente descreve uma diferença condicional entre os grupos definidos na base. Ele não deve ser interpretado automaticamente como efeito causal de raça sobre prisões.
+
+::: {.callout-note collapse="true" title="Entenda mais: distribuição e semielasticidade no Poisson"}
+Na distribuição de Poisson:
+
+$$
+P(y=h\mid x)
+=\frac{\exp[-\lambda(x)]\lambda(x)^h}{h!},
+\qquad h=0,1,2,\ldots
+$$
+
+com:
+
+$$
+\lambda(x)=E(y\mid x)=\exp(x'\beta).
+$$
+
+Para uma variável contínua:
+
+$$
+\frac{\partial E(y\mid x)}{\partial x_j}
+=\beta_jE(y\mid x).
+$$
+
+Por isso, $\beta_j$ é uma semielasticidade: uma unidade adicional de $x_j$ está associada a aproximadamente $100\beta_j$% na contagem esperada. A transformação $100[\exp(\beta_j)-1]$ fornece a mudança exata para uma unidade.
+:::
+
+## Comparando Poisson e modelo linear
+
+Para visualizar a diferença, estimamos também um modelo linear com a mesma especificação:
+
+```{r}
+modelo_linear_contagem <- lm(
+  narr86 ~ pcnv + avgsen + tottime + ptime86 +
+    qemp86 + inc86 + black + hispan + born60,
+  data = crime1_modelos
+)
+
+previsoes_contagem <- tibble(
+  observado = crime1_modelos$narr86,
+  previsao_linear = fitted(modelo_linear_contagem),
+  previsao_poisson = predict(
+    modelo_poisson,
+    type = "response"
+  )
+)
+
+previsoes_contagem |>
+  summarise(
+    menor_linear = min(previsao_linear),
+    menor_poisson = min(previsao_poisson),
+    previsoes_lineares_negativas = sum(previsao_linear < 0),
+    previsoes_poisson_negativas = sum(previsao_poisson < 0)
+  )
+```
+
+O modelo de Poisson respeita o suporte da variável: suas contagens esperadas não são negativas.
+
+### Organizando a comparação com `stargazer`
+
+Podemos apresentar o modelo linear e o Poisson lado a lado:
+
+```{r}
+stargazer::stargazer(
+  modelo_linear_contagem,
+  modelo_poisson,
+  type = "text",
+  column.labels = c("Linear", "Poisson"),
+  dep.var.labels = "Número de prisões em 1986",
+  keep.stat = "n",
+  digits = 3
+)
+```
+
+Essa tabela organiza as estimativas, mas os coeficientes das duas colunas não têm a mesma interpretação: no modelo linear são mudanças em unidades da contagem; no Poisson são mudanças no logaritmo da contagem esperada e devem ser transformados para uma interpretação percentual.
+
+## Uma verificação inicial do Poisson
+
+Uma característica da distribuição de Poisson é a igualdade entre média e variância condicionais. Como primeira descrição, podemos comparar média e variância não condicionais de `narr86`:
+
+```{r}
+crime1_modelos |>
+  summarise(
+    media = mean(narr86),
+    variancia = var(narr86),
+    proporcao_zeros = mean(narr86 == 0)
+  )
+```
+
+Essa comparação não é um teste formal, porque o modelo trata de média e variância **condicionais** às explicativas. Ainda assim, uma variância muito superior à média e uma grande concentração de zeros sugerem que a distribuição pode ser mais complexa do que um Poisson básico consegue representar.
+
+::: {.callout-note collapse="true" title="Entenda mais: sobredispersão e alternativas"}
+Quando a variância condicional supera a média condicional, dizemos que existe **sobredispersão**. Ela pode afetar principalmente os erros-padrão do Poisson.
+
+Dependendo do problema, alternativas incluem:
+
+- erros-padrão robustos;
+- modelo binomial negativo;
+- modelos específicos para excesso de zeros;
+- revisão das variáveis incluídas e da estrutura dos dados.
+
+Essas alternativas pertencem a uma etapa mais avançada. Aqui, nosso objetivo é reconhecer o tipo de resultado, estimar o Poisson com `glm()` e interpretar a média condicional.
+:::
+
+## Escolhendo a família em `glm()`
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Escolha inicial de modelo conforme o tipo da variável dependente"
+%%| echo: false
+
+flowchart LR
+    A["Qual é o tipo<br/>do resultado?"] --> B["Contínuo"]
+    A --> C["Binário<br/>0 ou 1"]
+    A --> D["Contagem<br/>0, 1, 2, ..."]
+    B --> E["lm()"]
+    C --> F["glm()<br/>binomial"]
+    D --> G["glm()<br/>poisson"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Qual é o tipo do resultado?"] --> B["Contínuo"]
+    A --> C["Binário — 0 ou 1"]
+    A --> D["Contagem — 0, 1, 2, ..."]
+    B --> E["lm()"]
+    C --> F["glm() — binomial"]
+    D --> G["glm() — poisson"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+O tipo da variável dependente não determina sozinho o modelo final, mas oferece um ponto de partida importante. A pergunta econômica, o processo gerador dos dados e as hipóteses do modelo continuam essenciais.
+
+## Pratique
+
+### Resultado binário
+
+Utilizando `mroz_modelos`:
+
+1. estime um MPL de `inlf` usando apenas `educ`, `exper` e `age`;
+2. estime a mesma especificação com logit;
+3. compare sinais e probabilidades previstas;
+4. crie dois perfis economicamente plausíveis;
+5. explique por que o coeficiente bruto do logit não é uma mudança em pontos percentuais.
+
+### Resultado de contagem
+
+Utilizando `crime1_modelos`:
+
+1. examine a distribuição de `narr86`;
+2. estime um Poisson com `pcnv`, `qemp86` e `inc86`;
+3. transforme os coeficientes em mudanças percentuais;
+4. obtenha as contagens esperadas com `predict(..., type = "response")`;
+5. verifique se alguma previsão é negativa.
+
+::: {.callout-tip collapse="true" title="Código inicial"}
+```{r}
+mpl_pratica <- lm(
+  inlf ~ educ + exper + age,
+  data = mroz_modelos
+)
+
+logit_pratica <- glm(
+  inlf ~ educ + exper + age,
+  family = binomial(link = "logit"),
+  data = mroz_modelos
+)
+
+poisson_pratica <- glm(
+  narr86 ~ pcnv + qemp86 + inc86,
+  family = poisson(link = "log"),
+  data = crime1_modelos
+)
+```
+:::

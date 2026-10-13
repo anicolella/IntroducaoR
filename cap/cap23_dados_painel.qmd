@@ -1,0 +1,678 @@
+---
+title: "Dados em painel e efeitos fixos"
+subtitle: "Acompanhando trabalhadores ao longo do tempo"
+author:
+  - Alexandre Nicolella
+  - Felipe Bauer
+date: "10/13/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+Até aqui, trabalhamos principalmente com dados de corte transversal: diferentes pessoas observadas em um determinado contexto. Em algumas pesquisas, porém, acompanhamos as **mesmas unidades ao longo do tempo**.
+
+Podemos acompanhar:
+
+- pessoas durante vários anos;
+- famílias em diferentes entrevistas;
+- empresas ao longo de exercícios contábeis;
+- municípios durante sucessivos mandatos;
+- países em diferentes períodos.
+
+Essa estrutura é chamada de **dados em painel**.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- reconhecer uma base em painel;
+- identificar a unidade e o período de observação;
+- verificar se o painel é balanceado;
+- distinguir variação entre unidades e dentro da mesma unidade;
+- preparar uma base com `pdata.frame()`;
+- estimar modelos agrupados, de efeitos fixos e de efeitos aleatórios com `plm()`;
+- interpretar coeficientes de um modelo *within*;
+- compreender por que características constantes no tempo são absorvidas pelos efeitos fixos;
+- utilizar o teste de Hausman para comparar efeitos fixos e aleatórios;
+- reconhecer os limites básicos dessa estratégia.
+:::
+
+## Corte transversal, série temporal e painel
+
+As três estruturas podem ser diferenciadas pela unidade observada e pelo tempo:
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Diferença entre corte transversal, série temporal e dados em painel"
+%%| echo: false
+
+flowchart LR
+    A["Estrutura<br/>dos dados"] --> B["Corte transversal"]
+    A --> C["Série temporal"]
+    A --> D["Painel"]
+    B --> E["Muitas unidades<br/>em um período"]
+    C --> F["Uma unidade<br/>em vários períodos"]
+    D --> G["Muitas unidades<br/>em vários períodos"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Estrutura dos dados"] --> B["Corte transversal"]
+    A --> C["Série temporal"]
+    A --> D["Painel"]
+    B --> E["Muitas unidades em um período"]
+    C --> F["Uma unidade em vários períodos"]
+    D --> G["Muitas unidades em vários períodos"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Em um painel, cada observação precisa ser identificada por duas informações:
+
+1. **quem ou o que está sendo observado**;
+2. **em qual período a observação foi realizada**.
+
+## A base `wagepan`
+
+Utilizaremos `wagepan`, do pacote `wooldridge`. A base acompanha trabalhadores durante oito anos.
+
+Caso o pacote `plm` ainda não esteja instalado, execute uma única vez:
+
+```{r}
+#| eval: false
+install.packages("plm")
+```
+
+Carregamos os pacotes e selecionamos as variáveis principais:
+
+```{r}
+library(tidyverse)
+library(wooldridge)
+library(plm)
+
+data(wagepan, package = "wooldridge")
+
+wagepan_modelos <- wagepan |>
+  select(
+    nr,
+    year,
+    lwage,
+    exper,
+    expersq,
+    educ,
+    married,
+    union,
+    black,
+    hisp
+  )
+
+glimpse(wagepan_modelos)
+```
+
+As variáveis são:
+
+- `nr`: identificador do trabalhador;
+- `year`: ano da observação;
+- `lwage`: logaritmo do salário;
+- `exper`: experiência potencial;
+- `expersq`: experiência ao quadrado;
+- `educ`: anos de escolaridade;
+- `married`: igual a 1 se casado;
+- `union`: igual a 1 se sindicalizado;
+- `black`: igual a 1 para pessoas negras na codificação original;
+- `hisp`: igual a 1 para pessoas hispânicas na codificação original.
+
+## Como o painel está organizado?
+
+Vamos observar os três primeiros trabalhadores. Primeiro identificamos seus códigos:
+
+```{r}
+primeiros_trabalhadores <- wagepan_modelos |>
+  distinct(nr) |>
+  slice_head(n = 3) |>
+  pull(nr)
+
+wagepan_modelos |>
+  filter(nr %in% primeiros_trabalhadores) |>
+  arrange(nr, year)
+```
+
+Cada trabalhador aparece uma vez por ano. Portanto, a unidade de observação é:
+
+> trabalhador em determinado ano.
+
+As colunas `nr` e `year`, juntas, devem identificar cada linha:
+
+```{r}
+wagepan_modelos |>
+  count(nr, year) |>
+  filter(n > 1)
+```
+
+O resultado vazio indica que não encontramos combinações duplicadas de trabalhador e ano.
+
+::: {.callout-important title="Uma linha não representa apenas uma pessoa"}
+Em dados de painel, uma pessoa aparece em várias linhas. Por isso, contar linhas não é o mesmo que contar indivíduos.
+:::
+
+```{r}
+wagepan_modelos |>
+  summarise(
+    linhas = n(),
+    trabalhadores = n_distinct(nr),
+    anos = n_distinct(year)
+  )
+```
+
+## Painel balanceado
+
+Um painel é **balanceado** quando todas as unidades são observadas no mesmo número de períodos. Vamos contar os anos disponíveis por trabalhador:
+
+```{r}
+periodos_por_trabalhador <- wagepan_modelos |>
+  count(nr, name = "periodos")
+
+periodos_por_trabalhador |>
+  count(periodos)
+```
+
+Todos os 545 trabalhadores possuem oito observações. Portanto, `wagepan` é um painel balanceado.
+
+::: {.callout-note title="Painéis não balanceados também são comuns"}
+Em pesquisas reais, pessoas podem deixar a amostra, empresas podem surgir ou encerrar atividades e alguns períodos podem estar ausentes. Um painel não precisa ser balanceado para ser útil, mas sua estrutura deve ser verificada e documentada.
+:::
+
+## Visualizando trajetórias individuais
+
+Selecionamos seis trabalhadores apenas para visualizar como o salário varia ao longo do tempo:
+
+```{r}
+trabalhadores_exemplo <- wagepan_modelos |>
+  distinct(nr) |>
+  slice_head(n = 6) |>
+  pull(nr)
+
+wagepan_modelos |>
+  filter(nr %in% trabalhadores_exemplo) |>
+  mutate(nr = factor(nr)) |>
+  ggplot(
+    aes(x = year, y = lwage, color = nr, group = nr)
+  ) +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 1.8) +
+  labs(
+    title = "Trajetórias salariais de seis trabalhadores",
+    x = "Ano",
+    y = "Logaritmo do salário",
+    color = "Trabalhador"
+  ) +
+  theme_minimal()
+```
+
+O gráfico mostra dois tipos de diferença:
+
+- trabalhadores possuem níveis salariais distintos;
+- o salário de cada trabalhador também muda ao longo do tempo.
+
+## Variação entre e dentro das unidades
+
+Uma base em painel contém duas fontes de variação:
+
+- **entre trabalhadores:** diferenças médias de uma pessoa para outra;
+- **dentro do trabalhador:** mudanças da mesma pessoa ao longo do tempo.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Variação entre trabalhadores e dentro do trabalhador"
+%%| echo: false
+
+flowchart LR
+    A["Variação no painel"] --> B["Entre trabalhadores"]
+    A --> C["Dentro do trabalhador"]
+    B --> D["Comparar médias<br/>de pessoas diferentes"]
+    C --> E["Acompanhar mudanças<br/>da mesma pessoa"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Variação no painel"] --> B["Entre trabalhadores"]
+    A --> C["Dentro do trabalhador"]
+    B --> D["Comparar médias de pessoas diferentes"]
+    C --> E["Acompanhar mudanças da mesma pessoa"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Podemos verificar quais variáveis mudam dentro de cada trabalhador:
+
+```{r}
+variacao_individual <- wagepan_modelos |>
+  group_by(nr) |>
+  summarise(
+    valores_educ = n_distinct(educ),
+    valores_black = n_distinct(black),
+    valores_hisp = n_distinct(hisp),
+    valores_married = n_distinct(married),
+    valores_union = n_distinct(union),
+    .groups = "drop"
+  )
+
+variacao_individual |>
+  summarise(
+    muda_educ = sum(valores_educ > 1),
+    muda_black = sum(valores_black > 1),
+    muda_hisp = sum(valores_hisp > 1),
+    muda_married = sum(valores_married > 1),
+    muda_union = sum(valores_union > 1)
+  )
+```
+
+`educ`, `black` e `hisp` são constantes para cada trabalhador nesta base. Já situação conjugal e sindicalização mudam para parte dos indivíduos.
+
+## Preparando o painel com `plm`
+
+O pacote `plm` precisa saber qual coluna identifica a unidade e qual identifica o tempo:
+
+```{r}
+wagepan_painel <- pdata.frame(
+  wagepan_modelos,
+  index = c("nr", "year")
+)
+
+pdim(wagepan_painel)
+```
+
+O resultado confirma:
+
+- número de trabalhadores, $n$;
+- número de períodos, $T$;
+- número total de observações, $N$;
+- painel balanceado.
+
+## Um modelo agrupado
+
+Começamos ignorando temporariamente a estrutura de painel e reunindo todas as observações em uma única regressão:
+
+$$
+lwage_{it}=\beta_0+\beta_1exper_{it}+\beta_2exper_{it}^2
++\beta_3married_{it}+\beta_4union_{it}+u_{it}.
+$$
+
+```{r}
+modelo_agrupado <- plm(
+  lwage ~ exper + expersq + married + union,
+  data = wagepan_painel,
+  model = "pooling"
+)
+
+summary(modelo_agrupado)
+```
+
+Esse modelo compara simultaneamente:
+
+- trabalhadores diferentes;
+- o mesmo trabalhador em anos diferentes.
+
+Ele não separa diferenças permanentes entre pessoas das mudanças ocorridas ao longo do tempo.
+
+## Características individuais não observadas
+
+Trabalhadores podem possuir características difíceis de medir:
+
+- habilidades;
+- preferências profissionais;
+- redes de contato;
+- condições familiares persistentes;
+- características do local de origem.
+
+Se essas características forem relativamente constantes durante o período, podemos representá-las por um componente individual $a_i$:
+
+$$
+lwage_{it}=\beta_1exper_{it}+\beta_2exper_{it}^2
++\beta_3married_{it}+\beta_4union_{it}+a_i+u_{it}.
+$$
+
+O efeito $a_i$ varia entre trabalhadores, mas permanece constante ao longo do tempo para a mesma pessoa.
+
+## Modelo de efeitos fixos
+
+O estimador de efeitos fixos utiliza as mudanças ocorridas **dentro de cada trabalhador**. Em R, especificamos `model = "within"`:
+
+```{r}
+modelo_efeitos_fixos <- plm(
+  lwage ~ exper + expersq + married + union,
+  data = wagepan_painel,
+  model = "within"
+)
+
+summary(modelo_efeitos_fixos)
+```
+
+::: {.callout-note collapse="true" title="Entenda mais: a transformação within"}
+O modelo original pode ser escrito como:
+
+$$
+y_{it}=\beta_1x_{it1}+\cdots+\beta_kx_{itk}+a_i+u_{it}.
+$$
+
+Calculamos a média temporal para cada unidade:
+
+$$
+\bar{y}_i
+=\beta_1\bar{x}_{i1}+\cdots+\beta_k\bar{x}_{ik}
++a_i+\bar{u}_i.
+$$
+
+Subtraímos a média individual da observação de cada período:
+
+$$
+y_{it}-\bar{y}_i
+=\beta_1(x_{it1}-\bar{x}_{i1})+\cdots
++\beta_k(x_{itk}-\bar{x}_{ik})
++(u_{it}-\bar{u}_i).
+$$
+
+Como $a_i$ é constante no tempo:
+
+$$
+a_i-a_i=0.
+$$
+
+Definindo as variáveis transformadas por pontos:
+
+$$
+\ddot{y}_{it}=y_{it}-\bar{y}_i,
+\qquad
+\ddot{x}_{it}=x_{it}-\bar{x}_i,
+$$
+
+obtemos:
+
+$$
+\ddot{y}_{it}
+=\beta_1\ddot{x}_{it1}+\cdots
++\beta_k\ddot{x}_{itk}+\ddot{u}_{it}.
+$$
+
+O MQO aplicado às variáveis transformadas produz o estimador de efeitos fixos. Essa é a razão pela qual características invariantes desaparecem.
+:::
+
+A interpretação muda em relação ao modelo agrupado:
+
+- `married` compara o salário da mesma pessoa nos períodos em que está casada e não casada;
+- `union` compara o salário da mesma pessoa nos períodos em que está e não está sindicalizada;
+- `exper` e `expersq` representam a trajetória salarial associada ao avanço da experiência.
+
+Como a variável dependente está em logaritmo, podemos transformar o coeficiente de uma variável binária em mudança percentual. Para `union`:
+
+```{r}
+beta_union_fe <- coef(modelo_efeitos_fixos)["union"]
+
+100 * (exp(beta_union_fe) - 1)
+```
+
+Esse resultado descreve a diferença salarial estimada para o mesmo trabalhador quando sua situação de sindicalização muda, mantendo as demais variáveis da especificação constantes.
+
+::: {.callout-warning title="Efeitos fixos não criam causalidade automaticamente"}
+O modelo controla características individuais que permanecem constantes no tempo. Ele não controla automaticamente fatores não observados que mudam ao longo do tempo e podem estar relacionados simultaneamente ao salário e à sindicalização.
+:::
+
+## Modelo de efeitos aleatórios
+
+Efeitos fixos permitem que as características individuais não observadas estejam relacionadas às variáveis explicativas. O modelo de **efeitos aleatórios** faz uma hipótese adicional: o efeito individual não observado não está correlacionado com as explicativas.
+
+Em R, utilizamos a mesma fórmula e alteramos o argumento para `model = "random"`:
+
+```{r}
+modelo_efeitos_aleatorios <- plm(
+  lwage ~ exper + expersq + married + union,
+  data = wagepan_painel,
+  model = "random"
+)
+
+summary(modelo_efeitos_aleatorios)
+```
+
+Ao contrário do estimador *within*, efeitos aleatórios utilizam tanto:
+
+- mudanças da mesma pessoa ao longo do tempo;
+- diferenças entre pessoas.
+
+Isso pode tornar a estimação mais eficiente quando sua hipótese adicional é adequada.
+
+::: {.callout-note collapse="true" title="Entenda mais: a hipótese dos efeitos aleatórios"}
+Considere:
+
+$$
+y_{it}=x_{it}'\beta+a_i+u_{it}.
+$$
+
+O estimador de efeitos aleatórios exige que o efeito individual $a_i$ não esteja correlacionado com as variáveis explicativas em nenhum período. Uma forma de representar essa condição é:
+
+$$
+E(a_i\mid x_{i1},x_{i2},\ldots,x_{iT})=0.
+$$
+
+Se habilidade não observada estiver relacionada, por exemplo, à sindicalização ou à trajetória de experiência, essa condição pode falhar. Nesse caso, efeitos aleatórios incorporam parte dessa diferença não observada aos coeficientes e tornam-se inconsistentes.
+
+Efeitos fixos permitem essa correlação, mas não estimam separadamente coeficientes de variáveis constantes no tempo. Esse é um dos principais contrastes entre os estimadores.
+:::
+
+## Comparando os modelos
+
+```{r}
+comparacao_painel <- tibble(
+  variavel = names(coef(modelo_efeitos_fixos)),
+  agrupado = coef(modelo_agrupado)[variavel],
+  efeitos_fixos = coef(modelo_efeitos_fixos),
+  efeitos_aleatorios = coef(modelo_efeitos_aleatorios)[variavel]
+)
+
+comparacao_painel
+```
+
+As diferenças entre as colunas aparecem porque os modelos utilizam fontes de comparação distintas:
+
+- o agrupado combina diferenças entre pessoas e mudanças no tempo;
+- efeitos fixos utilizam a variação dentro de cada pessoa.
+- efeitos aleatórios combinam as duas fontes sob uma hipótese mais restritiva sobre o efeito individual.
+
+Não devemos escolher o coeficiente de que mais gostamos. A escolha depende da pergunta e das hipóteses que conseguimos justificar.
+
+## Teste de Hausman
+
+O teste de Hausman ajuda a comparar efeitos fixos e efeitos aleatórios. No R, utilizamos `phtest()`:
+
+```{r}
+teste_hausman <- phtest(
+  modelo_efeitos_fixos,
+  modelo_efeitos_aleatorios
+)
+
+teste_hausman
+```
+
+A hipótese nula afirma que as diferenças entre os estimadores não são sistemáticas e que o estimador de efeitos aleatórios é consistente. Um valor-p pequeno fornece evidência contra essa hipótese e favorece efeitos fixos.
+
+Nesta aplicação, o valor-p é muito pequeno. Isso sugere que a hipótese adicional exigida pelos efeitos aleatórios não é compatível com os dados e que efeitos fixos são mais adequados entre as duas alternativas avaliadas.
+
+::: {.callout-warning title="O teste não escolhe sozinho o modelo"}
+O resultado precisa ser combinado com teoria, conhecimento da base e avaliação das hipóteses. O teste de Hausman não corrige variáveis omitidas que mudam no tempo, erros de mensuração ou causalidade reversa.
+:::
+
+::: {.callout-note collapse="true" title="Entenda mais: lógica do teste de Hausman"}
+Sob a hipótese nula, efeitos fixos e efeitos aleatórios são consistentes, mas efeitos aleatórios tendem a ser mais eficientes. Sob a alternativa, efeitos aleatórios são inconsistentes, enquanto efeitos fixos permanecem consistentes.
+
+O teste examina a distância entre os vetores de coeficientes, considerando suas matrizes de variância:
+
+$$
+H=(\hat{\beta}_{FE}-\hat{\beta}_{RE})'
+[Var(\hat{\beta}_{FE})-Var(\hat{\beta}_{RE})]^{-1}
+(\hat{\beta}_{FE}-\hat{\beta}_{RE}).
+$$
+
+Sob a hipótese nula e condições regulares, a estatística segue aproximadamente uma distribuição qui-quadrado.
+:::
+
+## O que acontece com variáveis constantes?
+
+Vamos incluir `educ`, `black` e `hisp` na fórmula de efeitos fixos:
+
+```{r}
+modelo_fe_constantes <- plm(
+  lwage ~ exper + expersq + married + union +
+    educ + black + hisp,
+  data = wagepan_painel,
+  model = "within"
+)
+
+coef(modelo_fe_constantes)
+```
+
+Os coeficientes de `educ`, `black` e `hisp` não aparecem. Como essas variáveis não mudam dentro do trabalhador, não há variação *within* para estimar seus coeficientes separadamente dos efeitos individuais.
+
+::: {.callout-important title="A variável não deixou de ser importante"}
+Ser absorvida pelo efeito fixo não significa que uma característica seja economicamente irrelevante. Significa apenas que seu coeficiente não pode ser identificado a partir de mudanças dentro da mesma pessoa nesta base.
+:::
+
+::: {.callout-note collapse="true" title="Entenda mais: hipótese necessária"}
+Para interpretar os coeficientes do modelo de efeitos fixos, precisamos supor que, depois de controlar as explicativas e o efeito individual, mudanças do erro não estejam sistematicamente relacionadas às explicativas em nenhum período. Uma forma de representar essa condição é:
+
+$$
+E(u_{it}\mid x_{i1},x_{i2},\ldots,x_{iT},a_i)=0.
+$$
+
+Essa condição é conhecida como exogeneidade estrita. Ela pode falhar, por exemplo, quando choques salariais alteram decisões futuras de sindicalização ou estado civil.
+:::
+
+## Efeitos comuns do tempo
+
+Além das características individuais, todos os trabalhadores podem ser afetados por acontecimentos de determinado ano, como inflação, recessão ou mudanças institucionais.
+
+Podemos incluir indicadores de ano. Como a experiência aumenta de forma perfeitamente alinhada ao tempo para cada trabalhador, retiramos `exper` dessa especificação e mantemos `expersq`:
+
+```{r}
+modelo_fe_tempo <- plm(
+  lwage ~ expersq + married + union + factor(year),
+  data = wagepan_painel,
+  model = "within"
+)
+
+summary(modelo_fe_tempo)
+```
+
+Os indicadores de ano controlam choques comuns a todos os trabalhadores em cada período.
+
+::: {.callout-note collapse="true" title="Entenda mais: por que experiência e ano entram em conflito?"}
+Para cada trabalhador da base, `exper` aumenta uma unidade a cada ano. Depois de remover as médias individuais, a evolução de `exper` é perfeitamente alinhada à evolução do calendário. Assim, não conseguimos separar livremente um efeito linear de experiência de um conjunto completo de indicadores de ano.
+
+Isso é um exemplo de colinearidade perfeita: duas informações carregam a mesma variação relevante para a estimação.
+:::
+
+## O que aprendemos com o painel?
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Sequência da análise de dados em painel"
+%%| echo: false
+
+flowchart LR
+    A["Identificar<br/>unidade e tempo"] --> B["Verificar<br/>a estrutura"]
+    B --> C["Separar variação<br/>entre e dentro"]
+    C --> D["Estimar modelo<br/>agrupado"]
+    D --> E["Estimar efeitos<br/>fixos"]
+    E --> F["Estimar efeitos<br/>aleatórios"]
+    F --> G["Comparar com<br/>Hausman"]
+    G --> H["Interpretar limites<br/>e hipóteses"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Identificar unidade e tempo"] --> B["Verificar a estrutura"]
+    B --> C["Separar variação entre e dentro"]
+    C --> D["Estimar modelo agrupado"]
+    D --> E["Estimar efeitos fixos"]
+    E --> F["Estimar efeitos aleatórios"]
+    F --> G["Comparar com Hausman"]
+    G --> H["Interpretar limites e hipóteses"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Dados em painel permitem acompanhar mudanças dentro da mesma unidade e controlar características não observadas que permanecem constantes no tempo. Essa vantagem é importante, mas não elimina a necessidade de formular cuidadosamente a pergunta, escolher variáveis e discutir as hipóteses.
+
+## Pratique
+
+Utilizando `wagepan_modelos`:
+
+1. conte o número de observações de cada trabalhador;
+2. verifique se `married` e `union` mudam para todos os trabalhadores;
+3. escolha três trabalhadores e represente suas trajetórias salariais;
+4. estime um modelo agrupado com `lwage`, `exper`, `married` e `union`;
+5. estime a mesma fórmula com efeitos fixos;
+6. estime a mesma fórmula com efeitos aleatórios;
+7. compare os coeficientes dos três modelos;
+8. aplique o teste de Hausman;
+9. explique por que `educ` não pode ser estimada separadamente no modelo *within*.
+
+::: {.callout-tip collapse="true" title="Código inicial"}
+```{r}
+modelo_agrupado_pratica <- plm(
+  lwage ~ exper + married + union,
+  data = wagepan_painel,
+  model = "pooling"
+)
+
+modelo_fe_pratica <- plm(
+  lwage ~ exper + married + union,
+  data = wagepan_painel,
+  model = "within"
+)
+
+modelo_re_pratica <- plm(
+  lwage ~ exper + married + union,
+  data = wagepan_painel,
+  model = "random"
+)
+
+summary(modelo_agrupado_pratica)
+summary(modelo_fe_pratica)
+summary(modelo_re_pratica)
+
+phtest(modelo_fe_pratica, modelo_re_pratica)
+```
+:::
+
+Com este capítulo, encerramos o percurso que parte da descrição e chega à estimação de modelos. Na Parte VI, retomaremos operações já utilizadas ao longo da apostila para aprender a automatizá-las, validá-las e transformá-las em rotinas reutilizáveis.

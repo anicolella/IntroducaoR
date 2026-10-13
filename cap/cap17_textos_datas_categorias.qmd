@@ -415,3 +415,5 @@ cotacoes_limpas <- cotacoes_brutas |>
 cotacoes_limpas
 ```
 :::
+
+Ao concluir esta parte, já conseguimos selecionar, transformar, reorganizar, combinar e preparar diferentes tipos de variáveis. Na Parte IV, utilizaremos essas bases organizadas para construir gráficos, calcular medidas descritivas e investigar distribuições e relações entre variáveis.

@@ -128,3 +128,13 @@ Depois de alterações relevantes:
 3. relatar erros ou warnings encontrados;
 4. não corrigir automaticamente problemas não relacionados à tarefa solicitada;
 5. informar claramente quais arquivos foram alterados.
+
+### Codificação na renderização no Windows
+
+Antes de executar o Quarto no Windows, verificar as variáveis de ambiente `LANG`, `LC_ALL` e `LC_CTYPE`.
+
+Se alguma delas estiver definida como `C.UTF-8`, removê-la apenas do processo de renderização antes de chamar `quarto render` ou `quarto preview`. O R para Windows pode não reconhecer esse nome de locale, cair para o locale `C` e converter caracteres acentuados em representações como `<U+00E1>` nos resultados e nos gráficos.
+
+Depois de uma renderização completa, verificar se existem ocorrências do padrão `<U+00` em `docs/` e `_freeze/`. Se houver resultados antigos congelados com esse problema, reexecutar individualmente os capítulos afetados com o locale correto e atualizar o cache correspondente.
+
+Não adicionar ao projeto caminhos ou locales específicos de um usuário quando a correção puder ser limitada ao processo de renderização.

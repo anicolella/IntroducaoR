@@ -1,0 +1,485 @@
+---
+title: "Condições, repetições e automação"
+subtitle: "Executando uma rotina para diferentes situações"
+author:
+  - Alexandre Nicolella
+date: "10/13/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+Ao longo da apostila, repetimos operações como calcular médias, produzir tabelas e examinar diferentes variáveis. Quando o número de tarefas cresce, copiar e colar o mesmo código torna o trabalho demorado e aumenta a possibilidade de erros.
+
+Neste capítulo, aprenderemos a instruir o R a:
+
+- tomar uma decisão;
+- repetir uma operação;
+- guardar os resultados;
+- automatizar uma pequena rotina de análise.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- utilizar `if` e `else` para controlar a execução;
+- distinguir uma decisão única de uma operação vetorizada;
+- repetir comandos com `for`;
+- utilizar uma variável de controle;
+- guardar resultados produzidos em uma repetição;
+- combinar condições e repetições;
+- reconhecer quando um loop ajuda e quando uma solução vetorizada é mais simples.
+:::
+
+## Preparando a base
+
+Continuaremos com `wage1_core`:
+
+```{r}
+library(tidyverse)
+
+wage1_core <- readRDS("dados/wage1_core.rds")
+
+glimpse(wage1_core)
+```
+
+## Por que automatizar?
+
+Suponha que desejemos calcular a média de quatro variáveis:
+
+```{r}
+mean(wage1_core$wage)
+mean(wage1_core$educ)
+mean(wage1_core$exper)
+mean(wage1_core$tenure)
+```
+
+O código funciona, mas a mesma estrutura foi escrita quatro vezes. Se tivéssemos cinquenta variáveis, a repetição manual seria pouco eficiente.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Da repetição manual à automação"
+%%| echo: false
+
+flowchart LR
+    A["Tarefa repetida"] --> B["Identificar o que<br/>permanece igual"]
+    B --> C["Identificar o que<br/>muda"]
+    C --> D["Criar uma rotina"]
+    D --> E["Executar e<br/>validar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Tarefa repetida"] --> B["Identificar o que permanece igual"]
+    B --> C["Identificar o que muda"]
+    C --> D["Criar uma rotina"]
+    D --> E["Executar e validar"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+## Uma decisão com `if`
+
+`if` significa “se”. Ele executa um bloco somente quando uma condição é verdadeira.
+
+```{r}
+media_salario <- mean(wage1_core$wage)
+
+if (media_salario > 5) {
+  print("O salário médio é superior a US$ 5 por hora.")
+}
+```
+
+A estrutura é:
+
+```r
+if (condicao) {
+  codigo_executado_se_a_condicao_for_verdadeira
+}
+```
+
+A condição precisa produzir um único valor `TRUE` ou `FALSE`:
+
+```{r}
+media_salario > 5
+```
+
+## Escolhendo entre duas alternativas
+
+Com `else`, indicamos o que deve acontecer quando a condição for falsa:
+
+```{r}
+limite <- 7
+
+if (media_salario > limite) {
+  mensagem <- "A média está acima do limite."
+} else {
+  mensagem <- "A média não está acima do limite."
+}
+
+mensagem
+```
+
+::: {.callout-important title="`else` deve acompanhar o fechamento do `if`"}
+Escreva:
+
+```r
+} else {
+```
+
+na mesma linha. Isso evita que o R interprete o comando como encerrado antes de encontrar `else`.
+:::
+
+## Mais de duas possibilidades
+
+Podemos encadear decisões com `else if`:
+
+```{r}
+if (media_salario < 5) {
+  classificacao <- "Média inferior a US$ 5"
+} else if (media_salario < 10) {
+  classificacao <- "Média entre US$ 5 e US$ 10"
+} else {
+  classificacao <- "Média igual ou superior a US$ 10"
+}
+
+classificacao
+```
+
+As condições são avaliadas de cima para baixo. Assim que uma delas é verdadeira, as demais não são executadas.
+
+## `if` não é `if_else()`
+
+`if` controla se um bloco de código será executado. Ele foi pensado para uma decisão única.
+
+`if_else()` trabalha de forma vetorizada: avalia uma condição para cada elemento de uma coluna.
+
+```{r}
+wage1_classificada <- wage1_core |>
+  mutate(
+    salario_acima_media = if_else(
+      wage > media_salario,
+      "Acima da média",
+      "Até a média"
+    )
+  )
+
+wage1_classificada |>
+  count(salario_acima_media)
+```
+
+| Necessidade | Ferramenta |
+|---|---|
+| Executar ou não um bloco | `if` |
+| Escolher entre duas ações | `if` e `else` |
+| Classificar cada linha | `if_else()` |
+| Criar várias categorias | `case_when()` |
+
+## Repetindo uma operação com `for`
+
+`for` percorre uma sequência. O exemplo abaixo preserva a ideia apresentada nas suas notas antigas: começamos com 3 e, a cada repetição, multiplicamos o valor anterior por 2.
+
+```{r}
+x <- numeric(9)
+x[1] <- 3
+
+for (i in 2:9) {
+  x[i] <- 2 * x[i - 1]
+}
+
+x
+```
+
+Na expressão:
+
+```r
+for (i in 2:9)
+```
+
+- `i` é a variável de controle;
+- `2:9` é a sequência percorrida;
+- o código entre chaves é executado para cada valor de `i`.
+
+## A importância da indentação
+
+O R identifica o bloco pelas chaves, mas a indentação permite que uma pessoa reconheça sua estrutura:
+
+```r
+for (i in 2:9) {
+  x[i] <- 2 * x[i - 1]
+}
+```
+
+O recuo mostra que a atribuição pertence ao `for`. Código bem indentado é mais fácil de ler, revisar e corrigir.
+
+## Percorrendo nomes de variáveis
+
+Criamos um vetor com as variáveis que desejamos analisar:
+
+```{r}
+variaveis <- c("wage", "educ", "exper", "tenure")
+
+variaveis
+```
+
+Agora percorremos seus nomes:
+
+```{r}
+for (variavel in variaveis) {
+  print(variavel)
+}
+```
+
+Dentro do loop, `variavel` recebe um nome diferente em cada repetição.
+
+Para acessar uma coluna cujo nome está guardado em um objeto, usamos colchetes duplos:
+
+```{r}
+wage1_core[["wage"]]
+```
+
+Portanto:
+
+```{r}
+for (variavel in variaveis) {
+  media <- mean(wage1_core[[variavel]], na.rm = TRUE)
+  print(media)
+}
+```
+
+O cálculo foi automatizado, mas a saída ainda não informa claramente a qual variável cada valor pertence.
+
+## Guardando os resultados
+
+Antes do loop, criamos um vetor vazio com o tamanho necessário:
+
+```{r}
+medias <- numeric(length(variaveis))
+
+for (i in seq_along(variaveis)) {
+  nome_variavel <- variaveis[i]
+
+  medias[i] <- mean(
+    wage1_core[[nome_variavel]],
+    na.rm = TRUE
+  )
+}
+
+medias
+```
+
+`seq_along(variaveis)` cria uma sequência segura de posições: 1, 2, 3 e 4.
+
+Combinamos os nomes e resultados em uma tabela:
+
+```{r}
+tabela_medias <- tibble(
+  variavel = variaveis,
+  media = medias
+)
+
+tabela_medias
+```
+
+::: {.callout-tip title="Prepare o objeto antes de iniciar o loop"}
+Guardar resultados é preferível a apenas imprimi-los. Quando sabemos o tamanho da saída, preparar o vetor antes do loop também evita ampliar o objeto a cada repetição.
+:::
+
+## Automatizando várias medidas
+
+Podemos armazenar mais de uma estatística em cada repetição:
+
+```{r}
+resumo_variaveis <- tibble(
+  variavel = character(),
+  media = double(),
+  mediana = double(),
+  desvio_padrao = double()
+)
+
+for (variavel in variaveis) {
+  valores <- wage1_core[[variavel]]
+
+  nova_linha <- tibble(
+    variavel = variavel,
+    media = mean(valores, na.rm = TRUE),
+    mediana = median(valores, na.rm = TRUE),
+    desvio_padrao = sd(valores, na.rm = TRUE)
+  )
+
+  resumo_variaveis <- bind_rows(
+    resumo_variaveis,
+    nova_linha
+  )
+}
+
+resumo_variaveis
+```
+
+Esse código evidencia a lógica da repetição. No próximo capítulo, transformaremos o cálculo de uma linha em uma função reutilizável.
+
+## Combinando `if` e `for`
+
+Suponha que uma lista contenha também uma variável categórica:
+
+```{r}
+wage1_tipos <- wage1_core |>
+  mutate(
+    sexo = if_else(female == 1, "Mulher", "Homem")
+  )
+
+variaveis_mistas <- c(
+  "wage",
+  "educ",
+  "exper",
+  "tenure",
+  "sexo"
+)
+```
+
+Antes de calcular a média, verificamos se a coluna é numérica:
+
+```{r}
+for (variavel in variaveis_mistas) {
+  valores <- wage1_tipos[[variavel]]
+
+  if (is.numeric(valores)) {
+    resultado <- mean(valores, na.rm = TRUE)
+    print(paste(variavel, ": média =", round(resultado, 2)))
+  } else {
+    print(paste(variavel, ": variável não numérica"))
+  }
+}
+```
+
+O `if` decide o que fazer em cada passagem do `for`.
+
+## Quando não precisamos de um loop?
+
+Muitas funções do R já são vetorizadas. Para multiplicar todos os salários por 100, não precisamos percorrer linha por linha:
+
+```{r}
+salario_centavos <- wage1_core$wage * 100
+
+head(salario_centavos)
+```
+
+Da mesma forma, `summarise(across())` calcula medidas para várias colunas:
+
+```{r}
+wage1_core |>
+  summarise(
+    across(
+      all_of(variaveis),
+      list(
+        media = ~ mean(.x, na.rm = TRUE),
+        mediana = ~ median(.x, na.rm = TRUE),
+        dp = ~ sd(.x, na.rm = TRUE)
+      )
+    )
+  )
+```
+
+O loop continua útil quando:
+
+- a rotina possui várias etapas;
+- cada repetição produz objetos diferentes;
+- precisamos executar decisões dentro da repetição;
+- não existe uma operação vetorizada simples;
+- a forma explícita ajuda a compreender o algoritmo.
+
+::: {.callout-note collapse="true" title="Entenda mais: e o `while`?"}
+`while` repete um bloco enquanto uma condição for verdadeira:
+
+```{r}
+valor <- 1
+
+while (valor < 100) {
+  valor <- valor * 2
+}
+
+valor
+```
+
+Ele é útil quando não sabemos previamente quantas repetições serão necessárias. Precisamos garantir que a condição se torne falsa; caso contrário, o loop continuará indefinidamente.
+:::
+
+## Uma rotina de automação
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Componentes de uma rotina automatizada"
+%%| echo: false
+
+flowchart LR
+    A["Lista de entradas"] --> B["Repetição"]
+    B --> C["Verificação"]
+    C --> D["Operação"]
+    D --> E["Armazenamento"]
+    E --> F["Validação"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Lista de entradas"] --> B["Repetição"]
+    B --> C["Verificação"]
+    C --> D["Operação"]
+    D --> E["Armazenamento"]
+    E --> F["Validação"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Automatizar não significa apenas reduzir linhas. Uma rotina deve produzir resultados organizados, verificáveis e adaptáveis a novas entradas.
+
+## Pratique
+
+1. Crie um `if` que informe se a média de `educ` é maior que 12.
+2. Use `if`, `else if` e `else` para classificar a média de `exper`.
+3. Crie um vetor com `wage`, `educ` e `tenure`.
+4. Utilize `for` para calcular o valor mínimo de cada variável.
+5. Guarde os resultados em uma tabela.
+6. Inclua `sexo` na lista e use `if` para evitar calcular sua média.
+
+::: {.callout-tip collapse="true" title="Código inicial"}
+```{r}
+variaveis_pratica <- c("wage", "educ", "tenure")
+minimos <- numeric(length(variaveis_pratica))
+
+for (i in seq_along(variaveis_pratica)) {
+  variavel <- variaveis_pratica[i]
+  minimos[i] <- min(
+    wage1_core[[variavel]],
+    na.rm = TRUE
+  )
+}
+
+tibble(
+  variavel = variaveis_pratica,
+  minimo = minimos
+)
+```
+:::

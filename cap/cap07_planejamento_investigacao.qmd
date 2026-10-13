@@ -343,3 +343,5 @@ A quarta entrega será o **plano inicial da investigação em R**. Ele reunirá 
 O plano será revisado ao longo da disciplina. Sua função não é impedir mudanças, mas tornar o percurso controlável, discutível e reproduzível.
 
 :::
+
+Com o plano de investigação definido, passaremos da formulação do problema para a construção das competências necessárias à sua execução. Na Parte II, conheceremos o ambiente R e aprenderemos a organizar projetos, criar objetos, importar bases e verificar a qualidade dos dados.

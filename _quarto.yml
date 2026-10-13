@@ -39,14 +39,14 @@ book:
     - cap/cap2_1_como_utilizar.qmd
     - cap/cap1_autores.qmd
 
-    - part: "Do problema econômico à investigação com dados"
+    - part: "Parte I — Do problema econômico à investigação com dados"
       chapters:
         - cap/cap04_problema_pergunta.qmd
         - cap/cap05_pergunta_dados.qmd
         - cap/cap06_evidencia_conclusao.qmd
         - cap/cap07_planejamento_investigacao.qmd
 
-    - part: "Ambiente e fundamentos de R"
+    - part: "Parte II — Ambiente e fundamentos de R"
       chapters:
         - cap/cap08_ambiente_r.qmd
         - cap/cap09_projetos_reprodutiveis.qmd
@@ -54,7 +54,7 @@ book:
         - cap/cap11_dataframes_importacao.qmd
         - cap/cap12_qualidade_dados.qmd
 
-    - part: "Transformação e organização"
+    - part: "Parte III — Transformação e organização"
       chapters:
         - cap/cap13_tidyverse_pipe.qmd
         - cap/cap14_manipulacao_dplyr.qmd
@@ -62,18 +62,31 @@ book:
         - cap/cap16_combinacao_bases.qmd
         - cap/cap17_textos_datas_categorias.qmd
 
-    - part: "Motivando e Relembrando"
+    - part: "Parte IV — Visualização e descrição"
       chapters:
-        - cap/cap6_estatistica.qmd
+        - cap/cap18_visualizacao_ggplot2.qmd
+        - cap/cap19_estatistica_descritiva.qmd
+        - cap/cap20_distribuicoes_relacoes.qmd
 
-    - part: "Gerando Informação"
+    - part: "Parte V — Da descrição à explicação"
       chapters:
-        - cap/cap7_descritiva_v2.qmd
-        - cap/cap8_lineares.qmd
-        - cap/cap9_outrosmodelos.qmd
+        - cap/cap21_modelos_lineares.qmd
+        - cap/cap22_binarios_contagens.qmd
+        - cap/cap23_dados_painel.qmd
+
+    - part: "Parte VI — Programação e automação"
+      chapters:
+        - cap/cap24_condicoes_repeticoes.qmd
+        - cap/cap25_funcoes_reutilizacao.qmd
+
+    - part: "Parte VII — Tutoriais aplicados"
+      chapters:
+        - cap/cap26_tutoriais_microeconomia.qmd
+        - cap/cap27_tutoriais_macroeconomia.qmd
+        - cap/cap28_tutoriais_financas.qmd
 
 
-    - part: "Tópicos Extras"
+    - part: "Recursos complementares"
       chapters:
         - cap/cap5_googledrive.qmd
         - cap/capextra_github.qmd

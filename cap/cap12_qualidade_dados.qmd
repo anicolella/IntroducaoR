@@ -412,4 +412,4 @@ Não deixe os critérios apenas na memória ou em anotações separadas. Transfo
 Qualidade dos dados não é uma etapa mecânica anterior à análise. Ela exige compreender conceitos, definições e processos de coleta. Uma decisão de limpeza deve ser explícita, justificável, reproduzível e preservada no código.
 :::
 
-Com este capítulo, completamos o primeiro bloco de fundamentos: construímos objetos, passamos para *data frames*, importamos arquivos e verificamos a qualidade das informações. O próximo passo será revisar conjuntamente os capítulos 10, 11 e 12 e compará-los com o material anterior da disciplina e com o material complementar.
+Com este capítulo, completamos o bloco de fundamentos: construímos objetos, passamos para *data frames*, importamos arquivos e verificamos a qualidade das informações. Na Parte III, utilizaremos o `tidyverse` para transformar, reorganizar e combinar esses dados em sequências de operações legíveis e reproduzíveis.

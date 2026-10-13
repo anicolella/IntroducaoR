@@ -1,0 +1,11 @@
+---
+title: "Tutoriais de Macroeconomia"
+subtitle: "Espaço reservado para a produção dos alunos"
+author:
+  - Alexandre Nicolella
+format: html
+---
+
+::: {.callout-note title="Seção em construção"}
+Esta seção receberá os tutoriais aplicados de Macroeconomia produzidos pelos grupos e incorporados à apostila depois de revisão e validação.
+:::

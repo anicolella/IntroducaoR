@@ -1,0 +1,452 @@
+---
+title: "Estatística descritiva"
+subtitle: "Resumindo e comparando os dados"
+author:
+  - Alexandre Nicolella
+date: "10/12/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+No capítulo anterior, utilizamos gráficos para observar padrões. Agora aprenderemos a resumir numericamente uma amostra, sem perder de vista o significado econômico das variáveis.
+
+Nossa pergunta orientadora será:
+
+> Como descrever salários, escolaridade e experiência e comparar grupos da amostra?
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- distinguir variáveis categóricas e numéricas;
+- construir frequências e proporções;
+- calcular média, mediana, quantis e moda;
+- calcular amplitude, intervalo interquartil, variância e desvio-padrão;
+- compreender o efeito de valores extremos sobre as medidas;
+- produzir resumos por grupos;
+- escolher medidas compatíveis com a variável e com a pergunta.
+:::
+
+## Preparando a base
+
+```{r}
+library(tidyverse)
+
+wage1_core <- readRDS("dados/wage1_core.rds")
+
+wage1_desc <- wage1_core |>
+  mutate(
+    sexo = if_else(female == 1, "Mulher", "Homem"),
+    sexo = factor(sexo, levels = c("Homem", "Mulher"))
+  )
+
+glimpse(wage1_desc)
+```
+
+Cada linha representa uma pessoa. As estatísticas calculadas neste capítulo descrevem essa amostra; elas não devem ser automaticamente interpretadas como características de toda a população.
+
+## O tipo da variável orienta o resumo
+
+Uma primeira distinção útil é:
+
+- **variável categórica:** representa grupos ou atributos, como sexo;
+- **variável numérica:** representa uma quantidade, como salário ou anos de escolaridade.
+
+Entre as categóricas, podemos distinguir categorias sem ordem natural — nominais — e categorias ordenadas — ordinais. Entre as numéricas, frequentemente distinguimos contagens discretas e medidas contínuas.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Tipos de variáveis e formas iniciais de resumo"
+%%| echo: false
+
+flowchart TD
+    A["Variável"] --> B["Categórica"]
+    A --> C["Numérica"]
+    B --> D["Frequências e<br/>proporções"]
+    C --> E["Posição e<br/>variabilidade"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart TD
+    A["Variável"] --> B["Categórica"]
+    A --> C["Numérica"]
+    B --> D["Frequências e<br/>proporções"]
+    C --> E["Posição e<br/>variabilidade"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Uma variável pode ser armazenada como número no R e ainda representar categorias. `female`, por exemplo, utiliza 0 e 1 como códigos; calcular sua frequência costuma ser mais informativo do que tratá-la inicialmente como uma medida contínua.
+
+## Frequências
+
+A frequência absoluta informa quantas observações pertencem a cada categoria:
+
+```{r}
+frequencia_sexo <- wage1_desc |>
+  count(sexo, name = "frequencia")
+
+frequencia_sexo
+```
+
+`count()` equivale a agrupar pelas categorias e contar as linhas de cada grupo.
+
+## Proporções e percentuais
+
+Uma contagem depende do tamanho total da amostra. A proporção coloca cada frequência em relação ao total:
+
+```{r}
+frequencia_sexo <- frequencia_sexo |>
+  mutate(
+    proporcao = frequencia / sum(frequencia),
+    percentual = 100 * proporcao
+  )
+
+frequencia_sexo
+```
+
+As proporções devem somar 1 e os percentuais, 100, salvo pequenas diferenças de arredondamento:
+
+```{r}
+sum(frequencia_sexo$proporcao)
+sum(frequencia_sexo$percentual)
+```
+
+## Medidas de posição
+
+Medidas de posição indicam onde os valores se localizam na distribuição.
+
+### Média
+
+A média aritmética soma os valores e divide o resultado pelo número de observações:
+
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+No R:
+
+```{r}
+mean(wage1_desc$wage, na.rm = TRUE)
+```
+
+`na.rm = TRUE` solicita que valores ausentes sejam removidos do cálculo. Essa opção não substitui a investigação da origem das ausências.
+
+### Mediana
+
+A mediana divide os valores ordenados em duas metades:
+
+```{r}
+median(wage1_desc$wage, na.rm = TRUE)
+```
+
+Ela depende da posição das observações, não da distância entre todos os valores. Por isso, tende a ser menos sensível a valores muito altos ou muito baixos.
+
+### Média e mediana não respondem à mesma pergunta
+
+```{r}
+wage1_desc |>
+  summarise(
+    salario_medio = mean(wage, na.rm = TRUE),
+    salario_mediano = median(wage, na.rm = TRUE)
+  )
+```
+
+Se a média estiver acima da mediana, isso pode indicar que alguns salários elevados puxam a média para cima. Precisamos examinar a distribuição antes de concluir.
+
+### Quantis, percentis e quartis
+
+O percentil de ordem (p) é um valor abaixo do qual se encontra aproximadamente (p\%\) das observações. Os quartis dividem a distribuição em quatro partes:
+
+- primeiro quartil, (Q_1): 25%;
+- segundo quartil, (Q_2): 50%, igual à mediana;
+- terceiro quartil, (Q_3): 75%.
+
+```{r}
+quantile(
+  wage1_desc$wage,
+  probs = c(0, 0.25, 0.50, 0.75, 1),
+  na.rm = TRUE
+)
+```
+
+Para obter percentis específicos:
+
+```{r}
+quantile(
+  wage1_desc$wage,
+  probs = c(0.10, 0.90),
+  na.rm = TRUE
+)
+```
+
+Os percentis ajudam a comparar posições na distribuição sem supor que os valores estejam distribuídos simetricamente.
+
+### Moda
+
+A moda é o valor ou categoria mais frequente. Para variáveis categóricas, podemos localizá-la com uma contagem:
+
+```{r}
+wage1_desc |>
+  count(educ, sort = TRUE) |>
+  slice_head(n = 5)
+```
+
+Neste exemplo, a tabela mostra os valores de escolaridade mais frequentes. Pode existir mais de uma moda quando diferentes valores apresentam a mesma frequência máxima.
+
+## Medidas de variabilidade
+
+Duas distribuições podem ter a mesma média e, ainda assim, apresentar dispersões muito diferentes. Medidas de variabilidade descrevem o espalhamento dos valores.
+
+### Amplitude
+
+A amplitude é a diferença entre o maior e o menor valor:
+
+$$
+A = x_{\max} - x_{\min}
+$$
+
+```{r}
+amplitude_salario <- max(wage1_desc$wage, na.rm = TRUE) -
+  min(wage1_desc$wage, na.rm = TRUE)
+
+amplitude_salario
+```
+
+Como depende apenas dos extremos, a amplitude pode mudar muito com uma única observação.
+
+### Intervalo interquartil
+
+O intervalo interquartil é a distância entre o terceiro e o primeiro quartil:
+
+$$
+IQR = Q_3 - Q_1
+$$
+
+```{r}
+IQR(wage1_desc$wage, na.rm = TRUE)
+```
+
+Ele descreve a dispersão dos 50% centrais e é menos sensível aos extremos.
+
+### Variância
+
+A variância amostral mede a dispersão quadrática em torno da média:
+
+$$
+s^2 = \frac{\sum_{i=1}^{n}(x_i-\bar{x})^2}{n-1}
+$$
+
+```{r}
+var(wage1_desc$wage, na.rm = TRUE)
+```
+
+Como utiliza desvios ao quadrado, sua unidade também fica ao quadrado, o que dificulta uma interpretação direta.
+
+### Desvio-padrão
+
+O desvio-padrão é a raiz quadrada da variância e retorna à unidade original da variável:
+
+```{r}
+sd(wage1_desc$wage, na.rm = TRUE)
+```
+
+Um desvio-padrão maior indica maior dispersão em torno da média, mas seu significado depende da escala e da forma da distribuição.
+
+### Coeficiente de variação
+
+O coeficiente de variação relaciona o desvio-padrão à média:
+
+$$
+CV = \frac{s}{\bar{x}}
+$$
+
+```{r}
+cv_salario <- sd(wage1_desc$wage, na.rm = TRUE) /
+  mean(wage1_desc$wage, na.rm = TRUE)
+
+cv_salario
+```
+
+O coeficiente de variação pode ajudar a comparar dispersões relativas, mas não é apropriado quando a média está próxima de zero ou quando a escala não possui um zero com significado substantivo.
+
+## Um resumo descritivo integrado
+
+Podemos reunir diferentes medidas numa única tabela:
+
+```{r}
+resumo_salario <- wage1_desc |>
+  summarise(
+    observacoes = sum(!is.na(wage)),
+    minimo = min(wage, na.rm = TRUE),
+    q1 = quantile(wage, 0.25, na.rm = TRUE),
+    mediana = median(wage, na.rm = TRUE),
+    media = mean(wage, na.rm = TRUE),
+    q3 = quantile(wage, 0.75, na.rm = TRUE),
+    maximo = max(wage, na.rm = TRUE),
+    desvio_padrao = sd(wage, na.rm = TRUE),
+    iqr = IQR(wage, na.rm = TRUE)
+  )
+
+resumo_salario
+```
+
+Não precisamos relatar todas as medidas em toda análise. A seleção deve ser orientada pela pergunta e pela forma da distribuição.
+
+## Comparando grupos
+
+As mesmas medidas podem ser calculadas separadamente por grupo:
+
+```{r}
+resumo_por_sexo <- wage1_desc |>
+  group_by(sexo) |>
+  summarise(
+    pessoas = n(),
+    salario_medio = mean(wage, na.rm = TRUE),
+    salario_mediano = median(wage, na.rm = TRUE),
+    desvio_padrao = sd(wage, na.rm = TRUE),
+    q1 = quantile(wage, 0.25, na.rm = TRUE),
+    q3 = quantile(wage, 0.75, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+resumo_por_sexo
+```
+
+Essa tabela descreve diferenças observadas entre os grupos. Ela não mostra, por si só, por que as diferenças existem.
+
+Podemos comparar também escolaridade e experiência:
+
+```{r}
+wage1_desc |>
+  group_by(sexo) |>
+  summarise(
+    escolaridade_media = mean(educ, na.rm = TRUE),
+    experiencia_media = mean(exper, na.rm = TRUE),
+    permanencia_media = mean(tenure, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+Diferenças na composição dos grupos são parte importante da interpretação.
+
+## O efeito de um valor extremo
+
+Vamos utilizar um exemplo pequeno para observar como média e mediana reagem a um valor elevado:
+
+```{r}
+salarios_exemplo <- tibble(
+  pessoa = 1:6,
+  salario = c(8, 9, 10, 10, 11, 12)
+)
+
+salarios_exemplo |>
+  summarise(
+    media = mean(salario),
+    mediana = median(salario)
+  )
+```
+
+Agora substituímos o último valor por 60:
+
+```{r}
+salarios_extremo <- salarios_exemplo |>
+  mutate(
+    salario = if_else(pessoa == 6, 60, salario)
+  )
+
+salarios_extremo |>
+  summarise(
+    media = mean(salario),
+    mediana = median(salario)
+  )
+```
+
+A média aumenta muito mais do que a mediana. Isso não significa que devamos excluir automaticamente o valor 60. Primeiro precisamos saber se ele é erro, observação legítima ou consequência da população estudada.
+
+::: {.callout-important title="Descrever não é explicar"}
+Uma média, proporção ou diferença entre grupos responde ao que foi observado na amostra. Ela não identifica automaticamente mecanismos, efeitos causais ou o que aconteceria sob outra condição.
+:::
+
+## Escolhendo medidas
+
+::: {.callout-note collapse="true" title="Entenda mais: assimetria e curtose"}
+Assimetria e curtose são medidas adicionais da forma de uma distribuição. Elas podem ser úteis em análises específicas, mas seus valores isolados são pouco informativos para quem está começando. Nesta apostila, priorizamos a leitura conjunta de histograma, densidade, boxplot, medidas de posição e dispersão. As medidas formais de assimetria e curtose ficam reservadas para aprofundamentos em que sua interpretação seja necessária.
+:::
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Escolha inicial de medidas descritivas"
+%%| echo: false
+
+flowchart TD
+    A["Qual é a variável?"] --> B["Categórica"]
+    A --> C["Numérica"]
+    B --> D["Frequências e<br/>proporções"]
+    C --> E["Distribuição aproximadamente<br/>simétrica"]
+    C --> F["Distribuição assimétrica<br/>ou com extremos"]
+    E --> G["Média e<br/>desvio-padrão"]
+    F --> H["Mediana, quartis<br/>e IQR"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart TD
+    A["Qual é a variável?"] --> B["Categórica"]
+    A --> C["Numérica"]
+    B --> D["Frequências e<br/>proporções"]
+    C --> E["Distribuição aproximadamente<br/>simétrica"]
+    C --> F["Distribuição assimétrica<br/>ou com extremos"]
+    E --> G["Média e<br/>desvio-padrão"]
+    F --> H["Mediana, quartis<br/>e IQR"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+O fluxograma oferece uma orientação inicial. Uma boa descrição frequentemente apresenta mais de uma medida e combina números com visualizações.
+
+## Pratique
+
+Utilizando `wage1_desc`:
+
+1. produza uma tabela com média, mediana, primeiro e terceiro quartis de `educ`;
+2. calcule amplitude, intervalo interquartil e desvio-padrão de `exper`;
+3. produza essas medidas de experiência separadamente por sexo;
+4. escreva duas frases comparando os grupos sem utilizar linguagem causal.
+
+::: {.callout-tip collapse="true" title="Uma solução possível para os itens 2 e 3"}
+```{r}
+wage1_desc |>
+  group_by(sexo) |>
+  summarise(
+    amplitude_experiencia = max(exper, na.rm = TRUE) -
+      min(exper, na.rm = TRUE),
+    iqr_experiencia = IQR(exper, na.rm = TRUE),
+    dp_experiencia = sd(exper, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+:::

@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alexandre Nicolella">
+<meta name="author" content="Felipe Bauer">
+<meta name="dcterms.date" content="2026-10-13">
+
+<title>23&nbsp; Dados em painel e efeitos fixos – Introdução ao R</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../cap/cap24_condicoes_repeticoes.html" rel="next">
+<link href="../cap/cap22_binarios_contagens.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../estilos.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo light-content">
+    <img src="../figuras/usp.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introdução ao R</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/anicolella/IntroducaoR"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap21_modelos_lineares.html">Parte V — Da descrição à explicação</a></li><li class="breadcrumb-item"><a href="../cap/cap23_dados_painel.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Dados em painel e efeitos fixos</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefácio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Informações da Disciplina</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap2_1_como_utilizar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Como utilizar esta apostila</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap1_autores.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Sobre o Autor</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I — Do problema econômico à investigação com dados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Do problema econômico à pergunta de investigação</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap05_pergunta_dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap06_evidencia_conclusao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Da evidência à conclusão</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap07_planejamento_investigacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Planejamento da investigação em R</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II — Ambiente e fundamentos de R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap08_ambiente_r.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap09_projetos_reprodutiveis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Projetos e organização reproduzível</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap10_objetos_operacoes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Objetos e operações fundamentais</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap11_dataframes_importacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Data frames e importação</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap12_qualidade_dados.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Valores ausentes e qualidade dos dados</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte III — Transformação e organização</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap13_tidyverse_pipe.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Introdução ao tidyverse e ao pipe</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap14_manipulacao_dplyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Manipulação de dados com dplyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap15_dados_tidy_tidyr.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dados tidy e transformação com tidyr</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap16_combinacao_bases.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Combinação de bases</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap17_textos_datas_categorias.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Textos, datas e categorias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte IV — Visualização e descrição</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap18_visualizacao_ggplot2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Visualização de dados com ggplot2</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap19_estatistica_descritiva.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Estatística descritiva</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap20_distribuicoes_relacoes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Distribuições e relações entre variáveis</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte V — Da descrição à explicação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap21_modelos_lineares.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Modelos lineares</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap22_binarios_contagens.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Modelos para resultados binários e contagens</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap23_dados_painel.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Dados em painel e efeitos fixos</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte VI — Programação e automação</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap24_condicoes_repeticoes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Condições, repetições e automação</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap25_funcoes_reutilizacao.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Funções e reutilização de código</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte VII — Tutoriais aplicados</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap26_tutoriais_microeconomia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Tutoriais de Microeconomia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap27_tutoriais_macroeconomia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Tutoriais de Macroeconomia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap28_tutoriais_financas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Tutoriais de Finanças</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Recursos complementares</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Google Drive</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cap/capextra_github.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Usando o GitHub</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#corte-transversal-série-temporal-e-painel" id="toc-corte-transversal-série-temporal-e-painel" class="nav-link active" data-scroll-target="#corte-transversal-série-temporal-e-painel"><span class="header-section-number">23.1</span> Corte transversal, série temporal e painel</a></li>
+  <li><a href="#a-base-wagepan" id="toc-a-base-wagepan" class="nav-link" data-scroll-target="#a-base-wagepan"><span class="header-section-number">23.2</span> A base <code>wagepan</code></a></li>
+  <li><a href="#como-o-painel-está-organizado" id="toc-como-o-painel-está-organizado" class="nav-link" data-scroll-target="#como-o-painel-está-organizado"><span class="header-section-number">23.3</span> Como o painel está organizado?</a></li>
+  <li><a href="#painel-balanceado" id="toc-painel-balanceado" class="nav-link" data-scroll-target="#painel-balanceado"><span class="header-section-number">23.4</span> Painel balanceado</a></li>
+  <li><a href="#visualizando-trajetórias-individuais" id="toc-visualizando-trajetórias-individuais" class="nav-link" data-scroll-target="#visualizando-trajetórias-individuais"><span class="header-section-number">23.5</span> Visualizando trajetórias individuais</a></li>
+  <li><a href="#variação-entre-e-dentro-das-unidades" id="toc-variação-entre-e-dentro-das-unidades" class="nav-link" data-scroll-target="#variação-entre-e-dentro-das-unidades"><span class="header-section-number">23.6</span> Variação entre e dentro das unidades</a></li>
+  <li><a href="#preparando-o-painel-com-plm" id="toc-preparando-o-painel-com-plm" class="nav-link" data-scroll-target="#preparando-o-painel-com-plm"><span class="header-section-number">23.7</span> Preparando o painel com <code>plm</code></a></li>
+  <li><a href="#um-modelo-agrupado" id="toc-um-modelo-agrupado" class="nav-link" data-scroll-target="#um-modelo-agrupado"><span class="header-section-number">23.8</span> Um modelo agrupado</a></li>
+  <li><a href="#características-individuais-não-observadas" id="toc-características-individuais-não-observadas" class="nav-link" data-scroll-target="#características-individuais-não-observadas"><span class="header-section-number">23.9</span> Características individuais não observadas</a></li>
+  <li><a href="#modelo-de-efeitos-fixos" id="toc-modelo-de-efeitos-fixos" class="nav-link" data-scroll-target="#modelo-de-efeitos-fixos"><span class="header-section-number">23.10</span> Modelo de efeitos fixos</a></li>
+  <li><a href="#modelo-de-efeitos-aleatórios" id="toc-modelo-de-efeitos-aleatórios" class="nav-link" data-scroll-target="#modelo-de-efeitos-aleatórios"><span class="header-section-number">23.11</span> Modelo de efeitos aleatórios</a></li>
+  <li><a href="#comparando-os-modelos" id="toc-comparando-os-modelos" class="nav-link" data-scroll-target="#comparando-os-modelos"><span class="header-section-number">23.12</span> Comparando os modelos</a></li>
+  <li><a href="#teste-de-hausman" id="toc-teste-de-hausman" class="nav-link" data-scroll-target="#teste-de-hausman"><span class="header-section-number">23.13</span> Teste de Hausman</a></li>
+  <li><a href="#o-que-acontece-com-variáveis-constantes" id="toc-o-que-acontece-com-variáveis-constantes" class="nav-link" data-scroll-target="#o-que-acontece-com-variáveis-constantes"><span class="header-section-number">23.14</span> O que acontece com variáveis constantes?</a></li>
+  <li><a href="#efeitos-comuns-do-tempo" id="toc-efeitos-comuns-do-tempo" class="nav-link" data-scroll-target="#efeitos-comuns-do-tempo"><span class="header-section-number">23.15</span> Efeitos comuns do tempo</a></li>
+  <li><a href="#o-que-aprendemos-com-o-painel" id="toc-o-que-aprendemos-com-o-painel" class="nav-link" data-scroll-target="#o-que-aprendemos-com-o-painel"><span class="header-section-number">23.16</span> O que aprendemos com o painel?</a></li>
+  <li><a href="#pratique" id="toc-pratique" class="nav-link" data-scroll-target="#pratique"><span class="header-section-number">23.17</span> Pratique</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap21_modelos_lineares.html">Parte V — Da descrição à explicação</a></li><li class="breadcrumb-item"><a href="../cap/cap23_dados_painel.html"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Dados em painel e efeitos fixos</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Dados em painel e efeitos fixos</span></h1>
+<p class="subtitle lead">Acompanhando trabalhadores ao longo do tempo</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Authors</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alexandre Nicolella </p>
+             <p>Felipe Bauer </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 13, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Até aqui, trabalhamos principalmente com dados de corte transversal: diferentes pessoas observadas em um determinado contexto. Em algumas pesquisas, porém, acompanhamos as <strong>mesmas unidades ao longo do tempo</strong>.</p>
+<p>Podemos acompanhar:</p>
+<ul>
+<li>pessoas durante vários anos;</li>
+<li>famílias em diferentes entrevistas;</li>
+<li>empresas ao longo de exercícios contábeis;</li>
+<li>municípios durante sucessivos mandatos;</li>
+<li>países em diferentes períodos.</li>
+</ul>
+<p>Essa estrutura é chamada de <strong>dados em painel</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Objetivos do capítulo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Objetivos do capítulo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ao final deste capítulo, você deverá ser capaz de:</p>
+<ul>
+<li>reconhecer uma base em painel;</li>
+<li>identificar a unidade e o período de observação;</li>
+<li>verificar se o painel é balanceado;</li>
+<li>distinguir variação entre unidades e dentro da mesma unidade;</li>
+<li>preparar uma base com <code>pdata.frame()</code>;</li>
+<li>estimar modelos agrupados, de efeitos fixos e de efeitos aleatórios com <code>plm()</code>;</li>
+<li>interpretar coeficientes de um modelo <em>within</em>;</li>
+<li>compreender por que características constantes no tempo são absorvidas pelos efeitos fixos;</li>
+<li>utilizar o teste de Hausman para comparar efeitos fixos e aleatórios;</li>
+<li>reconhecer os limites básicos dessa estratégia.</li>
+</ul>
+</div>
+</div>
+<section id="corte-transversal-série-temporal-e-painel" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="corte-transversal-série-temporal-e-painel"><span class="header-section-number">23.1</span> Corte transversal, série temporal e painel</h2>
+<p>As três estruturas podem ser diferenciadas pela unidade observada e pelo tempo:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Estrutura&lt;br/&gt;dos dados"] --&gt; B["Corte transversal"]
+    A --&gt; C["Série temporal"]
+    A --&gt; D["Painel"]
+    B --&gt; E["Muitas unidades&lt;br/&gt;em um período"]
+    C --&gt; F["Uma unidade&lt;br/&gt;em vários períodos"]
+    D --&gt; G["Muitas unidades&lt;br/&gt;em vários períodos"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Código Mermaid do fluxograma">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Código Mermaid do fluxograma
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre class="text"><code>flowchart LR
+    A["Estrutura dos dados"] --&gt; B["Corte transversal"]
+    A --&gt; C["Série temporal"]
+    A --&gt; D["Painel"]
+    B --&gt; E["Muitas unidades em um período"]
+    C --&gt; F["Uma unidade em vários períodos"]
+    D --&gt; G["Muitas unidades em vários períodos"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;</code></pre>
+</div>
+</div>
+</div>
+<p>Em um painel, cada observação precisa ser identificada por duas informações:</p>
+<ol type="1">
+<li><strong>quem ou o que está sendo observado</strong>;</li>
+<li><strong>em qual período a observação foi realizada</strong>.</li>
+</ol>
+</section>
+<section id="a-base-wagepan" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="a-base-wagepan"><span class="header-section-number">23.2</span> A base <code>wagepan</code></h2>
+<p>Utilizaremos <code>wagepan</code>, do pacote <code>wooldridge</code>. A base acompanha trabalhadores durante oito anos.</p>
+<p>Caso o pacote <code>plm</code> ainda não esteja instalado, execute uma única vez:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"plm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Carregamos os pacotes e selecionamos as variáveis principais:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plm)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wagepan, <span class="at">package =</span> <span class="st">"wooldridge"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>wagepan_modelos <span class="ot">&lt;-</span> wagepan <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    nr,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    year,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    lwage,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    exper,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    expersq,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    educ,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    married,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    union,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    black,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    hisp</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(wagepan_modelos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 4,360
+Columns: 10
+$ nr      &lt;int&gt; 13, 13, 13, 13, 13, 13, 13, 13, 17, 17, 17, 17, 17, 17, 17, 17…
+$ year    &lt;int&gt; 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1980, 1981, 19…
+$ lwage   &lt;dbl&gt; 1.1975402, 1.8530600, 1.3444617, 1.4332134, 1.5681251, 1.69989…
+$ exper   &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 9, 10, 11, 4, 5, 6, 7, …
+$ expersq &lt;int&gt; 1, 4, 9, 16, 25, 36, 49, 64, 16, 25, 36, 49, 64, 81, 100, 121,…
+$ educ    &lt;int&gt; 14, 14, 14, 14, 14, 14, 14, 14, 13, 13, 13, 13, 13, 13, 13, 13…
+$ married &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,…
+$ union   &lt;int&gt; 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ black   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ hisp    &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…</code></pre>
+</div>
+</div>
+<p>As variáveis são:</p>
+<ul>
+<li><code>nr</code>: identificador do trabalhador;</li>
+<li><code>year</code>: ano da observação;</li>
+<li><code>lwage</code>: logaritmo do salário;</li>
+<li><code>exper</code>: experiência potencial;</li>
+<li><code>expersq</code>: experiência ao quadrado;</li>
+<li><code>educ</code>: anos de escolaridade;</li>
+<li><code>married</code>: igual a 1 se casado;</li>
+<li><code>union</code>: igual a 1 se sindicalizado;</li>
+<li><code>black</code>: igual a 1 para pessoas negras na codificação original;</li>
+<li><code>hisp</code>: igual a 1 para pessoas hispânicas na codificação original.</li>
+</ul>
+</section>
+<section id="como-o-painel-está-organizado" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="como-o-painel-está-organizado"><span class="header-section-number">23.3</span> Como o painel está organizado?</h2>
+<p>Vamos observar os três primeiros trabalhadores. Primeiro identificamos seus códigos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>primeiros_trabalhadores <span class="ot">&lt;-</span> wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(nr) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(nr)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nr <span class="sc">%in%</span> primeiros_trabalhadores) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(nr, year)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   nr year      lwage exper expersq educ married union black hisp
+1  13 1980  1.1975402     1       1   14       0     0     0    0
+2  13 1981  1.8530600     2       4   14       0     1     0    0
+3  13 1982  1.3444617     3       9   14       0     0     0    0
+4  13 1983  1.4332134     4      16   14       0     0     0    0
+5  13 1984  1.5681251     5      25   14       0     0     0    0
+6  13 1985  1.6998910     6      36   14       0     0     0    0
+7  13 1986 -0.7202626     7      49   14       0     0     0    0
+8  13 1987  1.6691879     8      64   14       0     0     0    0
+9  17 1980  1.6759624     4      16   13       0     0     0    0
+10 17 1981  1.5183982     5      25   13       0     0     0    0
+11 17 1982  1.5591905     6      36   13       0     0     0    0
+12 17 1983  1.7254101     7      49   13       0     0     0    0
+13 17 1984  1.6220223     8      64   13       0     0     0    0
+14 17 1985  1.6085882     9      81   13       0     0     0    0
+15 17 1986  1.5723854    10     100   13       0     0     0    0
+16 17 1987  1.8203338    11     121   13       0     0     0    0
+17 18 1980  1.5159627     4      16   12       1     0     0    0
+18 18 1981  1.7353791     5      25   12       1     0     0    0
+19 18 1982  1.6317437     6      36   12       1     0     0    0
+20 18 1983  1.9982288     7      49   12       1     0     0    0
+21 18 1984  2.1840143     8      64   12       1     0     0    0
+22 18 1985  2.2666621     9      81   12       1     0     0    0
+23 18 1986  2.0699439    10     100   12       1     0     0    0
+24 18 1987  2.8731608    11     121   12       1     0     0    0</code></pre>
+</div>
+</div>
+<p>Cada trabalhador aparece uma vez por ano. Portanto, a unidade de observação é:</p>
+<blockquote class="blockquote">
+<p>trabalhador em determinado ano.</p>
+</blockquote>
+<p>As colunas <code>nr</code> e <code>year</code>, juntas, devem identificar cada linha:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(nr, year) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] nr   year n   
+&lt;0 linhas&gt; (ou row.names de comprimento 0)</code></pre>
+</div>
+</div>
+<p>O resultado vazio indica que não encontramos combinações duplicadas de trabalhador e ano.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="Uma linha não representa apenas uma pessoa">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Uma linha não representa apenas uma pessoa
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em dados de painel, uma pessoa aparece em várias linhas. Por isso, contar linhas não é o mesmo que contar indivíduos.</p>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">linhas =</span> <span class="fu">n</span>(),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">trabalhadores =</span> <span class="fu">n_distinct</span>(nr),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">anos =</span> <span class="fu">n_distinct</span>(year)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  linhas trabalhadores anos
+1   4360           545    8</code></pre>
+</div>
+</div>
+</section>
+<section id="painel-balanceado" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="painel-balanceado"><span class="header-section-number">23.4</span> Painel balanceado</h2>
+<p>Um painel é <strong>balanceado</strong> quando todas as unidades são observadas no mesmo número de períodos. Vamos contar os anos disponíveis por trabalhador:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>periodos_por_trabalhador <span class="ot">&lt;-</span> wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(nr, <span class="at">name =</span> <span class="st">"periodos"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>periodos_por_trabalhador <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(periodos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  periodos   n
+1        8 545</code></pre>
+</div>
+</div>
+<p>Todos os 545 trabalhadores possuem oito observações. Portanto, <code>wagepan</code> é um painel balanceado.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Painéis não balanceados também são comuns">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Painéis não balanceados também são comuns
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Em pesquisas reais, pessoas podem deixar a amostra, empresas podem surgir ou encerrar atividades e alguns períodos podem estar ausentes. Um painel não precisa ser balanceado para ser útil, mas sua estrutura deve ser verificada e documentada.</p>
+</div>
+</div>
+</section>
+<section id="visualizando-trajetórias-individuais" class="level2" data-number="23.5">
+<h2 data-number="23.5" class="anchored" data-anchor-id="visualizando-trajetórias-individuais"><span class="header-section-number">23.5</span> Visualizando trajetórias individuais</h2>
+<p>Selecionamos seis trabalhadores apenas para visualizar como o salário varia ao longo do tempo:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>trabalhadores_exemplo <span class="ot">&lt;-</span> wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(nr) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(nr)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(nr <span class="sc">%in%</span> trabalhadores_exemplo) <span class="sc">|&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">nr =</span> <span class="fu">factor</span>(nr)) <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> lwage, <span class="at">color =</span> nr, <span class="at">group =</span> nr)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.8</span>) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Trajetórias salariais de seis trabalhadores"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Ano"</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Logaritmo do salário"</span>,</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Trabalhador"</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="cap23_dados_painel_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>O gráfico mostra dois tipos de diferença:</p>
+<ul>
+<li>trabalhadores possuem níveis salariais distintos;</li>
+<li>o salário de cada trabalhador também muda ao longo do tempo.</li>
+</ul>
+</section>
+<section id="variação-entre-e-dentro-das-unidades" class="level2" data-number="23.6">
+<h2 data-number="23.6" class="anchored" data-anchor-id="variação-entre-e-dentro-das-unidades"><span class="header-section-number">23.6</span> Variação entre e dentro das unidades</h2>
+<p>Uma base em painel contém duas fontes de variação:</p>
+<ul>
+<li><strong>entre trabalhadores:</strong> diferenças médias de uma pessoa para outra;</li>
+<li><strong>dentro do trabalhador:</strong> mudanças da mesma pessoa ao longo do tempo.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Variação no painel"] --&gt; B["Entre trabalhadores"]
+    A --&gt; C["Dentro do trabalhador"]
+    B --&gt; D["Comparar médias&lt;br/&gt;de pessoas diferentes"]
+    C --&gt; E["Acompanhar mudanças&lt;br/&gt;da mesma pessoa"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Código Mermaid do fluxograma">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Código Mermaid do fluxograma
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre class="text"><code>flowchart LR
+    A["Variação no painel"] --&gt; B["Entre trabalhadores"]
+    A --&gt; C["Dentro do trabalhador"]
+    B --&gt; D["Comparar médias de pessoas diferentes"]
+    C --&gt; E["Acompanhar mudanças da mesma pessoa"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;</code></pre>
+</div>
+</div>
+</div>
+<p>Podemos verificar quais variáveis mudam dentro de cada trabalhador:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>variacao_individual <span class="ot">&lt;-</span> wagepan_modelos <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(nr) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">valores_educ =</span> <span class="fu">n_distinct</span>(educ),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">valores_black =</span> <span class="fu">n_distinct</span>(black),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">valores_hisp =</span> <span class="fu">n_distinct</span>(hisp),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">valores_married =</span> <span class="fu">n_distinct</span>(married),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">valores_union =</span> <span class="fu">n_distinct</span>(union),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>variacao_individual <span class="sc">|&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">muda_educ =</span> <span class="fu">sum</span>(valores_educ <span class="sc">&gt;</span> <span class="dv">1</span>),</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">muda_black =</span> <span class="fu">sum</span>(valores_black <span class="sc">&gt;</span> <span class="dv">1</span>),</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">muda_hisp =</span> <span class="fu">sum</span>(valores_hisp <span class="sc">&gt;</span> <span class="dv">1</span>),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">muda_married =</span> <span class="fu">sum</span>(valores_married <span class="sc">&gt;</span> <span class="dv">1</span>),</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">muda_union =</span> <span class="fu">sum</span>(valores_union <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 5
+  muda_educ muda_black muda_hisp muda_married muda_union
+      &lt;int&gt;      &lt;int&gt;     &lt;int&gt;        &lt;int&gt;      &lt;int&gt;
+1         0          0         0          310        246</code></pre>
+</div>
+</div>
+<p><code>educ</code>, <code>black</code> e <code>hisp</code> são constantes para cada trabalhador nesta base. Já situação conjugal e sindicalização mudam para parte dos indivíduos.</p>
+</section>
+<section id="preparando-o-painel-com-plm" class="level2" data-number="23.7">
+<h2 data-number="23.7" class="anchored" data-anchor-id="preparando-o-painel-com-plm"><span class="header-section-number">23.7</span> Preparando o painel com <code>plm</code></h2>
+<p>O pacote <code>plm</code> precisa saber qual coluna identifica a unidade e qual identifica o tempo:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>wagepan_painel <span class="ot">&lt;-</span> <span class="fu">pdata.frame</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  wagepan_modelos,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">index =</span> <span class="fu">c</span>(<span class="st">"nr"</span>, <span class="st">"year"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">pdim</span>(wagepan_painel)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Balanced Panel: n = 545, T = 8, N = 4360</code></pre>
+</div>
+</div>
+<p>O resultado confirma:</p>
+<ul>
+<li>número de trabalhadores, <span class="math inline">\(n\)</span>;</li>
+<li>número de períodos, <span class="math inline">\(T\)</span>;</li>
+<li>número total de observações, <span class="math inline">\(N\)</span>;</li>
+<li>painel balanceado.</li>
+</ul>
+</section>
+<section id="um-modelo-agrupado" class="level2" data-number="23.8">
+<h2 data-number="23.8" class="anchored" data-anchor-id="um-modelo-agrupado"><span class="header-section-number">23.8</span> Um modelo agrupado</h2>
+<p>Começamos ignorando temporariamente a estrutura de painel e reunindo todas as observações em uma única regressão:</p>
+<p><span class="math display">\[
+lwage_{it}=\beta_0+\beta_1exper_{it}+\beta_2exper_{it}^2
++\beta_3married_{it}+\beta_4union_{it}+u_{it}.
+\]</span></p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>modelo_agrupado <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> exper <span class="sc">+</span> expersq <span class="sc">+</span> married <span class="sc">+</span> union,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"pooling"</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_agrupado)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pooling Model
+
+Call:
+plm(formula = lwage ~ exper + expersq + married + union, data = wagepan_painel, 
+    model = "pooling")
+
+Balanced Panel: n = 545, T = 8, N = 4360
+
+Residuals:
+     Min.   1st Qu.    Median   3rd Qu.      Max. 
+-5.152264 -0.282686  0.026113  0.320718  2.478674 
+
+Coefficients:
+               Estimate  Std. Error t-value  Pr(&gt;|t|)    
+(Intercept)  1.11772435  0.03498074 31.9526 &lt; 2.2e-16 ***
+exper        0.11402210  0.01057296 10.7843 &lt; 2.2e-16 ***
+expersq     -0.00635199  0.00072482 -8.7635 &lt; 2.2e-16 ***
+married      0.15846038  0.01627633  9.7356 &lt; 2.2e-16 ***
+union        0.16120662  0.01793575  8.9880 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    1236.5
+Residual Sum of Squares: 1122.1
+R-Squared:      0.092526
+Adj. R-Squared: 0.091693
+F-statistic: 111.009 on 4 and 4355 DF, p-value: &lt; 2.22e-16</code></pre>
+</div>
+</div>
+<p>Esse modelo compara simultaneamente:</p>
+<ul>
+<li>trabalhadores diferentes;</li>
+<li>o mesmo trabalhador em anos diferentes.</li>
+</ul>
+<p>Ele não separa diferenças permanentes entre pessoas das mudanças ocorridas ao longo do tempo.</p>
+</section>
+<section id="características-individuais-não-observadas" class="level2" data-number="23.9">
+<h2 data-number="23.9" class="anchored" data-anchor-id="características-individuais-não-observadas"><span class="header-section-number">23.9</span> Características individuais não observadas</h2>
+<p>Trabalhadores podem possuir características difíceis de medir:</p>
+<ul>
+<li>habilidades;</li>
+<li>preferências profissionais;</li>
+<li>redes de contato;</li>
+<li>condições familiares persistentes;</li>
+<li>características do local de origem.</li>
+</ul>
+<p>Se essas características forem relativamente constantes durante o período, podemos representá-las por um componente individual <span class="math inline">\(a_i\)</span>:</p>
+<p><span class="math display">\[
+lwage_{it}=\beta_1exper_{it}+\beta_2exper_{it}^2
++\beta_3married_{it}+\beta_4union_{it}+a_i+u_{it}.
+\]</span></p>
+<p>O efeito <span class="math inline">\(a_i\)</span> varia entre trabalhadores, mas permanece constante ao longo do tempo para a mesma pessoa.</p>
+</section>
+<section id="modelo-de-efeitos-fixos" class="level2" data-number="23.10">
+<h2 data-number="23.10" class="anchored" data-anchor-id="modelo-de-efeitos-fixos"><span class="header-section-number">23.10</span> Modelo de efeitos fixos</h2>
+<p>O estimador de efeitos fixos utiliza as mudanças ocorridas <strong>dentro de cada trabalhador</strong>. Em R, especificamos <code>model = "within"</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>modelo_efeitos_fixos <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> exper <span class="sc">+</span> expersq <span class="sc">+</span> married <span class="sc">+</span> union,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"within"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_efeitos_fixos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Oneway (individual) effect Within Model
+
+Call:
+plm(formula = lwage ~ exper + expersq + married + union, data = wagepan_painel, 
+    model = "within")
+
+Balanced Panel: n = 545, T = 8, N = 4360
+
+Residuals:
+      Min.    1st Qu.     Median    3rd Qu.       Max. 
+-4.1726214 -0.1257010  0.0092527  0.1595770  1.4701690 
+
+Coefficients:
+           Estimate  Std. Error t-value  Pr(&gt;|t|)    
+exper    0.11684669  0.00841968 13.8778 &lt; 2.2e-16 ***
+expersq -0.00430089  0.00060527 -7.1057 1.422e-12 ***
+married  0.04530332  0.01830968  2.4743   0.01339 *  
+union    0.08208713  0.01929073  4.2553 2.138e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    572.05
+Residual Sum of Squares: 470.2
+R-Squared:      0.17804
+Adj. R-Squared: 0.059852
+F-statistic: 206.375 on 4 and 3811 DF, p-value: &lt; 2.22e-16</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Entenda mais: a transformação within">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Entenda mais: a transformação within
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>O modelo original pode ser escrito como:</p>
+<p><span class="math display">\[
+y_{it}=\beta_1x_{it1}+\cdots+\beta_kx_{itk}+a_i+u_{it}.
+\]</span></p>
+<p>Calculamos a média temporal para cada unidade:</p>
+<p><span class="math display">\[
+\bar{y}_i
+=\beta_1\bar{x}_{i1}+\cdots+\beta_k\bar{x}_{ik}
++a_i+\bar{u}_i.
+\]</span></p>
+<p>Subtraímos a média individual da observação de cada período:</p>
+<p><span class="math display">\[
+y_{it}-\bar{y}_i
+=\beta_1(x_{it1}-\bar{x}_{i1})+\cdots
++\beta_k(x_{itk}-\bar{x}_{ik})
++(u_{it}-\bar{u}_i).
+\]</span></p>
+<p>Como <span class="math inline">\(a_i\)</span> é constante no tempo:</p>
+<p><span class="math display">\[
+a_i-a_i=0.
+\]</span></p>
+<p>Definindo as variáveis transformadas por pontos:</p>
+<p><span class="math display">\[
+\ddot{y}_{it}=y_{it}-\bar{y}_i,
+\qquad
+\ddot{x}_{it}=x_{it}-\bar{x}_i,
+\]</span></p>
+<p>obtemos:</p>
+<p><span class="math display">\[
+\ddot{y}_{it}
+=\beta_1\ddot{x}_{it1}+\cdots
++\beta_k\ddot{x}_{itk}+\ddot{u}_{it}.
+\]</span></p>
+<p>O MQO aplicado às variáveis transformadas produz o estimador de efeitos fixos. Essa é a razão pela qual características invariantes desaparecem.</p>
+</div>
+</div>
+</div>
+<p>A interpretação muda em relação ao modelo agrupado:</p>
+<ul>
+<li><code>married</code> compara o salário da mesma pessoa nos períodos em que está casada e não casada;</li>
+<li><code>union</code> compara o salário da mesma pessoa nos períodos em que está e não está sindicalizada;</li>
+<li><code>exper</code> e <code>expersq</code> representam a trajetória salarial associada ao avanço da experiência.</li>
+</ul>
+<p>Como a variável dependente está em logaritmo, podemos transformar o coeficiente de uma variável binária em mudança percentual. Para <code>union</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>beta_union_fe <span class="ot">&lt;-</span> <span class="fu">coef</span>(modelo_efeitos_fixos)[<span class="st">"union"</span>]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> (<span class="fu">exp</span>(beta_union_fe) <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   union 
+8.555039 </code></pre>
+</div>
+</div>
+<p>Esse resultado descreve a diferença salarial estimada para o mesmo trabalhador quando sua situação de sindicalização muda, mantendo as demais variáveis da especificação constantes.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="Efeitos fixos não criam causalidade automaticamente">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Efeitos fixos não criam causalidade automaticamente
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O modelo controla características individuais que permanecem constantes no tempo. Ele não controla automaticamente fatores não observados que mudam ao longo do tempo e podem estar relacionados simultaneamente ao salário e à sindicalização.</p>
+</div>
+</div>
+</section>
+<section id="modelo-de-efeitos-aleatórios" class="level2" data-number="23.11">
+<h2 data-number="23.11" class="anchored" data-anchor-id="modelo-de-efeitos-aleatórios"><span class="header-section-number">23.11</span> Modelo de efeitos aleatórios</h2>
+<p>Efeitos fixos permitem que as características individuais não observadas estejam relacionadas às variáveis explicativas. O modelo de <strong>efeitos aleatórios</strong> faz uma hipótese adicional: o efeito individual não observado não está correlacionado com as explicativas.</p>
+<p>Em R, utilizamos a mesma fórmula e alteramos o argumento para <code>model = "random"</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>modelo_efeitos_aleatorios <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> exper <span class="sc">+</span> expersq <span class="sc">+</span> married <span class="sc">+</span> union,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"random"</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_efeitos_aleatorios)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Oneway (individual) effect Random Effect Model 
+   (Swamy-Arora's transformation)
+
+Call:
+plm(formula = lwage ~ exper + expersq + married + union, data = wagepan_painel, 
+    model = "random")
+
+Balanced Panel: n = 545, T = 8, N = 4360
+
+Effects:
+                 var std.dev share
+idiosyncratic 0.1234  0.3513   0.5
+individual    0.1234  0.3514   0.5
+theta: 0.6667
+
+Residuals:
+     Min.   1st Qu.    Median   3rd Qu.      Max. 
+-4.508258 -0.150242  0.023883  0.190972  1.499528 
+
+Coefficients:
+               Estimate  Std. Error z-value  Pr(&gt;|z|)    
+(Intercept)  1.06772118  0.03055696 34.9420 &lt; 2.2e-16 ***
+exper        0.11755462  0.00831286 14.1413 &lt; 2.2e-16 ***
+expersq     -0.00479350  0.00059332 -8.0790 6.528e-16 ***
+married      0.07491062  0.01697797  4.4122 1.023e-05 ***
+union        0.10007284  0.01807971  5.5351 3.111e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    645.85
+Residual Sum of Squares: 546.49
+R-Squared:      0.15384
+Adj. R-Squared: 0.15306
+Chisq: 791.79 on 4 DF, p-value: &lt; 2.22e-16</code></pre>
+</div>
+</div>
+<p>Ao contrário do estimador <em>within</em>, efeitos aleatórios utilizam tanto:</p>
+<ul>
+<li>mudanças da mesma pessoa ao longo do tempo;</li>
+<li>diferenças entre pessoas.</li>
+</ul>
+<p>Isso pode tornar a estimação mais eficiente quando sua hipótese adicional é adequada.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Entenda mais: a hipótese dos efeitos aleatórios">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Entenda mais: a hipótese dos efeitos aleatórios
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Considere:</p>
+<p><span class="math display">\[
+y_{it}=x_{it}'\beta+a_i+u_{it}.
+\]</span></p>
+<p>O estimador de efeitos aleatórios exige que o efeito individual <span class="math inline">\(a_i\)</span> não esteja correlacionado com as variáveis explicativas em nenhum período. Uma forma de representar essa condição é:</p>
+<p><span class="math display">\[
+E(a_i\mid x_{i1},x_{i2},\ldots,x_{iT})=0.
+\]</span></p>
+<p>Se habilidade não observada estiver relacionada, por exemplo, à sindicalização ou à trajetória de experiência, essa condição pode falhar. Nesse caso, efeitos aleatórios incorporam parte dessa diferença não observada aos coeficientes e tornam-se inconsistentes.</p>
+<p>Efeitos fixos permitem essa correlação, mas não estimam separadamente coeficientes de variáveis constantes no tempo. Esse é um dos principais contrastes entre os estimadores.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="comparando-os-modelos" class="level2" data-number="23.12">
+<h2 data-number="23.12" class="anchored" data-anchor-id="comparando-os-modelos"><span class="header-section-number">23.12</span> Comparando os modelos</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>comparacao_painel <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">variavel =</span> <span class="fu">names</span>(<span class="fu">coef</span>(modelo_efeitos_fixos)),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">agrupado =</span> <span class="fu">coef</span>(modelo_agrupado)[variavel],</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">efeitos_fixos =</span> <span class="fu">coef</span>(modelo_efeitos_fixos),</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">efeitos_aleatorios =</span> <span class="fu">coef</span>(modelo_efeitos_aleatorios)[variavel]</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>comparacao_painel</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  variavel agrupado efeitos_fixos efeitos_aleatorios
+  &lt;chr&gt;       &lt;dbl&gt;         &lt;dbl&gt;              &lt;dbl&gt;
+1 exper     0.114         0.117              0.118  
+2 expersq  -0.00635      -0.00430           -0.00479
+3 married   0.158         0.0453             0.0749 
+4 union     0.161         0.0821             0.100  </code></pre>
+</div>
+</div>
+<p>As diferenças entre as colunas aparecem porque os modelos utilizam fontes de comparação distintas:</p>
+<ul>
+<li>o agrupado combina diferenças entre pessoas e mudanças no tempo;</li>
+<li>efeitos fixos utilizam a variação dentro de cada pessoa.</li>
+<li>efeitos aleatórios combinam as duas fontes sob uma hipótese mais restritiva sobre o efeito individual.</li>
+</ul>
+<p>Não devemos escolher o coeficiente de que mais gostamos. A escolha depende da pergunta e das hipóteses que conseguimos justificar.</p>
+</section>
+<section id="teste-de-hausman" class="level2" data-number="23.13">
+<h2 data-number="23.13" class="anchored" data-anchor-id="teste-de-hausman"><span class="header-section-number">23.13</span> Teste de Hausman</h2>
+<p>O teste de Hausman ajuda a comparar efeitos fixos e efeitos aleatórios. No R, utilizamos <code>phtest()</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>teste_hausman <span class="ot">&lt;-</span> <span class="fu">phtest</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  modelo_efeitos_fixos,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  modelo_efeitos_aleatorios</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>teste_hausman</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Hausman Test
+
+data:  lwage ~ exper + expersq + married + union
+chisq = 250.26, df = 4, p-value &lt; 2.2e-16
+alternative hypothesis: one model is inconsistent</code></pre>
+</div>
+</div>
+<p>A hipótese nula afirma que as diferenças entre os estimadores não são sistemáticas e que o estimador de efeitos aleatórios é consistente. Um valor-p pequeno fornece evidência contra essa hipótese e favorece efeitos fixos.</p>
+<p>Nesta aplicação, o valor-p é muito pequeno. Isso sugere que a hipótese adicional exigida pelos efeitos aleatórios não é compatível com os dados e que efeitos fixos são mais adequados entre as duas alternativas avaliadas.</p>
+<div class="callout callout-style-default callout-warning callout-titled" title="O teste não escolhe sozinho o modelo">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>O teste não escolhe sozinho o modelo
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>O resultado precisa ser combinado com teoria, conhecimento da base e avaliação das hipóteses. O teste de Hausman não corrige variáveis omitidas que mudam no tempo, erros de mensuração ou causalidade reversa.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Entenda mais: lógica do teste de Hausman">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Entenda mais: lógica do teste de Hausman
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Sob a hipótese nula, efeitos fixos e efeitos aleatórios são consistentes, mas efeitos aleatórios tendem a ser mais eficientes. Sob a alternativa, efeitos aleatórios são inconsistentes, enquanto efeitos fixos permanecem consistentes.</p>
+<p>O teste examina a distância entre os vetores de coeficientes, considerando suas matrizes de variância:</p>
+<p><span class="math display">\[
+H=(\hat{\beta}_{FE}-\hat{\beta}_{RE})'
+[Var(\hat{\beta}_{FE})-Var(\hat{\beta}_{RE})]^{-1}
+(\hat{\beta}_{FE}-\hat{\beta}_{RE}).
+\]</span></p>
+<p>Sob a hipótese nula e condições regulares, a estatística segue aproximadamente uma distribuição qui-quadrado.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="o-que-acontece-com-variáveis-constantes" class="level2" data-number="23.14">
+<h2 data-number="23.14" class="anchored" data-anchor-id="o-que-acontece-com-variáveis-constantes"><span class="header-section-number">23.14</span> O que acontece com variáveis constantes?</h2>
+<p>Vamos incluir <code>educ</code>, <code>black</code> e <code>hisp</code> na fórmula de efeitos fixos:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>modelo_fe_constantes <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> exper <span class="sc">+</span> expersq <span class="sc">+</span> married <span class="sc">+</span> union <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    educ <span class="sc">+</span> black <span class="sc">+</span> hisp,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"within"</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(modelo_fe_constantes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       exper      expersq      married        union 
+ 0.116846692 -0.004300889  0.045303318  0.082087134 </code></pre>
+</div>
+</div>
+<p>Os coeficientes de <code>educ</code>, <code>black</code> e <code>hisp</code> não aparecem. Como essas variáveis não mudam dentro do trabalhador, não há variação <em>within</em> para estimar seus coeficientes separadamente dos efeitos individuais.</p>
+<div class="callout callout-style-default callout-important callout-titled" title="A variável não deixou de ser importante">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>A variável não deixou de ser importante
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ser absorvida pelo efeito fixo não significa que uma característica seja economicamente irrelevante. Significa apenas que seu coeficiente não pode ser identificado a partir de mudanças dentro da mesma pessoa nesta base.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Entenda mais: hipótese necessária">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Entenda mais: hipótese necessária
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Para interpretar os coeficientes do modelo de efeitos fixos, precisamos supor que, depois de controlar as explicativas e o efeito individual, mudanças do erro não estejam sistematicamente relacionadas às explicativas em nenhum período. Uma forma de representar essa condição é:</p>
+<p><span class="math display">\[
+E(u_{it}\mid x_{i1},x_{i2},\ldots,x_{iT},a_i)=0.
+\]</span></p>
+<p>Essa condição é conhecida como exogeneidade estrita. Ela pode falhar, por exemplo, quando choques salariais alteram decisões futuras de sindicalização ou estado civil.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="efeitos-comuns-do-tempo" class="level2" data-number="23.15">
+<h2 data-number="23.15" class="anchored" data-anchor-id="efeitos-comuns-do-tempo"><span class="header-section-number">23.15</span> Efeitos comuns do tempo</h2>
+<p>Além das características individuais, todos os trabalhadores podem ser afetados por acontecimentos de determinado ano, como inflação, recessão ou mudanças institucionais.</p>
+<p>Podemos incluir indicadores de ano. Como a experiência aumenta de forma perfeitamente alinhada ao tempo para cada trabalhador, retiramos <code>exper</code> dessa especificação e mantemos <code>expersq</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>modelo_fe_tempo <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> expersq <span class="sc">+</span> married <span class="sc">+</span> union <span class="sc">+</span> <span class="fu">factor</span>(year),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"within"</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_fe_tempo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Oneway (individual) effect Within Model
+
+Call:
+plm(formula = lwage ~ expersq + married + union + factor(year), 
+    data = wagepan_painel, model = "within")
+
+Balanced Panel: n = 545, T = 8, N = 4360
+
+Residuals:
+     Min.   1st Qu.    Median   3rd Qu.      Max. 
+-4.159280 -0.125273  0.011267  0.154869  1.492088 
+
+Coefficients:
+                    Estimate  Std. Error t-value  Pr(&gt;|t|)    
+expersq          -0.00518550  0.00070444 -7.3612 2.222e-13 ***
+married           0.04668036  0.01831044  2.5494   0.01083 *  
+union             0.08000186  0.01931031  4.1430 3.503e-05 ***
+factor(year)1981  0.15119121  0.02194893  6.8883 6.578e-12 ***
+factor(year)1982  0.25297086  0.02441846 10.3598 &lt; 2.2e-16 ***
+factor(year)1983  0.35444374  0.02924185 12.1211 &lt; 2.2e-16 ***
+factor(year)1984  0.49011479  0.03622661 13.5291 &lt; 2.2e-16 ***
+factor(year)1985  0.61748227  0.04524351 13.6480 &lt; 2.2e-16 ***
+factor(year)1986  0.76549657  0.05612773 13.6385 &lt; 2.2e-16 ***
+factor(year)1987  0.92502493  0.06877309 13.4504 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    572.05
+Residual Sum of Squares: 468.75
+R-Squared:      0.18058
+Adj. R-Squared: 0.061271
+F-statistic: 83.8515 on 10 and 3805 DF, p-value: &lt; 2.22e-16</code></pre>
+</div>
+</div>
+<p>Os indicadores de ano controlam choques comuns a todos os trabalhadores em cada período.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Entenda mais: por que experiência e ano entram em conflito?">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Entenda mais: por que experiência e ano entram em conflito?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Para cada trabalhador da base, <code>exper</code> aumenta uma unidade a cada ano. Depois de remover as médias individuais, a evolução de <code>exper</code> é perfeitamente alinhada à evolução do calendário. Assim, não conseguimos separar livremente um efeito linear de experiência de um conjunto completo de indicadores de ano.</p>
+<p>Isso é um exemplo de colinearidade perfeita: duas informações carregam a mesma variação relevante para a estimação.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="o-que-aprendemos-com-o-painel" class="level2" data-number="23.16">
+<h2 data-number="23.16" class="anchored" data-anchor-id="o-que-aprendemos-com-o-painel"><span class="header-section-number">23.16</span> O que aprendemos com o painel?</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+    A["Identificar&lt;br/&gt;unidade e tempo"] --&gt; B["Verificar&lt;br/&gt;a estrutura"]
+    B --&gt; C["Separar variação&lt;br/&gt;entre e dentro"]
+    C --&gt; D["Estimar modelo&lt;br/&gt;agrupado"]
+    D --&gt; E["Estimar efeitos&lt;br/&gt;fixos"]
+    E --&gt; F["Estimar efeitos&lt;br/&gt;aleatórios"]
+    F --&gt; G["Comparar com&lt;br/&gt;Hausman"]
+    G --&gt; H["Interpretar limites&lt;br/&gt;e hipóteses"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Código Mermaid do fluxograma">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Código Mermaid do fluxograma
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<pre class="text"><code>flowchart LR
+    A["Identificar unidade e tempo"] --&gt; B["Verificar a estrutura"]
+    B --&gt; C["Separar variação entre e dentro"]
+    C --&gt; D["Estimar modelo agrupado"]
+    D --&gt; E["Estimar efeitos fixos"]
+    E --&gt; F["Estimar efeitos aleatórios"]
+    F --&gt; G["Comparar com Hausman"]
+    G --&gt; H["Interpretar limites e hipóteses"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F,G,H etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;</code></pre>
+</div>
+</div>
+</div>
+<p>Dados em painel permitem acompanhar mudanças dentro da mesma unidade e controlar características não observadas que permanecem constantes no tempo. Essa vantagem é importante, mas não elimina a necessidade de formular cuidadosamente a pergunta, escolher variáveis e discutir as hipóteses.</p>
+</section>
+<section id="pratique" class="level2" data-number="23.17">
+<h2 data-number="23.17" class="anchored" data-anchor-id="pratique"><span class="header-section-number">23.17</span> Pratique</h2>
+<p>Utilizando <code>wagepan_modelos</code>:</p>
+<ol type="1">
+<li>conte o número de observações de cada trabalhador;</li>
+<li>verifique se <code>married</code> e <code>union</code> mudam para todos os trabalhadores;</li>
+<li>escolha três trabalhadores e represente suas trajetórias salariais;</li>
+<li>estime um modelo agrupado com <code>lwage</code>, <code>exper</code>, <code>married</code> e <code>union</code>;</li>
+<li>estime a mesma fórmula com efeitos fixos;</li>
+<li>estime a mesma fórmula com efeitos aleatórios;</li>
+<li>compare os coeficientes dos três modelos;</li>
+<li>aplique o teste de Hausman;</li>
+<li>explique por que <code>educ</code> não pode ser estimada separadamente no modelo <em>within</em>.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Código inicial">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Código inicial
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>modelo_agrupado_pratica <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> exper <span class="sc">+</span> married <span class="sc">+</span> union,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"pooling"</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>modelo_fe_pratica <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> exper <span class="sc">+</span> married <span class="sc">+</span> union,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"within"</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>modelo_re_pratica <span class="ot">&lt;-</span> <span class="fu">plm</span>(</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  lwage <span class="sc">~</span> exper <span class="sc">+</span> married <span class="sc">+</span> union,</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> wagepan_painel,</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> <span class="st">"random"</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_agrupado_pratica)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pooling Model
+
+Call:
+plm(formula = lwage ~ exper + married + union, data = wagepan_painel, 
+    model = "pooling")
+
+Balanced Panel: n = 545, T = 8, N = 4360
+
+Residuals:
+    Min.  1st Qu.   Median  3rd Qu.     Max. 
+-5.09796 -0.28637  0.02244  0.32557  2.53297 
+
+Coefficients:
+             Estimate Std. Error t-value  Pr(&gt;|t|)    
+(Intercept) 1.3702586  0.0200024 68.5047 &lt; 2.2e-16 ***
+exper       0.0247711  0.0028645  8.6475 &lt; 2.2e-16 ***
+married     0.1737410  0.0163228 10.6440 &lt; 2.2e-16 ***
+union       0.1689991  0.0180689  9.3531 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    1236.5
+Residual Sum of Squares: 1141.9
+R-Squared:      0.076523
+Adj. R-Squared: 0.075887
+F-statistic: 120.319 on 3 and 4356 DF, p-value: &lt; 2.22e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_fe_pratica)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Oneway (individual) effect Within Model
+
+Call:
+plm(formula = lwage ~ exper + married + union, data = wagepan_painel, 
+    model = "within")
+
+Balanced Panel: n = 545, T = 8, N = 4360
+
+Residuals:
+    Min.  1st Qu.   Median  3rd Qu.     Max. 
+-4.14628 -0.12503  0.01232  0.16205  1.48094 
+
+Coefficients:
+         Estimate Std. Error t-value  Pr(&gt;|t|)    
+exper   0.0598672  0.0025835 23.1726 &lt; 2.2e-16 ***
+married 0.0610384  0.0182929  3.3367 0.0008558 ***
+union   0.0837910  0.0194140  4.3160 1.629e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    572.05
+Residual Sum of Squares: 476.43
+R-Squared:      0.16715
+Adj. R-Squared: 0.047646
+F-statistic: 255.026 on 3 and 3812 DF, p-value: &lt; 2.22e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_re_pratica)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Oneway (individual) effect Random Effect Model 
+   (Swamy-Arora's transformation)
+
+Call:
+plm(formula = lwage ~ exper + married + union, data = wagepan_painel, 
+    model = "random")
+
+Balanced Panel: n = 545, T = 8, N = 4360
+
+Effects:
+                 var std.dev share
+idiosyncratic 0.1250  0.3535 0.504
+individual    0.1230  0.3507 0.496
+theta: 0.6643
+
+Residuals:
+     Min.   1st Qu.    Median   3rd Qu.      Max. 
+-4.476189 -0.153051  0.025676  0.197004  1.513174 
+
+Coefficients:
+             Estimate Std. Error z-value  Pr(&gt;|z|)    
+(Intercept) 1.2360910  0.0224837 54.9771 &lt; 2.2e-16 ***
+exper       0.0533713  0.0025013 21.3378 &lt; 2.2e-16 ***
+married     0.0916450  0.0169788  5.3976 6.753e-08 ***
+union       0.1029696  0.0182100  5.6546 1.562e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Total Sum of Squares:    646.94
+Residual Sum of Squares: 555.83
+R-Squared:      0.14084
+Adj. R-Squared: 0.14025
+Chisq: 714.072 on 3 DF, p-value: &lt; 2.22e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phtest</span>(modelo_fe_pratica, modelo_re_pratica)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Hausman Test
+
+data:  lwage ~ exper + married + union
+chisq = 136.4, df = 3, p-value &lt; 2.2e-16
+alternative hypothesis: one model is inconsistent</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Com este capítulo, encerramos o percurso que parte da descrição e chega à estimação de modelos. Na Parte VI, retomaremos operações já utilizadas ao longo da apostila para aprender a automatizá-las, validá-las e transformá-las em rotinas reutilizáveis.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../cap/cap22_binarios_contagens.html" class="pagination-link" aria-label="Modelos para resultados binários e contagens">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Modelos para resultados binários e contagens</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../cap/cap24_condicoes_repeticoes.html" class="pagination-link" aria-label="Condições, repetições e automação">
+        <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Condições, repetições e automação</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

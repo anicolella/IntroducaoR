@@ -1,0 +1,526 @@
+---
+title: "Distribuições e relações entre variáveis"
+subtitle: "Da forma dos dados às associações observadas"
+author:
+  - Alexandre Nicolella
+date: "10/12/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+Uma média ou um coeficiente isolado não descreve toda a estrutura dos dados. Neste capítulo, combinaremos medidas e gráficos para examinar a forma das distribuições e as relações observadas entre variáveis.
+
+Nossa pergunta orientadora será:
+
+> Como salários, escolaridade e experiência se distribuem e se relacionam na amostra?
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- examinar forma, centro e dispersão de uma distribuição;
+- reconhecer assimetria e possíveis valores extremos;
+- comparar distribuições condicionais entre grupos;
+- construir e interpretar tabelas cruzadas;
+- calcular covariância e correlação;
+- relacionar medidas numéricas e gráficos de dispersão;
+- distinguir associação observada de explicação causal.
+:::
+
+## Preparando a base
+
+```{r}
+library(tidyverse)
+
+wage1_core <- readRDS("dados/wage1_core.rds")
+
+wage1_analise <- wage1_core |>
+  mutate(
+    sexo = if_else(female == 1, "Mulher", "Homem"),
+    sexo = factor(sexo, levels = c("Homem", "Mulher")),
+    escolaridade = case_when(
+      educ < 12 ~ "Menos de 12 anos",
+      educ == 12 ~ "12 anos",
+      educ > 12 ~ "Mais de 12 anos",
+      .default = NA_character_
+    ),
+    escolaridade = factor(
+      escolaridade,
+      levels = c("Menos de 12 anos", "12 anos", "Mais de 12 anos")
+    )
+  )
+
+glimpse(wage1_analise)
+```
+
+## O que observar numa distribuição?
+
+Uma análise inicial pode considerar quatro dimensões:
+
+1. **centro:** onde se concentram os valores;
+2. **dispersão:** quanto os valores variam;
+3. **forma:** simetria, caudas e concentrações;
+4. **valores incomuns:** observações distantes das demais.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Dimensões para examinar uma distribuição"
+%%| echo: false
+
+flowchart LR
+    A["Distribuição"] --> B["Centro"]
+    A --> C["Dispersão"]
+    A --> D["Forma"]
+    A --> E["Valores<br/>incomuns"]
+
+    classDef centro fill:#C7DFC5,stroke:#355E3B,color:#1F3323,stroke-width:2px;
+    classDef etapa fill:#EAF3E8,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A centro;
+    class B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Distribuição"] --> B["Centro"]
+    A --> C["Dispersão"]
+    A --> D["Forma"]
+    A --> E["Valores<br/>incomuns"]
+
+    classDef centro fill:#C7DFC5,stroke:#355E3B,color:#1F3323,stroke-width:2px;
+    classDef etapa fill:#EAF3E8,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A centro;
+    class B,C,D,E etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Essas dimensões devem ser examinadas em conjunto. Duas distribuições podem ter a mesma média, mas formas e dispersões diferentes.
+
+## Forma da distribuição salarial
+
+Começamos combinando um histograma com linhas para média e mediana:
+
+```{r}
+media_salario <- mean(wage1_analise$wage, na.rm = TRUE)
+mediana_salario <- median(wage1_analise$wage, na.rm = TRUE)
+
+ggplot(wage1_analise, aes(x = wage)) +
+  geom_histogram(
+    bins = 20,
+    fill = "#7185CC",
+    color = "white",
+    alpha = 0.8
+  ) +
+  geom_vline(
+    xintercept = media_salario,
+    color = "#B45F4A",
+    linewidth = 0.9,
+    linetype = "dashed"
+  ) +
+  geom_vline(
+    xintercept = mediana_salario,
+    color = "#355E3B",
+    linewidth = 0.9
+  ) +
+  labs(
+    title = "Distribuição do salário por hora",
+    subtitle = "Linha tracejada: média; linha contínua: mediana",
+    x = "Salário por hora (US$)",
+    y = "Frequência"
+  ) +
+  theme_minimal()
+```
+
+Quando a média está acima da mediana e a distribuição possui uma cauda com salários elevados, dizemos que há assimetria à direita ou assimetria positiva.
+
+::: {.callout-note title="Assimetria não é sinônimo de erro"}
+Distribuições de renda e salários frequentemente apresentam cauda à direita. A assimetria pode ser uma característica econômica substantiva, e não um problema a ser removido.
+:::
+
+## Histograma e densidade
+
+O histograma depende da escolha dos intervalos. A densidade produz uma curva suavizada:
+
+```{r}
+ggplot(wage1_analise, aes(x = wage)) +
+  geom_density(
+    fill = "#7185CC",
+    color = "#3F566F",
+    alpha = 0.55
+  ) +
+  labs(
+    title = "Densidade do salário por hora",
+    x = "Salário por hora (US$)",
+    y = "Densidade"
+  ) +
+  theme_minimal()
+```
+
+A suavização facilita perceber a forma geral, mas não deve ser confundida com uma distribuição teórica nem com uma contagem direta de pessoas.
+
+## Boxplot e possíveis valores extremos
+
+O boxplot representa os quartis e utiliza o intervalo interquartil para sinalizar observações distantes:
+
+- limite inferior: (Q_1 - 1{,}5 \times IQR);
+- limite superior: (Q_3 + 1{,}5 \times IQR).
+
+```{r}
+ggplot(wage1_analise, aes(y = wage)) +
+  geom_boxplot(
+    fill = "#7185CC",
+    color = "#3F566F",
+    alpha = 0.75,
+    outlier.color = "#B45F4A"
+  ) +
+  labs(
+    title = "Boxplot do salário por hora",
+    x = NULL,
+    y = "Salário por hora (US$)"
+  ) +
+  theme_minimal()
+```
+
+Podemos calcular os limites utilizados na regra:
+
+```{r}
+q1_salario <- quantile(wage1_analise$wage, 0.25, na.rm = TRUE)
+q3_salario <- quantile(wage1_analise$wage, 0.75, na.rm = TRUE)
+iqr_salario <- IQR(wage1_analise$wage, na.rm = TRUE)
+
+limite_inferior <- q1_salario - 1.5 * iqr_salario
+limite_superior <- q3_salario + 1.5 * iqr_salario
+
+c(
+  limite_inferior = limite_inferior,
+  limite_superior = limite_superior
+)
+```
+
+Agora localizamos as observações sinalizadas:
+
+```{r}
+salarios_sinalizados <- wage1_analise |>
+  filter(
+    wage < limite_inferior |
+      wage > limite_superior
+  ) |>
+  select(id, wage, sexo, educ, exper, tenure) |>
+  arrange(desc(wage))
+
+salarios_sinalizados
+```
+
+::: {.callout-important title="Um ponto além do bigode não é automaticamente um erro"}
+O boxplot sinaliza observações para investigação. Ele não determina que sejam inválidas nem autoriza sua exclusão. Precisamos consultar a definição da variável, a fonte e o problema econômico.
+:::
+
+## Distribuições condicionais
+
+Uma distribuição condicional descreve uma variável dentro de um grupo. Podemos comparar os salários de homens e mulheres:
+
+```{r}
+ggplot(wage1_analise, aes(x = wage, fill = sexo)) +
+  geom_density(alpha = 0.45) +
+  labs(
+    title = "Distribuição salarial condicionada ao sexo",
+    x = "Salário por hora (US$)",
+    y = "Densidade",
+    fill = "Sexo"
+  ) +
+  scale_fill_manual(values = c("Homem" = "#7185CC", "Mulher" = "#C2986F")) +
+  theme_minimal()
+```
+
+O boxplot apresenta outra perspectiva:
+
+```{r}
+ggplot(wage1_analise, aes(x = sexo, y = wage, fill = sexo)) +
+  geom_boxplot(alpha = 0.75, show.legend = FALSE) +
+  labs(
+    title = "Distribuição salarial por sexo",
+    x = NULL,
+    y = "Salário por hora (US$)"
+  ) +
+  scale_fill_manual(values = c("Homem" = "#7185CC", "Mulher" = "#C2986F")) +
+  theme_minimal()
+```
+
+Podemos acompanhar os gráficos com medidas numéricas:
+
+```{r}
+wage1_analise |>
+  group_by(sexo) |>
+  summarise(
+    pessoas = n(),
+    media = mean(wage, na.rm = TRUE),
+    mediana = median(wage, na.rm = TRUE),
+    desvio_padrao = sd(wage, na.rm = TRUE),
+    iqr = IQR(wage, na.rm = TRUE),
+    .groups = "drop"
+  )
+```
+
+Diferenças condicionais descrevem a amostra. Elas ainda podem refletir escolaridade, experiência, ocupação e outras características não examinadas nesta base reduzida.
+
+## Relação entre duas variáveis categóricas
+
+Uma tabela cruzada conta combinações de categorias. Vamos relacionar sexo e faixa de escolaridade:
+
+```{r}
+tabela_sexo_educacao <- wage1_analise |>
+  count(sexo, escolaridade)
+
+tabela_sexo_educacao
+```
+
+Contagens absolutas podem ser influenciadas pelo tamanho de cada grupo. Para comparar a composição educacional dentro de cada sexo, calculamos proporções condicionais:
+
+```{r}
+proporcao_sexo_educacao <- tabela_sexo_educacao |>
+  group_by(sexo) |>
+  mutate(
+    proporcao = n / sum(n)
+  ) |>
+  ungroup()
+
+proporcao_sexo_educacao
+```
+
+As proporções somam 1 dentro de cada grupo de sexo:
+
+```{r}
+proporcao_sexo_educacao |>
+  group_by(sexo) |>
+  summarise(
+    soma = sum(proporcao),
+    .groups = "drop"
+  )
+```
+
+Podemos visualizar a composição com barras proporcionais:
+
+```{r}
+ggplot(
+  proporcao_sexo_educacao,
+  aes(x = sexo, y = proporcao, fill = escolaridade)
+) +
+  geom_col(position = "stack") +
+  labs(
+    title = "Composição educacional por sexo",
+    x = NULL,
+    y = "Proporção",
+    fill = "Escolaridade"
+  ) +
+  theme_minimal()
+```
+
+## Relação entre duas variáveis numéricas
+
+Para duas variáveis numéricas, começamos pelo gráfico de dispersão:
+
+```{r}
+ggplot(wage1_analise, aes(x = educ, y = wage)) +
+  geom_jitter(width = 0.15, height = 0, alpha = 0.45, color = "#3F6B5B") +
+  labs(
+    title = "Salário por hora e escolaridade",
+    x = "Escolaridade (anos)",
+    y = "Salário por hora (US$)"
+  ) +
+  theme_minimal()
+```
+
+Perguntas úteis incluem:
+
+- existe alguma direção predominante?
+- a relação parece linear?
+- qual é a intensidade da dispersão?
+- existem grupos ou valores incomuns?
+- a variabilidade muda ao longo do eixo horizontal?
+
+## Covariância
+
+A covariância indica se duas variáveis tendem a variar na mesma direção:
+
+$$
+s_{xy} = \frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{n-1}
+$$
+
+```{r}
+cov(
+  wage1_analise$educ,
+  wage1_analise$wage,
+  use = "complete.obs"
+)
+```
+
+- covariância positiva: valores maiores de uma variável tendem a acompanhar valores maiores da outra;
+- covariância negativa: valores maiores de uma tendem a acompanhar valores menores da outra;
+- valor próximo de zero: ausência de uma associação linear clara.
+
+Sua magnitude depende das unidades das duas variáveis, o que dificulta comparações entre pares diferentes.
+
+## Correlação
+
+A correlação padroniza a covariância pelos desvios-padrão:
+
+$$
+r_{xy} = \frac{s_{xy}}{s_xs_y}
+$$
+
+```{r}
+cor(
+  wage1_analise$educ,
+  wage1_analise$wage,
+  use = "complete.obs"
+)
+```
+
+O coeficiente varia entre -1 e 1:
+
+- próximo de 1: associação linear positiva forte;
+- próximo de -1: associação linear negativa forte;
+- próximo de 0: associação linear fraca.
+
+Isso não significa que qualquer valor próximo de zero represente ausência de relação. Uma relação não linear pode apresentar correlação linear pequena.
+
+## Uma matriz de correlações
+
+Podemos calcular correlações entre várias variáveis numéricas:
+
+```{r}
+variaveis_numericas <- wage1_analise |>
+  select(wage, educ, exper, tenure)
+
+cor(
+  variaveis_numericas,
+  use = "complete.obs"
+)
+```
+
+A matriz é simétrica e possui 1 na diagonal, pois cada variável está perfeitamente correlacionada consigo mesma.
+
+::: {.callout-warning title="Correlação não mede importância econômica"}
+Um coeficiente alto não garante que a relação seja economicamente relevante, estável ou causal. Um coeficiente baixo também não prova que uma variável seja irrelevante para todas as perguntas.
+:::
+
+## Associação não é causalidade
+
+Se escolaridade e salário estão positivamente associados, diferentes explicações permanecem possíveis:
+
+- escolaridade pode contribuir para produtividade e remuneração;
+- habilidades e condições familiares podem influenciar as duas variáveis;
+- pessoas podem selecionar trajetórias educacionais diferentes;
+- setores, ocupações e regiões podem alterar a relação;
+- erros de mensuração podem afetar os dados.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Da associação observada às perguntas necessárias para uma explicação"
+%%| echo: false
+
+flowchart LR
+    A["Associação<br/>observada"] --> B["Explicações<br/>possíveis"]
+    B --> C["Variáveis não<br/>observadas"]
+    B --> D["Seleção e<br/>causalidade reversa"]
+    B --> E["Mecanismo<br/>econômico"]
+    C --> F["Estratégia de<br/>investigação"]
+    D --> F
+    E --> F
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Associação<br/>observada"] --> B["Explicações<br/>possíveis"]
+    B --> C["Variáveis não<br/>observadas"]
+    B --> D["Seleção e<br/>causalidade reversa"]
+    B --> E["Mecanismo<br/>econômico"]
+    C --> F["Estratégia de<br/>investigação"]
+    D --> F
+    E --> F
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Reconhecer esses limites não diminui a importância da descrição. Ao contrário, ajuda a transformar um padrão observado em uma pergunta de investigação mais precisa.
+
+## Da descrição à explicação
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Transição da descrição para a explicação"
+%%| echo: false
+
+flowchart LR
+    A["Visualizar"] --> B["Descrever"]
+    B --> C["Comparar"]
+    C --> D["Identificar<br/>associações"]
+    D --> E["Formular<br/>hipóteses"]
+    E --> F["Avaliar com<br/>modelos e desenho"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Visualizar"] --> B["Descrever"]
+    B --> C["Comparar"]
+    C --> D["Identificar<br/>associações"]
+    D --> E["Formular<br/>hipóteses"]
+    E --> F["Avaliar com<br/>modelos e desenho"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+No próximo capítulo, essa transição será realizada diretamente com os modelos lineares. Partiremos das associações observadas para estimar comparações condicionais, sempre distinguindo modelagem estatística de identificação causal.
+
+## Pratique
+
+Utilizando `wage1_analise`:
+
+1. examine a distribuição de `tenure` com histograma e boxplot;
+2. localize observações de permanência sinalizadas pela regra de (1{,}5 \times IQR);
+3. compare a distribuição de `tenure` entre homens e mulheres;
+4. construa um gráfico de dispersão entre `exper` e `tenure`;
+5. calcule sua covariância e correlação;
+6. escreva uma interpretação que diferencie associação e causalidade.
+
+::: {.callout-tip collapse="true" title="Código inicial para a regra do IQR"}
+```{r}
+q1_tenure <- quantile(wage1_analise$tenure, 0.25, na.rm = TRUE)
+q3_tenure <- quantile(wage1_analise$tenure, 0.75, na.rm = TRUE)
+iqr_tenure <- IQR(wage1_analise$tenure, na.rm = TRUE)
+
+wage1_analise |>
+  filter(
+    tenure < q1_tenure - 1.5 * iqr_tenure |
+      tenure > q3_tenure + 1.5 * iqr_tenure
+  ) |>
+  select(id, tenure, exper, sexo) |>
+  arrange(desc(tenure))
+```
+:::

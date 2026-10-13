@@ -1,0 +1,525 @@
+---
+title: "Funções e reutilização de código"
+subtitle: "Transformando uma rotina em ferramenta"
+author:
+  - Alexandre Nicolella
+date: "10/13/2026"
+format: html
+execute:
+  echo: true
+  output: true
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+No capítulo anterior, repetimos a mesma rotina para diferentes variáveis. Agora transformaremos uma sequência de comandos em uma **função**.
+
+Uma função recebe entradas, executa operações e devolve uma saída. Ela permite:
+
+- evitar copiar e colar código;
+- dar um nome a uma tarefa;
+- corrigir a rotina em um único lugar;
+- reaplicar a mesma regra;
+- testar partes da análise separadamente;
+- compartilhar procedimentos reproduzíveis.
+
+::: {.callout-note title="Objetivos do capítulo"}
+Ao final deste capítulo, você deverá ser capaz de:
+
+- reconhecer entradas, operações e saídas de uma função;
+- criar funções com `function()`;
+- definir argumentos e valores-padrão;
+- devolver vetores, tabelas e gráficos;
+- validar entradas e produzir mensagens de erro úteis;
+- aplicar uma função a diferentes variáveis;
+- utilizar `purrr::map_dfr()` depois de compreender a lógica da repetição;
+- organizar funções reutilizáveis em um script.
+:::
+
+## Preparando a base
+
+```{r}
+library(tidyverse)
+
+wage1_core <- readRDS("dados/wage1_core.rds")
+```
+
+## Funções que já utilizamos
+
+Desde o início da apostila, utilizamos funções:
+
+```{r}
+mean(wage1_core$wage)
+median(wage1_core$wage)
+sd(wage1_core$wage)
+```
+
+Cada função possui:
+
+- um nome: `mean`;
+- uma entrada: `wage1_core$wage`;
+- argumentos adicionais, quando necessários;
+- uma saída: a média calculada.
+
+Ao escrever nossas próprias funções, organizamos tarefas da mesma maneira.
+
+## A estrutura de uma função
+
+Uma função simples que dobra um valor pode ser escrita assim:
+
+```{r}
+dobrar <- function(x) {
+  resultado <- 2 * x
+  return(resultado)
+}
+```
+
+Utilizamos a função como qualquer outra:
+
+```{r}
+dobrar(5)
+dobrar(c(1, 2, 3))
+```
+
+Na definição:
+
+- `dobrar` é o nome escolhido;
+- `x` é o argumento;
+- o código entre chaves forma o corpo;
+- `return(resultado)` indica a saída.
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Estrutura de uma função"
+%%| echo: false
+
+flowchart LR
+    A["Entrada<br/>argumentos"] --> B["Operações<br/>corpo da função"]
+    B --> C["Saída<br/>resultado"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Entrada — argumentos"] --> B["Operações — corpo da função"]
+    B --> C["Saída — resultado"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+## Retorno explícito e implícito
+
+O R devolve automaticamente o resultado da última expressão. Portanto, poderíamos escrever:
+
+```{r}
+dobrar_curta <- function(x) {
+  2 * x
+}
+
+dobrar_curta(5)
+```
+
+`return()` é útil quando desejamos tornar a saída explícita ou encerrar a função antes do final.
+
+## Uma função econômica simples
+
+O coeficiente de variação relaciona o desvio-padrão à média:
+
+$$
+CV=\frac{s}{\bar{x}}\times 100.
+$$
+
+Nas notas anteriores, esse cálculo foi repetido manualmente. Podemos transformá-lo em função:
+
+```{r}
+coeficiente_variacao <- function(x) {
+  sd(x) / mean(x) * 100
+}
+
+coeficiente_variacao(wage1_core$wage)
+coeficiente_variacao(wage1_core$educ)
+```
+
+Agora a fórmula está registrada em um único lugar.
+
+## Argumentos com valores-padrão
+
+Se houver valores ausentes, `mean()` e `sd()` podem devolver `NA`. Acrescentamos o argumento `na.rm`, com valor-padrão `TRUE`:
+
+```{r}
+coeficiente_variacao <- function(x, na.rm = TRUE) {
+  sd(x, na.rm = na.rm) /
+    mean(x, na.rm = na.rm) * 100
+}
+```
+
+O usuário pode aceitar o padrão:
+
+```{r}
+coeficiente_variacao(wage1_core$wage)
+```
+
+ou alterá-lo:
+
+```{r}
+vetor_com_na <- c(2, 4, NA, 8)
+
+coeficiente_variacao(
+  vetor_com_na,
+  na.rm = FALSE
+)
+```
+
+::: {.callout-tip title="Valores-padrão devem representar uma escolha consciente"}
+Um padrão torna a função conveniente, mas também incorpora uma decisão. Remover `NA`, por exemplo, precisa ser adequado ao problema analisado.
+:::
+
+## Uma função para estatísticas descritivas
+
+O seu material anterior utilizava uma função chamada `fun1` para calcular várias medidas. Preservaremos a ideia com um nome mais informativo:
+
+```{r}
+resumo_numerico <- function(x, na.rm = TRUE) {
+  tibble(
+    observacoes = sum(!is.na(x)),
+    media = mean(x, na.rm = na.rm),
+    mediana = median(x, na.rm = na.rm),
+    variancia = var(x, na.rm = na.rm),
+    desvio_padrao = sd(x, na.rm = na.rm),
+    minimo = min(x, na.rm = na.rm),
+    maximo = max(x, na.rm = na.rm)
+  )
+}
+```
+
+Aplicamos a função ao salário:
+
+```{r}
+resumo_numerico(wage1_core$wage)
+```
+
+E à escolaridade:
+
+```{r}
+resumo_numerico(wage1_core$educ)
+```
+
+## Validando a entrada
+
+A função `resumo_numerico()` pressupõe um vetor numérico. Se receber texto, produzirá uma mensagem pouco clara. Podemos verificar a entrada:
+
+```{r}
+resumo_numerico <- function(x, na.rm = TRUE) {
+  if (!is.numeric(x)) {
+    stop("`x` deve ser um vetor numérico.")
+  }
+
+  if (length(x) == 0) {
+    stop("`x` não pode ser vazio.")
+  }
+
+  tibble(
+    observacoes = sum(!is.na(x)),
+    media = mean(x, na.rm = na.rm),
+    mediana = median(x, na.rm = na.rm),
+    variancia = var(x, na.rm = na.rm),
+    desvio_padrao = sd(x, na.rm = na.rm),
+    minimo = min(x, na.rm = na.rm),
+    maximo = max(x, na.rm = na.rm)
+  )
+}
+```
+
+Testamos uma entrada válida:
+
+```{r}
+resumo_numerico(wage1_core$exper)
+```
+
+O comando abaixo produziria um erro planejado e informativo:
+
+```{r}
+#| eval: false
+resumo_numerico(c("Homem", "Mulher"))
+```
+
+::: {.callout-important title="Uma boa mensagem de erro ajuda a usar a função"}
+`stop()` interrompe a execução quando uma condição necessária não foi atendida. A mensagem deve informar qual entrada está incorreta e o que era esperado.
+:::
+
+## Aplicando a função com um loop
+
+Retomamos a lista de variáveis do capítulo anterior:
+
+```{r}
+variaveis <- c("wage", "educ", "exper", "tenure")
+
+resumos <- tibble()
+
+for (variavel in variaveis) {
+  resumo_atual <- resumo_numerico(
+    wage1_core[[variavel]]
+  ) |>
+    mutate(
+      variavel = variavel,
+      .before = 1
+    )
+
+  resumos <- bind_rows(
+    resumos,
+    resumo_atual
+  )
+}
+
+resumos
+```
+
+Agora o loop cuida da repetição e a função concentra a operação.
+
+## Aplicando a função com `purrr`
+
+O pacote `purrr`, integrante do `tidyverse`, oferece funções para aplicar uma operação repetidamente. `map_dfr()` percorre as entradas e combina os resultados por linhas:
+
+```{r}
+resumos_map <- map_dfr(
+  variaveis,
+  function(variavel) {
+    resumo_numerico(
+      wage1_core[[variavel]]
+    ) |>
+      mutate(
+        variavel = variavel,
+        .before = 1
+      )
+  }
+)
+
+resumos_map
+```
+
+O raciocínio é o mesmo do `for`:
+
+1. receber um nome de variável;
+2. extrair a coluna;
+3. aplicar `resumo_numerico()`;
+4. incluir o nome da variável;
+5. reunir as tabelas.
+
+::: {.callout-note title="`map()` não torna o código automaticamente melhor"}
+Use `map()` quando sua forma tornar a intenção mais clara. Um `for` bem escrito continua sendo uma solução correta, legível e pedagógica.
+:::
+
+## Uma função que recebe uma base e uma variável
+
+Podemos construir uma função mais geral usando o nome da coluna como texto:
+
+```{r}
+resumir_variavel <- function(dados, variavel, na.rm = TRUE) {
+  if (!variavel %in% names(dados)) {
+    stop("A variável informada não existe na base.")
+  }
+
+  valores <- dados[[variavel]]
+
+  resumo_numerico(
+    valores,
+    na.rm = na.rm
+  ) |>
+    mutate(
+      variavel = variavel,
+      .before = 1
+    )
+}
+```
+
+Agora informamos a base e o nome da variável:
+
+```{r}
+resumir_variavel(
+  wage1_core,
+  "wage"
+)
+```
+
+Essa forma facilita reaplicar a rotina em outras bases que possuam uma variável numérica.
+
+## Uma função que produz um gráfico
+
+Uma função também pode devolver um objeto do `ggplot2`:
+
+```{r}
+grafico_distribuicao <- function(dados, variavel, titulo = NULL) {
+  if (!variavel %in% names(dados)) {
+    stop("A variável informada não existe na base.")
+  }
+
+  if (!is.numeric(dados[[variavel]])) {
+    stop("A variável deve ser numérica.")
+  }
+
+  ggplot(
+    dados,
+    aes(x = .data[[variavel]])
+  ) +
+    geom_histogram(
+      bins = 20,
+      fill = "#7185CC",
+      color = "white"
+    ) +
+    labs(
+      title = titulo,
+      x = variavel,
+      y = "Frequência"
+    ) +
+    theme_minimal()
+}
+```
+
+Utilizamos a mesma função para variáveis diferentes:
+
+```{r}
+grafico_distribuicao(
+  wage1_core,
+  "wage",
+  "Distribuição do salário por hora"
+)
+```
+
+```{r}
+grafico_distribuicao(
+  wage1_core,
+  "exper",
+  "Distribuição da experiência"
+)
+```
+
+`.data[[variavel]]` informa ao `ggplot2` que o nome da coluna está guardado no objeto `variavel`.
+
+## Preservando uma função do material anterior
+
+O material antigo também definia uma função para calcular a moda. Vamos reescrevê-la de maneira legível:
+
+```{r}
+calcular_moda <- function(x, na.rm = TRUE) {
+  if (na.rm) {
+    x <- x[!is.na(x)]
+  }
+
+  valores_unicos <- unique(x)
+  frequencias <- tabulate(
+    match(x, valores_unicos)
+  )
+
+  valores_unicos[which.max(frequencias)]
+}
+
+calcular_moda(wage1_core$educ)
+```
+
+::: {.callout-warning title="Pode existir mais de uma moda"}
+Essa função devolve apenas o primeiro valor com frequência máxima. Se diferentes valores estiverem empatados, uma função mais completa deveria devolver todos eles.
+:::
+
+## Organizando funções em um script
+
+Em um projeto maior, podemos guardar funções em um arquivo como:
+
+```text
+script/funcoes.R
+```
+
+Depois, carregamos as definições com:
+
+```{r}
+#| eval: false
+source("script/funcoes.R")
+```
+
+Uma organização possível é:
+
+```text
+projeto/
+├── dados/
+├── script/
+│   ├── funcoes.R
+│   └── analise.R
+├── figuras/
+└── resultados/
+```
+
+O arquivo `funcoes.R` contém as ferramentas reutilizáveis. O arquivo `analise.R` carrega os dados e utiliza essas funções na sequência específica do problema.
+
+## Da repetição à reutilização
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-alt: "Evolução de uma rotina repetida para uma função reutilizável"
+%%| echo: false
+
+flowchart LR
+    A["Código repetido"] --> B["Loop"]
+    B --> C["Função"]
+    C --> D["Validação"]
+    D --> E["Reutilização"]
+    E --> F["Automação<br/>reproduzível"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+
+::: {.callout-note collapse="true" title="Código Mermaid do fluxograma"}
+```text
+flowchart LR
+    A["Código repetido"] --> B["Loop"]
+    B --> C["Função"]
+    C --> D["Validação"]
+    D --> E["Reutilização"]
+    E --> F["Automação reproduzível"]
+
+    classDef etapa fill:#DCEBDC,stroke:#355E3B,color:#1F3323,stroke-width:1.5px;
+    class A,B,C,D,E,F etapa;
+    linkStyle default stroke:#355E3B,stroke-width:1.5px;
+```
+:::
+
+Uma função útil não precisa ser sofisticada. Ela deve representar uma tarefa bem definida, possuir entradas claras, devolver um resultado previsível e produzir erros compreensíveis quando não puder executar a tarefa.
+
+## Pratique
+
+1. Crie uma função chamada `amplitude()` que calcule máximo menos mínimo.
+2. Acrescente o argumento `na.rm`.
+3. Faça a função verificar se o vetor é numérico.
+4. Aplique a função a `wage`, `educ`, `exper` e `tenure`.
+5. Guarde os resultados em uma tabela usando `for`.
+6. Refaça a aplicação com `map_dfr()`.
+7. Crie uma função que produza um boxplot para uma variável numérica.
+
+::: {.callout-tip collapse="true" title="Código inicial"}
+```{r}
+amplitude <- function(x, na.rm = TRUE) {
+  if (!is.numeric(x)) {
+    stop("`x` deve ser numérico.")
+  }
+
+  max(x, na.rm = na.rm) -
+    min(x, na.rm = na.rm)
+}
+
+amplitude(wage1_core$wage)
+```
+:::
+
+Ao final desta parte, reunimos ferramentas para tomar decisões, repetir operações e criar funções. Essas competências poderão ser mobilizadas pelos grupos na construção dos tutoriais aplicados, sempre partindo de um problema econômico e documentando um procedimento que outras pessoas consigam reproduzir.

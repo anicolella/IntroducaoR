@@ -1,0 +1,96 @@
+---
+title: "Introdução ao R"
+subtitle: "Uma proposta visual para a apostila aplicada à Economia e Finanças"
+author: "Alexandre Nicolella"
+---
+
+::: {.hero-apostila}
+## Investigar problemas econômicos com dados
+
+Uma experiência de leitura mais clara, acolhedora e profissional, mantendo o conteúdo acadêmico e a estrutura pedagógica da apostila.
+:::
+
+::: {.grade-cartoes}
+::: {.cartao-percurso}
+### Compreender
+
+Partir de uma pergunta econômica e reconhecer quais evidências são necessárias.
+:::
+
+::: {.cartao-percurso}
+### Construir
+
+Organizar, transformar e visualizar dados com código legível e reproduzível.
+:::
+
+::: {.cartao-percurso}
+### Comunicar
+
+Interpretar resultados e produzir tutoriais que possam ser utilizados por outras pessoas.
+:::
+:::
+
+## Identidade visual
+
+A paleta combina a sobriedade do azul-marinho com azuis acinzentados e destaques em bege. O fundo marfim reduz o contraste excessivo durante leituras longas.
+
+::: {.paleta}
+::: {.amostra-cor style="background:#071739"}
+[]{.content-visible} `#071739`
+:::
+::: {.amostra-cor style="background:#4B6382"}
+[]{.content-visible} `#4B6382`
+:::
+::: {.amostra-cor style="background:#A4B5C4"}
+[]{.content-visible} `#A4B5C4`
+:::
+::: {.amostra-cor style="background:#CDD5DB"}
+[]{.content-visible} `#CDD5DB`
+:::
+::: {.amostra-cor style="background:#A68868"}
+[]{.content-visible} `#A68868`
+:::
+::: {.amostra-cor style="background:#E3C39D"}
+[]{.content-visible} `#E3C39D`
+:::
+:::
+
+## Componentes didáticos
+
+::: {.callout-note title="Conceito central"}
+Uma unidade de observação é aquilo que cada linha da base representa: uma pessoa, uma família, uma empresa, um município ou um período.
+:::
+
+::: {.callout-tip title="Boa prática"}
+Antes de executar uma transformação, descreva em palavras o que deverá acontecer com as linhas e colunas da base.
+:::
+
+::: {.callout-important title="Interpretação"}
+Uma associação observada nos dados não deve ser automaticamente interpretada como uma relação causal.
+:::
+
+## Código e resultado
+
+O código permanece visível e fácil de copiar, mas ganha uma área visualmente distinta do texto.
+
+```r
+salario_medio <- mean(wage1_core$wage, na.rm = TRUE)
+salario_medio
+```
+
+::: {.cell-output}
+```text
+[1] 5.90
+```
+:::
+
+## Tabelas
+
+| Etapa | Pergunta orientadora | Produto |
+|---|---|---|
+| Problema | O que queremos compreender? | Pergunta investigável |
+| Dados | Quais informações são necessárias? | Base documentada |
+| Análise | O que os dados permitem concluir? | Evidência interpretada |
+| Comunicação | Outra pessoa consegue reproduzir? | Tutorial aplicado |
+
+> O objetivo visual não é transformar a apostila em um painel. É tornar uma leitura acadêmica longa mais organizada, contemporânea e agradável.

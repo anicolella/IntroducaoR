@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.10.18">
@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alexandre Nicolella">
-<meta name="dcterms.date" content="2026-03-13">
 
 <title>Introdução ao R</title>
 <style>
@@ -48,7 +47,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-381bf66a16e98cc4c9ee67661d96d428.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -63,17 +62,17 @@ ul.task-list li input[type="checkbox"] {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
   }
 }</script>
 <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
@@ -84,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="estilos.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="nav-sidebar docked nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -99,8 +98,8 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">Introdução ao R</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Procurar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Alternar de navegação" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -124,13 +123,13 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Prefácio</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -142,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -173,13 +172,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte I — Do problema econômico à investigação com dados</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link">
@@ -208,13 +207,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte II — Ambiente e fundamentos de R</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap08_ambiente_r.html" class="sidebar-item-text sidebar-link">
@@ -249,13 +248,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte III — Transformação e organização</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap13_tidyverse_pipe.html" class="sidebar-item-text sidebar-link">
@@ -290,13 +289,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte IV — Visualização e descrição</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap18_visualizacao_ggplot2.html" class="sidebar-item-text sidebar-link">
@@ -319,13 +318,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte V — Da descrição à explicação</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap21_modelos_lineares.html" class="sidebar-item-text sidebar-link">
@@ -348,13 +347,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte VI — Programação e automação</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap24_condicoes_repeticoes.html" class="sidebar-item-text sidebar-link">
@@ -371,13 +370,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte VII — Tutoriais aplicados</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap26_tutoriais_microeconomia.html" class="sidebar-item-text sidebar-link">
@@ -400,13 +399,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
  <span class="menu-text">Recursos complementares</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
@@ -426,26 +425,7 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#prefácio" id="toc-prefácio" class="nav-link active" data-scroll-target="#prefácio">Prefácio</a>
-  <ul class="collapse">
-  <li><a href="#bem-vindos" id="toc-bem-vindos" class="nav-link" data-scroll-target="#bem-vindos">Bem-vindos</a></li>
-  <li><a href="#o-problema-como-ponto-de-partida" id="toc-o-problema-como-ponto-de-partida" class="nav-link" data-scroll-target="#o-problema-como-ponto-de-partida">O problema como ponto de partida</a></li>
-  <li><a href="#dois-processos-em-paralelo" id="toc-dois-processos-em-paralelo" class="nav-link" data-scroll-target="#dois-processos-em-paralelo">Dois processos em paralelo</a></li>
-  <li><a href="#percurso-da-disciplina" id="toc-percurso-da-disciplina" class="nav-link" data-scroll-target="#percurso-da-disciplina">Percurso da disciplina</a></li>
-  <li><a href="#áreas-de-aplicação" id="toc-áreas-de-aplicação" class="nav-link" data-scroll-target="#áreas-de-aplicação">Áreas de aplicação</a></li>
-  <li><a href="#da-descrição-à-explicação" id="toc-da-descrição-à-explicação" class="nav-link" data-scroll-target="#da-descrição-à-explicação">Da descrição à explicação</a></li>
-  <li><a href="#produto-da-disciplina" id="toc-produto-da-disciplina" class="nav-link" data-scroll-target="#produto-da-disciplina">Produto da disciplina</a></li>
-  <li><a href="#inteligência-artificial-como-apoio" id="toc-inteligência-artificial-como-apoio" class="nav-link" data-scroll-target="#inteligência-artificial-como-apoio">Inteligência artificial como apoio</a></li>
-  <li><a href="#como-continuar" id="toc-como-continuar" class="nav-link" data-scroll-target="#como-continuar">Como continuar</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -457,8 +437,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
-  <div class="quarto-title-meta-heading">Affiliation</div>
+  <div class="quarto-title-meta-heading">Autor</div>
+  <div class="quarto-title-meta-heading">Afiliação</div>
   
     <div class="quarto-title-meta-contents">
     <p class="author">Alexandre Nicolella </p>
@@ -474,9 +454,9 @@ ul.task-list li input[type="checkbox"] {
 
       
     <div>
-    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-heading">Data de Publicação</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 13, 2026</p>
+      <p class="date">13 de março de 2026</p>
     </div>
   </div>
   
@@ -490,10 +470,16 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="prefácio" class="level1 unnumbered">
 <h1 class="unnumbered">Prefácio</h1>
-<section id="bem-vindos" class="level2">
+<section id="bem-vindos" class="level2 hero-apostila">
 <h2 class="anchored" data-anchor-id="bem-vindos">Bem-vindos</h2>
 <p>Esta é a página da disciplina <strong>REC3302 — Introdução ao R Aplicado à Economia e Finanças</strong>, oferecida pela Faculdade de Economia, Administração e Contabilidade de Ribeirão Preto da Universidade de São Paulo.</p>
-<p>A disciplina utiliza o <strong>R como ambiente para investigar problemas econômicos e financeiros por meio de dados</strong>. O objetivo não é aprender uma lista isolada de comandos, mas desenvolver a capacidade de:</p>
+<p>A disciplina utiliza o <strong>R como ambiente para investigar problemas econômicos e financeiros por meio de dados</strong>.</p>
+<div class="acoes-inicio">
+<p><a href="./cap/cap2_summary.html" class="btn btn-light">Conheça a disciplina</a></p>
+<p><a href="./cap/cap2_1_como_utilizar.html" class="btn btn-outline-light">Como utilizar esta apostila</a></p>
+</div>
+</section>
+<p>O objetivo não é aprender uma lista isolada de comandos, mas desenvolver a capacidade de:</p>
 <ul>
 <li>formular questões que possam ser investigadas;</li>
 <li>identificar e obter os dados necessários;</li>
@@ -509,11 +495,10 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>O que precisamos aprender a fazer com os dados para responder a uma questão econômica concreta?</strong></p>
 </blockquote>
 <hr>
-</section>
 <section id="o-problema-como-ponto-de-partida" class="level2">
 <h2 class="anchored" data-anchor-id="o-problema-como-ponto-de-partida">O problema como ponto de partida</h2>
 <div class="grid">
-<section id="aprender-r-com-propósito" class="level3 g-col-12 g-col-md-6">
+<section id="aprender-r-com-propósito" class="level3 g-col-12 g-col-md-6 cartao-home cartao-proposito">
 <h3 class="anchored" data-anchor-id="aprender-r-com-propósito">Aprender R com propósito</h3>
 <p>Uma ferramenta será apresentada quando houver uma necessidade concreta de utilizá-la.</p>
 <p>Em vez de começar perguntando “qual comando aprenderemos?”, procuraremos identificar:</p>
@@ -525,7 +510,7 @@ ul.task-list li input[type="checkbox"] {
 <li>como verificar se o resultado faz sentido.</li>
 </ul>
 </section>
-<section id="aprendizagem-baseada-em-problemas" class="level3 g-col-12 g-col-md-6">
+<section id="aprendizagem-baseada-em-problemas" class="level3 g-col-12 g-col-md-6 cartao-home cartao-problemas">
 <h3 class="anchored" data-anchor-id="aprendizagem-baseada-em-problemas">Aprendizagem baseada em problemas</h3>
 <p>Os estudantes trabalharão em grupos a partir de questões relacionadas a:</p>
 <ul>
@@ -542,7 +527,7 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="dois-processos-em-paralelo">Dois processos em paralelo</h2>
 <p>A disciplina combinará dois processos que deverão convergir ao longo do semestre.</p>
 <div class="grid">
-<section id="formação-em-r-e-análise-de-dados" class="level3 g-col-12 g-col-md-6">
+<section id="formação-em-r-e-análise-de-dados" class="level3 g-col-12 g-col-md-6 cartao-home cartao-formacao">
 <h3 class="anchored" data-anchor-id="formação-em-r-e-análise-de-dados">Formação em R e análise de dados</h3>
 <p>Ao longo das aulas, desenvolveremos conhecimentos sobre:</p>
 <ul>
@@ -558,7 +543,7 @@ ul.task-list li input[type="checkbox"] {
 <li>comunicação reproduzível.</li>
 </ul>
 </section>
-<section id="desenvolvimento-dos-problemas" class="level3 g-col-12 g-col-md-6">
+<section id="desenvolvimento-dos-problemas" class="level3 g-col-12 g-col-md-6 cartao-home cartao-desenvolvimento">
 <h3 class="anchored" data-anchor-id="desenvolvimento-dos-problemas">Desenvolvimento dos problemas</h3>
 <p>Cada grupo deverá avançar progressivamente por etapas como:</p>
 <ul>
@@ -625,7 +610,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="áreas-de-aplicação" class="level2">
 <h2 class="anchored" data-anchor-id="áreas-de-aplicação">Áreas de aplicação</h2>
 <div class="grid">
-<section id="microeconomia" class="level3 g-col-12 g-col-md-4">
+<section id="microeconomia" class="level3 g-col-12 g-col-md-4 cartao-home cartao-micro">
 <h3 class="anchored" data-anchor-id="microeconomia">Microeconomia</h3>
 <p>Os tutoriais poderão utilizar microdados de pesquisas como a <strong>PNAD Contínua</strong>, a <strong>Pesquisa Nacional de Saúde (PNS)</strong> e a <strong>Pesquisa de Orçamentos Familiares (POF)</strong> para investigar temas como:</p>
 <ul>
@@ -638,7 +623,7 @@ ul.task-list li input[type="checkbox"] {
 <li>indivíduos, famílias e domicílios.</li>
 </ul>
 </section>
-<section id="macroeconomia" class="level3 g-col-12 g-col-md-4">
+<section id="macroeconomia" class="level3 g-col-12 g-col-md-4 cartao-home cartao-macro">
 <h3 class="anchored" data-anchor-id="macroeconomia">Macroeconomia</h3>
 <p>As aplicações poderão utilizar séries do <strong>Banco Central do Brasil</strong>, do <strong>Ipeadata</strong> e de outras fontes oficiais para analisar:</p>
 <ul>
@@ -651,7 +636,7 @@ ul.task-list li input[type="checkbox"] {
 <li>outros indicadores macroeconômicos.</li>
 </ul>
 </section>
-<section id="finanças" class="level3 g-col-12 g-col-md-4">
+<section id="finanças" class="level3 g-col-12 g-col-md-4 cartao-home cartao-financas">
 <h3 class="anchored" data-anchor-id="finanças">Finanças</h3>
 <p>Os tutoriais poderão utilizar dados do <strong>Yahoo Finance</strong>, da <strong>B3</strong> e de outras fontes adequadas para trabalhar com:</p>
 <ul>
@@ -733,9 +718,15 @@ ul.task-list li input[type="checkbox"] {
 <li>recursos complementares.</li>
 </ul>
 <p>O percurso poderá variar conforme a experiência do estudante e as necessidades de seu projeto, mas um princípio deverá permanecer constante:</p>
+<div class="encerramento-home">
 <blockquote class="blockquote">
 <p><strong>compreender o problema, trabalhar cuidadosamente com os dados e produzir resultados que possam ser explicados, verificados e reproduzidos.</strong></p>
 </blockquote>
+<div class="acoes-finais">
+<p><a href="./cap/cap2_summary.html" class="btn btn-primary">Informações da disciplina</a></p>
+<p><a href="./cap/cap2_1_como_utilizar.html" class="btn btn-outline-primary">Começar a usar a apostila</a></p>
+</div>
+</div>
 
 
 </section>
@@ -767,12 +758,12 @@ ul.task-list li input[type="checkbox"] {
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Copiada");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Copiada");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",

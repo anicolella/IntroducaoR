@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.10.18">
@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alexandre Nicolella">
-<meta name="dcterms.date" content="2026-08-25">
 
 <title>5&nbsp; Da pergunta aos dados – Introdução ao R</title>
 <style>
@@ -68,7 +67,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-381bf66a16e98cc4c9ee67661d96d428.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script src="../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
 <link href="../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
 <link href="../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
@@ -86,17 +85,17 @@ div.csl-indent {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
   }
 }</script>
 <script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
@@ -122,8 +121,8 @@ div.csl-indent {
     <span class="navbar-title">Introdução ao R</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Procurar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Alternar de navegação" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -147,13 +146,13 @@ div.csl-indent {
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap04_problema_pergunta.html">Parte I — Do problema econômico à investigação com dados</a></li><li class="breadcrumb-item"><a href="../cap/cap05_pergunta_dados.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Da pergunta aos dados</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -165,7 +164,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -198,7 +197,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
  <span class="menu-text">Parte I — Do problema econômico à investigação com dados</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -231,13 +230,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte II — Ambiente e fundamentos de R</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap08_ambiente_r.html" class="sidebar-item-text sidebar-link">
@@ -272,13 +271,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte III — Transformação e organização</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap13_tidyverse_pipe.html" class="sidebar-item-text sidebar-link">
@@ -313,13 +312,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte IV — Visualização e descrição</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap18_visualizacao_ggplot2.html" class="sidebar-item-text sidebar-link">
@@ -342,13 +341,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte V — Da descrição à explicação</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap21_modelos_lineares.html" class="sidebar-item-text sidebar-link">
@@ -371,13 +370,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte VI — Programação e automação</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap24_condicoes_repeticoes.html" class="sidebar-item-text sidebar-link">
@@ -394,13 +393,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte VII — Tutoriais aplicados</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap26_tutoriais_microeconomia.html" class="sidebar-item-text sidebar-link">
@@ -423,13 +422,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
  <span class="menu-text">Recursos complementares</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
@@ -451,7 +450,7 @@ div.csl-indent {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Neste capítulo</h2>
    
   <ul>
   <li><a href="#a-pergunta-orienta-a-procura-pelos-dados" id="toc-a-pergunta-orienta-a-procura-pelos-dados" class="nav-link active" data-scroll-target="#a-pergunta-orienta-a-procura-pelos-dados"><span class="header-section-number">5.1</span> A pergunta orienta a procura pelos dados</a></li>
@@ -489,16 +488,16 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Autor</div>
     <div class="quarto-title-meta-contents">
              <p>Alexandre Nicolella </p>
           </div>
   </div>
     
     <div>
-    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-heading">Data de Publicação</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 25, 2026</p>
+      <p class="date">25 de agosto de 2026</p>
     </div>
   </div>
   
@@ -518,7 +517,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Objetivos do capítulo
+<span class="screen-reader-only">Nota</span>Objetivos do capítulo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -581,7 +580,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Não adapte a pergunta silenciosamente à primeira base encontrada
+<span class="screen-reader-only">Importante</span>Não adapte a pergunta silenciosamente à primeira base encontrada
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -636,7 +635,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Uma linha não é necessariamente uma pessoa
+<span class="screen-reader-only">Aviso</span>Uma linha não é necessariamente uma pessoa
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -648,7 +647,7 @@ div.csl-indent {
 <section id="quem-ou-o-que-queremos-estudar" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="quem-ou-o-que-queremos-estudar"><span class="header-section-number">5.3</span> Quem ou o que queremos estudar?</h2>
 <p>A <strong>população</strong> é o conjunto de unidades sobre o qual desejamos produzir informação. A <strong>amostra</strong> é a parcela da população efetivamente observada na pesquisa.</p>
-<p>Na PNAD Contínua, não são entrevistados todos os moradores do Brasil. O IBGE utiliza uma amostra de domicílios e disponibiliza pesos que permitem produzir estimativas representativas da população dentro dos limites do desenho da pesquisa <span class="citation" data-cites="ibgepnadc">(<a href="#ref-ibgepnadc" role="doc-biblioref">Instituto Brasileiro de Geografia e Estatística, n.d.</a>)</span>.</p>
+<p>Na PNAD Contínua, não são entrevistados todos os moradores do Brasil. O IBGE utiliza uma amostra de domicílios e disponibiliza pesos que permitem produzir estimativas representativas da população dentro dos limites do desenho da pesquisa <span class="citation" data-cites="ibgepnadc">(<a href="#ref-ibgepnadc" role="doc-biblioref">Instituto Brasileiro de Geografia e Estatística, s. d.</a>)</span>.</p>
 <p>Em outros contextos, a relação pode ser diferente. Um conjunto com todas as observações mensais de uma série do Banco Central em determinado intervalo não é uma amostra domiciliar. Ainda assim, o período escolhido representa apenas uma parte da trajetória possível da variável.</p>
 <div class="callout callout-style-default callout-note callout-titled" title="População e amostra neste capítulo">
 <div class="callout-header d-flex align-content-center">
@@ -656,7 +655,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>População e amostra neste capítulo
+<span class="screen-reader-only">Nota</span>População e amostra neste capítulo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -734,7 +733,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Descreva a necessidade antes de procurar o nome da coluna
+<span class="screen-reader-only">Dica</span>Descreva a necessidade antes de procurar o nome da coluna
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -749,7 +748,7 @@ div.csl-indent {
 <h3 data-number="5.6.1" class="anchored" data-anchor-id="microeconomia"><span class="header-section-number">5.6.1</span> Microeconomia</h3>
 <p>Pesquisas domiciliares e de saúde permitem estudar indivíduos, famílias e domicílios.</p>
 <ul>
-<li><strong>PNAD Contínua:</strong> trabalho, rendimento, educação e características demográficas. O IBGE disponibiliza microdados, dicionários, documentação e notas metodológicas <span class="citation" data-cites="ibgepnadc">(<a href="#ref-ibgepnadc" role="doc-biblioref">Instituto Brasileiro de Geografia e Estatística, n.d.</a>)</span>.</li>
+<li><strong>PNAD Contínua:</strong> trabalho, rendimento, educação e características demográficas. O IBGE disponibiliza microdados, dicionários, documentação e notas metodológicas <span class="citation" data-cites="ibgepnadc">(<a href="#ref-ibgepnadc" role="doc-biblioref">Instituto Brasileiro de Geografia e Estatística, s. d.</a>)</span>.</li>
 <li><strong>POF:</strong> despesas, rendimentos, consumo e condições de vida das famílias.</li>
 <li><strong>PNS:</strong> saúde, acesso a serviços e características individuais e domiciliares.</li>
 </ul>
@@ -759,8 +758,8 @@ div.csl-indent {
 <h3 data-number="5.6.2" class="anchored" data-anchor-id="macroeconomia"><span class="header-section-number">5.6.2</span> Macroeconomia</h3>
 <p>Séries temporais permitem acompanhar indicadores agregados.</p>
 <ul>
-<li><strong>Banco Central do Brasil:</strong> o Sistema Gerenciador de Séries Temporais reúne séries econômicas e seus metadados. O portal também disponibiliza recursos em formatos como CSV e JSON <span class="citation" data-cites="bcbsgs">(<a href="#ref-bcbsgs" role="doc-biblioref">Banco Central do Brasil, n.d.</a>)</span>.</li>
-<li><strong>Ipeadata:</strong> reúne séries macroeconômicas, regionais e sociais provenientes de diferentes instituições <span class="citation" data-cites="ipeadata">(<a href="#ref-ipeadata" role="doc-biblioref">Instituto de Pesquisa Econômica Aplicada, n.d.</a>)</span>.</li>
+<li><strong>Banco Central do Brasil:</strong> o Sistema Gerenciador de Séries Temporais reúne séries econômicas e seus metadados. O portal também disponibiliza recursos em formatos como CSV e JSON <span class="citation" data-cites="bcbsgs">(<a href="#ref-bcbsgs" role="doc-biblioref">Banco Central do Brasil, s. d.</a>)</span>.</li>
+<li><strong>Ipeadata:</strong> reúne séries macroeconômicas, regionais e sociais provenientes de diferentes instituições <span class="citation" data-cites="ipeadata">(<a href="#ref-ipeadata" role="doc-biblioref">Instituto de Pesquisa Econômica Aplicada, s. d.</a>)</span>.</li>
 </ul>
 <p>Para cada série, devemos verificar definição, unidade de medida, frequência, fonte original e eventuais revisões.</p>
 </section>
@@ -768,7 +767,7 @@ div.csl-indent {
 <h3 data-number="5.6.3" class="anchored" data-anchor-id="finanças"><span class="header-section-number">5.6.3</span> Finanças</h3>
 <p>Dados financeiros podem conter preços, índices, volumes e outras informações de mercado.</p>
 <ul>
-<li><strong>B3:</strong> disponibiliza séries históricas de cotações e documentação sobre os campos dos arquivos <span class="citation" data-cites="b3cotacoes">(<a href="#ref-b3cotacoes" role="doc-biblioref">B3, n.d.</a>)</span>.</li>
+<li><strong>B3:</strong> disponibiliza séries históricas de cotações e documentação sobre os campos dos arquivos <span class="citation" data-cites="b3cotacoes">(<a href="#ref-b3cotacoes" role="doc-biblioref">B3, s. d.</a>)</span>.</li>
 <li><strong>Yahoo Finance:</strong> pode facilitar a obtenção de séries por meio de pacotes utilizados no R, mas sua disponibilidade e seus termos podem mudar. Para análises que exigem rastreabilidade, é importante registrar a data de obtenção e conferir a definição das informações.</li>
 </ul>
 <p>Preços precisam ser interpretados com atenção a eventos como dividendos, desdobramentos, mudanças de ticker e ajustes históricos.</p>
@@ -821,7 +820,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>O nome da variável não basta
+<span class="screen-reader-only">Aviso</span>O nome da variável não basta
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -877,7 +876,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Checklist de validação da fonte
+<span class="screen-reader-only">Dica</span>Checklist de validação da fonte
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -898,7 +897,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Produto deste capítulo
+<span class="screen-reader-only">Importante</span>Produto deste capítulo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -910,16 +909,16 @@ div.csl-indent {
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-b3cotacoes" class="csl-entry" role="listitem">
-B3. n.d. <span>“Cotações Históricas.”</span> Accessed August 25, 2026. <a href="https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/cotacoes-historicas/">https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/cotacoes-historicas/</a>.
+B3. s. d. <span>“Cotações históricas”</span>. Acesso em 25 de agosto de 2026. <a href="https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/cotacoes-historicas/">https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/historico/mercado-a-vista/cotacoes-historicas/</a>.
 </div>
 <div id="ref-bcbsgs" class="csl-entry" role="listitem">
-Banco Central do Brasil. n.d. <span>“Sistema Gerenciador de Séries Temporais.”</span> Accessed August 25, 2026. <a href="https://www3.bcb.gov.br/sgspub/">https://www3.bcb.gov.br/sgspub/</a>.
+Banco Central do Brasil. s. d. <span>“Sistema Gerenciador de Séries Temporais”</span>. Acesso em 25 de agosto de 2026. <a href="https://www3.bcb.gov.br/sgspub/">https://www3.bcb.gov.br/sgspub/</a>.
 </div>
 <div id="ref-ibgepnadc" class="csl-entry" role="listitem">
-Instituto Brasileiro de Geografia e Estatística. n.d. <span>“PNAD Contínua: Microdados.”</span> Accessed August 25, 2026. <a href="https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html?caminho=Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua">https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html?caminho=Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua</a>.
+Instituto Brasileiro de Geografia e Estatística. s. d. <span>“PNAD Contínua: microdados”</span>. Acesso em 25 de agosto de 2026. <a href="https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html?caminho=Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua">https://www.ibge.gov.br/estatisticas/downloads-estatisticas.html?caminho=Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua</a>.
 </div>
 <div id="ref-ipeadata" class="csl-entry" role="listitem">
-Instituto de Pesquisa Econômica Aplicada. n.d. <span>“Ipeadata.”</span> Accessed August 25, 2026. <a href="https://www.ipeadata.gov.br/">https://www.ipeadata.gov.br/</a>.
+Instituto de Pesquisa Econômica Aplicada. s. d. <span>“Ipeadata”</span>. Acesso em 25 de agosto de 2026. <a href="https://www.ipeadata.gov.br/">https://www.ipeadata.gov.br/</a>.
 </div>
 </div>
 </section>
@@ -951,12 +950,12 @@ Instituto de Pesquisa Econômica Aplicada. n.d. <span>“Ipeadata.”</span> Acc
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Copiada");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Copiada");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",

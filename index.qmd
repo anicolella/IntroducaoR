@@ -1,10 +1,24 @@
+---
+toc: false
+---
+
 # Prefácio {.unnumbered}
 
+::: {.hero-apostila}
 ## Bem-vindos
 
 Esta é a página da disciplina **REC3302 — Introdução ao R Aplicado à Economia e Finanças**, oferecida pela Faculdade de Economia, Administração e Contabilidade de Ribeirão Preto da Universidade de São Paulo.
 
-A disciplina utiliza o **R como ambiente para investigar problemas econômicos e financeiros por meio de dados**. O objetivo não é aprender uma lista isolada de comandos, mas desenvolver a capacidade de:
+A disciplina utiliza o **R como ambiente para investigar problemas econômicos e financeiros por meio de dados**.
+
+::: {.acoes-inicio}
+[Conheça a disciplina](cap/cap2_summary.qmd){.btn .btn-light}
+
+[Como utilizar esta apostila](cap/cap2_1_como_utilizar.qmd){.btn .btn-outline-light}
+:::
+:::
+
+O objetivo não é aprender uma lista isolada de comandos, mas desenvolver a capacidade de:
 
 - formular questões que possam ser investigadas;
 - identificar e obter os dados necessários;
@@ -25,7 +39,7 @@ A pergunta central ao longo do curso será:
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-6}
+::: {.g-col-12 .g-col-md-6 .cartao-home .cartao-proposito}
 
 ### Aprender R com propósito
 
@@ -41,7 +55,7 @@ Em vez de começar perguntando “qual comando aprenderemos?”, procuraremos id
 
 :::
 
-::: {.g-col-12 .g-col-md-6}
+::: {.g-col-12 .g-col-md-6 .cartao-home .cartao-problemas}
 
 ### Aprendizagem baseada em problemas
 
@@ -65,7 +79,7 @@ A disciplina combinará dois processos que deverão convergir ao longo do semest
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-6}
+::: {.g-col-12 .g-col-md-6 .cartao-home .cartao-formacao}
 
 ### Formação em R e análise de dados
 
@@ -84,7 +98,7 @@ Ao longo das aulas, desenvolveremos conhecimentos sobre:
 
 :::
 
-::: {.g-col-12 .g-col-md-6}
+::: {.g-col-12 .g-col-md-6 .cartao-home .cartao-desenvolvimento}
 
 ### Desenvolvimento dos problemas
 
@@ -154,7 +168,7 @@ O percurso não deve ser entendido como uma sequência rígida. Os grupos poder�
 
 ::: {.grid}
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-4 .cartao-home .cartao-micro}
 
 ### Microeconomia
 
@@ -170,7 +184,7 @@ Os tutoriais poderão utilizar microdados de pesquisas como a **PNAD Contínua**
 
 :::
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-4 .cartao-home .cartao-macro}
 
 ### Macroeconomia
 
@@ -186,7 +200,7 @@ As aplicações poderão utilizar séries do **Banco Central do Brasil**, do **I
 
 :::
 
-::: {.g-col-12 .g-col-md-4}
+::: {.g-col-12 .g-col-md-4 .cartao-home .cartao-financas}
 
 ### Finanças
 
@@ -281,4 +295,12 @@ Nas próximas páginas, você encontrará:
 
 O percurso poderá variar conforme a experiência do estudante e as necessidades de seu projeto, mas um princípio deverá permanecer constante:
 
+::: {.encerramento-home}
 > **compreender o problema, trabalhar cuidadosamente com os dados e produzir resultados que possam ser explicados, verificados e reproduzidos.**
+
+::: {.acoes-finais}
+[Informações da disciplina](cap/cap2_summary.qmd){.btn .btn-primary}
+
+[Começar a usar a apostila](cap/cap2_1_como_utilizar.qmd){.btn .btn-outline-primary}
+:::
+:::

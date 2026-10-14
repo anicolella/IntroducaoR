@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xml:lang="pt-BR"><head>
 
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.10.18">
@@ -7,7 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alexandre Nicolella">
-<meta name="dcterms.date" content="2026-08-25">
 
 <title>8&nbsp; R e o ambiente de trabalho – Introdução ao R</title>
 <style>
@@ -103,7 +102,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5ff1aec5474aeb66db23c0fd9d0c5dc3.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-381bf66a16e98cc4c9ee67661d96d428.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,17 +117,17 @@ div.csl-indent {
   ],
   "show-item-context": false,
   "language": {
-    "search-no-results-text": "No results",
-    "search-matching-documents-text": "matching documents",
-    "search-copy-link-title": "Copy link to search",
-    "search-hide-matches-text": "Hide additional matches",
-    "search-more-match-text": "more match in this document",
-    "search-more-matches-text": "more matches in this document",
-    "search-clear-button-title": "Clear",
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
     "search-text-placeholder": "",
-    "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
   }
 }</script>
 <script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
@@ -154,8 +153,8 @@ div.csl-indent {
     <span class="navbar-title">Introdução ao R</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+            <div id="quarto-search" class="" title="Procurar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Alternar de navegação" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -179,13 +178,13 @@ div.csl-indent {
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html">Parte II — Ambiente e fundamentos de R</a></li><li class="breadcrumb-item"><a href="../cap/cap08_ambiente_r.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">R e o ambiente de trabalho</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -197,7 +196,7 @@ div.csl-indent {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
+        <div id="quarto-search" class="" title="Procurar"></div>
         </div>
         </div>
     <div class="sidebar-menu-container"> 
@@ -228,13 +227,13 @@ div.csl-indent {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte I — Do problema econômico à investigação com dados</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap04_problema_pergunta.html" class="sidebar-item-text sidebar-link">
@@ -265,7 +264,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
  <span class="menu-text">Parte II — Ambiente e fundamentos de R</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -304,13 +303,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte III — Transformação e organização</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap13_tidyverse_pipe.html" class="sidebar-item-text sidebar-link">
@@ -345,13 +344,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte IV — Visualização e descrição</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap18_visualizacao_ggplot2.html" class="sidebar-item-text sidebar-link">
@@ -374,13 +373,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte V — Da descrição à explicação</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap21_modelos_lineares.html" class="sidebar-item-text sidebar-link">
@@ -403,13 +402,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte VI — Programação e automação</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap24_condicoes_repeticoes.html" class="sidebar-item-text sidebar-link">
@@ -426,13 +425,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
  <span class="menu-text">Parte VII — Tutoriais aplicados</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap26_tutoriais_microeconomia.html" class="sidebar-item-text sidebar-link">
@@ -455,13 +454,13 @@ div.csl-indent {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
  <span class="menu-text">Recursos complementares</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../cap/cap5_googledrive.html" class="sidebar-item-text sidebar-link">
@@ -483,7 +482,7 @@ div.csl-indent {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Neste capítulo</h2>
    
   <ul>
   <li><a href="#o-que-é-r" id="toc-o-que-é-r" class="nav-link active" data-scroll-target="#o-que-é-r"><span class="header-section-number">8.1</span> O que é R?</a></li>
@@ -528,16 +527,16 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Autor</div>
     <div class="quarto-title-meta-contents">
              <p>Alexandre Nicolella </p>
           </div>
   </div>
     
     <div>
-    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-heading">Data de Publicação</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 25, 2026</p>
+      <p class="date">25 de agosto de 2026</p>
     </div>
   </div>
   
@@ -557,7 +556,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Objetivos do capítulo
+<span class="screen-reader-only">Nota</span>Objetivos do capítulo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -574,7 +573,7 @@ div.csl-indent {
 </div>
 <section id="o-que-é-r" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="o-que-é-r"><span class="header-section-number">8.1</span> O que é R?</h2>
-<p>R é uma <strong>linguagem e um ambiente para computação estatística e produção de gráficos</strong> <span class="citation" data-cites="rproject">(<a href="#ref-rproject" role="doc-biblioref">R Core Team, n.d.</a>)</span>. Com ele, podemos representar informações por meio de objetos, executar operações, transformar bases, estimar modelos e construir visualizações.</p>
+<p>R é uma <strong>linguagem e um ambiente para computação estatística e produção de gráficos</strong> <span class="citation" data-cites="rproject">(<a href="#ref-rproject" role="doc-biblioref">R Core Team, s. d.</a>)</span>. Com ele, podemos representar informações por meio de objetos, executar operações, transformar bases, estimar modelos e construir visualizações.</p>
 <p>O R é software livre e pode ser utilizado em Windows, macOS e Linux. Sua funcionalidade pode ser ampliada por meio de pacotes desenvolvidos por uma comunidade internacional.</p>
 <p>Para a Economia e as Finanças, o R permite trabalhar com:</p>
 <ul>
@@ -591,7 +590,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>R não é apenas um programa de clicar
+<span class="screen-reader-only">Importante</span>R não é apenas um programa de clicar
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -634,7 +633,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>A IDE não substitui o R
+<span class="screen-reader-only">Aviso</span>A IDE não substitui o R
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -651,8 +650,8 @@ div.csl-indent {
 </section>
 <section id="escolher-uma-ide" class="level3" data-number="8.3.2">
 <h3 data-number="8.3.2" class="anchored" data-anchor-id="escolher-uma-ide"><span class="header-section-number">8.3.2</span> Escolher uma IDE</h3>
-<p>O <strong>RStudio Desktop</strong> é uma IDE consolidada, com editor, console, ferramentas para gráficos, ajuda, histórico, depuração e gerenciamento de projetos <span class="citation" data-cites="rstudioide">(<a href="#ref-rstudioide" role="doc-biblioref">Posit Software, PBC, n.d.-c</a>)</span>.</p>
-<p>O <strong>Positron</strong> é uma IDE mais recente da Posit, com suporte nativo a R e Python e recursos voltados à ciência de dados <span class="citation" data-cites="positron">(<a href="#ref-positron" role="doc-biblioref">Posit Software, PBC, n.d.-b</a>)</span>. Ele também oferece editor, console, visualização de dados, gráficos, ajuda e terminal.</p>
+<p>O <strong>RStudio Desktop</strong> é uma IDE consolidada, com editor, console, ferramentas para gráficos, ajuda, histórico, depuração e gerenciamento de projetos <span class="citation" data-cites="rstudioide">(<a href="#ref-rstudioide" role="doc-biblioref">Posit Software, PBC, s. d.-c</a>)</span>.</p>
+<p>O <strong>Positron</strong> é uma IDE mais recente da Posit, com suporte nativo a R e Python e recursos voltados à ciência de dados <span class="citation" data-cites="positron">(<a href="#ref-positron" role="doc-biblioref">Posit Software, PBC, s. d.-b</a>)</span>. Ele também oferece editor, console, visualização de dados, gráficos, ajuda e terminal.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
@@ -706,7 +705,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Escolha um ambiente para começar
+<span class="screen-reader-only">Dica</span>Escolha um ambiente para começar
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -729,7 +728,7 @@ div.csl-indent {
 <p>Quando o console está pronto para receber uma instrução, geralmente apresenta o símbolo:</p>
 <pre class="text"><code>&gt;</code></pre>
 <p>Podemos experimentar um cálculo simples:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>O resultado aparece no console. Entretanto, se o comando foi digitado apenas ali, ele não fica organizado como parte do roteiro da análise.</p>
 </section>
 <section id="terminal" class="level3" data-number="8.4.3">
@@ -768,7 +767,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Observe onde o comando está sendo executado
+<span class="screen-reader-only">Aviso</span>Observe onde o comando está sendo executado
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -794,7 +793,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Figura a acrescentar posteriormente
+<span class="screen-reader-only">Nota</span>Figura a acrescentar posteriormente
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -809,7 +808,7 @@ div.csl-indent {
 <p>O console é útil para testes rápidos. O <strong>script</strong> é o arquivo em que registramos o código que precisa ser compreendido e executado novamente.</p>
 <p>Considere:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>taxa_participacao <span class="ot">&lt;-</span> <span class="fl">58.4</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>taxa_participacao</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>taxa_participacao</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Se essas linhas forem salvas em um arquivo como <code>analise.R</code>, poderemos reabri-las, modificá-las e executá-las novamente.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -838,7 +837,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>O histórico do console não substitui o script
+<span class="screen-reader-only">Importante</span>O histórico do console não substitui o script
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -857,7 +856,7 @@ div.csl-indent {
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>taxa_crescimento <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>valor_final <span class="ot">&lt;-</span> valor_inicial <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">+</span> taxa_crescimento)</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>valor_final</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>valor_final</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Execute uma linha de cada vez e observe o console.</p>
 <p>Alguns elementos já podem ser reconhecidos:</p>
 <ul>
@@ -883,7 +882,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Não ignore as mensagens em vermelho
+<span class="screen-reader-only">Aviso</span>Não ignore as mensagens em vermelho
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -903,11 +902,11 @@ div.csl-indent {
 <h2 data-number="8.8" class="anchored" data-anchor-id="ajuda-e-documentação"><span class="header-section-number">8.8</span> Ajuda e documentação</h2>
 <p>Não é necessário memorizar todas as funções. É necessário aprender a consultar a documentação.</p>
 <p>Para abrir a ajuda de uma função, podemos utilizar:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>?mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>?mean</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>ou:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(mean)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Para executar exemplos fornecidos pela documentação:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(mean)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Uma página de ajuda geralmente apresenta:</p>
 <ul>
 <li>descrição da função;</li>
@@ -918,14 +917,14 @@ div.csl-indent {
 <li>exemplos;</li>
 <li>referências e funções relacionadas.</li>
 </ul>
-<p>O RStudio possui ajuda integrada, e o Positron oferece um painel de ajuda para documentação de funções, pacotes e vinhetas <span class="citation" data-cites="positronhelp">(<a href="#ref-positronhelp" role="doc-biblioref">Posit Software, PBC, n.d.-a</a>)</span>.</p>
+<p>O RStudio possui ajuda integrada, e o Positron oferece um painel de ajuda para documentação de funções, pacotes e vinhetas <span class="citation" data-cites="positronhelp">(<a href="#ref-positronhelp" role="doc-biblioref">Posit Software, PBC, s. d.-a</a>)</span>.</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="Leia primeiro Usage e Arguments">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Leia primeiro Usage e Arguments
+<span class="screen-reader-only">Dica</span>Leia primeiro Usage e Arguments
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -956,7 +955,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Warning</span>Confirme no seu ambiente
+<span class="screen-reader-only">Aviso</span>Confirme no seu ambiente
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1005,7 +1004,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span>Checklist do ambiente
+<span class="screen-reader-only">Dica</span>Checklist do ambiente
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1026,7 +1025,7 @@ div.csl-indent {
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Important</span>Produto deste capítulo
+<span class="screen-reader-only">Importante</span>Produto deste capítulo
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1038,16 +1037,16 @@ div.csl-indent {
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-positronhelp" class="csl-entry" role="listitem">
-Posit Software, PBC. n.d.-a. <span>“Positron Help Pane.”</span> Accessed August 25, 2026. <a href="https://positron.posit.co/help-pane">https://positron.posit.co/help-pane</a>.
+Posit Software, PBC. s. d.-a. <span>“Positron Help Pane”</span>. Acesso em 25 de agosto de 2026. <a href="https://positron.posit.co/help-pane">https://positron.posit.co/help-pane</a>.
 </div>
 <div id="ref-positron" class="csl-entry" role="listitem">
-Posit Software, PBC. n.d.-b. <span>“Positron: R Overview.”</span> Accessed August 25, 2026. <a href="https://positron.posit.co/guide-r.html">https://positron.posit.co/guide-r.html</a>.
+Posit Software, PBC. s. d.-b. <span>“Positron: R Overview”</span>. Acesso em 25 de agosto de 2026. <a href="https://positron.posit.co/guide-r.html">https://positron.posit.co/guide-r.html</a>.
 </div>
 <div id="ref-rstudioide" class="csl-entry" role="listitem">
-Posit Software, PBC. n.d.-c. <span>“RStudio IDE User Guide.”</span> Accessed August 25, 2026. <a href="https://docs.posit.co/ide/user/">https://docs.posit.co/ide/user/</a>.
+Posit Software, PBC. s. d.-c. <span>“RStudio IDE User Guide”</span>. Acesso em 25 de agosto de 2026. <a href="https://docs.posit.co/ide/user/">https://docs.posit.co/ide/user/</a>.
 </div>
 <div id="ref-rproject" class="csl-entry" role="listitem">
-R Core Team. n.d. <span>“What Is r?”</span> Accessed August 25, 2026. <a href="https://www.r-project.org/about.html">https://www.r-project.org/about.html</a>.
+R Core Team. s. d. <span>“What is R?”</span> Acesso em 25 de agosto de 2026. <a href="https://www.r-project.org/about.html">https://www.r-project.org/about.html</a>.
 </div>
 </div>
 </section>
@@ -1079,12 +1078,12 @@ R Core Team. n.d. <span>“What Is r?”</span> Accessed August 25, 2026. <a hre
       // flash "checked"
       button.classList.add('code-copy-button-checked');
       var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
+      button.setAttribute("title", "Copiada");
       let tooltip;
       if (window.bootstrap) {
         button.setAttribute("data-bs-toggle", "tooltip");
         button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
+        button.setAttribute("data-bs-title", "Copiada");
         tooltip = new bootstrap.Tooltip(button, 
           { trigger: "manual", 
             customClass: "code-copy-button-tooltip",

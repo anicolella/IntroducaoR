@@ -20,6 +20,9 @@
 # Site compilado dos slides (os arquivos-fonte serão criados futuramente)
 Slides/_site/
 
+# Protótipo visual local (não faz parte da apostila publicada)
+/prototipo_layout/
+
 # Arquivos do sistema operacional
 .DS_Store
 Thumbs.db

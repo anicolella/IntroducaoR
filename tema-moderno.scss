@@ -1,0 +1,436 @@
+/*-- scss:defaults --*/
+
+// Paleta inspirada na referência visual aprovada
+$azul-marinho: #071739;
+$azul-medio: #4b6382;
+$azul-nevoa: #a4b5c4;
+$cinza-nuvem: #cdd5db;
+$marrom-suave: #a68868;
+$bege: #e3c39d;
+$marfim: #f8f5ef;
+$texto: #172033;
+
+$primary: $azul-marinho;
+$body-bg: $marfim;
+$body-color: $texto;
+$link-color: #345b7e;
+$link-hover-color: $marrom-suave;
+$font-family-sans-serif: "Segoe UI", Inter, system-ui, -apple-system, sans-serif;
+$headings-font-family: Georgia, "Times New Roman", serif;
+$headings-color: $azul-marinho;
+$border-radius: 0.75rem;
+
+/*-- scss:rules --*/
+
+:root {
+  --azul-marinho: #071739;
+  --azul-medio: #4b6382;
+  --azul-nevoa: #a4b5c4;
+  --cinza-nuvem: #cdd5db;
+  --marrom-suave: #a68868;
+  --bege: #e3c39d;
+  --marfim: #f8f5ef;
+}
+
+body {
+  line-height: 1.7;
+  letter-spacing: 0.002em;
+  overflow-x: clip;
+}
+
+.navbar {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 5px 24px rgba(7, 23, 57, 0.18);
+}
+
+.navbar-brand {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+#quarto-sidebar {
+  border-right: 1px solid rgba(75, 99, 130, 0.14);
+}
+
+.sidebar-title {
+  color: $azul-marinho;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+}
+
+.sidebar-item-section > .sidebar-item-container .sidebar-item-text {
+  color: $azul-marinho;
+  font-weight: 700;
+}
+
+.sidebar-item .active {
+  color: $azul-marinho;
+  background: rgba(164, 181, 196, 0.28);
+  border-left: 3px solid $marrom-suave;
+  border-radius: 0 0.45rem 0.45rem 0;
+}
+
+#quarto-document-content {
+  max-width: 920px;
+}
+
+.quarto-title-block .title {
+  font-size: clamp(1.9rem, 2.6vw, 2.65rem);
+  line-height: 1.12;
+  letter-spacing: -0.018em;
+  margin-bottom: 0.65rem;
+}
+
+.quarto-title-block .subtitle {
+  color: $azul-medio;
+  font-size: 1.18rem;
+}
+
+h2 {
+  margin-top: 2.8rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid rgba(75, 99, 130, 0.22);
+}
+
+h3 {
+  color: $azul-medio;
+}
+
+/* Página inicial */
+.hero-apostila {
+  position: relative;
+  overflow: hidden;
+  margin: 0.5rem 0 2.2rem;
+  padding: clamp(1.5rem, 4vw, 2.65rem);
+  color: $marfim;
+  background:
+    radial-gradient(circle at 88% 15%, rgba(227, 195, 157, 0.34), transparent 18%),
+    radial-gradient(circle at 15% 100%, rgba(164, 181, 196, 0.3), transparent 32%),
+    linear-gradient(135deg, $azul-marinho 0%, #183657 55%, $azul-medio 100%);
+  border-radius: 1.25rem;
+  box-shadow: 0 18px 45px rgba(7, 23, 57, 0.2);
+}
+
+.hero-apostila h2 {
+  margin: 0 0 0.8rem;
+  padding: 0;
+  color: #fff;
+  border: 0;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+}
+
+.hero-apostila p {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.acoes-inicio,
+.acoes-finais {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.35rem;
+}
+
+.acoes-inicio p,
+.acoes-finais p {
+  margin: 0;
+}
+
+.acoes-inicio .btn {
+  text-decoration: none;
+}
+
+.cartao-home {
+  height: 100%;
+  padding: 1.2rem 1.25rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(75, 99, 130, 0.14);
+  border-top: 4px solid $azul-medio;
+  border-radius: 0.9rem;
+  box-shadow: 0 8px 25px rgba(7, 23, 57, 0.06);
+}
+
+.cartao-home h3 {
+  margin-top: 0;
+  color: $azul-marinho;
+  font-family: $font-family-sans-serif;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.cartao-problemas,
+.cartao-desenvolvimento,
+.cartao-macro {
+  border-top-color: $marrom-suave;
+}
+
+.cartao-financas {
+  border-top-color: $bege;
+}
+
+.mermaid {
+  margin: 1.4rem 0;
+  padding: 1.2rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(75, 99, 130, 0.12);
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(7, 23, 57, 0.05);
+}
+
+.cell-output:has(svg.mermaid-js) {
+  padding: 0;
+  background: transparent;
+  border-left: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.cell-output-display:has(svg.mermaid-js) {
+  padding: 1.2rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(75, 99, 130, 0.12);
+  border-left: 1px solid rgba(75, 99, 130, 0.12);
+  border-radius: 1rem;
+  box-shadow: 0 8px 25px rgba(7, 23, 57, 0.05);
+  overflow-x: auto;
+}
+
+svg.mermaid-js {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* Figuras externas e respectivas legendas */
+.quarto-figure {
+  margin-top: 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.quarto-figure > figure {
+  overflow: hidden;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(75, 99, 130, 0.14);
+  border-radius: 0.85rem;
+  box-shadow: 0 8px 24px rgba(7, 23, 57, 0.06);
+}
+
+.quarto-figure figure > p {
+  margin-bottom: 0;
+}
+
+.quarto-figure img {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 0.45rem;
+}
+
+.quarto-figure figcaption {
+  max-width: 760px;
+  margin: 0.7rem auto 0;
+  padding: 0.7rem 0.35rem 0;
+  color: $azul-medio;
+  border-top: 1px solid rgba(75, 99, 130, 0.14);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* Gráficos produzidos pelos chunks de R */
+.cell-output:has(figure img),
+.cell-output-display:has(figure img) {
+  padding: 0;
+  background: transparent;
+  border-left: 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.cell-output-display figure img {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid rgba(75, 99, 130, 0.12);
+  border-radius: 0.65rem;
+  box-shadow: 0 7px 20px rgba(7, 23, 57, 0.05);
+}
+
+.encerramento-home {
+  margin-top: 1.4rem;
+  padding: 1.25rem 1.35rem;
+  background: linear-gradient(135deg, rgba(164, 181, 196, 0.2), rgba(227, 195, 157, 0.2));
+  border: 1px solid rgba(75, 99, 130, 0.14);
+  border-radius: 1rem;
+}
+
+.encerramento-home blockquote {
+  margin: 0;
+  padding: 0 0 0 1rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.page-columns .content {
+  min-width: 0;
+}
+
+#quarto-content,
+#quarto-document-content,
+.cell,
+.cell-output,
+figure,
+img,
+svg {
+  max-width: 100%;
+}
+
+div.sourceCode,
+.cell-output-display {
+  overflow-x: auto;
+}
+
+.code-copy-outer-scaffold,
+pre.sourceCode {
+  max-width: 100%;
+  min-width: 0;
+}
+
+#quarto-document-content a {
+  overflow-wrap: anywhere;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Componentes de leitura */
+.callout {
+  overflow: hidden;
+  border: 0;
+  border-left: 4px solid $azul-medio !important;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 6px 20px rgba(7, 23, 57, 0.06);
+}
+
+.callout.callout-note {
+  border-left-color: $azul-medio !important;
+}
+
+.callout.callout-tip {
+  border-left-color: $marrom-suave !important;
+}
+
+.callout.callout-important {
+  border-left-color: $azul-marinho !important;
+}
+
+.callout.callout-warning,
+.callout.callout-caution {
+  border-left-color: $bege !important;
+}
+
+.callout.callout-note .callout-header {
+  background: rgba(164, 181, 196, 0.24);
+}
+
+.callout.callout-tip .callout-header {
+  background: rgba(227, 195, 157, 0.26);
+}
+
+.callout.callout-important .callout-header {
+  background: rgba(75, 99, 130, 0.16);
+}
+
+.callout.callout-warning .callout-header,
+.callout.callout-caution .callout-header {
+  background: rgba(227, 195, 157, 0.2);
+}
+
+div.sourceCode {
+  border: 1px solid rgba(75, 99, 130, 0.16);
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 18px rgba(7, 23, 57, 0.05);
+}
+
+pre.sourceCode {
+  padding: 1rem 1.1rem;
+}
+
+.cell-output {
+  margin-top: 0.4rem;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.72);
+  border-left: 3px solid $azul-nevoa;
+  border-radius: 0.5rem;
+}
+
+table {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(75, 99, 130, 0.14);
+  box-shadow: 0 6px 20px rgba(7, 23, 57, 0.05);
+}
+
+thead {
+  color: #fff;
+  background: $azul-marinho;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.75rem 0.85rem;
+}
+
+blockquote {
+  color: $azul-medio;
+  background: rgba(227, 195, 157, 0.2);
+  border-left: 4px solid $marrom-suave;
+  border-radius: 0 0.65rem 0.65rem 0;
+  padding: 1rem 1.25rem;
+}
+
+#TOC {
+  border-left-color: rgba(75, 99, 130, 0.2);
+}
+
+#TOC .active {
+  color: $azul-marinho !important;
+  border-left-color: $marrom-suave;
+}
+
+.quarto-title-meta-heading {
+  color: $azul-medio;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 991.98px) {
+  .quarto-title-block .title {
+    font-size: clamp(1.65rem, 5.8vw, 2rem);
+  }
+
+  .cartao-home {
+    height: auto;
+  }
+
+  #quarto-document-content table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  div.sourceCode,
+  pre.sourceCode,
+  .code-copy-outer-scaffold {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

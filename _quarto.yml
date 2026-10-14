@@ -6,11 +6,13 @@ project:
     - dados/wage1_core.xlsx
     - dados/wage1_core.rds
 
+lang: pt-BR
+
 book:
   title: "Introdução ao R"
   subtitle: "Notas de Aula"
   navbar:
-    background: "#818f81"
+    background: "#071739"
     logo: figuras/usp.png
     search: true
     left:
@@ -25,9 +27,10 @@ book:
         href: https://github.com/anicolella/IntroducaoR
         aria-label: GitHub
   sidebar:
-    background: "#F4F6F6"
+    background: "#F8F5EF"
     search: true
     style: "docked"
+    collapse-level: 1
   page-navigation: true
   author:
   - name: "Alexandre Nicolella"
@@ -99,9 +102,12 @@ execute:
 
 format:
   html:
-    theme: cosmo
+    theme:
+      - cosmo
+      - tema-moderno.scss
     css: estilos.css
     toc: true
+    toc-title: "Neste capítulo"
     fontsize: 16px
     #linestretch: 1.7
   #pdf:

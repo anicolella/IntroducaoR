@@ -567,7 +567,7 @@ tibble(
 
 A pequena diferença que eventualmente apareça nas casas decimais decorre da precisão numérica utilizada pelo computador.
 
-## O coeficiente de determinação: $R^2$
+## O coeficiente de determinação: R²
 
 O $R^2$ transforma essa decomposição em uma proporção. Ele mede qual parcela da variação total foi representada pelo modelo:
 

@@ -11,6 +11,9 @@
 
 # Arquivos intermediários gerados durante a renderização
 *_files/
+# As pastas *_files dentro de docs contêm figuras necessárias ao site publicado
+!docs/**/*_files/
+!docs/**/*_files/**
 *.knit.md
 *.utf8.md
 

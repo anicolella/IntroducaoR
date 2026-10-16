@@ -11,6 +11,7 @@ lang: pt-BR
 book:
   title: "Introdução ao R"
   subtitle: "Notas de Aula"
+  favicon: figuras/marca/monograma-positivo.svg
   navbar:
     background: "#071739"
     logo: figuras/usp.png
@@ -23,8 +24,10 @@ book:
       #- pesquisa.qmd
       #- interpretando.qmd
     right:
+      - text: '<img class="navbar-marca-autoral" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMDcxNzM5Ii8+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAgMC4wMCkgc2NhbGUoMS4wMDAwKSI+PHBhdGggZD0iTTEyIDg2IEM0NiA4OCA3MiA3OCA4OCA1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNEI2MzgyIiBzdHJva2Utb3BhY2l0eT0iMSIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMiA4NiBDNDIgODYgNzAgNjYgODIgMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSI4NCIgY3k9IjE5IiByPSI3IiBmaWxsPSIjRTNDMzlEIi8+PC9nPgo8L3N2Zz4=" alt="Alexandre Nicolella">'
+        file: cap/cap1_autores.qmd
       - icon: github
-        href: https://github.com/anicolella/IntroducaoR
+        href: https://github.com/anicolella
         aria-label: GitHub
   sidebar:
     background: "#F8F5EF"
@@ -32,6 +35,8 @@ book:
     style: "docked"
     collapse-level: 1
   page-navigation: true
+  page-footer:
+    center: '<span class="credito-autoral"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjMDcxNzM5Ii8+CjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDAgMC4wMCkgc2NhbGUoMS4wMDAwKSI+PHBhdGggZD0iTTEyIDg2IEM0NiA4OCA3MiA3OCA4OCA1MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNEI2MzgyIiBzdHJva2Utb3BhY2l0eT0iMSIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjxwYXRoIGQ9Ik0xMiA4NiBDNDIgODYgNzAgNjYgODIgMjYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48Y2lyY2xlIGN4PSI4NCIgY3k9IjE5IiByPSI3IiBmaWxsPSIjRTNDMzlEIi8+PC9nPgo8L3N2Zz4=" alt=""> <span>Design e Criação: <strong>Alexandre Nicolella</strong></span></span>'
   author:
   - name: "Alexandre Nicolella"
     affiliation: "Universidade de São Paulo (USP)"
